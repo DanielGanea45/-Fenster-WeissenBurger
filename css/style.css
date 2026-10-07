@@ -106,6 +106,16 @@ ul, ol { padding: 0; list-style: none; }
 .btn--call { background: var(--accent); color: var(--accent-ink); padding: 10px 16px; }
 .btn--block { width: 100%; }
 
+/* Schmale Telefone (360 px): kompakter Kopf, Name bleibt vollständig */
+@media (max-width: 419px) {
+  .top { gap: 10px; padding-left: 12px; padding-right: 12px; }
+  .brand__box { gap: 7px; }
+  .brand__mark { height: 30px; }
+  .brand__word { font-size: 14.5px; letter-spacing: -0.02em; }
+  .btn--call { padding: 10px 13px; font-size: 14px; }
+  .btn--call svg { display: none; }
+}
+
 /* ---------- Film ---------- */
 .stage {
   position: relative; height: 100svh; overflow: hidden; background: var(--bg);
@@ -180,7 +190,7 @@ ul, ol { padding: 0; list-style: none; }
   backdrop-filter: blur(10px); text-shadow: none;
 }
 .product img {
-  width: 100%; height: auto; aspect-ratio: 928 / 1152; object-fit: cover; border-radius: 8px; display: block;
+  width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 40%; border-radius: 8px; display: block;
 }
 .product h3 { margin-top: 12px; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
 .product p { margin-top: 6px; font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
@@ -188,14 +198,14 @@ ul, ol { padding: 0; list-style: none; }
 .product .price strong { color: var(--accent); font-size: 17px; font-weight: 800; }
 
 /* Leistungen */
-.services { display: grid; gap: 12px; margin-top: 18px; }
+.services { display: grid; gap: 6px; margin-top: 16px; }
 .services li {
   display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start;
   padding: 10px 0; border-top: 1px solid var(--line);
 }
 .services__n { color: var(--accent); font-weight: 800; font-size: 13px; padding-top: 3px; }
 .services h3 { font-size: 16px; font-weight: 800; }
-.services p { margin-top: 3px; font-size: 14px; color: var(--ink-2); line-height: 1.45; }
+.services p { margin-top: 3px; font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
 
 /* Über uns */
 .pillars { display: grid; gap: 10px; margin-top: 20px; }
@@ -314,7 +324,6 @@ ul, ol { padding: 0; list-style: none; }
     margin: 28px 0 0; padding: 0; overflow: visible;
   }
   .product { flex: none; max-width: none; padding: 12px 14px 16px; }
-  .product img { aspect-ratio: 4 / 3; object-position: center 40%; }
   .product h3 { font-size: 18px; }
   .product p { font-size: 14px; }
 
@@ -349,6 +358,8 @@ ul, ol { padding: 0; list-style: none; }
 .page ul { list-style: disc; padding-left: 22px; margin: 8px 0; }
 .page li + li { margin-top: 4px; }
 .page a { color: var(--accent); }
+.page .btn--call, .page .btn--primary { color: var(--accent-ink); }
+.page .btn--ghost { color: #fff; }
 .page .stand { color: var(--ink-3); font-size: 14px; margin-bottom: 24px; }
 .page address { font-style: normal; }
 .page .legal { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); }
