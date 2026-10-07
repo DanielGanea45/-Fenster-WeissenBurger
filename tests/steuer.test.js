@@ -95,7 +95,9 @@ test("Einstellungen: steuer.satzProzent muss 0 oder 19 sein; Repo-Einstellungen 
 test("Prüfwörter: verbotene Wörter werden gefunden, Modultexte sind erlaubt", () => {
   assert.equal(Steuer.verstoesse("Preis 100 € " + Steuer.texte(0).lang, 0).length, 0);
   assert.equal(Steuer.verstoesse("Preis 100 € " + Steuer.texte(19).kurz, 19).length, 0);
-  assert.deepEqual(Steuer.verstoesse("Alles inkl. MwSt.\nBrutto 19%", 0).map((v) => v.wort + "@" + v.zeile), ["inkl.@1", "MwSt@1", "Brutto@2", "19%@2"]);
+  assert.deepEqual(Steuer.verstoesse("Alles inkl. MwSt.\nBrutto 19%", 0).map((v) => v.wort + "@" + v.zeile), ["inkl. MwSt@1", "Brutto@2", "19%@2"]);
+  assert.equal(Steuer.verstoesse("Richtpreis inkl. Montage, inkl. Demontage und Entsorgung, zzgl. Anfahrt", 0).length, 0, "inkl./zzgl. ohne Steuerbezug sind erlaubt");
+  assert.deepEqual(Steuer.verstoesse("zzgl. USt. und inkl. 7 % Mehrwertsteuer", 0).map((v) => v.wort), ["zzgl. USt", "inkl. 7 % Mehrwertsteuer"]);
   assert.equal(Steuer.verstoesse("Umsatzsteuer-ID DE1", 0).length, 1, "USt-IdNr muss der Test gesondert ausnehmen");
   assert.equal(Steuer.verstoesse("§ 19 UStG", 0).length, 0, "Paragraf ohne Prozent ist kein Treffer");
 });

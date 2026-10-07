@@ -60,8 +60,10 @@
   /* Platzhalter {steuerhinweis} in Admin-Texten (Build und Vorschau) */
   function ersetzePlatzhalter(text, s) { return String(text == null ? "" : text).split(PLATZHALTER).join(texte(s).lang); }
 
-  /* ---- Prüfung (tests/steuer-audit.test.js): Wörter, die außerhalb dieses Moduls nirgends vorkommen dürfen ---- */
-  var VERBOTEN = /mwst|mehrwertsteuer|\bust\b|umsatzsteuer|19\s?%|inkl\.|zzgl\.|brutto|netto/gi;
+  /* ---- Prüfung (tests/steuer-audit.test.js): Wörter, die außerhalb dieses Moduls nirgends vorkommen dürfen ----
+     „inkl.“ / „zzgl.“ sind nur in Verbindung mit einer Steuerangabe verboten (z. B. „inkl. 19 % MwSt.“, „zzgl. USt.“);
+     „inkl. Montage“, „inkl. Demontage und Entsorgung“ usw. bleiben erlaubt. */
+  var VERBOTEN = /(?:inkl|zzgl)\.?\s*(?:\d+(?:,\d+)?\s?%\s*)?(?:mwst|\bust\b|umsatzsteuer|mehrwertsteuer)|mwst|mehrwertsteuer|\bust\b|umsatzsteuer|19\s?%|brutto|netto/gi;
   /* Texte dieses Moduls, die auf der Website stehen dürfen (aktueller Satz + beide Schalter-Beschriftungen) */
   function erlaubteTexte(s) {
     var t = texte(s), out = [t.lang, t.bestaetigung, t.adminKurz, t.beschreibung, t.kurz, t.steuerLabel, t.summeLabel];

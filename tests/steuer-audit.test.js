@@ -1,7 +1,8 @@
 /* Sperrtest Steuer: Keine Spur von Umsatzsteuer-Wörtern außerhalb von js/steuer.js.
    Durchsucht alle veröffentlichten HTML-, JS- und JSON-Dateien (auch die im Build aus dem Admin-Speicher
    geschriebenen Texte in data/*.json und die data-text-Bausteine der Seiten) sowie die Functions (E-Mail-Texte)
-   nach „MwSt“, „Mehrwertsteuer“, „USt“, „Umsatzsteuer“, „19 %“, „inkl.“, „zzgl.“, „brutto“, „netto“.
+   nach „MwSt“, „Mehrwertsteuer“, „USt“, „Umsatzsteuer“, „19 %“, „brutto“, „netto“ sowie „inkl.“/„zzgl.“ in Verbindung
+   mit einer Steuerangabe („inkl. 19 % MwSt.“); „inkl. Montage“ u. Ä. bleibt erlaubt.
    Erlaubt: die Texte des Moduls js/steuer.js für den aktuellen Satz und die USt-IdNr im Impressum.
    Jeder andere Treffer ⇒ Test rot ⇒ Build bricht ab ⇒ nichts wird veröffentlicht.
    Bei 19 %: zusätzlich müssen die 19-%-Texte auf allen Seiten mit Preisen (Konfigurator) stehen. */
@@ -60,7 +61,9 @@ test("Steuer-Audit: Seiten mit Preisen (Konfigurator) tragen den aktuellen Steue
 });
 
 test("Steuer-Audit: der Test selbst erkennt Verstöße (Selbsttest)", () => {
-  assert.ok(Steuer.verstoesse("Preis inkl. 19 % MwSt.", 0).length >= 2);
+  assert.ok(Steuer.verstoesse("Preis inkl. 19 % MwSt.", 0).length >= 1);
   assert.equal(Steuer.verstoesse("Preis inkl. 19 % MwSt.", 19).length, 0, "bei 19 % ist der Modultext erlaubt");
-  assert.equal(Steuer.verstoesse("Preis zzgl. Versand, brutto", 19).length, 2);
+  assert.equal(Steuer.verstoesse("Preis zzgl. Versand, brutto", 19).length, 1, "nur „brutto“ – „zzgl. Versand“ ist erlaubt");
+  assert.equal(Steuer.verstoesse("Richtpreis inkl. Montage", 0).length, 0);
+  assert.equal(Steuer.verstoesse("Preis zzgl. MwSt.", 0).length, 1);
 });
