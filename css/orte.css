@@ -1,0 +1,32 @@
+/* Ortsseiten & Einsatzgebiet */
+.ort .phero .facts { margin-top: 18px; }
+.themen { display: grid; gap: 14px; margin-top: 22px; }
+.thema { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--glass); display: flex; flex-direction: column; }
+.thema h3 { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.thema p { margin: 8px 0 10px; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); flex: 1; }
+.thema .link { align-self: flex-start; }
+.plinks--orte .sub { color: var(--ink-3); font-weight: 500; font-size: 13px; margin-left: 6px; }
+.plinks--orte a::after { content: none; }
+
+/* Übersicht */
+.map-wrap { margin-top: 22px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--bg); }
+.map { display: block; width: 100%; height: auto; max-height: 70vh; }
+.map a { cursor: pointer; }
+.map a:hover circle { fill: var(--accent); }
+.lk-grid { display: grid; gap: 18px; margin-top: 24px; }
+.lk h3 { font-size: 15px; font-weight: 800; color: var(--accent); letter-spacing: .02em; margin-bottom: 8px; }
+.lk ul { display: grid; gap: 4px; }
+.lk li { font-size: 14.5px; }
+.lk a { color: #fff; text-decoration: none; border-bottom: 1px solid var(--line); }
+.lk a:hover { border-color: var(--accent); }
+.lk .sub { color: var(--ink-3); font-size: 12.5px; margin-left: 4px; }
+
+@media (min-width: 900px) {
+  .themen { grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .lk-grid { grid-template-columns: repeat(3, 1fr); gap: 24px 32px; margin-top: 32px; }
+  .map { max-height: 620px; }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  .themen { grid-template-columns: repeat(2, 1fr); }
+  .lk-grid { grid-template-columns: repeat(2, 1fr); }
+}
