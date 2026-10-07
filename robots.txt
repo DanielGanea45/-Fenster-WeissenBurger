@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /danke.html
+
+Sitemap: https://fenster-weissenburger.de/sitemap.xml
