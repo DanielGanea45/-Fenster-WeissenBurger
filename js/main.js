@@ -111,5 +111,19 @@
   function initPage() {
     var y = document.getElementById("year");
     if (y) y.textContent = String(new Date().getFullYear());
+    initLogo();
+  }
+
+  /* Logo: Animation läuft einmal beim Laden (CSS im SVG), bei Hover erneut */
+  function initLogo() {
+    var brand = document.querySelector(".brand");
+    var svg = document.querySelector(".brand__svg");
+    if (!brand || !svg) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    brand.addEventListener("mouseenter", function () {
+      svg.classList.remove("anim");
+      void svg.getBoundingClientRect();
+      svg.classList.add("anim");
+    });
   }
 })();
