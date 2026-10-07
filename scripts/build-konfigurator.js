@@ -135,7 +135,7 @@ function pageSoon(key) {
 function pageKonf(key) {
   const p = PAGES[key];
   const noindex = status !== "online";
-  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=2" defer></script>`;
+  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/konfigurator-bilder.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=3" defer></script>`;
   return `${head(p, noindex, scripts)}
 <body class="page lp pp konf-page">
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
@@ -183,7 +183,7 @@ function pageKonf(key) {
         </div>
 
         <aside class="konf__aside" aria-label="Ihre Konfiguration">
-          <div class="preview"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><p class="preview__note">Schematische Darstellung · Abbildung beispielhaft</p></div>
+          <div class="preview"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><img class="preview__foto" alt="" width="896" height="1200" decoding="async" hidden></div><p class="preview__masse"></p><p class="preview__note">Schematische Darstellung · Abbildung beispielhaft</p></div>
           <div class="price"><h3>Ihre Konfiguration</h3><p class="price__na">Preis wird berechnet …</p></div>
           <div class="summary"><h3>Zusammenfassung</h3><dl></dl><details class="posliste" hidden><summary>Positionen</summary><table><tbody></tbody></table></details></div>
         </aside>

@@ -1,0 +1,1018 @@
+{
+ "hinweis": "Automatisch erzeugt von scripts/konfigurator-bilder.js – nicht von Hand bearbeiten. Quelle: bilder-original-2/ (nicht im Repository). Verwendet von js/konfigurator-bilder.js (Karten + Vorschau) und den Tests.",
+ "erzeugt": "2026-10-07",
+ "groessen": [
+  400,
+  900
+ ],
+ "bilder": {
+  "farbe-anthrazit": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fensterprofil in Anthrazit – Abbildung beispielhaft"
+  },
+  "farbe-golden-oak": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fensterprofil in Golden Oak – Abbildung beispielhaft"
+  },
+  "farbe-weiss": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fensterprofil in Weiß – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-anthrazit-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Anthrazit, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-goldenoak-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Golden Oak, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-weiss-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in Weiß, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-1fl-zweifarbig-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster einflügelig (Dreh-Kipp) in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-anthrazit-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Anthrazit, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-goldenoak-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Golden Oak, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-weiss-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "glas-2fach": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Zweifach-Wärmeschutzglas – Abbildung beispielhaft"
+  },
+  "glas-3fach": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Dreifach-Wärmeschutzglas – Abbildung beispielhaft"
+  },
+  "glas-schallschutz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Schallschutzglas – Abbildung beispielhaft"
+  },
+  "glas-vsg": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Sicherheitsglas (VSG) – Abbildung beispielhaft"
+  },
+  "haustuer-klassisch-golden-oak": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 1072,
+   "alt": "Haustür klassisch golden oak – Abbildung beispielhaft"
+  },
+  "haustuer-mit-seitenteil": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 1072,
+   "alt": "Haustür mit seitenteil – Abbildung beispielhaft"
+  },
+  "haustuer-modern-glasstreifen": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 1072,
+   "alt": "Haustür modern glasstreifen – Abbildung beispielhaft"
+  },
+  "haustuer-modern-voll": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 1072,
+   "alt": "Haustür modern voll – Abbildung beispielhaft"
+  },
+  "profil-76-aluclip": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt 76 Aluclip – Abbildung beispielhaft"
+  },
+  "profil-76-aluclip-pro": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt 76 Aluclip Pro – Abbildung beispielhaft"
+  },
+  "profil-88-aluclip-pro": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt 88 Aluclip Pro – Abbildung beispielhaft"
+  },
+  "profil-cortizo-60": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt Cortizo 60 – Abbildung beispielhaft"
+  },
+  "profil-cortizo-70": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt Cortizo 70 – Abbildung beispielhaft"
+  },
+  "profil-koemmerling-70": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt Koemmerling 70 – Abbildung beispielhaft"
+  },
+  "profil-koemmerling-76-ad": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt Koemmerling 76 Ad – Abbildung beispielhaft"
+  },
+  "profil-koemmerling-76-md": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt Koemmerling 76 Md – Abbildung beispielhaft"
+  },
+  "profil-koemmerling-88": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Profilschnitt Koemmerling 88 – Abbildung beispielhaft"
+  },
+  "rollladen-aufsatz": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fenster mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "sprossen-wiener": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fenster mit Wiener Sprossen – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-anthrazit": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Glasstreifen in Anthrazit – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-goldenoak": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Glasstreifen in Golden Oak – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-weiss": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Glasstreifen in Weiß – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-anthrazit": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür klassisch in Holzoptik in Anthrazit – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-goldenoak": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür klassisch in Holzoptik in Golden Oak – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-weiss": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür klassisch in Holzoptik in Weiß – Abbildung beispielhaft"
+  },
+  "tuer-seitenteil-anthrazit": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Seitenteil in Anthrazit – Abbildung beispielhaft"
+  },
+  "tuer-seitenteil-goldenoak": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Seitenteil in Golden Oak – Abbildung beispielhaft"
+  },
+  "tuer-seitenteil-weiss": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Seitenteil in Weiß – Abbildung beispielhaft"
+  },
+  "tuer-voll-anthrazit": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern, vollflächig in Anthrazit – Abbildung beispielhaft"
+  },
+  "tuer-voll-goldenoak": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern, vollflächig in Golden Oak – Abbildung beispielhaft"
+  },
+  "tuer-voll-weiss": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern, vollflächig in Weiß – Abbildung beispielhaft"
+  },
+  "typ-1-fluegelig": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fenster 1 fluegelig – Abbildung beispielhaft"
+  },
+  "typ-2-fluegelig": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fenster 2 fluegelig – Abbildung beispielhaft"
+  },
+  "typ-festverglasung": {
+   "groessen": [
+    400,
+    800
+   ],
+   "breite": 800,
+   "hoehe": 800,
+   "alt": "Fenster festverglasung – Abbildung beispielhaft"
+  },
+  "zusatz-demontage": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Demontage und Entsorgung der alten Fenster – Abbildung beispielhaft"
+  },
+  "zusatz-fensterbank-aussen": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Fensterbank außen aus Aluminium – Abbildung beispielhaft"
+  },
+  "zusatz-fensterbank-innen": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Fensterbank innen – Abbildung beispielhaft"
+  },
+  "zusatz-insektenschutz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Insektenschutz-Rahmen – Abbildung beispielhaft"
+  },
+  "zusatz-montage": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Fachgerechte Montage – Abbildung beispielhaft"
+  },
+  "zusatz-rc2": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Einbruchschutz RC2 – Pilzkopfverriegelung – Abbildung beispielhaft"
+  },
+  "zusatz-rollladenmotor": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Rollladenmotor – Abbildung beispielhaft"
+  }
+ }
+}
