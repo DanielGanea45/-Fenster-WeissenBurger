@@ -420,3 +420,57 @@ ul, ol { padding: 0; list-style: none; }
 .page address { font-style: normal; }
 .page .legal { margin-top: 48px; }
 .page .back { display: inline-flex; margin-bottom: 24px; }
+
+/* ---------- Hauptmenü: Untermenü „Konfigurator“ (Haustür / Fenster) und Menü-Knopf auf dem Telefon ---------- */
+.menu-btn {
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  width: 44px; height: 44px; margin-left: -4px; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: inherit; cursor: pointer;
+}
+.menu-btn__i, .menu-btn__i::before, .menu-btn__i::after {
+  content: ""; display: block; width: 22px; height: 2px; border-radius: 2px; background: currentColor;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.menu-btn__i { position: relative; }
+.menu-btn__i::before, .menu-btn__i::after { position: absolute; left: 0; }
+.menu-btn__i::before { top: -7px; }
+.menu-btn__i::after { top: 7px; }
+.top.is-menu-open .menu-btn__i { background: transparent; }
+.top.is-menu-open .menu-btn__i::before { transform: translateY(7px) rotate(45deg); }
+.top.is-menu-open .menu-btn__i::after { transform: translateY(-7px) rotate(-45deg); }
+.top.is-menu-open { color: var(--ink); background: var(--surface); box-shadow: 0 1px 0 var(--line), var(--shadow); }
+.nav__drop a { display: flex; align-items: center; gap: 10px; }
+.nav__drop a svg { flex: none; width: 20px; height: 20px; color: var(--accent); }
+
+@media (max-width: 899px) {
+  .top.is-menu-open .nav--top {
+    display: block; position: fixed; left: 0; right: 0; z-index: 31;
+    top: calc(var(--header-h) + env(safe-area-inset-top));
+    max-height: calc(100vh - var(--header-h) - env(safe-area-inset-top) - var(--bottom-h));
+    overflow-y: auto; padding: 6px var(--gutter) 18px;
+    background: var(--surface); color: var(--ink); border-top: 1px solid var(--line);
+    box-shadow: 0 16px 32px rgba(27, 36, 48, .14);
+  }
+  .top.is-menu-open .nav--top > a, .top.is-menu-open .nav__item > a {
+    display: flex; align-items: center; min-height: 48px; padding: 10px 0;
+    font-size: 16px; font-weight: 700; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line);
+  }
+  .top.is-menu-open .nav--top a[aria-current="page"] { color: var(--accent); }
+  .top.is-menu-open .nav__item { display: block; }
+  .top.is-menu-open .nav__item > a::after {
+    content: ""; margin-left: auto; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+    transform: rotate(45deg); transition: transform .2s ease; opacity: .7;
+  }
+  .top.is-menu-open .nav__item.is-open > a::after { transform: rotate(-135deg); }
+  .top.is-menu-open .nav__drop { display: none; padding: 4px 0 8px 10px; border-bottom: 1px solid var(--line); }
+  .top.is-menu-open .nav__item.is-open .nav__drop { display: block; }
+  .top.is-menu-open .nav__drop a { min-height: 44px; padding: 8px 0; font-size: 15px; font-weight: 600; color: var(--ink-2); text-decoration: none; }
+  .top.is-menu-open .nav__drop a[aria-current="page"] { color: var(--accent); }
+}
+@media (min-width: 900px) {
+  .menu-btn { display: none; }
+  .nav__item.is-open .nav__drop { display: block; }
+  .nav__drop--konf { left: 50%; transform: translateX(-50%); min-width: 250px; }
+  .nav__drop--konf a:first-child { color: var(--ink-2); border-bottom: 0; border-radius: 8px; margin-bottom: 0; }
+  .nav__drop--konf a:hover, .nav__drop--konf a:focus, .nav__drop--konf a[aria-current="page"] { color: var(--accent); }
+}
