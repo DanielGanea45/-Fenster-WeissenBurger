@@ -37,7 +37,7 @@ function dateien() {
 }
 function pruefe(rel, satz) {
   let inhalt = fs.readFileSync(path.join(ROOT, rel), "utf8");
-  if (rel === "impressum.html" || rel === "data/texte.json") USTID.forEach((re) => { inhalt = inhalt.replace(re, " "); });
+  USTID.forEach((re) => { inhalt = inhalt.replace(re, " "); }); // USt-IdNr (Identifikationsnummer) ist überall erlaubt – Impressum, Einstellungen, Firmendaten-Modul
   return Steuer.verstoesse(inhalt, satz).map((v) => `${rel}:${v.zeile} „${v.wort}“`);
 }
 
