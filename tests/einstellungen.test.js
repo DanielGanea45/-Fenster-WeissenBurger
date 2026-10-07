@@ -120,12 +120,17 @@ test("Firmendaten: geänderte Adresse, Telefon, Öffnungszeiten und Text landen 
   const r = einsetzen.lauf(tmp, e);
   assert.ok(r.dateien >= 8, "Dateien geändert: " + r.dateien);
   const lies = (f) => fs.readFileSync(path.join(tmp, f), "utf8");
+  /* Geprüft werden nur die Marker-Blöcke – redaktionelle Texte (auch aus dem Admin) dürfen Adresse oder Nummer frei erwähnen */
+  const marker = (html) => [...html.matchAll(/<(strong|span|p|a|div|address)\b[^>]*\sdata-firma="([a-z-]+)"[^>]*>[\s\S]*?<\/\1>/g)].map((m) => m[0]);
   for (const f of ["index.html", "impressum.html", "datenschutz.html", "leistungen/index.html", "produkte/haustueren/index.html", "einsatzgebiet/ingolstadt/index.html", "wartung.html"]) {
-    const html = lies(f);
-    assert.ok(!html.includes("Richard-Strauß"), f + ": alte Adresse noch vorhanden");
-    assert.ok(!html.includes("4917681338935") && !html.includes("0176 81338935"), f + ": alte Telefonnummer noch vorhanden");
-    assert.ok(html.includes("Musterweg 9"), f + ": neue Adresse fehlt");
-    assert.ok(html.includes('href="tel:+49841998877"'), f + ": tel-Link nicht aktualisiert");
+    const html = lies(f); const bloecke = marker(html);
+    assert.ok(bloecke.length >= 3, f + ": zu wenige Marker (" + bloecke.length + ")");
+    for (const b of bloecke) {
+      assert.ok(!b.includes("Richard-Strauß"), f + ": alte Adresse in Marker: " + b.slice(0, 80));
+      assert.ok(!b.includes("4917681338935") && !b.includes("0176 81338935"), f + ": alte Telefonnummer in Marker: " + b.slice(0, 80));
+    }
+    assert.ok(bloecke.some((b) => b.includes("Musterweg 9")), f + ": neue Adresse fehlt");
+    assert.ok(bloecke.some((b) => b.includes('href="tel:+49841998877"')), f + ": tel-Link nicht aktualisiert");
   }
   const imp = lies("impressum.html");
   assert.ok(imp.includes("Geschäftsführer: Max Beispiel") && imp.includes("HRB 99999") && imp.includes("DE999999999") && imp.includes("Mo–Do 8–18 Uhr, Fr 8–13 Uhr, Sa 9–12 Uhr"));

@@ -606,3 +606,9 @@ h3 { font-size: 14px; }
   .zeiten { grid-template-columns: 30px 1fr auto 1fr; }
   .zeiten .zu { grid-column: 2 / -1; }
 }
+
+/* Konten & Zugänge */
+.dienst__kopf { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 12px 0 8px; border-bottom: 1px solid var(--line); }
+.dienst__kopf h2 { padding: 0; border: 0; }
+.dienst__links { padding: 8px 0 2px; }
+.dienst__links:empty { display: none; }

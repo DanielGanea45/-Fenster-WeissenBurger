@@ -140,6 +140,16 @@
       var eg = e.einsatzgebiet || {};
       ["ingolstadt", "karlsruhe"].forEach(function (k) { if (typeof eg[k] !== "boolean") add("einsatzgebiet." + k, "Schalter an/aus."); });
     }
+    if (e.konten !== undefined) {
+      var ko = e.konten || {};
+      ["netlify", "github", "brevo", "domain", "google"].forEach(function (k) { var x = ko[k] || {}; if (str(x.konto).length > 200) add("konten." + k + ".konto", "Höchstens 200 Zeichen."); });
+      if (ko.domain && str(ko.domain.link) && !URL_HTTPS.test(str(ko.domain.link))) add("konten.domain.link", "Link muss mit https:// beginnen.");
+      if (ko.domain && str(ko.domain.anbieter).length > 80) add("konten.domain.anbieter", "Höchstens 80 Zeichen.");
+      var te = ko.technik || {};
+      if (str(te.email) && !EMAIL.test(str(te.email))) add("konten.technik.email", "E-Mail-Adresse prüfen.");
+      if (str(te.telefon) && !/^\+?[\d\s()\/-]{6,}$/.test(str(te.telefon))) add("konten.technik.telefon", "Telefonnummer prüfen.");
+      if (str(ko.blobsTokenAblauf) && !DATUM.test(str(ko.blobsTokenAblauf))) add("konten.blobsTokenAblauf", "Datum im Format JJJJ-MM-TT.");
+    }
     if (e.website !== undefined) {
       var w = e.website || {};
       if (typeof w.wartung !== "boolean") add("website.wartung", "Schalter an/aus.");
@@ -154,8 +164,14 @@
     }
     return f;
   }
+  /* Tage bis zu einem Ablaufdatum (JJJJ-MM-TT); null ohne Datum */
+  function tageBis(datum, heute) {
+    if (!DATUM.test(String(datum || ""))) return null;
+    var a = new Date(String(datum) + "T00:00:00Z"), b = heute ? new Date(String(heute).slice(0, 10) + "T00:00:00Z") : new Date(new Date().toISOString().slice(0, 10) + "T00:00:00Z");
+    return Math.round((a - b) / 86400000);
+  }
   /* Zweige, deren Änderung die Website verändert (→ automatische Veröffentlichung) */
   var ZWEIGE_WEBSITE = ["konfigurator", "steuer", "firma", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website"];
 
-  return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, ibanGueltig: ibanGueltig, STATUS: STATUS, ZWEIGE_WEBSITE: ZWEIGE_WEBSITE };
+  return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, ibanGueltig: ibanGueltig, tageBis: tageBis, STATUS: STATUS, ZWEIGE_WEBSITE: ZWEIGE_WEBSITE };
 });
