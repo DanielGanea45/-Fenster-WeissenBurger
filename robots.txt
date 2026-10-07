@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /danke.html
+Disallow: /admin/
+Disallow: /.netlify/
 
 Sitemap: https://fenster-weissenburger.de/sitemap-index.xml

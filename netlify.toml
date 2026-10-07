@@ -8,7 +8,14 @@
 
 [functions]
   directory = "netlify/functions"
-  included_files = ["data/preise.json", "js/preis.js"]
+  included_files = ["data/*.json", "js/preis.js", "js/preis-validate.js", "admin/index.html", "konfigurator/**/*.html"]
+
+# Admin-Bereich: wird von einer Function ausgeliefert (auf Produktion ohne ADMIN_SETUP_TOKEN → 404)
+[[redirects]]
+  from = "/admin/*"
+  to = "/.netlify/functions/admin-seite"
+  status = 200
+  force = true
 
 # Sitemap-Index ersetzt die alte sitemap.xml
 [[redirects]]
@@ -106,6 +113,17 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Content-Security-Policy = "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'sha256-iI6R5uwJVQojgZLUEcPZSFv4d5Dx3yu48qFGa6t/lhU='; script-src 'self'; connect-src 'self' https://eu.frcapi.com https://global.frcapi.com; worker-src 'self' blob:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]
   for = "/assets/*"

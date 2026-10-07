@@ -130,3 +130,7 @@
   .lp.konf-page main { padding-bottom: 0; }
   .konf__steps { margin: 0; padding: 0; flex-wrap: wrap; }
 }
+
+/* Vorschau-Modus (nur für angemeldete Admins, eingefügt von netlify/functions/konfigurator-vorschau.js) */
+.vorschau-banner { position: sticky; top: 0; z-index: 1000; background: #1b2430; color: #fff; font-weight: 600; font-size: 14px; line-height: 1.4; padding: 10px 16px; text-align: center; border-bottom: 3px solid #0B5ED7; }
+.vorschau-banner a { color: #8ab8ff; }

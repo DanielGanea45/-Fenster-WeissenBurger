@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Verwaltung – Fenster-WeissenBurger</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="same-origin">
+  <meta name="theme-color" content="#1b2430">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/admin.css?v=1">
+</head>
+<body>
+  <noscript><p class="loading">Für die Verwaltung muss JavaScript aktiviert sein.</p></noscript>
+
+  <!-- Anmeldung / Einrichtung / Passwort zurücksetzen (Inhalt per JS) -->
+  <div id="auth" class="auth" hidden>
+    <section class="auth__brand">
+      <div class="auth__logo"><svg width="36" height="42" viewBox="0 0 48 56" aria-hidden="true"><polygon points="16,7 44,1 44,43 16,47" fill="#0B5ED7"></polygon><polygon points="5,9 31,15 31,53 5,49" fill="none" stroke="#ffffff" stroke-width="2.6"></polygon></svg><span>Fenster-WeissenBurger</span></div>
+      <div class="auth__claim">
+        <span class="eyebrow">Verwaltung</span>
+        <h1>Ihre Website. Ihre Bilder und Texte.</h1>
+        <p>Hier pflegen Sie Fotos, Texte, Preise, Bewertungen und Ihre Zugangsdaten – ohne Programmierkenntnisse.</p>
+      </div>
+      <span class="auth__url">fenster-weissenburger.de/admin</span>
+    </section>
+    <section class="auth__panel"><div id="auth-form" class="auth__form" aria-live="polite"></div></section>
+  </div>
+
+  <!-- Verwaltung -->
+  <div id="app" class="app" hidden>
+    <aside class="side">
+      <div class="side__logo"><svg width="26" height="30" viewBox="0 0 48 56" aria-hidden="true"><polygon points="16,7 44,1 44,43 16,47" fill="#0B5ED7"></polygon><polygon points="5,9 31,15 31,53 5,49" fill="none" stroke="#ffffff" stroke-width="2.6"></polygon></svg><span>Verwaltung</span></div>
+      <nav class="nav" aria-label="Admin-Menü" id="nav-side"></nav>
+      <div class="side__foot">
+        <a class="outline" href="/" target="_blank" rel="noopener">Website ansehen ↗</a>
+        <a class="dim" href="#" data-act="abmelden">Abmelden</a>
+        <span class="side__ctx" id="ctx-side"></span>
+      </div>
+    </aside>
+
+    <header class="mhead">
+      <b><svg width="22" height="26" viewBox="0 0 48 56" aria-hidden="true"><polygon points="16,7 44,1 44,43 16,47" fill="#0B5ED7"></polygon><polygon points="5,9 31,15 31,53 5,49" fill="none" stroke="#ffffff" stroke-width="2.6"></polygon></svg><span id="mhead-title">Verwaltung</span></b>
+      <button type="button" aria-label="Menü öffnen" data-act="drawer-auf"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </header>
+
+    <main class="main" id="main" tabindex="-1"></main>
+
+    <nav class="mnav" aria-label="Admin-Menü (mobil)">
+      <a href="#uebersicht" data-nav="uebersicht">Übersicht</a>
+      <a href="#bilder" data-nav="bilder">Bilder</a>
+      <a href="#texte" data-nav="texte">Texte</a>
+      <a href="#konto" data-nav="konto">Konto</a>
+    </nav>
+
+    <div class="drawer" id="drawer" hidden>
+      <div class="drawer__panel">
+        <div class="row row--between"><b class="side__logo">Menü</b><button type="button" class="btn btn--xs btn--ghost" data-act="drawer-zu" aria-label="Menü schließen">✕</button></div>
+        <nav class="nav" aria-label="Alle Bereiche" id="nav-drawer"></nav>
+        <div class="side__foot">
+          <a class="outline" href="/" target="_blank" rel="noopener">Website ansehen ↗</a>
+          <a class="dim" href="#" data-act="abmelden">Abmelden</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal" hidden role="dialog" aria-modal="true"></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="/js/preis.js?v=1"></script>
+  <script src="/js/preis-validate.js?v=1"></script>
+  <script src="/js/admin.js?v=1"></script>
+</body>
+</html>

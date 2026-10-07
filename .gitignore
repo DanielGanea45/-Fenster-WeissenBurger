@@ -37,3 +37,7 @@ assets/logo-fenster-weissenburger/
 bilder-original/
 bilder-original.zip
 konfigurator-bilder.json
+
+# Lokaler Admin-Datenspeicher (Blobs-Ersatz) und npm
+.netlify-blobs-local/
+package-lock.json
