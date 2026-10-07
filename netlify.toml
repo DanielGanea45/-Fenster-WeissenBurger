@@ -1,6 +1,88 @@
 [build]
   publish = "."
 
+# 301-Weiterleitungen von der bisherigen WordPress-Seite
+[[redirects]]
+  from = "/aluplast/"
+  to = "/produkte/#aluplast"
+  status = 301
+[[redirects]]
+  from = "/aluplast"
+  to = "/produkte/#aluplast"
+  status = 301
+[[redirects]]
+  from = "/kommerling/"
+  to = "/produkte/kunststofffenster-koemmerling/"
+  status = 301
+[[redirects]]
+  from = "/kommerling"
+  to = "/produkte/kunststofffenster-koemmerling/"
+  status = 301
+[[redirects]]
+  from = "/kommerling-cortizo/"
+  to = "/produkte/kunststofffenster-koemmerling/"
+  status = 301
+[[redirects]]
+  from = "/kommerling-cortizo"
+  to = "/produkte/kunststofffenster-koemmerling/"
+  status = 301
+[[redirects]]
+  from = "/holz-mehr/"
+  to = "/produkte/holzfenster/"
+  status = 301
+[[redirects]]
+  from = "/holz-mehr"
+  to = "/produkte/holzfenster/"
+  status = 301
+[[redirects]]
+  from = "/uber-uns/"
+  to = "/#ueber-uns"
+  status = 301
+[[redirects]]
+  from = "/uber-uns"
+  to = "/#ueber-uns"
+  status = 301
+[[redirects]]
+  from = "/kontakt/"
+  to = "/#kontakt"
+  status = 301
+[[redirects]]
+  from = "/kontakt"
+  to = "/#kontakt"
+  status = 301
+[[redirects]]
+  from = "/datenschutzerklarung/"
+  to = "/datenschutz.html"
+  status = 301
+[[redirects]]
+  from = "/datenschutzerklarung"
+  to = "/datenschutz.html"
+  status = 301
+[[redirects]]
+  from = "/impressum/"
+  to = "/impressum.html"
+  status = 301
+[[redirects]]
+  from = "/impressum"
+  to = "/impressum.html"
+  status = 301
+[[redirects]]
+  from = "/hello-world/"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/hello-world"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/category/uncategorized/"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/category/*"
+  to = "/"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]

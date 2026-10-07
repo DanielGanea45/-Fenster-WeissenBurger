@@ -2,6 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://fenster-weissenburger.de/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://fenster-weissenburger.de/leistungen/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fenster-weissenburger.de/produkte/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fenster-weissenburger.de/produkte/kunststofffenster-koemmerling/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fenster-weissenburger.de/produkte/aluminiumfenster-cortizo/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fenster-weissenburger.de/produkte/schiebetueren/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fenster-weissenburger.de/produkte/haustueren/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fenster-weissenburger.de/produkte/holzfenster/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://fenster-weissenburger.de/impressum.html</loc><lastmod>2026-10-07</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://fenster-weissenburger.de/datenschutz.html</loc><lastmod>2026-10-07</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>
