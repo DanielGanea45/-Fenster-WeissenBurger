@@ -162,7 +162,7 @@
     const q = new URLSearchParams(location.search);
     let st;
     try { st = await call(AUTH); } catch (e) { zeigeAuth(); authForm(`<div class="stack"><h2>Nicht erreichbar</h2>${fehlerBox(e.message)}</div>`); return; }
-    if (st.status === 404) { zeigeAuth(); authForm(`<div class="stack"><h2>Admin nicht aktiviert</h2><div class="alert alert--info">Der Admin-Bereich ist auf dieser Website noch nicht freigeschaltet. Bitte die Umgebungsvariable <b>ADMIN_SETUP_TOKEN</b> in Netlify setzen (siehe README).</div></div>`); return; }
+    if (st.status === 404) { zeigeAuth(); authForm(`<div class="stack"><h2>Admin nicht aktiviert</h2><div class="alert alert--info">Der Admin-Bereich ist auf dieser Website noch nicht freigeschaltet. Die Freischaltung übernimmt die technische Betreuung (Einrichtungsschlüssel beim Hosting hinterlegen).</div></div>`); return; }
     S.kontext = st.kontext || "";
     if (q.get("reset")) { zeigeAuth(); return neuesPasswortForm(q.get("reset")); }
     if (q.get("email")) {
@@ -174,7 +174,7 @@
     if (!st.eingerichtet) {
       zeigeAuth();
       if (q.get("token")) return einrichtenForm(q.get("token"));
-      return authForm(`<div class="stack"><h2>Noch kein Konto</h2><div class="alert alert--info">Der Zugang wird einmalig über den Einrichtungslink angelegt:<br><code>/admin/?token=…</code><br>Den Link finden Sie in der README (Abschnitt „So melden Sie sich an“).</div></div>`);
+      return authForm(`<div class="stack"><h2>Noch kein Konto</h2><div class="alert alert--info">Der Zugang wird einmalig über den Einrichtungslink angelegt:<br><code>/admin/?token=…</code><br>Den Link erhalten Sie von der technischen Betreuung.</div></div>`);
     }
     if (st.angemeldet) { S.csrf = st.csrf; S.name = st.name; S.email = st.email; return starteApp(); }
     zeigeAuth(); loginForm();
@@ -185,21 +185,25 @@
      ==================================================================== */
   const I = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const NAV = [
-    { id: "uebersicht", label: "Übersicht", kurz: "Start", icon: I('<path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/>') },
-    { id: "preise", label: "Preise & Konfigurator", kurz: "Preise", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>') },
-    { id: "einstellungen", label: "Einstellungen", kurz: "Einstell.", icon: I('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>') },
-    { id: "bilder", label: "Bilder", kurz: "Bilder", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>') },
-    { id: "texte", label: "Texte", kurz: "Texte", icon: I('<path d="M5 4h14M12 4v16M8 20h8"/>') },
-    { id: "bewertungen", label: "Bewertungen", kurz: "Bewert.", badge: "bewertungen", icon: I('<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/>') },
-    { id: "anfragen", label: "Anfragen", kurz: "Anfragen", badge: "anfragen", icon: I('<path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H8l-4 4z"/><path d="M8 10h8M8 13h5"/>') },
-    { id: "versionen", label: "Änderungsprotokoll", kurz: "Versionen", icon: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>') },
-    { id: "protokoll", label: "Zugriffsprotokoll", kurz: "Zugriffe", sub: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v6h6M8 13h8M8 17h6"/>') },
-    { id: "konto", label: "Konto", kurz: "Konto", icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
-    { id: "angebote", label: "Angebote & Rechnungen", kurz: "Angebote", hidden: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>') }, // Platzhalter für ein späteres Modul
-  ];
-  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
+    { id: "uebersicht", gruppe: "Übersicht", label: "Übersicht", kurz: "Start", icon: I('<path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/>') },
+    { id: "bilder", gruppe: "Inhalte", label: "Bilder", kurz: "Bilder", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>') },
+    { id: "texte", gruppe: "Inhalte", label: "Texte", kurz: "Texte", icon: I('<path d="M5 4h14M12 4v16M8 20h8"/>') },
+    { id: "bewertungen", gruppe: "Inhalte", label: "Bewertungen", kurz: "Bewert.", badge: "bewertungen", icon: I('<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/>') },
+    { id: "preise", gruppe: "Verkauf", label: "Preise & Konfigurator", kurz: "Preise", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>') },
+    { id: "anfragen", gruppe: "Verkauf", label: "Anfragen", kurz: "Anfragen", badge: "anfragen", icon: I('<path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H8l-4 4z"/><path d="M8 10h8M8 13h5"/>') },
+    { id: "angebote", gruppe: "Verkauf", label: "Angebote & Rechnungen", kurz: "Angebote", hidden: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>') },
+    { id: "einstellungen", gruppe: "System", label: "Einstellungen", kurz: "Einstell.", icon: I('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>') },
+    { id: "versionen", gruppe: "System", label: "Änderungsprotokoll", kurz: "Versionen", icon: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>') },
+    { id: "protokoll", gruppe: "System", label: "Zugriffsprotokoll", kurz: "Zugriffe", sub: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v6h6M8 13h8M8 17h6"/>') },
+    { id: "konto", gruppe: "System", label: "Konto", kurz: "Konto", icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
+  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
   function navHtml(aktiv) {
-    return NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an").map((n) => `<a href="#${n.id}" class="${n.sub ? "nav--sub" : ""}" title="${h(n.label)}" ${aktiv === n.id ? 'aria-current="page"' : ""}>${n.icon}<span class="lbl">${h(n.kurz || n.label)}</span>${n.badge && S[n.badge + "Badge"] ? `<span class="badge ${n.badge === "anfragen" ? "badge--grey" : ""}">${S[n.badge + "Badge"]}</span>` : ""}</a>`).join("");
+    const sichtbar = NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an");
+    const gruppen = []; sichtbar.forEach((n) => { let g = gruppen.find((x) => x.name === n.gruppe); if (!g) { g = { name: n.gruppe, eintraege: [] }; gruppen.push(g); } g.eintraege.push(n); });
+    return gruppen.map((g) => `<div class="nav__gruppe"><span class="nav__titel">${h(g.name)}</span>${navLinks(g.eintraege, aktiv)}</div>`).join("");
+  }
+  function navLinks(liste, aktiv) {
+    return liste.map((n) => `<a href="#${n.id}" class="${n.sub ? "nav--sub" : ""}" title="${h(n.label)}" ${aktiv === n.id ? 'aria-current="page"' : ""}>${n.icon}<span class="lbl">${h(n.label)}</span>${n.badge && S[n.badge + "Badge"] ? `<span class="badge ${n.badge === "anfragen" ? "badge--grey" : ""}">${S[n.badge + "Badge"]}</span>` : ""}</a>`).join("");
   }
   function route() { const [id, sub] = (location.hash || "#uebersicht").slice(1).split("/"); return { id: TITEL[id] ? id : "uebersicht", sub }; }
   function renderNav() {
@@ -211,7 +215,21 @@
     $("#top-name").textContent = S.name || "Admin";
     $("#top-avatar").textContent = (S.name || "A").trim().slice(0, 1).toUpperCase();
     $("#top-datum").textContent = new Date().toLocaleString("de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    const tp = $("#top-pub"); if (tp) tp.innerHTML = pubPill();
+    document.querySelector(".app").classList.remove("is-nav-open");
   }
+  function pubPill() {
+    const p = S.pub || { status: "nie" };
+    if (p.status === "laeuft") return '<span class="pill pill--warn pill--busy" title="Veröffentlichung läuft">Wird veröffentlicht …</span>';
+    if (p.status === "fehler") return '<span class="pill pill--err" title="' + h(p.fehler || "") + '">Veröffentlichung fehlgeschlagen</span>';
+    if (p.status === "unbekannt" || p.status === "gespeichert") return '<span class="pill pill--warn">Nicht veröffentlicht</span>';
+    return '<span class="pill pill--ok" title="' + (p.letzteVeroeffentlichung ? "Zuletzt " + fmtDT(p.letzteVeroeffentlichung) : "") + '">Website online</span>';
+  }
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("#nav-toggle"); const app = document.querySelector(".app");
+    if (t && app) { app.classList.toggle("is-nav-open"); t.setAttribute("aria-expanded", String(app.classList.contains("is-nav-open"))); return; }
+    if (e.target.closest("#rail-schliessen") && app) app.classList.remove("is-nav-open");
+  });
 
   async function starteApp() {
     zeigeApp();
@@ -248,7 +266,7 @@
     return `<span class="pill pill--ok">Website online</span><span>${letzte}</span>`;
   }
   function pubBar(extraBtn) { return `<div class="pubbar" id="pubbar">${pubHtml()}${extraBtn || ""}</div>`; }
-  async function ladeStatus() { try { const r = await api.get("status"); S.pub = r.veroeffentlichung; if (r.kontextLabel) { S.kontextLabel = r.kontextLabel; renderNav(); } const el = $("#pubbar"); if (el) { el.innerHTML = pubHtml(); } if (S.pub.status === "laeuft") startPoll(); else stopPoll(); } catch (e) { /* egal */ } }
+  async function ladeStatus() { try { const r = await api.get("status"); S.pub = r.veroeffentlichung; if (r.kontextLabel) { S.kontextLabel = r.kontextLabel; renderNav(); } const el = $("#pubbar"); if (el) { el.innerHTML = pubHtml(); } const tp = $("#top-pub"); if (tp) tp.innerHTML = pubPill(); if (S.pub.status === "laeuft") startPoll(); else stopPoll(); } catch (e) { /* egal */ } }
   function startPoll() { if (S.pollTimer) return; S.pollTimer = setInterval(async () => { const alt = S.pub && S.pub.status; await ladeStatus(); if (alt === "laeuft" && S.pub.status !== "laeuft") toast(S.pub.status === "veroeffentlicht" ? "Website veröffentlicht – alle Tests bestanden." : "Veröffentlichung fehlgeschlagen: " + (S.pub.fehler || ""), S.pub.status === "veroeffentlicht" ? "ok" : "err"); }, 8000); }
   function stopPoll() { if (S.pollTimer) { clearInterval(S.pollTimer); S.pollTimer = null; } }
   async function veroeffentlichen(grund) {
@@ -283,13 +301,13 @@
     S.pub = d.veroeffentlichung; S.name = d.name; S.kontext = d.kontext; S.kontextLabel = d.kontextLabel; S.bewertungenBadge = d.bewertungenOffen || 0; S.anfragenBadge = d.anfragen.neuDieseWoche || 0; renderNav();
     S.hooks = { buildHook: d.buildHook, mail: d.mail };
     const letzte = d.versionen && d.versionen[0];
-    const typText = (p) => ({ login: "Anmeldung", "login-fehler": "Fehlversuch", "login-gesperrt": "Zugang gesperrt", logout: "Abmeldung", gespeichert: "Gespeichert", veroeffentlichung: "Veröffentlichung", "veroeffentlichung-fehler": "Veröffentlichung fehlgeschlagen", bild: "Bild", bewertung: "Bewertung", wiederhergestellt: "Wiederhergestellt", einrichtung: "Einrichtung", "2fa": "Zwei-Faktor" }[p.typ] || p.typ);
+    const typText = (p) => ({ login: "Anmeldung", "login-fehler": "Fehlversuch", "login-gesperrt": "Zugang gesperrt", logout: "Abmeldung", gespeichert: "Gespeichert", veroeffentlichung: "Veröffentlichung", "veroeffentlichung-fehler": "Veröffentlichung fehlgeschlagen", bild: "Bild", bewertung: "Bewertung", wiederhergestellt: "Wiederhergestellt", einrichtung: "Einrichtung", "2fa": "Zwei-Faktor", "veroeffentlichung-uebersprungen": "Nicht veröffentlicht (Testumgebung)", "status-zurueckgesetzt": "Status zurückgesetzt", benachrichtigungen: "Benachrichtigungen", "email-aenderung": "E-Mail-Adresse", "passwort-reset": "Passwort zurückgesetzt", passwort: "Passwort geändert" }[p.typ] || String(p.typ || "").replace(/-/g, " "));
     const warn = [];
-    if (!d.buildHook) warn.push(d.kontext === "production" ? "<b>NETLIFY_BUILD_HOOK</b> fehlt – Änderungen können gespeichert, aber nicht veröffentlicht werden." : "Vorschau-Umgebung (" + h(d.kontextLabel) + ", Datenspeicher „" + h(d.store) + "“): „Veröffentlichen“ speichert nur – kein Build, der Produktions-Hook wird hier nie benutzt. Für Test-Builds <b>NETLIFY_BUILD_HOOK_PREVIEW</b> (Branch-Hook) setzen.");
-    if (!d.mail) warn.push("<b>BREVO_API_KEY</b> fehlt – es werden keine E-Mails (Passwort vergessen, Benachrichtigungen) versendet.");
+    if (!d.buildHook) warn.push(d.kontext === "production" ? "Die automatische Veröffentlichung ist noch nicht eingerichtet: Änderungen werden gespeichert, erscheinen aber erst nach der Einrichtung auf der Website." : "Testumgebung (" + h(d.kontextLabel) + "): Änderungen werden nur gespeichert; die Live-Website wird von hier aus nie verändert.");
+    if (!d.mail) warn.push("Der E-Mail-Versand ist noch nicht eingerichtet – es werden keine Benachrichtigungen und keine „Passwort vergessen“-Mails versendet.");
     main.innerHTML = `
       <div class="page-head"><div><h1>Guten Tag, ${h(S.name || "")}</h1><span class="muted">${S.pub.status === "fehler" ? "Die letzte Veröffentlichung ist fehlgeschlagen." : S.pub.status === "laeuft" ? "Eine Veröffentlichung läuft gerade." : "Alle Änderungen sind veröffentlicht."}</span></div>${pubHtml()}</div>
-      ${warn.length ? `<div class="alert alert--warn">${warn.join("<br>")} Anleitung: README → „Umgebungsvariablen“.</div>` : ""}
+      ${warn.length ? `<div class="alert alert--warn">${warn.join("<br>")} <span class="small">Einrichtung: unter <a href="#einstellungen">Einstellungen</a> bzw. durch die technische Betreuung.</span></div>` : ""}
       <div class="kpis">
         <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${NAV.find((n) => n.id === "anfragen").icon}</span>Neue Anfragen</div><div class="value">${d.anfragen.neuDieseWoche}</div><div class="sub">letzte 7 Tage · <a href="#anfragen">Ansehen →</a></div></div>
         <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${NAV.find((n) => n.id === "bewertungen").icon}</span>Bewertungen</div><div class="value">${d.bewertungenOffen}</div><div class="sub">zu prüfen · <a href="#bewertungen">Prüfen →</a></div></div>
@@ -475,7 +493,7 @@
         <section class="card">
           <div class="row row--between"><h2>${h(s.titel)}</h2><a href="${h(url)}" target="_blank" rel="noopener" class="small strong">Auf der Seite ansehen ↗</a></div>
           ${s.geschuetzt ? '<div class="alert alert--warn">Impressum und Datenschutzerklärung sind rechtlich relevante Texte. Änderungen werden erst nach einer zusätzlichen Bestätigung gespeichert.</div>' : ""}
-          <p class="small muted">Steuertexte nie von Hand schreiben: Der Platzhalter <code>${h(Steuer.PLATZHALTER)}</code> wird beim Veröffentlichen durch den aktuellen Steuerhinweis ersetzt (zurzeit: „${h(Steuer.texte(steuerSatz()).lang)}“).</p>
+          <p class="small muted">Steuerhinweis nie von Hand schreiben: Der Platzhalter <code>${h(Steuer.PLATZHALTER)}</code> wird beim Veröffentlichen automatisch durch den aktuellen Hinweis ersetzt (zurzeit: „${h(Steuer.texte(steuerSatz()).lang)}“).</p>
           <label class="field"><span class="sr-only">Suche</span><input type="search" id="txt-suche" placeholder="In den Texten dieser Seite suchen …"></label>
           <div class="toolbar" role="toolbar" aria-label="Formatierung"><button type="button" class="tb-b" data-tb="b" title="Fett">B</button><button type="button" class="tb-i" data-tb="i" title="Kursiv">I</button><button type="button" data-tb="a">Link</button><button type="button" data-tb="br">Zeilenumbruch</button><span class="hint">Markieren Sie Text im Feld und klicken Sie auf eine Schaltfläche.</span></div>
           <div class="stack" id="txt-bloecke">${bl.map(([id, b]) => { const wert = S.texteAend[id] !== undefined ? S.texteAend[id] : b.html; const ge = b.geaendert || S.texteAend[id] !== undefined; return `<div class="block block--${b.tag}" data-block="${id}"><div class="block__head"><b>${TAG_LABEL[b.tag] || b.tag}</b><span>${ge ? `geändert · <button type="button" class="btn btn--link" data-reset="${id}">Original wiederherstellen</button>` : ""} <span class="zeichen">${wert.replace(/<[^>]+>/g, "").length} Zeichen</span></span></div><textarea rows="${b.tag === "p" ? 3 : 2}" data-id="${id}" class="${ge ? "is-geaendert" : ""}" aria-label="${TAG_LABEL[b.tag]}">${h(wert)}</textarea></div>`; }).join("")}</div>
@@ -594,7 +612,7 @@
     const kpiTests = () => { const p = S.pub || {}; if (p.status === "veroeffentlicht") return `<div class="value value--ok">✓ bestanden</div><div class="sub">Letzter Build ${fmtDT(p.letzteVeroeffentlichung || p.ende)} · alle Prüfungen erfolgreich</div>`; if (p.status === "fehler") return `<div class="value value--err">Fehler</div><div class="sub">${h((p.fehler || "").slice(0, 120))}</div>`; if (p.status === "laeuft") return `<div class="value value--sm">läuft …</div><div class="sub">Build gestartet ${fmtDT(p.start)}</div>`; return `<div class="value value--ink value--sm">–</div><div class="sub">Noch kein Build über den Admin</div>`; };
     const sysAktiv = () => { const s = Object.values(S.preise.fenster.systeme); return [s.filter((x) => x.aktiv !== false).length, s.length]; };
     main.innerHTML = `
-      <div class="page-head"><div><h1>Preise &amp; Konfigurator</h1><span class="muted">Alle Preise in Euro ohne Steuer. Steuer (Schalter unter <a href="#einstellungen">Einstellungen</a>) und Online-Rabatt rechnet der Konfigurator automatisch – Website und Server nutzen dasselbe Modul.</span></div>
+      <div class="page-head"><div><h1>Preise &amp; Konfigurator</h1><span class="muted">Alle Preise in Euro ohne Steuer. Steuer (<a href="#einstellungen/steuer">Einstellungen → Steuer</a>) und Online-Rabatt rechnet der Konfigurator automatisch – auf der Website genauso wie hier.</span></div>
         <div class="row"><a class="btn btn--sm" href="#versionen">Änderungsprotokoll</a></div></div>
       <div class="kpis">
         <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${ICON_KPI.systeme}</span>Systeme aktiv</div><div class="value" id="kpi-sys">${sysAktiv()[0]}</div><div class="sub" id="kpi-sys-sub">von ${sysAktiv()[1]} Profilsystemen</div></div>
@@ -850,44 +868,6 @@
   };
 
   /* ---------- Änderungsprotokoll (Versionen) ---------- */
-  VIEWS.einstellungen = async (main) => {
-    const [de, ds] = await Promise.all([api.get("daten", { bereich: "einstellungen" }), api.get("status")]);
-    if (!de.ok) throw new Error(de.error);
-    S.einst = de.daten; S.pub = ds.veroeffentlichung;
-    const satz = () => Steuer.satz(S.einst);
-    const zeichne = () => {
-      main.innerHTML = `
-      <div class="page-head"><div><h1>Einstellungen</h1><span class="muted">Zentrale Schalter der Website. Jede Umstellung wird versioniert, im Änderungsprotokoll festgehalten und automatisch veröffentlicht.</span></div>
-        <div class="row"><a class="btn btn--sm" href="#versionen">Änderungsprotokoll</a></div></div>
-      <div class="grid2">
-        <section class="card" id="steuer-card" aria-labelledby="steuer-h">
-          <div class="row row--between"><h2 id="steuer-h">${h(Steuer.TITEL)}</h2><span class="pill ${satz() ? "pill--warn" : "pill--ok"}">${h(Steuer.texte(satz()).option)}</span></div>
-          <p class="muted">${h(Steuer.SCHALTER_LABEL)}:</p>
-          <div class="seg" role="radiogroup" aria-label="${h(Steuer.SCHALTER_LABEL)}" id="steuer-satz">${Steuer.optionen().map((o) => `<button type="button" role="radio" aria-checked="${satz() === o.satz}" data-satz="${o.satz}">${h(o.label)}</button>`).join("")}</div>
-          <p class="small muted">${h(Steuer.texte(satz()).adminKurz)}</p>
-          <p class="small muted">Gilt für alle Seiten, den Konfigurator, Richtpreise in Anfragen, E-Mails und künftige PDF-Dokumente – aus einer einzigen Quelle (<code>js/steuer.js</code>). Bereits erstellte Angebote, Auftragsbestätigungen und Rechnungen behalten den Steuerstatus vom Zeitpunkt ihrer Erstellung.</p>
-        </section>
-        <section class="card" aria-labelledby="konf-h">
-          <div class="row row--between"><h2 id="konf-h">Konfigurator</h2><span class="pill ${S.einst.konfigurator.status === "online" ? "pill--ok" : S.einst.konfigurator.status === "vorschau" ? "pill--warn" : ""}">${{ aus: "Aus", vorschau: "Vorschau", online: "Online" }[S.einst.konfigurator.status]}</span></div>
-          <p class="muted">Sichtbarkeit des Konfigurators (Aus · Vorschau · Online) schalten Sie unter <a href="#preise">Preise &amp; Konfigurator</a>.</p>
-        </section>
-      </div>`;
-      $("#steuer-satz").addEventListener("click", async (e) => {
-        const b = e.target.closest("[data-satz]"); if (!b) return;
-        const neu = Number(b.dataset.satz), alt = satz();
-        if (neu === alt) return;
-        const ok = await bestaetigen(Steuer.TITEL + " umstellen auf " + Steuer.texte(neu).option, Steuer.texte(neu).bestaetigung, "Umstellen und veröffentlichen");
-        if (!ok) return;
-        const r = await api.post("speichern", { bereich: "einstellungen", daten: { steuer: { satzProzent: neu } }, bestaetigt: true, beschreibung: Steuer.texte(neu).beschreibung, veroeffentlichen: true });
-        if (!r.ok) return toast(r.error, "err");
-        S.einst.steuer = Object.assign({}, S.einst.steuer, { satzProzent: neu });
-        toast(Steuer.texte(neu).beschreibung + " gespeichert.", "ok");
-        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet – die Website wird mit dem neuen Steuerstatus neu gebaut.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
-        await ladeStatus(); zeichne();
-      });
-    };
-    zeichne();
-  };
   VIEWS.versionen = async (main) => {
     const d = await api.get("versionen");
     if (!d.ok) throw new Error(d.error);
@@ -932,7 +912,7 @@
           <div class="stack"><div class="grid" id="pw-balken"></div><span class="small" id="pw-text">Mindestens 12 Zeichen</span></div>
           <label class="field">Neues Passwort wiederholen<input type="password" name="neu2" autocomplete="new-password" required></label>
           <button type="submit" class="btn btn--primary">Passwort speichern</button></form>
-        <form class="card" id="f-notify" novalidate><h2>Benachrichtigungen</h2><p class="small muted">An diese Adresse senden wir neue Anfragen und Bewertungen${S.hooks.mail === false ? " (derzeit kein E-Mail-Versand: BREVO_API_KEY fehlt)" : ""}.</p>
+        <form class="card" id="f-notify" novalidate><h2>Benachrichtigungen</h2><p class="small muted">An diese Adresse senden wir neue Anfragen und Bewertungen${S.hooks.mail === false ? " (der E-Mail-Versand ist noch nicht eingerichtet)" : ""}.</p>
           <label class="field">E-Mail für Benachrichtigungen<input type="email" name="email" value="${h((k.notify || {}).email || k.email)}" required></label>
           <label class="check"><input type="checkbox" name="anfragen" ${(k.notify || {}).anfragen !== false ? "checked" : ""}> Neue Anfragen per E-Mail</label>
           <label class="check"><input type="checkbox" name="bewertungen" ${(k.notify || {}).bewertungen !== false ? "checked" : ""}> Neue Bewertungen zur Prüfung</label>
@@ -973,4 +953,5 @@
 
   /* ---------- Start ---------- */
   start();
+  window.FWAdmin = { $, $$, h, api, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, pubHtml };
 })();
