@@ -41,7 +41,6 @@
   --on-dark-2: rgba(255, 255, 255, .84);
   --on-dark-line: rgba(255, 255, 255, .28);
   --accent-on-dark: #8ab8ff; /* Hervorhebungen auf dunklem Grund (AA-konform), Blau-Tint des Akzents */
-  --logo-sash: #0B5ED7;
   --glass: var(--surface);
   --bg-2: var(--dark);
   --shadow: 0 6px 20px rgba(27, 36, 48, .08);
@@ -414,6 +413,7 @@ ul, ol { padding: 0; list-style: none; }
 .page ul { list-style: disc; padding-left: 22px; margin: 8px 0; }
 .page li + li { margin-top: 4px; }
 .page a { color: var(--accent); }
+.page .brand, .lp .brand { color: inherit; } /* Logo-Kontur folgt der Kopfzeile, nie der Linkfarbe */
 .page .btn--call, .page .btn--primary { color: var(--accent-ink); }
 .page .btn--ghost { color: var(--ink); }
 .page .stand { color: var(--ink-3); font-size: 14px; margin-bottom: 24px; }
