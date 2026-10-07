@@ -1,62 +1,77 @@
-/* Konfigurator (Fenster & Haustüren) */
-.konf { padding-top: calc(var(--header-h) + 12px); }
-.konf__head { margin-bottom: 14px; }
-.konf__head .eyebrow { flex-wrap: wrap; row-gap: 4px; }
-.konf__head .eyebrow a { color: var(--accent); }
-.konf__nav .btn { max-width: 100%; }
-.konf__head .title { font-size: clamp(28px, 6.5vw, 46px); }
-.konf__layout { display: grid; gap: 20px; }
+/* Konfigurator (Fenster & Haustüren) – kompakte Anordnung: Schrittleiste direkt unter dem Menü,
+   links die Optionskarten, rechts die große Vorschau mit Maßen und Preis (Desktop sticky). */
+.konf { padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 8px); }
+.konf__top { margin: 0 0 10px; }
+.konf__layout { display: grid; gap: 14px; grid-template-areas: "aside" "main"; }
+.konf__main { grid-area: main; min-width: 0; }
+.konf__aside { grid-area: aside; min-width: 0; display: grid; gap: 10px; align-content: start; }
 
-/* Schritt-Reiter */
-.konf__steps { min-height: 52px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 6px var(--gutter); scroll-snap-type: x proximity; }
+/* Kopfzeile: eine Zeile mit Titel und Brotkrumen */
+.konf__kopf { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; }
+.konf .konf__h1 { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; color: var(--ink-2); margin: 0; }
+.konf .konf__h1 em { font-style: normal; color: var(--accent); }
+.crumbs--konf { padding-top: 0; font-size: 12px; }
+.crumbs--konf a:hover { color: var(--accent); }
+
+/* Schrittleiste: dünne Leiste mit kleinen Kreisen (Desktop) */
+.konf__steps { display: none; list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
 .konf__steps::-webkit-scrollbar { display: none; }
-.konf__steps li { flex: 0 0 auto; scroll-snap-align: start; }
+.konf__steps li { flex: 0 0 auto; }
 .konf__steps button {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; white-space: nowrap;
+  position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 10px 0 6px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;
 }
-.konf__steps button .n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); font-size: 12px; }
-.konf__steps button.is-active { border-color: var(--accent); color: var(--accent); background: var(--surface); box-shadow: 0 0 0 1px var(--accent) inset; }
-.konf__steps button.is-active .n, .konf__steps button.is-done .n { background: var(--accent); color: var(--accent-ink); }
+.konf__steps button .n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); font-size: 11.5px; font-weight: 800; color: var(--ink-2); }
+.konf__steps button:hover { color: var(--accent); background: var(--accent-soft); }
+.konf__steps button.is-active { color: var(--accent); font-weight: 800; }
+.konf__steps button.is-active::after { content: ""; position: absolute; left: 6px; right: 10px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--accent); }
+.konf__steps button.is-active .n, .konf__steps button.is-done .n { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .konf__steps button.is-done { color: var(--ink); }
 
+/* Fortschritt (Telefon): „Schritt X von 9 · Farbe“ und Balken */
+.konf__progress { display: grid; gap: 6px; margin: 0; }
+.konf__progress__txt { font-size: 13.5px; font-weight: 600; color: var(--ink-2); text-align: right; min-height: 1.3em; }
+.konf__progress__bar { display: block; height: 6px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+.konf__progress__bar i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
+
 /* Panels */
-.konf__panels { min-height: 520px; }
-.konf__main, .konf__aside { min-width: 0; }
+.konf__panels { min-height: 260px; }
 .summary dd, .thema p { overflow-wrap: anywhere; }
 .konf__panel { display: none; }
 .konf__panel.is-active { display: block; }
-.konf__panel h2 { font-weight: 800; font-size: clamp(22px, 5vw, 30px); letter-spacing: -0.02em; margin: 14px 0 4px; }
+.konf__panel h2 { font-weight: 800; font-size: clamp(24px, 5vw, 32px); letter-spacing: -0.02em; line-height: 1.1; margin: 8px 0 2px; }
 .konf__panel h2 em { font-style: normal; color: var(--accent); }
-.konf__panel .lead--sm { margin-top: 4px; }
-.konf__hint { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; }
+.konf__panel .lead--sm { margin-top: 2px; font-size: 14px; max-width: none; }
+.konf__hint { font-size: 12px; color: var(--ink-3); margin-top: 10px; }
 
-/* Optionskarten */
-.opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+/* Optionskarten: klein, ganzes Bild, Name + Preis. Telefon: waagerecht scrollbare Reihe */
+.opts { display: flex; gap: 10px; margin: 12px calc(-1 * var(--gutter)) 0; padding: 2px var(--gutter) 6px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.opts::-webkit-scrollbar { display: none; }
 .opt {
-  position: relative; display: flex; flex-direction: column; text-align: left; padding: 0; border-radius: 14px; overflow: hidden;
+  flex: 0 0 150px; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; text-align: left; padding: 0; border-radius: 14px; overflow: hidden;
   border: 1px solid var(--line); background: var(--surface); color: inherit; font: inherit; cursor: pointer; box-shadow: var(--shadow);
-  transition: border-color .15s ease, transform .15s ease;
+  transition: border-color .15s ease;
 }
 .opt:hover { border-color: var(--accent); }
 .opt.is-selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
-.opt.is-selected::after { content: "✓"; position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-weight: 800; display: grid; place-items: center; font-size: 14px; }
-.opt img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; background: #fff; }
-.opt--tuer img { aspect-ratio: 3 / 4; object-fit: contain; }
+.opt.is-selected::after { content: "✓"; position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-weight: 800; display: grid; place-items: center; font-size: 13px; }
+.opt img { display: block; width: 100%; height: 110px; object-fit: contain; background: #fff; padding: 6px; box-sizing: border-box; }
+.opt--tuer img { height: 132px; }
+.opt--spiegel img { transform: scaleX(-1); }
 .opt__swatch { height: 70px; }
-.opt__body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
-.opt__name { font-weight: 800; font-size: 14.5px; line-height: 1.25; }
-.opt__sub { font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
-.opt__price { margin-top: auto; font-size: 12.5px; color: var(--ink-3); }
+.opt__body { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.opt__name { font-weight: 800; font-size: 13.5px; line-height: 1.25; }
+.opt__sub { font-size: 11.5px; color: var(--ink-2); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.opt__price { margin-top: auto; padding-top: 2px; font-size: 12px; color: var(--ink-3); }
 .opt__price strong { color: var(--ink); }
-.badges { position: absolute; top: 8px; left: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-.badge { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; color: #fff; letter-spacing: .02em; }
+.badges { position: absolute; top: 6px; left: 6px; display: flex; gap: 4px; flex-wrap: wrap; }
+.badge { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px; color: #fff; letter-spacing: .02em; }
 .badge--uf { background: #14612f; }
 .badge--best { background: var(--accent); color: var(--accent-ink); }
 .opt input[type=radio], .opt input[type=checkbox] { position: absolute; opacity: 0; pointer-events: none; }
 
 /* Maße */
-.masse { display: grid; gap: 12px; margin-top: 16px; }
+.masse { display: grid; gap: 12px; margin-top: 12px; }
 .masse .form__row label { color: var(--ink-2); }
 .masse input[type=number] {
   width: 100%; min-height: 48px; padding: 10px 12px; font: inherit; font-size: 18px; font-weight: 700; color: var(--ink);
@@ -74,116 +89,143 @@
 .check strong { display: block; font-size: 14.5px; color: var(--ink); }
 .check span.sub { font-size: 12.5px; color: var(--ink-2); }
 .check.is-selected { border-color: var(--accent); }
+.check--bild { grid-template-columns: 22px 72px 1fr; align-items: center; }
+.check--bild img { width: 72px; height: 72px; border-radius: 8px; object-fit: contain; background: #fff; padding: 2px; box-sizing: border-box; display: block; }
+.checks--abstand { margin-top: 14px; }
+.price__note--abstand { margin-top: 10px; }
 
-/* Vorschau + Preis (Aside) */
-.konf__aside { display: grid; gap: 14px; align-content: start; }
-.preview { border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, #e9e5de, #d9d4cb); padding: 14px; }
-.preview svg { display: block; width: 100%; height: auto; aspect-ratio: 320 / 300; max-height: 300px; }
-.preview__note { font-size: 11.5px; color: #5a5750; margin-top: 6px; text-align: right; }
-.price { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: var(--surface); box-shadow: var(--shadow); min-height: 150px; }
-.price h3 { font-size: 15px; font-weight: 800; letter-spacing: .02em; color: var(--accent); text-transform: uppercase; }
-.price__rows { margin-top: 10px; display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+/* Vorschau (rechte Spalte / oben auf dem Telefon) */
+.preview { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); padding: 12px 14px 10px; }
+.preview__media { position: relative; height: 38vh; min-height: 220px; }
+.preview svg { display: block; width: 100%; height: 100%; }
+.preview__foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 10px; opacity: 1; transition: opacity .35s ease; }
+.preview__foto.is-wechsel { opacity: 0; }
+.preview.hat-foto svg { visibility: hidden; }
+.preview__foto.is-spiegel, .angebot__bild img.is-spiegel { transform: scaleX(-1); }
+.preview__fuss { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: 10px; margin-top: 8px; } /* feste Spalten: kein Sprung, wenn Maße/Hinweis befüllt werden */
+.preview__masse { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); min-height: 1.4em; white-space: nowrap; }
+.preview__note { margin: 0; font-size: 11px; color: var(--ink-3); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.preview__etikett, .angebot__etikett { position: absolute; left: 10px; bottom: 10px; background: rgba(27, 36, 48, .86); color: #fff; font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; pointer-events: none; }
+.preview__etikett[hidden] { display: none; }
+
+/* Preis: kompakt, Einzelpositionen aufklappbar */
+.price { border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; background: var(--surface); box-shadow: var(--shadow); }
+.price__kopf { display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
+.price__lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.price__sum { display: block; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
+.price__sum small { font-size: 13px; font-weight: 600; color: var(--ink-2); letter-spacing: 0; margin-left: 6px; white-space: nowrap; }
+.price__cta { flex: 0 0 auto; }
+.price__na { font-size: 18px; font-weight: 800; color: var(--ink); }
+.price__rows { margin-top: 8px; display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); }
 .price__rows div { display: flex; justify-content: space-between; gap: 12px; }
-.price__total { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; }
-.price__total strong { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
-.price__total .lbl { font-weight: 800; color: var(--ink); }
 .price__note { margin-top: 8px; font-size: 12px; color: var(--ink-3); line-height: 1.45; }
-.price__na { font-size: 20px; font-weight: 800; color: var(--ink); }
-.summary { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: var(--surface); min-height: 120px; }
-.summary h3 { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
-.summary dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13.5px; }
-.summary dt { color: var(--ink-3); }
-.summary dd { margin: 0; color: var(--ink); }
-.posliste { margin-top: 10px; }
-.posliste summary { cursor: pointer; font-size: 13px; color: var(--accent); font-weight: 700; }
-.posliste table { width: 100%; margin-top: 8px; font-size: 13px; border-collapse: collapse; }
+.posliste { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.posliste summary { cursor: pointer; font-size: 13px; color: var(--accent); font-weight: 700; list-style: none; display: flex; align-items: center; gap: 8px; min-height: 28px; }
+.posliste summary::-webkit-details-marker { display: none; }
+.posliste summary::before { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin: -3px 2px 0 1px; transition: transform .2s ease; }
+.posliste[open] summary::before { transform: rotate(-135deg); margin-top: 3px; }
+.posliste h4 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin: 12px 0 4px; }
+.posliste table { width: 100%; font-size: 13px; border-collapse: collapse; }
 .posliste td { padding: 4px 0; border-top: 1px solid var(--line); color: var(--ink-2); }
+.posliste tr:first-child td { border-top: 0; }
 .posliste td:last-child { text-align: right; white-space: nowrap; color: var(--ink); }
+.price__zusammen, .summary dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; }
+.price__zusammen dt, .summary dt { color: var(--ink-3); }
+.price__zusammen dd, .summary dd { margin: 0; color: var(--ink); }
+.summary { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: var(--surface); }
+.summary h3 { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
 
-/* Navigation unten */
-.konf__nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; }
+/* Navigation unten (Zurück/Weiter) und feste Leiste auf dem Telefon */
+.konf__nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
+.konf__nav .btn { max-width: 100%; }
 .konf__bar {
   position: fixed; inset: auto 0 0 0; z-index: 30; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px;
   padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgba(27, 36, 48, .08);
+  height: calc(78px + env(safe-area-inset-bottom)); overflow: hidden; /* feste Höhe, kein Sprung beim Befüllen */
 }
-.konf__bar .lbl { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; }
+.konf__bar:empty { visibility: hidden; } /* vor dem Befüllen unsichtbar (kein Layout-Shift beim Start) */
+.konf__bar .lbl { font-size: 11px; line-height: 1.4; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; }
 .konf__bar .sum { font-size: 20px; font-weight: 800; color: var(--ink); line-height: 1.1; }
-.konf__bar .sub { font-size: 11px; color: var(--ink-3); }
-.lp.konf-page main { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+.konf__bar .sub { font-size: 11px; line-height: 1.4; color: var(--ink-3); }
+.lp.konf-page main { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
 
 /* Angebot */
 .angebot .form { max-width: none; }
 .angebot__summary { margin-top: 14px; }
+.angebot__grid { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: start; }
+.angebot__bild { position: relative; margin: 0 auto; max-width: 360px; }
+.angebot__bild img { display: block; width: 100%; height: auto; aspect-ratio: 896 / 1200; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+.angebot__bild figcaption { margin-top: 8px; font-size: 13px; color: var(--ink-2); text-align: center; }
+.angebot__bild .angebot__etikett { bottom: 44px; }
 
 /* Demnächst */
 .soon { text-align: center; padding: 60px 0; }
 .soon .title { font-size: clamp(30px, 7vw, 54px); }
 
-@media (min-width: 900px) {
-  .konf { padding-top: calc(var(--header-h) + 24px); }
-  .konf__layout { grid-template-columns: minmax(0, 1fr) 380px; gap: 36px; align-items: start; }
-  .konf__aside { position: sticky; top: calc(var(--header-h) + 16px); }
-  .opts { grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .opts--4 { grid-template-columns: repeat(4, 1fr); }
-  .masse { grid-template-columns: repeat(2, 1fr); }
-  .konf__bar { display: none; }
-  .lp.konf-page main { padding-bottom: 0; }
-  .konf__steps { margin: 0; padding: 0; flex-wrap: wrap; }
-}
-
-/* Vorschau-Modus (nur für angemeldete Admins, eingefügt von netlify/functions/konfigurator-vorschau.js) */
-.vorschau-banner { position: sticky; top: 0; z-index: 1000; background: #1b2430; color: #fff; font-weight: 600; font-size: 14px; line-height: 1.4; padding: 10px 16px; text-align: center; border-bottom: 3px solid #0B5ED7; }
-.vorschau-banner a { color: #8ab8ff; }
-
-/* Fotos im Konfigurator (Serie fenster-/tuer-/glas-/zusatz-): Vorschau mit Überblendung, Zusätze mit Vorschaubild */
-.preview__media { position: relative; }
-.preview__foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 10px; opacity: 1; transition: opacity .35s ease; }
-.preview__foto.is-wechsel { opacity: 0; }
-.preview.hat-foto svg { visibility: hidden; }
-.preview__masse { margin: 10px 0 0; font-size: 14px; font-weight: 700; color: var(--ink); text-align: center; min-height: 1.4em; }
-.check--bild { grid-template-columns: 22px 56px 1fr; align-items: center; }
-.check--bild img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: #fff; display: block; }
-@media (prefers-reduced-motion: reduce) { .preview__foto { transition: none; } }
-/* Abstände ohne Inline-Styles (CSP) */
-.checks--abstand { margin-top: 14px; }
-.price__note--abstand { margin-top: 10px; }
-
-/* Karten: ganzes Bild sichtbar (kein Beschnitt), weißer Hintergrund; Spiegelung für Seitenteil rechts; Angebotsschritt mit großem Bild */
-.opt img, .opt--tuer img { object-fit: contain; background: #fff; padding: 6px; box-sizing: border-box; }
-.opt--spiegel img { transform: scaleX(-1); }
-.check--bild img { object-fit: contain; background: #fff; padding: 2px; box-sizing: border-box; }
-.angebot__grid { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 20px; align-items: start; }
-.angebot__bild { margin: 0; }
-.angebot__bild img { display: block; width: 100%; height: auto; aspect-ratio: 896 / 1200; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
-.angebot__bild figcaption { margin-top: 8px; font-size: 13px; color: var(--ink-2); text-align: center; }
-@media (max-width: 899px) { .angebot__grid { grid-template-columns: 1fr; } .angebot__bild { max-width: 420px; margin: 0 auto; } }
-/* Haustür mit Seitenteil links: Foto „rechts“ spiegelbildlich (Vorschau, Angebotsbild, Karte) */
-.preview__foto.is-spiegel, .angebot__bild img.is-spiegel { transform: scaleX(-1); }
-
-/* ---------- Zusätze als Bildkarten, RAL-Etikett, Lightbox ---------- */
-.opts--zusatz { grid-template-columns: repeat(3, 1fr); }
+/* Zusätze als Bildkarten (Mehrfachauswahl), Rollladenmotor nur mit Rollladen */
 .opt--check { cursor: pointer; }
 .opt--check input[type="checkbox"] { position: absolute; top: 10px; left: 10px; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); z-index: 2; }
-.opt--check img { aspect-ratio: 1 / 1; max-height: 180px; object-fit: contain; background: #fff; padding: 10px; cursor: zoom-in; }
-.opt--check .opt__price { font-size: 13px; color: var(--ink); font-weight: 600; }
+.opt--check img { cursor: zoom-in; }
+.opt--check .opt__price { font-size: 12.5px; color: var(--ink); font-weight: 600; }
 .opt--inaktiv { opacity: .55; cursor: not-allowed; }
 .opt--inaktiv img { cursor: not-allowed; filter: grayscale(.6); }
 .opt__hinweis { display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--ink-2); background: var(--bg); border-radius: 6px; padding: 2px 8px; }
-@media (max-width: 599px) {
-  .opts--zusatz { grid-template-columns: 1fr; }
-  .opt--check { flex-direction: row; align-items: center; padding-right: 48px; }
-  .opt--check img { width: 96px; height: 96px; flex: none; padding: 6px; max-height: none; }
-  .opt--check input[type="checkbox"] { top: 50%; left: auto; right: 12px; transform: translateY(-50%); }
-  .opt--check.is-selected::after { right: 44px; }
-}
-.check--bild { grid-template-columns: 22px 72px 1fr; }
-.check--bild img { width: 72px; height: 72px; }
-.preview__etikett, .angebot__etikett { position: absolute; left: 10px; bottom: 10px; background: rgba(27, 36, 48, .86); color: #fff; font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; pointer-events: none; }
-.preview__etikett[hidden] { display: none; }
-.angebot__bild { position: relative; }
-.angebot__bild .angebot__etikett { bottom: 44px; }
+
+/* Lightbox */
 .lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(27, 36, 48, .88); display: flex; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
 .lightbox[hidden] { display: none; }
 .lightbox img { max-width: min(96vw, 900px); max-height: 90vh; width: auto; height: auto; border-radius: 12px; background: #fff; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
 .lightbox__schliessen { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: var(--ink); font-size: 22px; font-weight: 800; cursor: pointer; }
 .lightbox figcaption { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); color: #fff; font-size: 13px; background: rgba(27, 36, 48, .7); padding: 6px 12px; border-radius: 999px; max-width: 90vw; text-align: center; }
+
+/* Vorschau-Modus (nur für angemeldete Admins, eingefügt von netlify/functions/konfigurator-vorschau.js) */
+.vorschau-banner { position: sticky; top: 0; z-index: 1000; background: #1b2430; color: #fff; font-weight: 600; font-size: 14px; line-height: 1.4; padding: 10px 16px; text-align: center; border-bottom: 3px solid #0B5ED7; }
+.vorschau-banner a { color: #8ab8ff; }
+
+/* Telefon und Tablet hochkant */
+@media (max-width: 899px) {
+  .konf__nav .btn--primary { display: none; } /* „Weiter“ sitzt in der festen Leiste unten */
+  .price__kopf { display: none; } /* Preis + Weiter stehen in der festen Leiste unten */
+  .price { padding: 2px 14px; min-height: 44px; }
+  .posliste { border-top: 0; margin-top: 0; padding: 6px 0; }
+  .opts--zusatz { display: grid; grid-template-columns: 1fr; margin: 12px 0 0; padding: 0; overflow: visible; }
+  .opt--check { flex: none; flex-direction: row; align-items: center; padding-right: 48px; }
+  .opt--check img { width: 96px; height: 96px; flex: none; padding: 6px; }
+  .opt--check input[type="checkbox"] { top: 50%; left: auto; right: 12px; transform: translateY(-50%); }
+  .opt--check.is-selected::after { right: 44px; }
+}
+
+/* Desktop: links 40 % Karten (3 je Reihe), rechts 60 % große Vorschau – alles ohne Scrollen bei 1440 × 900 */
+@media (min-width: 900px) {
+  .konf { padding-top: calc(var(--header-h) + 4px); }
+  .konf__top { margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .konf__steps { display: flex; justify-content: space-between; gap: 2px; min-height: 42px; }
+  .konf__panel h2 { font-size: 28px; margin: 6px 0 0; }
+  .price { min-height: 104px; }
+  .konf__progress { display: none; }
+  .konf__layout { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); grid-template-areas: "main aside"; gap: 24px; align-items: start; }
+  .konf__panels { min-height: 320px; }
+  .konf__aside { position: sticky; top: calc(var(--header-h) + 8px); max-height: calc(100vh - var(--header-h) - 16px); overflow-y: auto; scrollbar-width: thin; }
+  .preview__media { height: calc(100vh - var(--header-h) - 282px); min-height: 300px; max-height: 760px; }
+  .opts, .opts--zusatz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0 0; padding: 0; overflow: visible; }
+  .opt { flex: none; }
+  .opt__body { padding: 5px 10px 6px; gap: 0; }
+  .opt__name { font-size: 13px; }
+  .opt__price { padding-top: 0; }
+  .opts, .opts--zusatz { margin-top: 10px; }
+  .opt__sub { -webkit-line-clamp: 1; }
+  .konf__panel .lead--sm { font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+  .opt--tuer img { height: 120px; }
+  .masse { grid-template-columns: repeat(2, 1fr); }
+  .konf__bar { display: none; }
+  .lp.konf-page main { padding-bottom: 0; }
+  .angebot__grid, .konf__hint { display: none; } /* Vorschau, Zusammenfassung und Hinweis stehen rechts in der Spalte */
+  .konf__nav { margin-top: 12px; }
+  .preview__media { height: calc(100vh - var(--header-h) - 258px); }
+}
+@media (min-width: 1280px) {
+  .konf.wrap { max-width: 1360px; }
+  .konf__layout { gap: 32px; }
+  .konf__steps button { font-size: 14.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .preview__foto, .konf__progress__bar i { transition: none; } }
