@@ -36,9 +36,22 @@
     "skontoTage": 0
   },
   "dokumente": {
-    "angebot": { "nummerStart": "AN-2026-0001", "gueltigTage": 30, "einleitung": "", "schluss": "" },
-    "auftragsbestaetigung": { "nummerStart": "AB-2026-0001", "einleitung": "", "schluss": "" },
-    "rechnung": { "nummerStart": "RE-2026-0001", "einleitung": "", "schluss": "" }
+    "angebot": {
+      "nummerStart": "AN-2026-0001",
+      "gueltigTage": 30,
+      "einleitung": "",
+      "schluss": ""
+    },
+    "auftragsbestaetigung": {
+      "nummerStart": "AB-2026-0001",
+      "einleitung": "",
+      "schluss": ""
+    },
+    "rechnung": {
+      "nummerStart": "RE-2026-0001",
+      "einleitung": "",
+      "schluss": ""
+    }
   },
   "email": {
     "anfragen": "",
@@ -65,6 +78,36 @@
   "website": {
     "wartung": false,
     "wartungText": "Wir überarbeiten gerade unsere Website und sind in Kürze wieder für Sie da. Telefonisch erreichen Sie uns wie gewohnt.",
-    "banner": { "aktiv": false, "text": "", "von": "", "bis": "" }
+    "banner": {
+      "aktiv": false,
+      "text": "",
+      "von": "",
+      "bis": ""
+    }
+  },
+  "konten": {
+    "netlify": {
+      "konto": ""
+    },
+    "github": {
+      "konto": ""
+    },
+    "brevo": {
+      "konto": ""
+    },
+    "domain": {
+      "anbieter": "IONOS",
+      "link": "https://www.ionos.de/",
+      "konto": ""
+    },
+    "google": {
+      "konto": ""
+    },
+    "technik": {
+      "name": "",
+      "email": "",
+      "telefon": ""
+    },
+    "blobsTokenAblauf": "2027-10-01"
   }
 }

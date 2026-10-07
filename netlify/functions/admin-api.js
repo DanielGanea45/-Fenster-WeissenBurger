@@ -57,7 +57,7 @@ async function lesen(aktion, q, s, event) {
       const bilder = await daten.lade("bilder");
       const protokoll = (await store.getJSON("protokoll", [])).slice(0, 8);
       const versionen = await daten.versionen(5);
-      return http.json(200, { ok: true, anfragen: { gesamt: keys.length, neuDieseWoche: neu }, bewertungenOffen: offen, bilder: Object.keys(bilder.bilder).length, veroeffentlichung: await statusAktuell(status), konfigurator: einst.konfigurator.status, steuer: Steuer.satz(einst), preislisteVersion: preise.version, protokoll, versionen, name: s.account.name, kontext: store.kontext(), kontextLabel: store.kontextLabel(), store: store.storeName(), buildHook: !!buildHookFuerKontext().hook, buildHookVariable: buildHookFuerKontext().variable, deployApi: !!(process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_BLOBS_TOKEN), mail: !!process.env.BREVO_API_KEY });
+      return http.json(200, { ok: true, anfragen: { gesamt: keys.length, neuDieseWoche: neu }, bewertungenOffen: offen, bilder: Object.keys(bilder.bilder).length, veroeffentlichung: await statusAktuell(status), konfigurator: einst.konfigurator.status, steuer: Steuer.satz(einst), blobsTokenAblauf: (einst.konten && einst.konten.blobsTokenAblauf) || "", preislisteVersion: preise.version, protokoll, versionen, name: s.account.name, kontext: store.kontext(), kontextLabel: store.kontextLabel(), store: store.storeName(), buildHook: !!buildHookFuerKontext().hook, buildHookVariable: buildHookFuerKontext().variable, deployApi: !!(process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_BLOBS_TOKEN), mail: !!process.env.BREVO_API_KEY });
     }
     case "daten": {
       const bereich = String(q.bereich || "");
@@ -76,6 +76,8 @@ async function lesen(aktion, q, s, event) {
       return http.json(200, { ok: true, anfragen: liste });
     }
     case "protokoll": return http.json(200, { ok: true, protokoll: await store.getJSON("protokoll", []) });
+    /* Technischer Status der verbundenen Dienste – ausschließlich „gesetzt ja/nein“, nie Werte */
+    case "dienste": return http.json(200, { ok: true, dienste: diensteStatus() });
     case "konto": {
       const a = s.account;
       return http.json(200, { ok: true, konto: { email: a.email, name: a.name, notify: a.notify, totp: !!(a.totp && a.totp.enabled), letzteAnmeldung: a.lastLogin || 0, erstellt: a.createdAt } });
@@ -114,6 +116,21 @@ async function deployZustand(st, holen) {
 }
 /* Build-Hook je Umgebung: Produktion → NETLIFY_BUILD_HOOK; alle anderen Kontexte ausschließlich NETLIFY_BUILD_HOOK_PREVIEW
    (Branch-Hook). Der Produktions-Hook wird außerhalb der Produktion NIE verwendet. */
+function diensteStatus() {
+  const g = (k) => !!(process.env[k] && String(process.env[k]).trim());
+  return {
+    hosting: g("SITE_ID") || g("NETLIFY_BLOBS_TOKEN") || g("NETLIFY_BUILD_HOOK"),
+    datenspeicher: g("NETLIFY_BLOBS_TOKEN"),
+    veroeffentlichung: g("NETLIFY_BUILD_HOOK"),
+    deployStatus: g("NETLIFY_API_TOKEN") || g("NETLIFY_BLOBS_TOKEN"),
+    mail: g("BREVO_API_KEY"),
+    absender: String(process.env.MAIL_FROM || "").trim(), // Absenderadresse ist keine geheime Information
+    sitzungen: g("SESSION_SECRET"),
+    admin: g("ADMIN_SETUP_TOKEN"),
+    captcha: g("FRIENDLY_CAPTCHA_SITEKEY") || g("FRC_SITEKEY"),
+    kontext: store.kontext(),
+  };
+}
 function buildHookFuerKontext() {
   const k = store.kontext();
   if (k === "production") return { hook: process.env.NETLIFY_BUILD_HOOK || "", variable: "NETLIFY_BUILD_HOOK" };
@@ -136,7 +153,7 @@ async function schreiben(body, s, event) {
       } else if (bereich === "einstellungen") {
         const alt = await daten.lade("einstellungen");
         const d = body.daten && typeof body.daten === "object" ? body.daten : {};
-        const ZWEIGE = ["konfigurator", "steuer", "firma", "bank", "dokumente", "email", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website"];
+        const ZWEIGE = ["konfigurator", "steuer", "firma", "bank", "dokumente", "email", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website", "konten"];
         const unbekannt = Object.keys(d).filter((k) => !ZWEIGE.includes(k));
         if (unbekannt.length) return http.json(400, { ok: false, error: "Unbekannter Einstellungsbereich: " + unbekannt.join(", ") });
         neu = daten.tief(alt, d);
@@ -355,4 +372,5 @@ async function veroeffentlichen(s, event, grund) {
 }
 module.exports.deployZustand = deployZustand;
 module.exports.buildHookFuerKontext = buildHookFuerKontext;
+module.exports.diensteStatus = diensteStatus;
 module.exports.statusAktuell = statusAktuell;

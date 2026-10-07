@@ -30,6 +30,7 @@
     oeffnungszeiten: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
     konfigurator: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>'),
     website: I('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
+    konten: I('<rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1.5"/>'),
   };
 
   /* Felder: p = Pfad in den Einstellungen, l = Titel, d = Beschreibung, t = Typ */
@@ -59,6 +60,7 @@
     ] },
     { id: "oeffnungszeiten", titel: "Öffnungszeiten & Einsatzgebiet", desc: "Öffnungszeiten erscheinen bei Kontakt, in der Fußzeile und in den Suchmaschinen-Daten. Regionen schalten die Einsatzgebiet-Seiten frei.", bereiche: ["oeffnungszeiten", "einsatzgebiet"], website: true, custom: "zeiten" },
     { id: "konfigurator", titel: "Konfigurator", desc: "Sichtbarkeit des Online-Konfigurators – dieselbe Einstellung wie unter „Preise & Konfigurator“.", bereiche: ["konfigurator"], website: true, custom: "konfigurator" },
+    { id: "konten", titel: "Konten & Zugänge", desc: "Alle Dienste hinter der Website mit Zuständigkeit und Status – für die Übergabe an den Inhaber. Keine Passwörter.", bereiche: ["konten"], website: false, custom: "konten" },
     { id: "website", titel: "Website", desc: "Wartungsmodus und ein optionales Ankündigungsbanner für alle Besucher.", bereiche: ["website"], website: true, karten: [
       { titel: "Wartungsmodus", felder: [{ p: "website.wartung", l: "Wartungsmodus", d: "Besucher sehen „Wir sind gleich wieder da“; der Admin bleibt erreichbar", t: "toggle" }, { p: "website.wartungText", l: "Text auf der Wartungsseite", t: "textarea" }] },
       { titel: "Ankündigung", felder: [{ p: "website.banner.aktiv", l: "Banner anzeigen", d: "Schmale Leiste unter dem Menü auf allen Seiten", t: "toggle" }, { p: "website.banner.text", l: "Text", d: "Kurz halten – ein Satz", t: "textarea" }, { p: "website.banner.von", l: "Anzeigen ab", d: "Leer = sofort", t: "date" }, { p: "website.banner.bis", l: "Anzeigen bis", d: "Leer = bis zum Ausschalten", t: "date" }] },
@@ -94,6 +96,7 @@
         <div class="set-row"><div class="set-row__text"><span class="set-row__titel">Konfigurator</span><span class="set-row__desc">Aus: unsichtbar · Vorschau: nur nach Anmeldung · Online: öffentlich mit Menüpunkt und Sitemap</span></div><div class="set-row__ctl"><div class="seg" role="radiogroup" aria-label="Konfigurator-Status" id="konf-status">${Object.entries(STATUS_LABEL).map(([k, l]) => `<button type="button" role="radio" class="seg--${k}" aria-checked="${st === k}" data-status="${k}">${l}</button>`).join("")}</div></div></div>
         <p class="set-hinweis small muted"><a href="/konfigurator/fenster/" target="_blank" rel="noopener">Fenster-Konfigurator ↗</a> · <a href="/konfigurator/haustuer/" target="_blank" rel="noopener">Haustür-Konfigurator ↗</a> · Preise unter <a href="#preise">Preise &amp; Konfigurator</a>.</p><div class="set-footer"></div></section>`;
     }
+    if (z.custom === "konten") return kopf + kontenHtml();
     if (z.custom === "zeiten") {
       const oz = E.oeffnungszeiten || {}, eg = E.einsatzgebiet || {};
       const zeile = ([k, l]) => { const z2 = String(oz[k] || ""); const [von, bis] = z2 ? z2.split("-") : ["", ""]; const zu = !z2; return `<span class="tag">${l}</span><input type="time" class="input" data-zeit="${k}" data-teil="von" value="${h(von)}" ${zu ? "disabled" : ""} aria-label="${l} von"><span class="bis">–</span><input type="time" class="input" data-zeit="${k}" data-teil="bis" value="${h(bis)}" ${zu ? "disabled" : ""} aria-label="${l} bis"><label class="zu"><input type="checkbox" data-zu="${k}" ${zu ? "checked" : ""}> geschlossen</label>`; };
@@ -107,6 +110,39 @@
     return kopf + (z.warnung ? `<div class="alert alert--warn">${h(z.warnung)}</div>` : "") + (z.hinweis ? `<div class="alert alert--info">${h(z.hinweis)}</div>` : "") + z.karten.map(karte).join("") + `<div class="set-footer" id="set-footer"></div>`;
   }
 
+  /* Dienste-Status (nur ja/nein) kommt vom Server; Konten/Kontakte sind Einstellungen */
+  let DIENSTE = null;
+  const pillStatus = (ok, label) => `<span class="pill ${ok ? "pill--ok" : "pill--err"}">${ok ? "verbunden ✓" : "fehlt ✗"}${label ? " · " + h(label) : ""}</span>`;
+  const linkBtn = (href, text) => `<a class="btn btn--xs" href="${h(href)}" target="_blank" rel="noopener noreferrer">${h(text)} ↗</a>`;
+  function dienstKarte(o) {
+    return `<section class="card set-card dienst"><div class="dienst__kopf"><h2>${h(o.titel)}</h2>${o.status === undefined ? "" : pillStatus(o.status, o.statusLabel)}</div>
+      <p class="set-hinweis small muted">${h(o.text)}</p>
+      <div class="row dienst__links">${o.links.map((l) => linkBtn(l[0], l[1])).join("")}</div>
+      ${o.felder.map(feld).join("")}</section>`;
+  }
+  function kontenHtml() {
+    const d = DIENSTE || {};
+    const k = E.konten || {};
+    const t = PV.tageBis(k.blobsTokenAblauf);
+    const ablauf = t === null ? "" : t < 0 ? `<div class="alert alert--err">Der Zugriffsschlüssel für den Datenspeicher ist abgelaufen – bitte beim Hosting erneuern und das neue Datum eintragen.</div>` : t <= 30 ? `<div class="alert alert--warn">Der Zugriffsschlüssel für den Datenspeicher läuft in ${t} Tagen ab – rechtzeitig erneuern.</div>` : "";
+    return `<div class="alert alert--info">Passwörter gehören in einen Passwort-Manager, nicht hierher. Hier stehen nur Zuständigkeit, Links und der technische Status (verbunden/fehlt) – nie Schlüssel oder Werte.</div>
+    ${ablauf}
+    ${dienstKarte({ titel: "Netlify – Hosting & Veröffentlichung", status: d.hosting, statusLabel: d.veroeffentlichung ? "Veröffentlichung eingerichtet" : "Veröffentlichung fehlt", text: "Hier läuft die Website; jede Veröffentlichung erscheint unter „Deploys“. Projekt: fensterweissenburgerdaniel.", links: [["https://app.netlify.com", "Netlify"], ["https://app.netlify.com/projects/fensterweissenburgerdaniel/deploys", "Deploys"], ["https://app.netlify.com/projects/fensterweissenburgerdaniel/configuration/env", "Umgebungsvariablen"]], felder: [{ p: "konten.netlify.konto", l: "Konto (E-Mail)", d: "Mit dieser Adresse ist das Netlify-Konto angelegt", t: "email" }, { p: "konten.blobsTokenAblauf", l: "Zugriffsschlüssel Datenspeicher läuft ab am", d: "Erinnerung erscheint 30 Tage vorher in der Übersicht. Status: " + (d.datenspeicher ? "verbunden" : "fehlt"), t: "date" }] })}
+    ${dienstKarte({ titel: "GitHub – Quellcode", text: "Hier liegt der Code der Website; Änderungen werden über Pull Requests veröffentlicht.", links: [["https://github.com/DanielGanea45/-Fenster-WeissenBurger", "Repository"], ["https://github.com/DanielGanea45/-Fenster-WeissenBurger/pulls", "Pull Requests"]], felder: [{ p: "konten.github.konto", l: "Konto", d: "GitHub-Benutzername oder E-Mail" }] })}
+    ${dienstKarte({ titel: "Brevo – E-Mail-Versand", status: d.mail, statusLabel: d.absender ? "Absender " + d.absender : "", text: "Versendet Benachrichtigungen zu Anfragen und Bewertungen, „Passwort vergessen“ und künftig Dokumente.", links: [["https://app.brevo.com", "Brevo"]], felder: [{ p: "konten.brevo.konto", l: "Konto (E-Mail)", t: "email" }] })}
+    ${dienstKarte({ titel: "Domain / E-Mail-Postfach", text: "Registrar der Domain fenster-weissenburger.de und des E-Mail-Postfachs. Nur A- und www-Einträge zeigen auf Netlify. MX-Einträge (E-Mail) niemals ändern.", links: k.domain && k.domain.link ? [[k.domain.link, k.domain.anbieter || "Anbieter"]] : [], felder: [{ p: "konten.domain.anbieter", l: "Anbieter", d: "z. B. IONOS oder Strato" }, { p: "konten.domain.link", l: "Link zur Verwaltung", t: "url" }, { p: "konten.domain.konto", l: "Konto" }] })}
+    ${dienstKarte({ titel: "Google Search Console & Unternehmensprofil", text: "Sichtbarkeit in der Google-Suche und der Eintrag mit Bewertungen, Öffnungszeiten und Fotos.", links: [["https://search.google.com/search-console", "Search Console"], ["https://business.google.com", "Unternehmensprofil"]], felder: [{ p: "konten.google.konto", l: "Konto (Google-Adresse)", t: "email" }] })}
+    ${dienstKarte({ titel: "Ansprechpartner Technik", text: "Wer bei technischen Fragen zur Website hilft.", links: [], felder: [{ p: "konten.technik.name", l: "Name" }, { p: "konten.technik.email", l: "E-Mail", t: "email" }, { p: "konten.technik.telefon", l: "Telefon", t: "tel" }] })}
+    <section class="card set-card"><h2>Technischer Status</h2>
+      <div class="set-row"><div class="set-row__text"><span class="set-row__titel">Datenspeicher</span><span class="set-row__desc">Admin-Daten (Preise, Texte, Einstellungen) im Hosting</span></div><div class="set-row__ctl">${pillStatus(d.datenspeicher)}</div></div>
+      <div class="set-row"><div class="set-row__text"><span class="set-row__titel">Automatische Veröffentlichung</span><span class="set-row__desc">Website wird nach dem Speichern neu gebaut</span></div><div class="set-row__ctl">${pillStatus(d.veroeffentlichung)}</div></div>
+      <div class="set-row"><div class="set-row__text"><span class="set-row__titel">Veröffentlichungs-Status</span><span class="set-row__desc">Rückmeldung „veröffentlicht“ nach jedem Build</span></div><div class="set-row__ctl">${pillStatus(d.deployStatus)}</div></div>
+      <div class="set-row"><div class="set-row__text"><span class="set-row__titel">E-Mail-Versand</span><span class="set-row__desc">Benachrichtigungen und Passwort-Links</span></div><div class="set-row__ctl">${pillStatus(d.mail)}</div></div>
+      <div class="set-row"><div class="set-row__text"><span class="set-row__titel">Anmeldung</span><span class="set-row__desc">Sitzungen und Einrichtungsschlüssel des Admins</span></div><div class="set-row__ctl">${pillStatus(d.sitzungen && d.admin)}</div></div>
+      <div class="set-row"><div class="set-row__text"><span class="set-row__titel">Spam-Schutz (Captcha)</span><span class="set-row__desc">Optional; derzeit ${d.captcha ? "aktiv" : "nicht eingerichtet"}</span></div><div class="set-row__ctl"><span class="pill">${d.captcha ? "aktiv" : "aus"}</span></div></div>
+    </section>
+    <div class="set-footer" id="set-footer"></div>`;
+  }
   function istDirty(z) { return z.bereiche.some((b) => JSON.stringify(E[b]) !== JSON.stringify(O[b])); }
   function footerHtml(z) {
     if (z.custom === "steuer" || z.custom === "konfigurator") return "";
@@ -176,8 +212,9 @@
   }
 
   A.VIEWS.einstellungen = async (main, sub) => {
-    const [de, ds] = await Promise.all([api.get("daten", { bereich: "einstellungen" }), api.get("status")]);
+    const [de, ds, dd] = await Promise.all([api.get("daten", { bereich: "einstellungen" }), api.get("status"), api.get("dienste")]);
     if (!de.ok) throw new Error(de.error);
+    DIENSTE = dd && dd.ok ? dd.dienste : {};
     O = klon(de.daten); E = klon(de.daten); S.einst = klon(de.daten); S.pub = ds.veroeffentlichung; fehler = {};
     MAIN = main; zeichne(sub);
   };
