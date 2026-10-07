@@ -14,6 +14,7 @@ const daten = require("./_lib/daten");
 const validate = require("./_lib/validate");
 const mail = require("./_lib/mail");
 const Preis = require(path.join(__dirname, "..", "..", "js", "preis.js"));
+const Steuer = require(path.join(__dirname, "..", "..", "js", "steuer.js"));
 
 const WOCHE = 7 * 86400000;
 const MAX_BILD_BYTES = 2.5 * 1024 * 1024;
@@ -56,7 +57,7 @@ async function lesen(aktion, q, s, event) {
       const bilder = await daten.lade("bilder");
       const protokoll = (await store.getJSON("protokoll", [])).slice(0, 8);
       const versionen = await daten.versionen(5);
-      return http.json(200, { ok: true, anfragen: { gesamt: keys.length, neuDieseWoche: neu }, bewertungenOffen: offen, bilder: Object.keys(bilder.bilder).length, veroeffentlichung: await statusAktuell(status), konfigurator: einst.konfigurator.status, preislisteVersion: preise.version, protokoll, versionen, name: s.account.name, kontext: store.kontext(), kontextLabel: store.kontextLabel(), store: store.storeName(), buildHook: !!buildHookFuerKontext().hook, buildHookVariable: buildHookFuerKontext().variable, deployApi: !!(process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_BLOBS_TOKEN), mail: !!process.env.BREVO_API_KEY });
+      return http.json(200, { ok: true, anfragen: { gesamt: keys.length, neuDieseWoche: neu }, bewertungenOffen: offen, bilder: Object.keys(bilder.bilder).length, veroeffentlichung: await statusAktuell(status), konfigurator: einst.konfigurator.status, steuer: Steuer.satz(einst), preislisteVersion: preise.version, protokoll, versionen, name: s.account.name, kontext: store.kontext(), kontextLabel: store.kontextLabel(), store: store.storeName(), buildHook: !!buildHookFuerKontext().hook, buildHookVariable: buildHookFuerKontext().variable, deployApi: !!(process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_BLOBS_TOKEN), mail: !!process.env.BREVO_API_KEY });
     }
     case "daten": {
       const bereich = String(q.bereich || "");
@@ -134,8 +135,13 @@ async function schreiben(body, s, event) {
         fehler = validate.validierePreise(neu);
       } else if (bereich === "einstellungen") {
         const alt = await daten.lade("einstellungen");
-        neu = { konfigurator: { status: body.daten && body.daten.konfigurator && body.daten.konfigurator.status } };
+        const d = body.daten || {};
+        neu = {
+          konfigurator: { status: d.konfigurator && d.konfigurator.status !== undefined ? d.konfigurator.status : alt.konfigurator.status },
+          steuer: { satzProzent: d.steuer && d.steuer.satzProzent !== undefined ? d.steuer.satzProzent : Steuer.satz(alt) },
+        };
         fehler = validate.validiereEinstellungen(neu);
+        if (!fehler.length && neu.steuer.satzProzent !== Steuer.satz(alt) && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: Steuer.texte(neu.steuer.satzProzent).bestaetigung });
         if (!fehler.length && neu.konfigurator.status === "online" && alt.konfigurator.status !== "online" && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: "Der Konfigurator wird damit öffentlich sichtbar (Menü, Sitemap, Suchmaschinen). Bitte bestätigen." });
       } else if (bereich === "texte") {
         const reg = daten.repoDatei("texte");
@@ -240,8 +246,9 @@ async function schreiben(body, s, event) {
       const liste = body.preise && typeof body.preise === "object" ? body.preise : await daten.lade("preise");
       const vf = validate.validierePreise(liste);
       if (vf.length) return http.json(422, { ok: false, error: "Preisliste ungültig.", fehler: vf });
-      const r = Preis.berechne(body.konfiguration || {}, liste);
-      return http.json(200, { ok: true, ergebnis: r, text: r.ok ? Preis.euro(r.brutto) : null });
+      const satz = Steuer.satz(await daten.lade("einstellungen"));
+      const r = Preis.berechne(body.konfiguration || {}, liste, satz);
+      return http.json(200, { ok: true, ergebnis: r, steuerProzent: satz, text: r.ok ? Steuer.preisMitZusatz(Preis.euro(r.endpreis), satz) : null });
     }
     case "anfrage-status": {
       const k = "anfragen/" + String(body.id || "").replace(/[^a-z0-9-]/gi, "");

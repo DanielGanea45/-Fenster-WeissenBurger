@@ -7,6 +7,9 @@
   var root = document.getElementById("konf");
   if (!root || !window.FWPreis) return;
   var Preis = window.FWPreis;
+  var Steuer = window.FWSteuer;
+  var SATZ = Steuer ? Steuer.satz({ steuer: { satzProzent: Number(root.getAttribute("data-steuer")) } }) : 0; // aus data/einstellungen.json (Build)
+  var ST = Steuer ? Steuer.texte(SATZ) : { kurz: "", lang: "", summeLabel: "Summe", steuerLabel: null };
   var produkt = root.getAttribute("data-produkt") === "haustuer" ? "haustuer" : "fenster";
   var IMG = "/assets/konfigurator/";
   var liste = null, listeOk = false;
@@ -52,13 +55,13 @@
     return '<img src="' + IMG + bild + "-" + groessen[0] + '.webp" srcset="' + groessen.map(function (g) { return IMG + bild + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="' + sizes + '" width="400" height="' + h + '" alt="' + esc(alt) + '" loading="' + (eager ? "eager" : "lazy") + '"' + (eager ? ' fetchpriority="high"' : "") + ' decoding="async">';
   }
   function L() { return liste && (produkt === "fenster" ? liste.fenster : liste.haustuer); }
-  function calc(cfg) { return listeOk ? Preis.berechne(cfg || state, liste) : { ok: false, fehler: ["preisliste"] }; }
+  function calc(cfg) { return listeOk ? Preis.berechne(cfg || state, liste, SATZ) : { ok: false, fehler: ["preisliste"] }; }
   function deltaText(key, value) {
     /* Preisunterschied dieser Option zur aktuellen Auswahl (für die Karten) */
     if (!listeOk) return "";
     var a = calc(), b = calc(Object.assign({}, state, (function () { var o = {}; o[key] = value; return o; })()));
     if (!a.ok || !b.ok) return "";
-    var d = b.brutto - a.brutto;
+    var d = b.endpreis - a.endpreis;
     if (d === 0) return "inklusive";
     return (d > 0 ? "+ " : "− ") + fmtEuro(Math.abs(d));
   }
@@ -187,9 +190,8 @@
       html = '<h2>Angebot <em>anfordern.</em></h2><p class="lead lead--sm">Wir prüfen Ihre Konfiguration, nehmen das Aufmaß kostenlos vor Ort und schicken Ihnen ein verbindliches Angebot.</p>' +
         '<div class="angebot__grid">' + angebotBildHtml() +
         '<div class="angebot__summary summary"><h3>Ihre Konfiguration</h3><dl>' + summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("") + "</dl>" +
-        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.brutto) + "</strong> inkl. " + r2.mwstProzent + " % MwSt. (unverbindlich)</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + "</div></div>";
+        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.endpreis) + "</strong> · " + esc(ST.kurz) + " (unverbindlich)</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + "</div></div>";
     }
-    html += '<p class="konf__hint">Abbildungen beispielhaft. Alle Preise unverbindliche Richtpreise inkl. 19 % MwSt.; verbindlich wird es mit dem Angebot nach dem Aufmaß.</p>';
     html += '<div class="konf__nav">' + (step > 0 ? '<button type="button" class="btn btn--ghost" data-nav="-1">Zurück</button>' : "<span></span>") + (step < STEPS.length - 1 ? '<button type="button" class="btn btn--primary" data-nav="1">Weiter</button>' : "") + "</div>";
     els.panels.innerHTML = '<section class="konf__panel is-active">' + html + "</section>";
     Array.prototype.forEach.call(els.panels.querySelectorAll(".opt__swatch[data-hex]"), function (sw) { sw.style.background = sw.getAttribute("data-hex"); }); // CSSOM statt Inline-Style (CSP)
@@ -286,16 +288,16 @@
           '<p class="price__note">' + (r.fehler[0] === "preisliste" ? "Die Preisliste ist derzeit nicht verfügbar. Wir erstellen Ihnen gern ein individuelles Angebot." : "Bitte prüfen Sie die Maße – außerhalb des konfigurierbaren Bereichs erstellen wir ein individuelles Angebot.") + "</p>" +
           '<details class="posliste"' + (offen ? " open" : "") + "><summary>Einzelpositionen anzeigen</summary>" + zusammen + "</details>";
       } else {
-        els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">' + fmtEuro(r.brutto) + "<small>inkl. " + r.mwstProzent + " % MwSt.</small></strong></div>" + cta + "</div>" +
+        els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">' + fmtEuro(r.endpreis) + "<small>" + esc(ST.kurz) + "</small></strong></div>" + cta + "</div>" +
           '<details class="posliste"' + (offen ? " open" : "") + '><summary>Einzelpositionen anzeigen</summary><div class="price__rows">' +
-          "<div><span>Preis ohne Online-Rabatt</span><span>" + fmtEuro(r.ohneRabattBrutto) + "</span></div>" +
-          "<div><span>Online-Rabatt −" + r.rabattProzent + " %</span><span>− " + fmtEuro(r.ersparnisBrutto) + "</span></div>" +
-          (r.montage ? "<div><span>darin Montage" + (state.demontage ? " &amp; Entsorgung" : "") + "</span><span>" + fmtEuro(r.montage + Preis.rund(r.montage * r.mwstProzent / 100)) + "</span></div>" : "") +
+          "<div><span>Preis ohne Online-Rabatt</span><span>" + fmtEuro(r.ohneRabatt) + "</span></div>" +
+          "<div><span>Online-Rabatt −" + r.rabattProzent + " %</span><span>− " + fmtEuro(r.ersparnis) + "</span></div>" +
+          (r.montage ? "<div><span>darin Montage" + (state.demontage ? " &amp; Entsorgung" : "") + "</span><span>" + fmtEuro(r.montage + Preis.rund(r.montage * r.steuerProzent / 100)) + "</span></div>" : "") +
           "</div><h4>Einzelpositionen</h4><table><tbody>" + r.positionen.map(function (p) { return "<tr><td>" + esc(p.name) + (p.detail ? " <small>(" + esc(p.detail) + ")</small>" : "") + "</td><td>" + fmtEuro(p.betrag) + "</td></tr>"; }).join("") +
           (state.menge > 1 ? "<tr><td>× " + state.menge + " Elemente</td><td>" + fmtEuro(r.produkt) + "</td></tr>" : "") +
           "<tr><td>Online-Rabatt " + r.rabattProzent + " %</td><td>− " + fmtEuro(r.rabatt) + "</td></tr>" + (r.montage ? "<tr><td>Montage" + (state.demontage ? " + Demontage/Entsorgung" : "") + "</td><td>" + fmtEuro(r.montage) + "</td></tr>" : "") +
-          "<tr><td>Netto</td><td>" + fmtEuro(r.netto) + "</td></tr><tr><td>MwSt. " + r.mwstProzent + " %</td><td>" + fmtEuro(r.mwst) + "</td></tr></tbody></table>" + zusammen +
-          '<p class="price__note">Unverbindlicher Richtpreis' + (state.menge > 1 ? " für " + state.menge + " Elemente" : "") + " · Preisliste " + esc(r.version) + "</p></details>";
+          "<tr><td>" + esc(ST.summeLabel) + "</td><td>" + fmtEuro(r.summe) + "</td></tr>" + (ST.steuerLabel ? "<tr><td>" + esc(ST.steuerLabel) + "</td><td>" + fmtEuro(r.steuer) + "</td></tr>" : "") + "</tbody></table>" + zusammen +
+          '<p class="price__note">' + esc(ST.lang) + " Unverbindlicher Richtpreis" + (state.menge > 1 ? " für " + state.menge + " Elemente" : "") + " · Preisliste " + esc(r.version) + "</p></details>";
       }
     }
     if (els.summary) els.summary.innerHTML = summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("");
@@ -303,7 +305,7 @@
   function renderBar() {
     if (!els.bar) return;
     var r = calc();
-    els.bar.innerHTML = "<div><div class=\"lbl\">Ihr Preis</div><div class=\"sum\">" + (r.ok ? fmtEuro(r.brutto) : "auf Anfrage") + "</div><div class=\"sub\">" + (r.ok ? "inkl. MwSt. · Richtpreis" : "Maße prüfen") + "</div></div>" +
+    els.bar.innerHTML = "<div><div class=\"lbl\">Ihr Preis</div><div class=\"sum\">" + (r.ok ? fmtEuro(r.endpreis) : "auf Anfrage") + "</div><div class=\"sub\">" + (r.ok ? esc(ST.kurz) + " · Richtpreis" : "Maße prüfen") + "</div></div>" +
       (step < STEPS.length - 1 ? "<button type=\"button\" class=\"btn btn--primary\" data-nav=\"1\">Weiter</button>" : "<a class=\"btn btn--primary\" href=\"#angebot-form\">Angebot anfordern</a>");
   }
   function updateForm() {
@@ -311,9 +313,9 @@
     var r = calc();
     var set = function (n, v) { var el = els.form.querySelector("input[name='" + n + "']"); if (el) el.value = v; };
     set("konfiguration", JSON.stringify(state));
-    set("preis_brutto_browser", r.ok ? String(r.brutto) : "");
+    set("preis_browser", r.ok ? String(r.endpreis) : "");
     set("preisliste_version", liste ? String(liste.version || "") : "");
-    set("zusammenfassung", summaryRows().map(function (x) { return x[0] + ": " + x[1]; }).join(" | ") + (r.ok ? " | Richtpreis " + fmtEuro(r.brutto) : " | Preis auf Anfrage"));
+    set("zusammenfassung", summaryRows().map(function (x) { return x[0] + ": " + x[1]; }).join(" | ") + (r.ok ? " | Richtpreis " + fmtEuro(r.endpreis) + " · " + ST.kurz : " | Preis auf Anfrage"));
   }
 
   /* ---------- Zeichnungen (SVG) ---------- */

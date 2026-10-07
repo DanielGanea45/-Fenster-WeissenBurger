@@ -7,5 +7,9 @@
       "vorschau": "Konfigurator unter /konfigurator/fenster/ und /konfigurator/haustuer/ erreichbar (für den Kunden zum Testen), aber noindex, kein Menüpunkt, nicht in der Sitemap.",
       "online": "Konfigurator öffentlich: Menüpunkt, Links auf Produktseiten, Sitemap, indexierbar."
     }
+  },
+  "steuer": {
+    "satzProzent": 0,
+    "hinweis": "0 = Kleinunternehmer nach § 19 UStG (kein Steuerausweis, Endpreis = Summe), 19 = Regelbesteuerung. Umschalten im Admin unter „Steuer“ – alle Texte dazu stehen ausschließlich in js/steuer.js. Bereits erstellte Vorgänge behalten ihren Satz."
   }
 }

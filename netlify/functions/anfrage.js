@@ -16,6 +16,7 @@ const ALLOWED_FORMS = ["kontakt", "anfrage-leistungen", "anfrage-produkte", "anf
 const path = require("path");
 const fs = require("fs");
 const Preis = require("../../js/preis.js");
+const Steuer = require("../../js/steuer.js");
 const store = require("./_lib/store");
 const mail = require("./_lib/mail");
 const crypto = require("crypto");
@@ -26,6 +27,10 @@ function preisliste() {
   PREISLISTE = JSON.parse(fs.readFileSync(p, "utf8"));
   return PREISLISTE;
 }
+/* Steuersatz zum Zeitpunkt der Anfrage (data/einstellungen.json wird im Build aus dem Admin-Speicher geschrieben) */
+function steuersatz() {
+  try { return Steuer.satz(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "..", "data", "einstellungen.json"), "utf8"))); } catch (e) { return Steuer.STANDARD; }
+}
 /* Konfigurator-Anfrage: Konfiguration prüfen, Preis NEU berechnen (dem Browser wird nicht vertraut),
    Ergebnis + Preislistenversion als Felder an Netlify Forms übergeben. */
 function konfiguratorNachrechnen(fields) {
@@ -34,25 +39,26 @@ function konfiguratorNachrechnen(fields) {
   if (!cfg || typeof cfg !== "object") return { ok: false, reason: "konfiguration" };
   let liste;
   try { liste = preisliste(); } catch (e) { return { ok: false, reason: "preisliste" }; }
-  const r = Preis.berechne(cfg, liste);
+  const satz = steuersatz();
+  const r = Preis.berechne(cfg, liste, satz);
   const out = {};
   out.konfiguration = JSON.stringify(cfg);
   out.preisliste_version = String(liste.version || "");
-  out.preis_browser_brutto = String(fields.preis_brutto_browser || "");
+  out.steuersatz_prozent = String(satz);
+  out.preis_browser = String(fields.preis_browser || "");
   if (r.ok) {
-    out.preis_server_brutto = String(r.brutto);
-    out.preis_server_netto = String(r.netto);
-    out.preis_server_text = Preis.euro(r.brutto) + " inkl. " + r.mwstProzent + " % MwSt. (Richtpreis, Liste " + liste.version + ")";
-    out.preis_abweichung = String(fields.preis_brutto_browser || "") === String(r.brutto) ? "nein" : "JA – Browserpreis weicht ab";
+    out.preis_server = String(r.endpreis);
+    out.preis_server_text = Steuer.preisMitZusatz(Preis.euro(r.endpreis), satz) + " (Richtpreis, Liste " + liste.version + ")";
+    out.preis_abweichung = String(fields.preis_browser || "") === String(r.endpreis) ? "nein" : "JA – Browserpreis weicht ab";
     out.positionen = r.positionen.map((p) => p.name + ": " + Preis.euro(p.betrag)).join(" | ");
   } else {
-    out.preis_server_brutto = "";
+    out.preis_server = "";
     out.preis_server_text = "Preis auf Anfrage (" + r.fehler.join(", ") + ")";
     out.preis_abweichung = "n/a";
   }
   return { ok: true, felder: out };
 }
-const INTERNAL_FIELDS = ["ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name", "preis_brutto_browser"];
+const INTERNAL_FIELDS = ["ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name", "preis_browser"];
 const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
 function json(statusCode, body) {
@@ -109,8 +115,9 @@ async function fuerAdminAblegen(formName, fields, event) {
   const eintrag = { id, formular: formName, eingegangen: Date.now(), felder: sauber };
   if (formName === "angebot-konfigurator") {
     try { eintrag.konfiguration = JSON.parse(sauber.konfiguration || "{}"); } catch (e) { eintrag.konfiguration = null; }
-    eintrag.preisServerBrutto = Number(sauber.preis_server_brutto) || null;
-    eintrag.preisBrowserBrutto = Number(sauber.preis_browser_brutto) || null;
+    eintrag.preisServer = Number(sauber.preis_server) || null;
+    eintrag.preisBrowser = Number(sauber.preis_browser) || null;
+    eintrag.steuerProzent = Number(sauber.steuersatz_prozent); // Steuerstatus zum Zeitpunkt der Anfrage bleibt erhalten
     eintrag.abweichung = sauber.preis_abweichung || "";
     eintrag.preislisteVersion = sauber.preisliste_version || "";
   }

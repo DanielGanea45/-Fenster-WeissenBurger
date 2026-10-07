@@ -5,7 +5,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const root = path.join(__dirname, "..");
+const root = process.env.FW_ROOT ? path.resolve(process.env.FW_ROOT) : path.join(__dirname, ".."); // FW_ROOT: Tests bauen in einer Kopie
 const SITE = "https://fenster-weissenburger.de";
 const TODAY = "2026-10-07";
 const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
@@ -13,6 +13,9 @@ const status = (einst.konfigurator && einst.konfigurator.status) || "aus";
 if (!["aus", "vorschau", "online"].includes(status)) throw new Error("Ungültiger konfigurator.status: " + status);
 const preise = JSON.parse(fs.readFileSync(path.join(root, "data/preise.json"), "utf8"));
 const Preis = require(path.join(root, "js/preis.js"));
+const Steuer = require(path.join(root, "js/steuer.js"));
+const SATZ = Steuer.satz(einst);
+const ST = Steuer.texte(SATZ);
 const listeOk = Preis.validiereListe(preise).ok;
 
 const indexHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
@@ -25,8 +28,8 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 const linkHidden = status === "online" ? "" : " hidden";
 
 const PAGES = {
-  fenster: { url: "/konfigurator/fenster/", title: "Fenster-Konfigurator: Preis online berechnen | Fenster-WeissenBurger", h1: "Fenster <em>konfigurieren</em> und Richtpreis sehen", desc: "Kunststoff-, Kunststoff-Aluminium- oder Aluminiumfenster online zusammenstellen: Profil, Typ, Maße, Farbe, Glas, Sprossen, Rollladen, Zusätze – mit sofortigem Richtpreis inkl. Montage.", intro: "Stellen Sie Ihr Fenster in acht Schritten zusammen. Der Richtpreis rechnet live mit – inklusive Montage, Demontage und 19 % MwSt. Verbindlich wird es nach dem kostenlosen Aufmaß.", other: { url: "/konfigurator/haustuer/", label: "Haustür konfigurieren" }, breadcrumb: "Fenster-Konfigurator" },
-  haustuer: { url: "/konfigurator/haustuer/", title: "Haustür-Konfigurator: Preis online berechnen | Fenster-WeissenBurger", h1: "Haustür <em>konfigurieren</em> und Richtpreis sehen", desc: "Haustür online zusammenstellen: Modell, Maße, Farbe, Glas, Seitenteil, Sicherheit und Komfort – mit sofortigem Richtpreis inkl. Montage und Entsorgung der alten Tür.", intro: "Wählen Sie Modell, Maße und Ausstattung Ihrer Haustür. Der Richtpreis rechnet live mit – inklusive Montage und 19 % MwSt. Verbindlich wird es nach dem kostenlosen Aufmaß.", other: { url: "/konfigurator/fenster/", label: "Fenster konfigurieren" }, breadcrumb: "Haustür-Konfigurator" },
+  fenster: { url: "/konfigurator/fenster/", title: "Fenster-Konfigurator: Preis online berechnen | Fenster-WeissenBurger", h1: "Fenster <em>konfigurieren</em> und Richtpreis sehen", desc: "Kunststoff-, Kunststoff-Aluminium- oder Aluminiumfenster online zusammenstellen: Profil, Typ, Maße, Farbe, Glas, Sprossen, Rollladen, Zusätze – mit sofortigem Richtpreis samt Montage.", intro: "Stellen Sie Ihr Fenster in acht Schritten zusammen. Der Richtpreis rechnet live mit – mit Montage und Demontage. Verbindlich wird es nach dem kostenlosen Aufmaß.", other: { url: "/konfigurator/haustuer/", label: "Haustür konfigurieren" }, breadcrumb: "Fenster-Konfigurator" },
+  haustuer: { url: "/konfigurator/haustuer/", title: "Haustür-Konfigurator: Preis online berechnen | Fenster-WeissenBurger", h1: "Haustür <em>konfigurieren</em> und Richtpreis sehen", desc: "Haustür online zusammenstellen: Modell, Maße, Farbe, Glas, Seitenteil, Sicherheit und Komfort – mit sofortigem Richtpreis samt Montage und Entsorgung der alten Tür.", intro: "Wählen Sie Modell, Maße und Ausstattung Ihrer Haustür. Der Richtpreis rechnet live mit – mit Montage. Verbindlich wird es nach dem kostenlosen Aufmaß.", other: { url: "/konfigurator/fenster/", label: "Fenster konfigurieren" }, breadcrumb: "Haustür-Konfigurator" },
 };
 
 function header(current) {
@@ -142,13 +145,13 @@ function pageSoon(key) {
 function pageKonf(key) {
   const p = PAGES[key];
   const noindex = status !== "online";
-  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/konfigurator-bilder.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=3" defer></script>`;
+  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/steuer.js?v=1" defer></script>\n  <script src="/js/konfigurator-bilder.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=3" defer></script>`;
   return `${head(p, noindex, scripts)}
 <body class="page lp pp konf-page">
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   ${header(key)}
   <main id="inhalt">
-    <section class="konf wrap" id="konf" data-produkt="${key}" aria-labelledby="h1">
+    <section class="konf wrap" id="konf" data-produkt="${key}" data-steuer="${SATZ}" aria-labelledby="h1">
       <div class="konf__top">
         <ol class="konf__steps" aria-label="Schritte"></ol>
         <p class="konf__progress"><span class="konf__progress__txt">Schritt 1 von ${key === "fenster" ? 9 : 7}</span><span class="konf__progress__bar" aria-hidden="true"><i></i></span></p>
@@ -160,6 +163,7 @@ function pageKonf(key) {
             <nav class="crumbs crumbs--konf" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/produkte/">Produkte</a></li><li aria-current="page">${esc(p.breadcrumb)}</li></ol></nav>
           </div>
           <div class="konf__panels" aria-live="polite"></div>
+          <p class="konf__hint">Abbildungen beispielhaft. Alle Preise unverbindliche Richtpreise – ${esc(ST.lang)} Verbindlich wird es mit dem Angebot nach dem Aufmaß.</p>
 
           <section class="angebot" id="angebot-form" aria-label="Angebot anfordern">
             <form class="form" name="angebot-konfigurator" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate hidden>
@@ -167,7 +171,7 @@ function pageKonf(key) {
               <input type="hidden" name="produkt" value="${key}">
               <input type="hidden" name="konfiguration" value="">
               <input type="hidden" name="zusammenfassung" value="">
-              <input type="hidden" name="preis_brutto_browser" value="">
+              <input type="hidden" name="preis_browser" value="">
               <input type="hidden" name="preisliste_version" value="">
               <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
               <div class="form__grid">
@@ -185,7 +189,7 @@ function pageKonf(key) {
               </div>
               <p class="form__error" role="alert" hidden>Bitte füllen Sie alle Pflichtfelder (*) aus.</p>
               <button class="btn btn--primary btn--block" type="submit">Angebot anfordern</button>
-              <p class="konf__hint">Mit der Anfrage wird Ihre Konfiguration samt Richtpreis an uns übermittelt; der Preis wird serverseitig neu berechnet. Es entsteht kein Kaufvertrag.</p>
+              <p class="konf__hint">Mit der Anfrage wird Ihre Konfiguration samt Richtpreis an uns übermittelt; der Preis wird serverseitig neu berechnet (${esc(ST.kurz)}). Es entsteht kein Kaufvertrag.</p>
             </form>
           </section>
         </div>

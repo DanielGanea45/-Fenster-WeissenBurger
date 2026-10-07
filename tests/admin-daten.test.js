@@ -45,7 +45,6 @@ test("Negative Preise, leere Felder, absurde Prozente, min > max werden je Feld 
   const p = repoPreise();
   p.fenster.systeme["koemmerling-70"].preisProM2 = -5;
   p.fenster.grenzen.breiteMinMm = 3000; // > max 2500
-  p.mwstProzent = 95;
   p.haustuer.modelle["modern-voll"].grundpreis = "";
   p.fenster.farben.anthrazit.zuschlagProzent = 400;
   p.onlineRabattProzent = -1;
@@ -53,7 +52,6 @@ test("Negative Preise, leere Felder, absurde Prozente, min > max werden je Feld 
   const felder = f.map((x) => x.feld);
   assert.ok(felder.includes("fenster.systeme.koemmerling-70.preisProM2"));
   assert.ok(felder.includes("fenster.grenzen.breiteMaxMm"));
-  assert.ok(felder.includes("mwstProzent"));
   assert.ok(felder.includes("haustuer.modelle.modern-voll.grundpreis"));
   assert.ok(felder.includes("fenster.farben.anthrazit.zuschlagProzent"));
   assert.ok(felder.includes("onlineRabattProzent"));
@@ -84,7 +82,7 @@ test("Gültige Preise werden gespeichert, Version mit Diff angelegt, Rechner nut
   const cfg = { produkt: "fenster", system: "koemmerling-70", typ: "1-fluegelig", breiteMm: 1000, hoeheMm: 1000, farbe: "weiss", glas: "2-fach", menge: 1 };
   const rr = await apiFn.handler(ev("POST", { aktion: "rechnen", konfiguration: cfg }));
   assert.equal(parse(rr).ergebnis.positionen[0].betrag, 33300);
-  assert.equal(parse(rr).ergebnis.brutto, Preis.berechne(cfg, p).brutto);
+  assert.equal(parse(rr).ergebnis.endpreis, Preis.berechne(cfg, p, 0).endpreis);
 });
 
 /* ---------- Konfigurator-Schalter ---------- */
@@ -207,11 +205,11 @@ test("Build: alle Schritte bestehen ⇒ Status „veröffentlicht“, Admin-Date
 });
 test("Build: ungültige Preisliste im Store ⇒ Abbruch vor den Tests", async () => {
   const tmp = seitenAbbild();
-  const p = repoPreise(); p.mwstProzent = 99;
+  const p = repoPreise(); p.onlineRabattProzent = 99;
   await store.setJSON("daten/preise", p);
   const r = await build.lauf({ root: tmp, mitStore: true, still: true, ohneMail: true, log: () => {}, schritte: [] });
   assert.equal(r.ok, false);
-  assert.match(r.fehler, /mwstProzent/);
+  assert.match(r.fehler, /onlineRabattProzent/);
   await store.setJSON("daten/preise", repoPreise());
 });
 
