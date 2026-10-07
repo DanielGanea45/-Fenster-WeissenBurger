@@ -290,6 +290,7 @@ ul, ol { padding: 0; list-style: none; }
   .nav--top a:hover { color: #fff; }
   .nav--top a[aria-current="page"] { color: #fff; }
   .nav--top a[aria-current="page"]::after { transform: scaleX(1); }
+  .nav--top .nav__ext { color: var(--accent); }
   .nav--bottom { display: none; }
 
   .scene__shade {
