@@ -75,18 +75,11 @@ ul, ol { padding: 0; list-style: none; }
 .top > * { pointer-events: auto; }
 
 .brand { display: block; text-decoration: none; flex: 0 0 auto; min-width: 0; }
-.brand__box {
-  display: flex; align-items: center; gap: 9px;
-  height: 44px;
+.brand__box { display: block; height: 50px; }
+.brand__svg {
+  display: block; height: 100%; width: auto; aspect-ratio: 386 / 84; overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .45));
 }
-.brand__mark {
-  display: block; width: auto; height: 34px; aspect-ratio: 380 / 273; flex: 0 0 auto;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .4));
-}
-.brand__word {
-  font-weight: 800; font-size: 16px; letter-spacing: -0.015em; white-space: nowrap; color: #fff; line-height: 1;
-}
-.brand__word b { color: var(--accent); font-weight: 800; }
 
 .nav--top { display: none; }
 
@@ -109,9 +102,7 @@ ul, ol { padding: 0; list-style: none; }
 /* Schmale Telefone (360 px): kompakter Kopf, Name bleibt vollständig */
 @media (max-width: 419px) {
   .top { gap: 10px; padding-left: 12px; padding-right: 12px; }
-  .brand__box { gap: 7px; }
-  .brand__mark { height: 30px; }
-  .brand__word { font-size: 14.5px; letter-spacing: -0.02em; }
+  .brand__box { height: 48px; }
   .btn--call { padding: 10px 13px; font-size: 14px; }
   .btn--call svg { display: none; }
 }
@@ -283,9 +274,7 @@ ul, ol { padding: 0; list-style: none; }
     padding: 0 var(--gutter);
     background: linear-gradient(to bottom, rgba(15, 18, 21, .7), rgba(15, 18, 21, 0));
   }
-  .brand__box { height: 52px; gap: 12px; }
-  .brand__mark { height: 42px; }
-  .brand__word { font-size: 21px; }
+  .brand__box { height: 62px; }
   .nav--top {
     display: flex; gap: 6px; margin-left: auto;
   }
