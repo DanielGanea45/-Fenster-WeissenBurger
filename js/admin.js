@@ -199,7 +199,7 @@
     return NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an").map((n) => `<a href="#${n.id}" class="${n.sub ? "nav--sub" : ""}" ${aktiv === n.id ? 'aria-current="page"' : ""}>${h(n.label)}${n.badge && S[n.badge + "Badge"] ? `<span class="badge ${n.badge === "anfragen" ? "badge--grey" : ""}">${S[n.badge + "Badge"]}</span>` : ""}</a>`).join("");
   }
   function route() { const [id, sub] = (location.hash || "#uebersicht").slice(1).split("/"); return { id: TITEL[id] ? id : "uebersicht", sub }; }
-  function renderNav() { const r = route(); $("#nav-side").innerHTML = navHtml(r.id); $("#nav-drawer").innerHTML = navHtml(r.id); $$("#app .mnav a").forEach((a) => a.toggleAttribute("aria-current", a.dataset.nav === r.id) || (a.dataset.nav === r.id ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"))); $("#mhead-title").textContent = TITEL[r.id]; $("#ctx-side").textContent = S.kontext && S.kontext !== "production" ? "Umgebung: " + S.kontext : ""; }
+  function renderNav() { const r = route(); $("#nav-side").innerHTML = navHtml(r.id); $("#nav-drawer").innerHTML = navHtml(r.id); $$("#app .mnav a").forEach((a) => a.toggleAttribute("aria-current", a.dataset.nav === r.id) || (a.dataset.nav === r.id ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"))); $("#mhead-title").textContent = TITEL[r.id]; $("#ctx-side").textContent = S.kontextLabel ? "Umgebung: " + S.kontextLabel : ""; }
 
   async function starteApp() {
     zeigeApp();
@@ -229,20 +229,21 @@
   function pubHtml(p) {
     p = p || S.pub || { status: "nie" };
     const letzte = p.letzteVeroeffentlichung ? "Letzte Veröffentlichung: " + fmtDT(p.letzteVeroeffentlichung) : "Noch nicht über den Admin veröffentlicht";
-    if (p.status === "laeuft") return `<span class="pill pill--warn pill--busy">Veröffentlichung läuft …</span><span>gestartet ${fmtDT(p.start)}${p.ausloeser ? " · " + h(p.ausloeser) : ""}</span>`;
+    if (p.status === "laeuft") return `<span class="pill pill--warn pill--busy">Veröffentlichung läuft …</span><span>gestartet ${fmtDT(p.start)}${p.ausloeser ? " · " + h(p.ausloeser) : ""}</span><button type="button" class="btn btn--xs" data-pub="reset">Status zurücksetzen</button>`;
     if (p.status === "fehler") return `<span class="pill pill--err">Nicht veröffentlicht – Fehler</span><span class="strong">${h(p.fehler || "")}</span><span>Die bisherige Version bleibt online. ${letzte}</span>`;
     if (p.status === "unbekannt") return `<span class="pill pill--warn">Status unbekannt</span><span>${h(p.hinweis || "")}</span>`;
+    if (p.status === "gespeichert") return `<span class="pill pill--warn">Gespeichert – nicht veröffentlicht</span><span>${h(p.hinweis || "")}</span>`;
     if (p.status === "veroeffentlicht") return `<span class="pill pill--ok">Website online</span><span>${letzte} · Tests bestanden${p.dauerMs ? " · " + Math.round(p.dauerMs / 1000) + " s" : ""}</span>`;
     return `<span class="pill pill--ok">Website online</span><span>${letzte}</span>`;
   }
   function pubBar(extraBtn) { return `<div class="pubbar" id="pubbar">${pubHtml()}${extraBtn || ""}</div>`; }
-  async function ladeStatus() { try { const r = await api.get("status"); S.pub = r.veroeffentlichung; const el = $("#pubbar"); if (el) { const btn = $(".btn", el); el.innerHTML = pubHtml() + (btn ? btn.outerHTML : ""); } if (S.pub.status === "laeuft") startPoll(); else stopPoll(); } catch (e) { /* egal */ } }
+  async function ladeStatus() { try { const r = await api.get("status"); S.pub = r.veroeffentlichung; if (r.kontextLabel) { S.kontextLabel = r.kontextLabel; renderNav(); } const el = $("#pubbar"); if (el) { const btn = $(".btn", el); el.innerHTML = pubHtml() + (btn ? btn.outerHTML : ""); } if (S.pub.status === "laeuft") startPoll(); else stopPoll(); } catch (e) { /* egal */ } }
   function startPoll() { if (S.pollTimer) return; S.pollTimer = setInterval(async () => { const alt = S.pub && S.pub.status; await ladeStatus(); if (alt === "laeuft" && S.pub.status !== "laeuft") toast(S.pub.status === "veroeffentlicht" ? "Website veröffentlicht – alle Tests bestanden." : "Veröffentlichung fehlgeschlagen: " + (S.pub.fehler || ""), S.pub.status === "veroeffentlicht" ? "ok" : "err"); }, 8000); }
   function stopPoll() { if (S.pollTimer) { clearInterval(S.pollTimer); S.pollTimer = null; } }
   async function veroeffentlichen(grund) {
     const r = await api.post("veroeffentlichen", { grund: grund || "Manuell" });
     if (r.ok) { S.pub = r.veroeffentlichung; toast("Veröffentlichung gestartet – Tests laufen. Das dauert etwa 1–2 Minuten.", "ok"); startPoll(); }
-    else { if (r.veroeffentlichung) S.pub = r.veroeffentlichung; toast(r.error || "Veröffentlichung nicht möglich.", "err"); }
+    else { if (r.veroeffentlichung) S.pub = r.veroeffentlichung; toast(r.error || "Veröffentlichung nicht möglich.", r.uebersprungen ? "" : "err"); }
     await ladeStatus();
     return r.ok;
   }
@@ -253,6 +254,12 @@
     if (b.dataset.act === "abmelden") { e.preventDefault(); await api.auth("abmelden"); S.csrf = null; setDirty(false); location.hash = ""; zeigeAuth(); loginForm({ hinweis: "Sie wurden abgemeldet." }); }
     if (b.dataset.act === "drawer-auf") { $("#drawer").hidden = false; $("#nav-drawer a") && $("#nav-drawer a").focus(); }
     if (b.dataset.act === "drawer-zu") $("#drawer").hidden = true;
+  });
+  document.addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-pub=reset]"); if (!b) return;
+    if (!(await bestaetigen("Status zurücksetzen", "Der Eintrag „Veröffentlichung läuft“ wird verworfen. Ein laufender Netlify-Build wird dadurch nicht abgebrochen; der Status zeigt danach „unbekannt“, bis Sie erneut veröffentlichen.", "Zurücksetzen"))) return;
+    const r = await api.post("status-zuruecksetzen");
+    if (r.ok) { S.pub = r.veroeffentlichung; stopPoll(); toast("Status zurückgesetzt.", "ok"); render(); } else toast(r.error, "err");
   });
   $("#drawer").addEventListener("click", (e) => { if (e.target === $("#drawer") || e.target.closest("a")) $("#drawer").hidden = true; });
 
@@ -265,12 +272,12 @@
   VIEWS.uebersicht = async (main) => {
     const d = await api.get("uebersicht");
     if (!d.ok) throw new Error(d.error);
-    S.pub = d.veroeffentlichung; S.name = d.name; S.kontext = d.kontext; S.bewertungenBadge = d.bewertungenOffen || 0; S.anfragenBadge = d.anfragen.neuDieseWoche || 0; renderNav();
+    S.pub = d.veroeffentlichung; S.name = d.name; S.kontext = d.kontext; S.kontextLabel = d.kontextLabel; S.bewertungenBadge = d.bewertungenOffen || 0; S.anfragenBadge = d.anfragen.neuDieseWoche || 0; renderNav();
     S.hooks = { buildHook: d.buildHook, mail: d.mail };
     const letzte = d.versionen && d.versionen[0];
     const typText = (p) => ({ login: "Anmeldung", "login-fehler": "Fehlversuch", "login-gesperrt": "Zugang gesperrt", logout: "Abmeldung", gespeichert: "Gespeichert", veroeffentlichung: "Veröffentlichung", "veroeffentlichung-fehler": "Veröffentlichung fehlgeschlagen", bild: "Bild", bewertung: "Bewertung", wiederhergestellt: "Wiederhergestellt", einrichtung: "Einrichtung", "2fa": "Zwei-Faktor" }[p.typ] || p.typ);
     const warn = [];
-    if (!d.buildHook) warn.push("<b>NETLIFY_BUILD_HOOK</b> fehlt – Änderungen können gespeichert, aber nicht veröffentlicht werden.");
+    if (!d.buildHook) warn.push(d.kontext === "production" ? "<b>NETLIFY_BUILD_HOOK</b> fehlt – Änderungen können gespeichert, aber nicht veröffentlicht werden." : "Vorschau-Umgebung (" + h(d.kontextLabel) + ", Datenspeicher „" + h(d.store) + "“): „Veröffentlichen“ speichert nur – kein Build, der Produktions-Hook wird hier nie benutzt. Für Test-Builds <b>NETLIFY_BUILD_HOOK_PREVIEW</b> (Branch-Hook) setzen.");
     if (!d.mail) warn.push("<b>BREVO_API_KEY</b> fehlt – es werden keine E-Mails (Passwort vergessen, Benachrichtigungen) versendet.");
     main.innerHTML = `
       <div class="page-head"><div><h1>Guten Tag, ${h(S.name || "")}</h1><span class="muted">${S.pub.status === "fehler" ? "Die letzte Veröffentlichung ist fehlgeschlagen." : S.pub.status === "laeuft" ? "Eine Veröffentlichung läuft gerade." : "Alle Änderungen sind veröffentlicht."}</span></div>${pubHtml()}</div>
@@ -365,7 +372,7 @@
         const r = await api.post("speichern", { bereich: "bilder", daten: S.bilderAend, beschreibung: "Bildtexte", veroeffentlichen: b.dataset.b === "speichern-pub" });
         if (!r.ok) { toast(r.error + (r.fehler ? " " + r.fehler.map((f) => f.meldung).join(" ") : ""), "err"); return; }
         setDirty(false); toast("Gespeichert.", "ok");
-        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, "err"); }
+        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
         render();
       }
     });
@@ -499,7 +506,7 @@
         const r = await api.post("speichern", { bereich: "texte", daten: aend, bestaetigt, beschreibung: "Texte: " + S.texte.seiten[S.seite].titel, veroeffentlichen: b.dataset.t === "speichern-pub" });
         if (!r.ok) { toast(r.error + (r.fehler ? " " + r.fehler.map((f) => f.meldung).join(" ") : ""), "err"); return; }
         S.texteAend = {}; setDirty(false); toast(`Gespeichert (${r.version.aenderungen} Änderung(en)).`, "ok");
-        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, "err"); }
+        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
         render();
       }
     });
@@ -672,7 +679,7 @@
       S.einst.konfigurator.status = neu;
       $$("#konf-status button").forEach((x) => x.setAttribute("aria-checked", x.dataset.status === neu));
       toast("Status gespeichert: " + { aus: "Aus", vorschau: "Vorschau", online: "Online" }[neu] + ".", "ok");
-      if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, "err"); }
+      if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
       await ladeStatus();
     });
     main.addEventListener("click", async (e) => {
@@ -687,7 +694,7 @@
       if (!r.ok) { if (r.fehler) zeigeFehler(r.fehler); toast(r.error, "err"); return; }
       S.preiseOriginal = klon(S.preise); setDirty(false);
       toast(`Preise gespeichert (${r.version.aenderungen} Änderung(en)).`, "ok");
-      if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet – Tests laufen.", "ok"); } else toast(r.veroeffentlichung.error, "err"); }
+      if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet – Tests laufen.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
       await ladeStatus();
     });
     ladeStatus();

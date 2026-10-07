@@ -56,7 +56,7 @@ async function lesen(aktion, q, s, event) {
       const bilder = await daten.lade("bilder");
       const protokoll = (await store.getJSON("protokoll", [])).slice(0, 8);
       const versionen = await daten.versionen(5);
-      return http.json(200, { ok: true, anfragen: { gesamt: keys.length, neuDieseWoche: neu }, bewertungenOffen: offen, bilder: Object.keys(bilder.bilder).length, veroeffentlichung: statusMitAlter(status), konfigurator: einst.konfigurator.status, preislisteVersion: preise.version, protokoll, versionen, name: s.account.name, kontext: store.kontext(), buildHook: !!process.env.NETLIFY_BUILD_HOOK, mail: !!process.env.BREVO_API_KEY });
+      return http.json(200, { ok: true, anfragen: { gesamt: keys.length, neuDieseWoche: neu }, bewertungenOffen: offen, bilder: Object.keys(bilder.bilder).length, veroeffentlichung: await statusAktuell(status), konfigurator: einst.konfigurator.status, preislisteVersion: preise.version, protokoll, versionen, name: s.account.name, kontext: store.kontext(), kontextLabel: store.kontextLabel(), store: store.storeName(), buildHook: !!buildHookFuerKontext().hook, buildHookVariable: buildHookFuerKontext().variable, deployApi: !!(process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_BLOBS_TOKEN), mail: !!process.env.BREVO_API_KEY });
     }
     case "daten": {
       const bereich = String(q.bereich || "");
@@ -67,7 +67,7 @@ async function lesen(aktion, q, s, event) {
     }
     case "versionen": return http.json(200, { ok: true, versionen: await daten.versionen(100) });
     case "version": { const v = await daten.version(String(q.id || "")); return v ? http.json(200, { ok: true, version: v }) : http.json(404, { ok: false, error: "Version nicht gefunden." }); }
-    case "status": return http.json(200, { ok: true, veroeffentlichung: statusMitAlter(await daten.publishStatus()) });
+    case "status": return http.json(200, { ok: true, veroeffentlichung: await statusAktuell(await daten.publishStatus()), kontext: store.kontext(), kontextLabel: store.kontextLabel() });
     case "anfragen": {
       const keys = (await store.list("anfragen/")).sort().reverse().slice(0, 200);
       const liste = [];
@@ -82,10 +82,41 @@ async function lesen(aktion, q, s, event) {
     default: return http.json(400, { ok: false, error: "Unbekannte Aktion." });
   }
 }
-function statusMitAlter(st) {
-  const out = Object.assign({}, st);
-  if (st.status === "laeuft" && st.start && Date.now() - st.start > 20 * 60000) { out.status = "unbekannt"; out.hinweis = "Der Build läuft ungewöhnlich lange. Bitte die Deploys im Netlify-Dashboard prüfen."; }
-  return out;
+const LAUF_TIMEOUT_MS = 15 * 60000;
+/* Aktueller Veröffentlichungsstatus: läuft ein Build, wird – falls ein Netlify-API-Token in der Function verfügbar ist –
+   der echte Deploy-Zustand abgefragt; sonst gilt nach 15 Minuten „unbekannt – bitte erneut veröffentlichen“. */
+async function statusAktuell(st) {
+  if (st.status !== "laeuft" || !st.start) return st;
+  const echt = await deployZustand(st).catch(() => null);
+  if (echt) { const neu = await daten.setPublishStatus(echt); return neu; }
+  if (Date.now() - st.start > LAUF_TIMEOUT_MS) {
+    return daten.setPublishStatus({ status: "unbekannt", hinweis: "Seit über 15 Minuten keine Rückmeldung vom Build – bitte erneut veröffentlichen (Deploys ggf. im Netlify-Dashboard prüfen).", ende: Date.now() });
+  }
+  return st;
+}
+/* Netlify-API: letzten Deploy dieses Kontexts seit Start der Veröffentlichung suchen. Token: NETLIFY_API_TOKEN oder
+   NETLIFY_BLOBS_TOKEN (wenn deren Scope auch „Functions“ umfasst); ohne Token → null (kein Fehler). */
+async function deployZustand(st, holen) {
+  const token = process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_BLOBS_TOKEN, site = process.env.SITE_ID;
+  if (!token || !site) return null;
+  const f = holen || fetch;
+  const r = await f(`https://api.netlify.com/api/v1/sites/${site}/deploys?per_page=10`, { headers: { Authorization: "Bearer " + token } });
+  if (!r.ok) return null;
+  const deploys = await r.json();
+  const ctx = store.kontext();
+  const d = deploys.find((x) => x.context === ctx && new Date(x.created_at).getTime() >= st.start - 90000);
+  if (!d) return Date.now() - st.start > LAUF_TIMEOUT_MS ? { status: "unbekannt", hinweis: "Kein passender Build bei Netlify gefunden – bitte erneut veröffentlichen.", ende: Date.now() } : null;
+  const laeuft = ["new", "enqueued", "pending_review", "accepted", "preparing", "prepared", "building", "processing", "uploading", "uploaded"];
+  if (laeuft.includes(d.state)) return null;
+  if (d.state === "ready") return { status: "veroeffentlicht", ende: Date.now(), fehler: "", letzteVeroeffentlichung: new Date(d.published_at || d.updated_at || Date.now()).getTime(), deployId: d.id };
+  return { status: "fehler", fehler: `Netlify-Deploy ${d.state}: ${d.error_message || "ohne Fehlertext"}`.slice(0, 400), ende: Date.now(), deployId: d.id };
+}
+/* Build-Hook je Umgebung: Produktion → NETLIFY_BUILD_HOOK; alle anderen Kontexte ausschließlich NETLIFY_BUILD_HOOK_PREVIEW
+   (Branch-Hook). Der Produktions-Hook wird außerhalb der Produktion NIE verwendet. */
+function buildHookFuerKontext() {
+  const k = store.kontext();
+  if (k === "production") return { hook: process.env.NETLIFY_BUILD_HOOK || "", variable: "NETLIFY_BUILD_HOOK" };
+  return { hook: process.env.NETLIFY_BUILD_HOOK_PREVIEW || "", variable: "NETLIFY_BUILD_HOOK_PREVIEW" };
 }
 
 /* ============================ Schreiben ============================ */
@@ -198,6 +229,12 @@ async function schreiben(body, s, event) {
       const pub = await veroeffentlichen(s, event, String(body.grund || "Manuell"));
       return http.json(pub.ok ? 200 : 409, Object.assign({ ok: pub.ok }, pub));
     }
+    case "status-zuruecksetzen": {
+      const alt = await daten.publishStatus();
+      const neu = await daten.setPublishStatus({ status: "unbekannt", hinweis: "Status manuell zurückgesetzt – bitte erneut veröffentlichen, um den aktuellen Stand sicher online zu bringen.", ende: Date.now(), fehler: "" });
+      await log("status-zurueckgesetzt", `Veröffentlichungsstatus „${alt.status}“ zurückgesetzt`);
+      return http.json(200, { ok: true, veroeffentlichung: neu });
+    }
     /* ---- Testrechner (Server) ---- */
     case "rechnen": {
       const liste = body.preise && typeof body.preise === "object" ? body.preise : await daten.lade("preise");
@@ -282,15 +319,19 @@ async function veroeffentlichen(s, event, grund) {
   const preise = await daten.lade("preise");
   const fp = validate.validierePreise(preise);
   if (fp.length) return { ok: false, error: "Nicht veröffentlicht – Preisliste ungültig: " + fp.map((x) => x.meldung).join(" ") };
-  const hook = process.env.NETLIFY_BUILD_HOOK;
+  const { hook, variable } = buildHookFuerKontext();
   const wer = s.account.email;
   if (!hook) {
-    await daten.setPublishStatus({ status: "fehler", fehler: "NETLIFY_BUILD_HOOK ist nicht gesetzt – Änderungen sind gespeichert, aber nicht veröffentlicht.", ende: Date.now() });
-    await http.protokoll(event, "veroeffentlichung-fehler", "NETLIFY_BUILD_HOOK fehlt", wer);
-    return { ok: false, error: "Nicht veröffentlicht – Fehler: Die Umgebungsvariable NETLIFY_BUILD_HOOK fehlt. Die Änderungen sind gespeichert." };
+    const vorschau = store.kontext() !== "production";
+    const text = vorschau
+      ? `Vorschau-Umgebung (${store.kontextLabel()}): Änderungen gespeichert, aber kein Build ausgelöst – der Produktions-Hook wird hier nie verwendet. Für Test-Veröffentlichungen einen Branch-Build-Hook als ${variable} hinterlegen.`
+      : "NETLIFY_BUILD_HOOK ist nicht gesetzt – Änderungen sind gespeichert, aber nicht veröffentlicht.";
+    await daten.setPublishStatus({ status: vorschau ? "gespeichert" : "fehler", fehler: vorschau ? "" : text, hinweis: vorschau ? text : "", ende: Date.now() });
+    await http.protokoll(event, vorschau ? "veroeffentlichung-uebersprungen" : "veroeffentlichung-fehler", variable + " fehlt", wer);
+    return { ok: false, uebersprungen: vorschau, error: vorschau ? text : "Nicht veröffentlicht – Fehler: Die Umgebungsvariable NETLIFY_BUILD_HOOK fehlt. Die Änderungen sind gespeichert." };
   }
-  const aktuell = await daten.publishStatus();
-  if (aktuell.status === "laeuft" && aktuell.start && Date.now() - aktuell.start < 20 * 60000) return { ok: false, error: "Es läuft bereits eine Veröffentlichung. Bitte warten, bis sie abgeschlossen ist.", veroeffentlichung: aktuell };
+  const aktuell = await statusAktuell(await daten.publishStatus());
+  if (aktuell.status === "laeuft" && aktuell.start && Date.now() - aktuell.start < LAUF_TIMEOUT_MS) return { ok: false, error: "Es läuft bereits eine Veröffentlichung. Bitte warten, bis sie abgeschlossen ist (oder den Status zurücksetzen).", veroeffentlichung: aktuell };
   const titel = `Admin: ${grund} (${wer})`.slice(0, 120);
   const url = hook + (hook.includes("?") ? "&" : "?") + "trigger_title=" + encodeURIComponent(titel);
   const st = await daten.setPublishStatus({ status: "laeuft", start: Date.now(), ende: 0, fehler: "", ausloeser: titel, von: wer });
@@ -303,3 +344,6 @@ async function veroeffentlichen(s, event, grund) {
   await http.protokoll(event, "veroeffentlichung", "Build ausgelöst: " + grund, wer);
   return { ok: true, veroeffentlichung: st };
 }
+module.exports.deployZustand = deployZustand;
+module.exports.buildHookFuerKontext = buildHookFuerKontext;
+module.exports.statusAktuell = statusAktuell;
