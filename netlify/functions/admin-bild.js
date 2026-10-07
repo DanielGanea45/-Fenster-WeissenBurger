@@ -6,6 +6,7 @@ const store = require("./_lib/store");
 const http = require("./_lib/http");
 
 exports.handler = async (event) => {
+  http.verbinde(event);
   if (!http.adminEnabled()) return http.notFound();
   const s = await http.requireSession(event);
   if (!s.ok) return s.response;

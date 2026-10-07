@@ -119,6 +119,7 @@ async function fuerAdminAblegen(formName, fields, event) {
 }
 
 exports.handler = async (event) => {
+  store.verbinde(event);
   if (event.httpMethod !== "POST") return json(405, { ok: false, reason: "method" });
   let payload;
   try { payload = JSON.parse(event.body || "{}"); } catch (e) { return json(400, { ok: false, reason: "json" }); }

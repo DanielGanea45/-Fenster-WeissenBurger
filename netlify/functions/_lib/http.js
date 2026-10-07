@@ -81,4 +81,6 @@ async function requireSession(event, { write = false } = {}) {
   return { ok: true, token, account: s.account, session: s.session, csrf: csrfFor(token) };
 }
 
-module.exports = { json, html, notFound, isProduction, isSecure, siteUrl, adminEnabled, clientIp, parseBody, sameOrigin, rateLimit, protokoll, csrfFor, requireSession, NO_STORE };
+function verbinde(event) { store.verbinde(event); }
+
+module.exports = { verbinde, json, html, notFound, isProduction, isSecure, siteUrl, adminEnabled, clientIp, parseBody, sameOrigin, rateLimit, protokoll, csrfFor, requireSession, NO_STORE };

@@ -15,6 +15,7 @@ function seite() {
 }
 
 exports.handler = async (event) => {
+  http.verbinde(event);
   if (!http.adminEnabled()) return http.notFound();
   const p = event.path || "/admin/";
   if (!/^\/admin(\/|$)/.test(p) && !/admin-seite/.test(p)) return http.notFound();

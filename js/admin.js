@@ -50,7 +50,9 @@
     if (method !== "GET" && S.csrf) opt.headers["X-CSRF"] = S.csrf;
     let r, j;
     try { r = await fetch(u, opt); } catch (e) { throw new Error("Keine Verbindung zum Server."); }
-    try { j = await r.json(); } catch (e) { j = { ok: false, error: r.status === 404 ? "Admin-Bereich nicht verfügbar (404)." : "Unerwartete Antwort (" + r.status + ")." }; }
+    const roh = await r.text().catch(() => "");
+    try { j = JSON.parse(roh); } catch (e) { j = { ok: false, error: r.status === 404 ? "Admin-Bereich nicht verfügbar (404)." : "Unerwartete Serverantwort (" + r.status + ")" + (roh && !/^\s*</.test(roh) ? ": " + roh.slice(0, 200) : ".") }; }
+    if (j && j.ok === false && !j.error) j.error = "Fehler ohne Beschreibung (HTTP " + r.status + ").";
     if (r.status === 401 && j.anmelden) { zeigeAuth(); throw new Error("Sitzung abgelaufen – bitte erneut anmelden."); }
     j.status = r.status;
     return j;
@@ -140,11 +142,16 @@
       e.preventDefault();
       const fd = new FormData(e.target);
       if (fd.get("p1") !== fd.get("p2")) return einrichtenForm(token, { fehler: "Die Passwörter stimmen nicht überein.", name: fd.get("name"), email: fd.get("email") });
+      const btn = $("button[type=submit]", e.target); btn.disabled = true; btn.textContent = "Wird gespeichert …";
+      const zurueck = (fehler) => einrichtenForm(token, { fehler: "Konto konnte nicht gespeichert werden: " + fehler, name: fd.get("name"), email: fd.get("email") });
       try {
         const r = await api.auth("einrichten", { token, name: fd.get("name"), email: fd.get("email"), passwort: fd.get("p1") });
-        if (r.ok) { S.csrf = r.csrf; history.replaceState(null, "", "/admin/#konto"); toast("Konto angelegt. Willkommen!", "ok"); await starteApp(); }
-        else einrichtenForm(token, { fehler: r.error, name: fd.get("name"), email: fd.get("email") });
-      } catch (err) { einrichtenForm(token, { fehler: err.message }); }
+        if (!r.ok) return zurueck(r.error || ("Serverantwort " + r.status + " ohne Fehlertext"));
+        /* Persistenz prüfen: Der Server muss das Konto jetzt dauerhaft kennen (Netlify Blobs). */
+        const st = await call(AUTH);
+        if (!st.eingerichtet) return zurueck("Der Server hat das Konto nicht dauerhaft gespeichert (Datenspeicher Netlify Blobs nicht erreichbar). Bitte den Entwickler informieren – der Einrichtungslink bleibt gültig.");
+        S.csrf = r.csrf; history.replaceState(null, "", "/admin/#konto"); toast("Konto angelegt. Willkommen!", "ok"); await starteApp();
+      } catch (err) { zurueck(err.message); }
     });
   }
   $("#auth-form").addEventListener("click", (e) => { const b = e.target.closest("[data-auth]"); if (!b) return; if (b.dataset.auth === "vergessen") vergessenForm(); if (b.dataset.auth === "login") loginForm(); });

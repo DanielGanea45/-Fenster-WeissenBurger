@@ -12,6 +12,7 @@ function lies(rel) { const p = path.join(ROOT, rel); return fs.existsSync(p) ? f
 const BANNER = `<div class="vorschau-banner" role="status">Vorschau – nicht öffentlich · Dieser Konfigurator ist nur für angemeldete Administratoren sichtbar. <a href="/admin/#preise">Zum Admin</a></div>`;
 
 exports.handler = async (event) => {
+  http.verbinde(event);
   const p = (event.path || "/konfigurator/fenster/").replace(/\/+$/, "/");
   const art = /haustuer/.test(p) ? "haustuer" : "fenster";
   const s = await http.requireSession(event);

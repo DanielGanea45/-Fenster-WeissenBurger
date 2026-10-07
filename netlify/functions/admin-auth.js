@@ -8,6 +8,12 @@ const http = require("./_lib/http");
 const mail = require("./_lib/mail");
 
 exports.handler = async (event) => {
+  http.verbinde(event);
+  try { return await handler(event); }
+  catch (e) { console.error("admin-auth:", e); return http.json(500, { ok: false, error: "Serverfehler – " + (e.name === "StoreNichtVerfuegbar" ? e.message : "Anfrage konnte nicht verarbeitet werden (" + e.message + ")") }); }
+};
+
+async function handler(event) {
   if (!http.adminEnabled()) return http.notFound();
   const kontoDa = await auth.accountExists();
 
@@ -78,4 +84,4 @@ exports.handler = async (event) => {
     default:
       return http.json(400, { ok: false, error: "Unbekannte Aktion." });
   }
-};
+}

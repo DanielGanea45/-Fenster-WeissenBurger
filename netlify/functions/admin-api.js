@@ -19,6 +19,7 @@ const WOCHE = 7 * 86400000;
 const MAX_BILD_BYTES = 2.5 * 1024 * 1024;
 
 exports.handler = async (event) => {
+  http.verbinde(event);
   if (!http.adminEnabled()) return http.notFound();
   const rl = await http.rateLimit(event, "api", 240);
   if (!rl.ok) return rl.response;
@@ -37,7 +38,7 @@ exports.handler = async (event) => {
     return await schreiben(body, s, event);
   } catch (e) {
     console.error(e);
-    return http.json(500, { ok: false, error: "Interner Fehler: " + e.message });
+    return http.json(500, { ok: false, error: e.name === "StoreNichtVerfuegbar" ? e.message : "Interner Fehler: " + e.message });
   }
 };
 
