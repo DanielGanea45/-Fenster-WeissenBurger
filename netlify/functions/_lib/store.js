@@ -1,6 +1,7 @@
 /* Datenspeicher für den Admin-Bereich: Netlify Blobs (Produktion/Preview) oder – lokal und in Tests –
    ein Verzeichnis im Dateisystem (FW_STORE_DIR, Standard .netlify-blobs-local/). Gleiche API in beiden Fällen. */
 "use strict";
+require("./env"); // trimmt alle gelesenen Umgebungsvariablen (Leerraum aus Copy & Paste)
 const fs = require("fs");
 const path = require("path");
 
