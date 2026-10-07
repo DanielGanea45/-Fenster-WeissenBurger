@@ -624,3 +624,99 @@ h3 { font-size: 14px; }
 .pkarte__bild { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--line); }
 .pkarte__tools { margin-left: auto; }
 .pkarte__upload { margin-top: 6px; align-self: flex-start; cursor: pointer; }
+
+/* Angebote & Rechnungen, Kunden */
+.pill--xs { padding: 3px 9px; font-size: 11.5px; }
+.pill--grey { background: var(--panel-2); color: var(--ink-2); border-color: transparent; }
+.bel-liste { padding: 12px 16px 10px; gap: 10px; }
+.bel-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.bel-toolbar .chip { min-height: 32px; padding: 0 12px; font-size: 13px; }
+.bel-suche { flex: 1 1 320px; justify-content: flex-end; flex-wrap: nowrap; }
+.bel-suche .input { min-height: 34px; }
+.bel-suche input[type="search"] { flex: 1 1 160px; min-width: 0; }
+.bel-suche select { width: auto; }
+.bel-tabelle-wrap { overflow-x: auto; }
+.bel-tabelle th { padding: 8px 10px; position: static; }
+.bel-tabelle td { padding: 6px 10px; height: 40px; }
+.bel-tabelle td .sub { display: block; font-size: 12px; color: var(--ink-2); font-weight: 500; }
+.bel-tabelle td.bel-betreff { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bel-tabelle td.name a { text-decoration: none; }
+.bel-leer { padding: 20px 0; text-align: center; }
+.bel-foot { padding-top: 6px; border-top: 1px solid var(--line); }
+.bel-export { padding: 12px 16px; gap: 8px; }
+.bel-export .field { gap: 2px; }
+.bel-export .input { min-height: 34px; }
+.bel-export__btns { margin-left: auto; align-self: flex-end; }
+.kpi.skeleton .value, .kpi.skeleton .kpi__head { background: var(--panel-2); border-radius: 6px; min-width: 60px; animation: pulse 1.2s infinite; }
+.bel-muster { padding: 10px 14px; }
+.bel-muster a { font-weight: 700; }
+.bel-kopf h1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bel-badge { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.bel-aktionen .btn { min-height: 34px; }
+.bel-kette { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.bel-kette__schritt { flex: 1 1 200px; min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 10px 12px; font-size: 13px; }
+.bel-kette__schritt a, .bel-kette__leer { display: flex; flex-direction: column; gap: 2px; text-decoration: none; color: var(--ink); }
+.bel-kette__schritt a span, .bel-kette__leer span { color: var(--ink-2); font-size: 12.5px; }
+.bel-kette__schritt .pill { align-self: flex-start; margin-top: 4px; }
+.bel-kette__schritt.is-aktiv { border-color: var(--accent-line); box-shadow: 0 0 0 1px var(--accent-line) inset; }
+.bel-kette__schritt:not(.is-da) { opacity: .7; border-style: dashed; }
+.bel-kette__pfeil { align-self: center; color: var(--ink-3); font-size: 18px; }
+.bel-folge { color: var(--ink-2); }
+.bel-form { padding: 12px 16px 14px; gap: 10px; }
+.bel-form h2 { font-size: 14px; padding-top: 6px; }
+.bel-form__kopf { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.bel-kundenwahl { width: auto; max-width: 100%; min-height: 34px; }
+.bel-grid { display: grid; gap: 8px 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+.bel-grid--kunde { grid-template-columns: 90px 1.4fr 1fr 1.4fr 80px 1fr 1.3fr 1fr; }
+.bel-grid--daten { grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.bel-grid .field { gap: 2px; }
+.bel-grid .input, .bel-form .field .input { min-height: 34px; }
+.bel-pos-kopf, .bel-pos { display: grid; grid-template-columns: 44px minmax(0, 1fr) 64px 100px 124px 110px 32px; gap: 6px 8px; align-items: start; }
+.bel-pos-kopf { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); font-weight: 700; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.bel-pos-kopf .num { text-align: right; }
+.bel-positionen { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.bel-pos { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.bel-pos.is-drag { opacity: .5; }
+.bel-pos--arbeit { background: linear-gradient(90deg, var(--accent-soft), transparent 30%); }
+.bel-pos__nr { display: flex; align-items: center; gap: 4px; min-height: 34px; font-weight: 700; color: var(--accent-text); }
+.bel-pos__griff { cursor: grab; color: var(--ink-3); letter-spacing: -2px; user-select: none; }
+.bel-pos__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.bel-pos__text .input { min-height: 34px; }
+.bel-pos__text textarea { min-height: 44px; font-size: 13px; padding: 6px 10px; }
+.bel-pos__art { color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+.bel-pos__art input { width: 15px; height: 15px; accent-color: var(--accent); }
+.bel-pos__menge, .bel-pos__preis .input { text-align: right; min-height: 34px; }
+.bel-pos__einheit { min-height: 34px; padding: 0 6px; }
+.bel-pos__preis { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; }
+.bel-form .input:disabled, .bel-form select:disabled, .bel-form textarea:disabled { opacity: .72; cursor: not-allowed; }
+.bel-pos__preis .input { width: 100%; min-width: 0; }
+.bel-pos__gesamt { min-height: 34px; display: flex; align-items: center; justify-content: flex-end; white-space: nowrap; }
+.bel-pos__del { min-height: 34px; padding: 0; width: 32px; }
+.bel-unten { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 12px 24px; align-items: start; padding-top: 6px; }
+.bel-rabatt { display: grid; grid-template-columns: repeat(2, minmax(0, 160px)); gap: 8px; }
+.bel-summen { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.bel-summen__zeile { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); }
+.bel-summen__zeile.strong { color: var(--ink); }
+.bel-summen__gesamt { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 16px; margin-top: 4px; }
+.bel-journal { padding: 10px 16px; gap: 6px; }
+.bel-journal summary { cursor: pointer; }
+.list--kompakt > * { padding: 6px 0; font-size: 13px; justify-content: flex-start; gap: 10px; }
+.alert ul { margin: 4px 0 0; padding-left: 18px; }
+@media (max-width: 1280px) { .bel-grid--kunde { grid-template-columns: 90px 1.4fr 1fr 1.4fr; } }
+@media (max-width: 900px) {
+  .bel-grid--kunde { grid-template-columns: 1fr 1fr; }
+  .bel-unten { grid-template-columns: 1fr; }
+  .bel-pos-kopf { display: none; }
+  .bel-pos { grid-template-columns: 36px minmax(0, 1fr) minmax(0, 1fr) 32px; grid-template-areas: "nr text text del" "nr menge einheit ." "nr preis gesamt ."; }
+  .bel-pos__nr { grid-area: nr; } .bel-pos__text { grid-area: text; } .bel-pos__menge { grid-area: menge; } .bel-pos__einheit { grid-area: einheit; } .bel-pos__preis { grid-area: preis; } .bel-pos__gesamt { grid-area: gesamt; } .bel-pos__del { grid-area: del; }
+  .bel-tabelle thead { display: none; }
+  .bel-tabelle, .bel-tabelle tbody, .bel-tabelle tr, .bel-tabelle td { display: block; }
+  .bel-tabelle tr { padding: 8px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; }
+  .bel-tabelle td { border: 0; padding: 2px 0; height: auto; }
+  .bel-tabelle td.num { text-align: left; }
+  .bel-tabelle td[data-l]:not([data-l=""])::before { content: attr(data-l); display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+  .bel-tabelle td.name, .bel-tabelle td.bel-betreff, .bel-tabelle td.nowrap:last-child { grid-column: 1 / -1; white-space: normal; max-width: none; }
+  .bel-tabelle tbody tr:hover td, .bel-tabelle tbody tr:nth-child(even) td { background: transparent; }
+  .bel-kette__pfeil { display: none; }
+  .bel-export__btns { margin-left: 0; }
+}

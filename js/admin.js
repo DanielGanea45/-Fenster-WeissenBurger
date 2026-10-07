@@ -192,12 +192,13 @@
     { id: "bewertungen", gruppe: "Inhalte", label: "Bewertungen", kurz: "Bewert.", badge: "bewertungen", icon: I('<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/>') },
     { id: "preise", gruppe: "Verkauf", label: "Preise & Konfigurator", kurz: "Preise", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>') },
     { id: "anfragen", gruppe: "Verkauf", label: "Anfragen", kurz: "Anfragen", badge: "anfragen", icon: I('<path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H8l-4 4z"/><path d="M8 10h8M8 13h5"/>') },
-    { id: "angebote", gruppe: "Verkauf", label: "Angebote & Rechnungen", kurz: "Angebote", hidden: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>') },
+    { id: "angebote", gruppe: "Verkauf", label: "Angebote & Rechnungen", kurz: "Angebote", icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>') },
+    { id: "kunden", gruppe: "Verkauf", label: "Kunden", kurz: "Kunden", icon: I('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5a5 5 0 0 1 6 5"/>') },
     { id: "einstellungen", gruppe: "System", label: "Einstellungen", kurz: "Einstell.", icon: I('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>') },
     { id: "versionen", gruppe: "System", label: "Änderungsprotokoll", kurz: "Versionen", icon: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>') },
     { id: "protokoll", gruppe: "System", label: "Zugriffsprotokoll", kurz: "Zugriffe", sub: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v6h6M8 13h8M8 17h6"/>') },
     { id: "konto", gruppe: "System", label: "Konto", kurz: "Konto", icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
-  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", produkte: "Produkte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
+  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", produkte: "Produkte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen", kunden: "Kunden" };
   function navHtml(aktiv) {
     const sichtbar = NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an");
     const gruppen = []; sichtbar.forEach((n) => { let g = gruppen.find((x) => x.name === n.gruppe); if (!g) { g = { name: n.gruppe, eintraege: [] }; gruppen.push(g); } g.eintraege.push(n); });
@@ -861,7 +862,7 @@
           ${abw ? `<div class="alert alert--err"><b>Achtung:</b> Der im Browser angezeigte Preis (${k.preis_browser ? euro(Number(k.preis_browser)) : "?"}) weicht vom Serverpreis ab – mögliche Manipulation oder veraltete Preisliste. Maßgeblich ist der Serverpreis.</div>` : ""}
           <dl>${Object.entries(k).filter(([key]) => !AUSBLENDEN.includes(key) && key !== "name").map(([key, v]) => `<dt>${h(key)}</dt><dd>${key === "email" ? `<a href="mailto:${h(v)}">${h(v)}</a>` : key === "telefon" ? `<a href="tel:${h(v)}">${h(v)}</a>` : h(v)}</dd>`).join("")}</dl>
           ${konf ? `<details><summary>Konfiguration &amp; Preis (Server)</summary><dl><dt>Serverpreis</dt><dd><b>${a.preisServer ? euro(a.preisServer) : h(k.preis_server_text || "–")}</b> ${k.preis_server_text ? "· " + h(k.preis_server_text) : ""}</dd>${a.steuerProzent !== undefined && !isNaN(a.steuerProzent) ? `<dt>${h(Steuer.TITEL)} bei Anfrage</dt><dd>${h(Steuer.texte(a.steuerProzent).option)}</dd>` : ""}<dt>Browserpreis</dt><dd>${a.preisBrowser ? euro(a.preisBrowser) : "–"} · Abweichung: ${h(a.abweichung || "–")}</dd><dt>Preisliste</dt><dd>${h(a.preislisteVersion || "–")}</dd><dt>Positionen</dt><dd>${h(k.positionen || "–")}</dd><dt>Konfiguration</dt><dd><code class="small">${h(JSON.stringify(a.konfiguration))}</code></dd></dl></details>` : ""}
-          <div class="row"><button type="button" class="btn btn--xs" data-st="${a.status === "erledigt" ? "neu" : "erledigt"}" data-id="${h(a.id)}">${a.status === "erledigt" ? "Als neu markieren" : "Als erledigt markieren"}</button>${a.status === "erledigt" ? '<span class="badge badge--ok">erledigt</span>' : ""}</div></div>`;
+          <div class="row"><a class="btn btn--xs btn--primary" href="#angebote/neu:anfrage:${h(a.id)}">Angebot erstellen</a><button type="button" class="btn btn--xs" data-st="${a.status === "erledigt" ? "neu" : "erledigt"}" data-id="${h(a.id)}">${a.status === "erledigt" ? "Als neu markieren" : "Als erledigt markieren"}</button>${a.status === "erledigt" ? '<span class="badge badge--ok">erledigt</span>' : ""}</div></div>`;
       }).join("") || '<p class="muted">Keine Anfragen.</p>';
     };
     zeichne("alle");
@@ -947,13 +948,8 @@
     });
   };
 
-  /* ---------- Platzhalter: Angebote & Rechnungen ---------- */
-  VIEWS.angebote = async (main) => {
-    main.innerHTML = `<div class="page-head"><div><h1>Angebote &amp; Rechnungen</h1><span class="muted">Dieses Modul ist vorbereitet, aber noch nicht freigeschaltet.</span></div></div>
-      <div class="card"><p>Geplant: Angebote aus Anfragen und Konfigurator-Konfigurationen erstellen, als PDF versenden, Rechnungen schreiben und den Status verfolgen. Bis dahin bleiben Anfragen unter <a href="#anfragen">Anfragen</a> einsehbar.</p><p class="small muted">Für Entwickler: Menüeintrag aktivieren mit <code>localStorage.setItem("fw-modul-angebote","an")</code>.</p></div>`;
-  };
 
   /* ---------- Start ---------- */
   start();
-  window.FWAdmin = { $, $$, h, api, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, pubHtml, bildVerarbeiten: verarbeite };
+  window.FWAdmin = { $, $$, h, api, call, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, pubHtml, bildVerarbeiten: verarbeite };
 })();
