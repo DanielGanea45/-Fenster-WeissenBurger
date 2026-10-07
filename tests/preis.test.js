@@ -7,7 +7,8 @@ const assert = require("node:assert/strict");
 const path = require("path");
 const fs = require("fs");
 const P = require("../js/preis.js");
-const liste = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "preise.json"), "utf8"));
+/* Handrechnungen gelten für die Beispiel-Preisliste (Fixture). data/preise.json enthält im Netlify-Build die echten Admin-Preise und wird in tests/steuer.test.js nur auf Gültigkeit geprüft. */
+const liste = JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures", "preise-beispiel.json"), "utf8"));
 
 const F = (o) => Object.assign({ produkt: "fenster", system: "koemmerling-70", typ: "1-fluegelig", farbe: "weiss", glas: "2-fach", sprossen: "keine", rollladen: "keiner", zusaetze: [], breiteMm: 1000, hoeheMm: 1000, menge: 1, montage: true, demontage: false }, o);
 const H = (o) => Object.assign({ produkt: "haustuer", modell: "modern-voll", farbe: "weiss", glas: "standard", seitenteil: "keines", zusaetze: [], breiteMm: 1100, hoeheMm: 2100, menge: 1, montage: true, demontage: false }, o);

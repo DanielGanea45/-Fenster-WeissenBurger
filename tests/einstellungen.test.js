@@ -43,7 +43,7 @@ test("Einstellungen: Repo-Standard ist vollständig und gültig; gespeicherte Te
   const g = await daten.lade("einstellungen");
   assert.equal(g.konfigurator.status, "vorschau");
   assert.equal(g.firma.name, e.firma.name, "fehlende Zweige kommen aus dem Repo");
-  assert.equal(g.steuer.satzProzent, 0);
+  assert.equal(g.steuer.satzProzent, repoEinst().steuer.satzProzent);
   await store.setJSON("daten/einstellungen", null);
 });
 
@@ -53,7 +53,7 @@ test("Firma & Kontakt speichern: Version mit Beschreibung, Konfigurator-Status b
   assert.equal(r.ok, true, r.error);
   const g = await daten.lade("einstellungen");
   assert.equal(g.firma.strasse, "Neue Straße 5"); assert.equal(g.firma.telefon, "0841 123456");
-  assert.equal(g.konfigurator.status, "aus");
+  assert.equal(g.konfigurator.status, repoEinst().konfigurator.status, "Konfigurator-Status bleibt wie zuvor");
   const v = (await daten.versionen(5))[0];
   assert.equal(v.bereich, "einstellungen"); assert.equal(v.beschreibung, "Firma & Kontakt geändert"); assert.ok(v.wann > 0);
 });
@@ -104,12 +104,27 @@ test("Steuer-Umstellung verlangt Bestätigung (409) und wird dann gespeichert", 
 });
 
 /* ---------- Firmendaten in den Seiten ---------- */
+/* Synthetische Seiten mit allen Marker-Arten – unabhängig vom Inhalt der echten Seiten (die im Netlify-Build Admin-Texte und -Bilder enthalten) */
 function kopie() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "fw-firma-"));
-  for (const f of ["index.html", "impressum.html", "datenschutz.html", "danke.html", "leistungen/index.html", "produkte/haustueren/index.html", "einsatzgebiet/ingolstadt/index.html", "wartung.html", "data/einstellungen.json"]) {
-    fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true });
-    fs.copyFileSync(path.join(ROOT, f), path.join(tmp, f));
-  }
+  const e0 = repoEinst();
+  const seite = (body, jsonld) => `<!doctype html><html lang="de"><head><title>Test</title>${jsonld ? `<script type="application/ld+json" data-firma="jsonld">${JSON.stringify({ "@context": "https://schema.org", "@graph": [Object.assign({ "@id": "x" }, firma.jsonLdFirma(e0)), { "@type": "Service", provider: firma.jsonLdFirma(e0) }] }, null, 2)}</script>` : ""}</head><body class="page">
+<header class="top"><a class="btn btn--call" href="${firma.telHref(e0.firma.telefon)}" data-firma="tel-href"><svg></svg><span>Anrufen</span></a></header>
+<main>${body}</main>
+<footer class="legal"><span>© <span id="year">2026</span> <span data-firma="name">${firma.esc(firma.vollerName(e0))}</span></span></footer>
+</body></html>`;
+  const dateien = {
+    "index.html": seite(firma.kontaktKarteHtml(e0)),
+    "impressum.html": seite(`<p data-firma="anbieter">${firma.BAUSTEINE.anbieter(e0)}</p><p data-firma="gf">${firma.BAUSTEINE.gf(e0)}</p><p data-firma="kontakt">${firma.BAUSTEINE.kontakt(e0)}</p><p data-firma="register">${firma.BAUSTEINE.register(e0)}</p><p data-firma="ustid">${firma.BAUSTEINE.ustid(e0)}</p><p data-firma="verantwortlich">${firma.BAUSTEINE.verantwortlich(e0)}</p>`),
+    "datenschutz.html": seite(`<p data-firma="verantwortlicher-dsgvo">${firma.BAUSTEINE["verantwortlicher-dsgvo"](e0)}</p>`),
+    "danke.html": seite(`<p>Sie erreichen uns auch direkt: <a href="${firma.telHref(e0.firma.telefon)}" data-firma="tel">${firma.esc(e0.firma.telefon)}</a> (<span data-firma="zeiten">${firma.zeitenText(e0.oeffnungszeiten)}</span>)</p>`),
+    "leistungen/index.html": seite(firma.kontaktKarteHtml(e0), true),
+    "produkte/haustueren/index.html": seite(firma.kontaktKarteHtml(e0)),
+    "einsatzgebiet/ingolstadt/index.html": seite(`<p>Von der <span data-firma="strasse-name">${firma.esc(firma.strassenName(e0))}</span> aus.</p>` + firma.kontaktKarteHtml(e0), true),
+    "wartung.html": seite(`<p class="lead" data-firma="wartungstext">${firma.esc(e0.website.wartungText)}</p>` + firma.kontaktKarteHtml(e0)),
+  };
+  for (const [f, html] of Object.entries(dateien)) { fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true }); fs.writeFileSync(path.join(tmp, f), html); }
+  fs.mkdirSync(path.join(tmp, "data")); fs.writeFileSync(path.join(tmp, "data/einstellungen.json"), JSON.stringify(e0));
   return tmp;
 }
 test("Firmendaten: geänderte Adresse, Telefon, Öffnungszeiten und Text landen in Impressum, Fußzeile, Kontakt, Datenschutz, Wartungsseite und JSON-LD", () => {
@@ -172,7 +187,7 @@ test("Öffnungszeiten-Text, Telefon-Link, Wartungs-Weiterleitungen, Banner, MUST
   assert.equal(m.muster, true); assert.ok(m.fehlt.includes("IBAN") && m.fehlt.includes("Kontoinhaber"));
   assert.ok(firma.ibanGueltig("DE89 3704 0044 0532 0130 00") && !firma.ibanGueltig("DE89370400440532013001") && firma.bicGueltig("BYLADEM1ING") && !firma.bicGueltig("BYLA"));
 });
-test("Einsatzgebiet-Schalter im Repo passen zu data/orte.json", () => {
+test("Einsatzgebiet-Schalter: für jede Region in data/orte.json gibt es einen Schalter in den Einstellungen", () => {
   const e = repoEinst(); const orte = JSON.parse(fs.readFileSync(path.join(ROOT, "data/orte.json"), "utf8"));
-  for (const r of orte.regions) assert.equal(e.einsatzgebiet[r.key], r.veroeffentlicht, r.key);
+  for (const r of orte.regions) assert.equal(typeof e.einsatzgebiet[r.key], "boolean", r.key);
 });
