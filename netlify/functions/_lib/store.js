@@ -142,4 +142,38 @@ async function list(prefix) {
   return [...new Set(out)].filter((k) => k.startsWith(prefix)).sort();
 }
 
-module.exports = { getJSON, setJSON, del, getBinary, setBinary, list, useBlobs, blobsStatus, verbinde, inNetlify, StoreNichtVerfuegbar, kontext, kontextAusEvent, kontextLabel, setzeKontext, storeName };
+/* Bedingtes Schreiben (Compare-and-Set) für lückenlose Nummernkreise: liest Wert + ETag, schreibt nur, wenn sich
+   nichts geändert hat. Blobs: onlyIfMatch/onlyIfNew; Dateistore: ETag = Hash des Inhalts, Schreiben unter Sperrdatei. */
+const cryptoCas = require("crypto");
+async function getJSONMitEtag(key, fallback) {
+  if (useBlobs()) {
+    const r = await getBlobs().getWithMetadata(key, { type: "json" });
+    if (!r || r.data === null || r.data === undefined) return { wert: fallback, etag: null };
+    return { wert: r.data, etag: r.etag || null };
+  }
+  const p = localPath(key) + ".json";
+  if (!fs.existsSync(p)) return { wert: fallback, etag: null };
+  const roh = fs.readFileSync(p, "utf8");
+  return { wert: JSON.parse(roh), etag: cryptoCas.createHash("sha1").update(roh).digest("hex") };
+}
+/* Gibt true zurück, wenn geschrieben wurde; false, wenn der Wert inzwischen geändert wurde (dann neu lesen). */
+async function setJSONWenn(key, value, etag) {
+  if (useBlobs()) {
+    try {
+      const r = await getBlobs().setJSON(key, value, etag ? { onlyIfMatch: etag } : { onlyIfNew: true });
+      return !(r && r.modified === false);
+    } catch (e) { if (/412|precondition|conflict/i.test(String(e && e.message))) return false; throw e; }
+  }
+  const p = localPath(key) + ".json", lock = p + ".lock";
+  for (let i = 0; i < 50; i++) {
+    try { fs.writeFileSync(lock, String(process.pid), { flag: "wx" }); break; } catch (e) { if (i === 49) throw new Error("Sperre nicht erhalten: " + key); await new Promise((r) => setTimeout(r, 5 + Math.random() * 10)); }
+  }
+  try {
+    const aktuell = fs.existsSync(p) ? cryptoCas.createHash("sha1").update(fs.readFileSync(p, "utf8")).digest("hex") : null;
+    if (aktuell !== etag) return false;
+    fs.writeFileSync(p, JSON.stringify(value, null, 1));
+    return true;
+  } finally { try { fs.unlinkSync(lock); } catch (e) { /* egal */ } }
+}
+
+module.exports = { getJSON, setJSON, getJSONMitEtag, setJSONWenn, del, getBinary, setBinary, list, useBlobs, blobsStatus, verbinde, inNetlify, StoreNichtVerfuegbar, kontext, kontextAusEvent, kontextLabel, setzeKontext, storeName };
