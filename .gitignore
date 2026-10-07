@@ -1,0 +1,26 @@
+# Materiale de design / originale (nu se comit)
+firma ferestre/
+design-*/
+*.psd
+*.ai
+*.fig
+
+# Secrete
+.env
+.env.*
+*.pem
+*.key
+
+# Dependențe și cache
+node_modules/
+.netlify/
+.cache/
+.lighthouseci/
+
+# Originale mari / fișiere temporare
+media-src/
+*.mov
+*.zip
+*.log
+Thumbs.db
+.DS_Store
