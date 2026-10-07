@@ -149,7 +149,7 @@ function redirectsSchreiben(root, status) {
 async function lauf(opt = {}) {
   const root = opt.root || path.join(__dirname, "..");
   const schritte = opt.schritte || DEFAULT_SCHRITTE;
-  const mitStore = opt.mitStore !== undefined ? opt.mitStore : (store.useBlobs() || !!process.env.FW_STORE_DIR) && !process.argv.includes("--ohne-blobs");
+  let mitStore = opt.mitStore !== undefined ? opt.mitStore : (store.useBlobs() || !!process.env.FW_STORE_DIR) && !process.argv.includes("--ohne-blobs");
   const log = opt.log || console.log;
   const hook = process.env.INCOMING_HOOK_TITLE || "";
   const start = Date.now();
@@ -191,7 +191,8 @@ async function lauf(opt = {}) {
     }
   } catch (e) {
     if (process.env.INCOMING_HOOK_URL || hook) return await fehlerMelden("Admin-Daten konnten nicht geladen werden: " + e.message);
-    log("Hinweis: Admin-Daten nicht erreichbar (" + e.message + ") – Build mit Repository-Daten.");
+    log("Hinweis: Admin-Daten nicht erreichbar (" + e.message + ") – Build mit Repository-Daten. Für Blobs im Build ggf. NETLIFY_API_TOKEN + SITE_ID setzen (README).");
+    mitStore = false;
     redirectsSchreiben(root, daten.repoDatei("einstellungen").konfigurator.status);
   }
 
@@ -206,7 +207,8 @@ async function lauf(opt = {}) {
     }
   }
   if (mitStore) {
-    await daten.setPublishStatus({ status: "veroeffentlicht", ende: Date.now(), dauerMs: Date.now() - start, fehler: "", letzteVeroeffentlichung: Date.now() });
+    try { await daten.setPublishStatus({ status: "veroeffentlicht", ende: Date.now(), dauerMs: Date.now() - start, fehler: "", letzteVeroeffentlichung: Date.now() }); }
+    catch (e) { log("Status nicht speicherbar: " + e.message); }
     if (!opt.ohneMail && hook) await benachrichtigen(true, `Auslöser: ${hook}`);
   }
   log("✔ Build erfolgreich.");
