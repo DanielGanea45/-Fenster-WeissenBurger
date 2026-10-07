@@ -36,7 +36,7 @@ function head(p) {
   <title>${esc(p.title)}</title>
   <meta name="description" content="${esc(p.description)}">
   <link rel="canonical" href="${SITE}${p.url}">
-  <meta name="theme-color" content="#0f1215">
+  <meta name="theme-color" content="#0B5ED7">
   <meta property="og:title" content="${esc(p.ogTitle || p.title)}">
   <meta property="og:description" content="${esc(p.description)}">
   <meta property="og:type" content="website">

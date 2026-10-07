@@ -69,7 +69,7 @@ function head(p, noindex, extraScripts) {
   <meta name="description" content="${esc(p.desc)}">
   ${noindex ? '<meta name="robots" content="noindex, follow">' : ""}
   <link rel="canonical" href="${SITE}${p.url}">
-  <meta name="theme-color" content="#0f1215">
+  <meta name="theme-color" content="#0B5ED7">
   <meta property="og:title" content="${esc(p.title)}">
   <meta property="og:description" content="${esc(p.desc)}">
   <meta property="og:type" content="website">
