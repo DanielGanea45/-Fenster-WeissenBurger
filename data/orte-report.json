@@ -5,1270 +5,1270 @@
   "max": 0,
   "with": "",
   "seed": 0,
-  "words": 683
+  "words": 648
  },
  {
   "slug": "lenting",
   "region": "ingolstadt",
-  "max": 0.196,
+  "max": 0.203,
   "with": "ingolstadt",
   "seed": 0,
-  "words": 654
+  "words": 625
  },
  {
   "slug": "hepberg",
   "region": "ingolstadt",
-  "max": 0.157,
+  "max": 0.162,
   "with": "lenting",
   "seed": 1,
-  "words": 689
+  "words": 661
  },
  {
   "slug": "gaimersheim",
   "region": "ingolstadt",
-  "max": 0.257,
+  "max": 0.272,
   "with": "lenting",
   "seed": 0,
-  "words": 671
+  "words": 639
  },
  {
   "slug": "manching",
   "region": "ingolstadt",
-  "max": 0.292,
+  "max": 0.306,
   "with": "lenting",
   "seed": 0,
-  "words": 716
+  "words": 678
  },
  {
   "slug": "wettstetten",
   "region": "ingolstadt",
-  "max": 0.286,
+  "max": 0.297,
   "with": "hepberg",
   "seed": 0,
-  "words": 643
+  "words": 612
  },
  {
   "slug": "koesching",
   "region": "ingolstadt",
-  "max": 0.338,
+  "max": 0.315,
   "with": "manching",
   "seed": 1,
-  "words": 702
+  "words": 664
  },
  {
   "slug": "grossmehring",
   "region": "ingolstadt",
-  "max": 0.277,
+  "max": 0.297,
   "with": "gaimersheim",
   "seed": 0,
-  "words": 704
+  "words": 677
  },
  {
   "slug": "eitensheim",
   "region": "ingolstadt",
-  "max": 0.322,
+  "max": 0.335,
   "with": "ingolstadt",
   "seed": 0,
-  "words": 709
+  "words": 678
  },
  {
   "slug": "stammham",
   "region": "ingolstadt",
-  "max": 0.328,
+  "max": 0.316,
   "with": "hepberg",
   "seed": 0,
-  "words": 698
+  "words": 671
  },
  {
   "slug": "buxheim",
   "region": "ingolstadt",
-  "max": 0.34,
+  "max": 0.356,
   "with": "manching",
   "seed": 3,
-  "words": 680
+  "words": 649
  },
  {
   "slug": "baar-ebenhausen",
   "region": "ingolstadt",
-  "max": 0.354,
-  "with": "ingolstadt",
+  "max": 0.351,
+  "with": "wettstetten",
   "seed": 0,
-  "words": 729
+  "words": 693
  },
  {
   "slug": "karlskron",
   "region": "ingolstadt",
-  "max": 0.307,
+  "max": 0.316,
   "with": "gaimersheim",
   "seed": 0,
-  "words": 688
+  "words": 656
  },
  {
   "slug": "reichertshofen",
   "region": "ingolstadt",
-  "max": 0.346,
+  "max": 0.357,
   "with": "gaimersheim",
   "seed": 0,
-  "words": 680
+  "words": 646
  },
  {
   "slug": "hitzhofen",
   "region": "ingolstadt",
-  "max": 0.368,
-  "with": "baar-ebenhausen",
-  "seed": 0,
-  "words": 644
+  "max": 0.3,
+  "with": "koesching",
+  "seed": 1,
+  "words": 679
  },
  {
   "slug": "karlshuld",
   "region": "ingolstadt",
-  "max": 0.274,
-  "with": "lenting",
-  "seed": 2,
-  "words": 674
- },
- {
-  "slug": "vohburg-an-der-donau",
-  "region": "ingolstadt",
-  "max": 0.366,
-  "with": "manching",
-  "seed": 0,
-  "words": 720
- },
- {
-  "slug": "geisenfeld",
-  "region": "ingolstadt",
-  "max": 0.378,
-  "with": "reichertshofen",
-  "seed": 1,
-  "words": 696
- },
- {
-  "slug": "adelschlag",
-  "region": "ingolstadt",
-  "max": 0.361,
-  "with": "vohburg-an-der-donau",
-  "seed": 1,
-  "words": 676
- },
- {
-  "slug": "neuburg-an-der-donau",
-  "region": "ingolstadt",
-  "max": 0.359,
-  "with": "koesching",
-  "seed": 0,
-  "words": 772
- },
- {
-  "slug": "denkendorf",
-  "region": "ingolstadt",
-  "max": 0.321,
-  "with": "koesching",
-  "seed": 0,
-  "words": 697
- },
- {
-  "slug": "hohenwart",
-  "region": "ingolstadt",
-  "max": 0.35,
-  "with": "hepberg",
-  "seed": 2,
-  "words": 707
- },
- {
-  "slug": "koenigsmoos",
-  "region": "ingolstadt",
-  "max": 0.342,
-  "with": "stammham",
-  "seed": 4,
-  "words": 691
- },
- {
-  "slug": "muenchsmuenster",
-  "region": "ingolstadt",
-  "max": 0.304,
-  "with": "hohenwart",
-  "seed": 0,
-  "words": 747
- },
- {
-  "slug": "rohrbach",
-  "region": "ingolstadt",
-  "max": 0.368,
-  "with": "muenchsmuenster",
-  "seed": 1,
-  "words": 730
- },
- {
-  "slug": "pfoerring",
-  "region": "ingolstadt",
-  "max": 0.355,
-  "with": "muenchsmuenster",
-  "seed": 0,
-  "words": 691
- },
- {
-  "slug": "kipfenberg",
-  "region": "ingolstadt",
-  "max": 0.36,
-  "with": "reichertshofen",
-  "seed": 0,
-  "words": 696
- },
- {
-  "slug": "altmannstein",
-  "region": "ingolstadt",
-  "max": 0.317,
-  "with": "stammham",
-  "seed": 0,
-  "words": 697
- },
- {
-  "slug": "eichstaett",
-  "region": "ingolstadt",
-  "max": 0.355,
-  "with": "rohrbach",
-  "seed": 0,
-  "words": 681
- },
- {
-  "slug": "wolnzach",
-  "region": "ingolstadt",
-  "max": 0.371,
+  "max": 0.32,
   "with": "karlskron",
-  "seed": 1,
-  "words": 713
- },
- {
-  "slug": "oberhausen",
-  "region": "ingolstadt",
-  "max": 0.347,
-  "with": "hepberg",
-  "seed": 4,
-  "words": 706
- },
- {
-  "slug": "schrobenhausen",
-  "region": "ingolstadt",
-  "max": 0.348,
-  "with": "karlshuld",
-  "seed": 2,
-  "words": 655
- },
- {
-  "slug": "neustadt-an-der-donau",
-  "region": "ingolstadt",
-  "max": 0.346,
-  "with": "denkendorf",
-  "seed": 2,
-  "words": 785
- },
- {
-  "slug": "wellheim",
-  "region": "ingolstadt",
-  "max": 0.361,
-  "with": "vohburg-an-der-donau",
-  "seed": 0,
-  "words": 662
- },
- {
-  "slug": "pollenfeld",
-  "region": "ingolstadt",
-  "max": 0.372,
-  "with": "eitensheim",
-  "seed": 0,
-  "words": 705
- },
- {
-  "slug": "kinding",
-  "region": "ingolstadt",
-  "max": 0.354,
-  "with": "manching",
-  "seed": 3,
-  "words": 664
- },
- {
-  "slug": "pfaffenhofen-an-der-ilm",
-  "region": "ingolstadt",
-  "max": 0.365,
-  "with": "eitensheim",
-  "seed": 6,
-  "words": 749
- },
- {
-  "slug": "aresing",
-  "region": "ingolstadt",
-  "max": 0.35,
-  "with": "pfaffenhofen-an-der-ilm",
-  "seed": 0,
-  "words": 700
- },
- {
-  "slug": "ehekirchen",
-  "region": "ingolstadt",
-  "max": 0.378,
-  "with": "ingolstadt",
   "seed": 3,
   "words": 646
  },
  {
-  "slug": "schernfeld",
+  "slug": "vohburg-an-der-donau",
   "region": "ingolstadt",
-  "max": 0.347,
+  "max": 0.37,
+  "with": "koesching",
+  "seed": 1,
+  "words": 702
+ },
+ {
+  "slug": "geisenfeld",
+  "region": "ingolstadt",
+  "max": 0.365,
+  "with": "grossmehring",
+  "seed": 2,
+  "words": 672
+ },
+ {
+  "slug": "adelschlag",
+  "region": "ingolstadt",
+  "max": 0.369,
+  "with": "karlskron",
+  "seed": 1,
+  "words": 639
+ },
+ {
+  "slug": "neuburg-an-der-donau",
+  "region": "ingolstadt",
+  "max": 0.33,
+  "with": "buxheim",
+  "seed": 5,
+  "words": 693
+ },
+ {
+  "slug": "denkendorf",
+  "region": "ingolstadt",
+  "max": 0.337,
+  "with": "koesching",
+  "seed": 0,
+  "words": 668
+ },
+ {
+  "slug": "hohenwart",
+  "region": "ingolstadt",
+  "max": 0.363,
+  "with": "hepberg",
+  "seed": 2,
+  "words": 679
+ },
+ {
+  "slug": "koenigsmoos",
+  "region": "ingolstadt",
+  "max": 0.328,
+  "with": "hitzhofen",
+  "seed": 0,
+  "words": 695
+ },
+ {
+  "slug": "muenchsmuenster",
+  "region": "ingolstadt",
+  "max": 0.369,
+  "with": "geisenfeld",
+  "seed": 0,
+  "words": 713
+ },
+ {
+  "slug": "rohrbach",
+  "region": "ingolstadt",
+  "max": 0.358,
+  "with": "karlshuld",
+  "seed": 4,
+  "words": 662
+ },
+ {
+  "slug": "pfoerring",
+  "region": "ingolstadt",
+  "max": 0.362,
   "with": "muenchsmuenster",
+  "seed": 8,
+  "words": 683
+ },
+ {
+  "slug": "kipfenberg",
+  "region": "ingolstadt",
+  "max": 0.376,
+  "with": "reichertshofen",
+  "seed": 0,
+  "words": 666
+ },
+ {
+  "slug": "altmannstein",
+  "region": "ingolstadt",
+  "max": 0.354,
+  "with": "gaimersheim",
+  "seed": 5,
+  "words": 656
+ },
+ {
+  "slug": "eichstaett",
+  "region": "ingolstadt",
+  "max": 0.34,
+  "with": "hitzhofen",
+  "seed": 0,
+  "words": 647
+ },
+ {
+  "slug": "wolnzach",
+  "region": "ingolstadt",
+  "max": 0.368,
+  "with": "grossmehring",
+  "seed": 6,
+  "words": 683
+ },
+ {
+  "slug": "oberhausen",
+  "region": "ingolstadt",
+  "max": 0.337,
+  "with": "hepberg",
+  "seed": 4,
+  "words": 678
+ },
+ {
+  "slug": "schrobenhausen",
+  "region": "ingolstadt",
+  "max": 0.372,
+  "with": "altmannstein",
+  "seed": 1,
+  "words": 657
+ },
+ {
+  "slug": "neustadt-an-der-donau",
+  "region": "ingolstadt",
+  "max": 0.356,
+  "with": "ingolstadt",
   "seed": 0,
   "words": 711
  },
  {
+  "slug": "wellheim",
+  "region": "ingolstadt",
+  "max": 0.37,
+  "with": "adelschlag",
+  "seed": 0,
+  "words": 630
+ },
+ {
+  "slug": "pollenfeld",
+  "region": "ingolstadt",
+  "max": 0.357,
+  "with": "schrobenhausen",
+  "seed": 2,
+  "words": 627
+ },
+ {
+  "slug": "kinding",
+  "region": "ingolstadt",
+  "max": 0.375,
+  "with": "schrobenhausen",
+  "seed": 3,
+  "words": 635
+ },
+ {
+  "slug": "pfaffenhofen-an-der-ilm",
+  "region": "ingolstadt",
+  "max": 0.354,
+  "with": "koesching",
+  "seed": 1,
+  "words": 692
+ },
+ {
+  "slug": "aresing",
+  "region": "ingolstadt",
+  "max": 0.353,
+  "with": "wettstetten",
+  "seed": 0,
+  "words": 669
+ },
+ {
+  "slug": "ehekirchen",
+  "region": "ingolstadt",
+  "max": 0.373,
+  "with": "hitzhofen",
+  "seed": 6,
+  "words": 656
+ },
+ {
+  "slug": "schernfeld",
+  "region": "ingolstadt",
+  "max": 0.36,
+  "with": "pollenfeld",
+  "seed": 1,
+  "words": 642
+ },
+ {
   "slug": "dollnstein",
   "region": "ingolstadt",
-  "max": 0.374,
-  "with": "stammham",
-  "seed": 4,
-  "words": 684
+  "max": 0.367,
+  "with": "eitensheim",
+  "seed": 7,
+  "words": 668
  },
  {
   "slug": "rennertshofen",
   "region": "ingolstadt",
-  "max": 0.375,
-  "with": "geisenfeld",
+  "max": 0.361,
+  "with": "reichertshofen",
   "seed": 0,
-  "words": 728
+  "words": 691
  },
  {
   "slug": "mainburg",
   "region": "ingolstadt",
-  "max": 0.374,
-  "with": "karlshuld",
-  "seed": 5,
-  "words": 696
+  "max": 0.357,
+  "with": "pfoerring",
+  "seed": 14,
+  "words": 650
  },
  {
   "slug": "riedenburg",
   "region": "ingolstadt",
-  "max": 0.354,
-  "with": "neustadt-an-der-donau",
-  "seed": 1,
-  "words": 703
+  "max": 0.374,
+  "with": "muenchsmuenster",
+  "seed": 3,
+  "words": 680
  },
  {
   "slug": "scheyern",
   "region": "ingolstadt",
-  "max": 0.377,
-  "with": "kinding",
-  "seed": 2,
+  "max": 0.344,
+  "with": "ingolstadt",
+  "seed": 0,
   "words": 664
  },
  {
   "slug": "beilngries",
   "region": "ingolstadt",
-  "max": 0.362,
-  "with": "lenting",
-  "seed": 5,
-  "words": 701
+  "max": 0.361,
+  "with": "koesching",
+  "seed": 4,
+  "words": 623
  },
  {
   "slug": "titting",
   "region": "ingolstadt",
-  "max": 0.366,
-  "with": "eitensheim",
-  "seed": 0,
-  "words": 694
+  "max": 0.372,
+  "with": "eichstaett",
+  "seed": 9,
+  "words": 671
  },
  {
   "slug": "gerolsbach",
   "region": "ingolstadt",
-  "max": 0.378,
-  "with": "stammham",
-  "seed": 2,
-  "words": 707
+  "max": 0.373,
+  "with": "hohenwart",
+  "seed": 6,
+  "words": 679
  },
  {
   "slug": "burgheim",
   "region": "ingolstadt",
-  "max": 0.38,
-  "with": "karlshuld",
-  "seed": 7,
-  "words": 711
+  "max": 0.362,
+  "with": "denkendorf",
+  "seed": 3,
+  "words": 675
  },
  {
   "slug": "poettmes",
   "region": "ingolstadt",
-  "max": 0.372,
-  "with": "baar-ebenhausen",
-  "seed": 0,
-  "words": 662
+  "max": 0.374,
+  "with": "titting",
+  "seed": 1,
+  "words": 680
  },
  {
   "slug": "siegenburg",
   "region": "ingolstadt",
-  "max": 0.355,
+  "max": 0.372,
   "with": "karlskron",
-  "seed": 0,
-  "words": 700
- },
- {
-  "slug": "abensberg",
-  "region": "ingolstadt",
-  "max": 0.355,
-  "with": "poettmes",
-  "seed": 2,
-  "words": 684
- },
- {
-  "slug": "dietfurt",
-  "region": "ingolstadt",
-  "max": 0.36,
-  "with": "siegenburg",
-  "seed": 4,
-  "words": 711
- },
- {
-  "slug": "greding",
-  "region": "ingolstadt",
-  "max": 0.345,
-  "with": "abensberg",
-  "seed": 10,
-  "words": 697
- },
- {
-  "slug": "rudelzhausen",
-  "region": "ingolstadt",
-  "max": 0.359,
-  "with": "muenchsmuenster",
   "seed": 0,
   "words": 666
  },
  {
+  "slug": "abensberg",
+  "region": "ingolstadt",
+  "max": 0.351,
+  "with": "siegenburg",
+  "seed": 2,
+  "words": 656
+ },
+ {
+  "slug": "dietfurt",
+  "region": "ingolstadt",
+  "max": 0.371,
+  "with": "koenigsmoos",
+  "seed": 9,
+  "words": 672
+ },
+ {
+  "slug": "greding",
+  "region": "ingolstadt",
+  "max": 0.362,
+  "with": "muenchsmuenster",
+  "seed": 8,
+  "words": 665
+ },
+ {
+  "slug": "rudelzhausen",
+  "region": "ingolstadt",
+  "max": 0.347,
+  "with": "ingolstadt",
+  "seed": 16,
+  "words": 648
+ },
+ {
   "slug": "gachenbach",
   "region": "ingolstadt",
-  "max": 0.368,
-  "with": "pollenfeld",
-  "seed": 14,
-  "words": 676
+  "max": 0.358,
+  "with": "wettstetten",
+  "seed": 21,
+  "words": 661
  },
  {
   "slug": "schweitenkirchen",
   "region": "ingolstadt",
-  "max": 0.365,
-  "with": "koenigsmoos",
-  "seed": 22,
-  "words": 707
+  "max": 0.359,
+  "with": "baar-ebenhausen",
+  "seed": 29,
+  "words": 627
  },
  {
   "slug": "au-in-der-hallertau",
   "region": "ingolstadt",
-  "max": 0.375,
-  "with": "muenchsmuenster",
-  "seed": 3,
-  "words": 786
+  "max": 0.36,
+  "with": "rudelzhausen",
+  "seed": 13,
+  "words": 714
  },
  {
   "slug": "reichertshausen",
   "region": "ingolstadt",
-  "max": 0.376,
-  "with": "stammham",
-  "seed": 25,
-  "words": 676
+  "max": 0.358,
+  "with": "baar-ebenhausen",
+  "seed": 15,
+  "words": 668
  },
  {
   "slug": "marxheim",
   "region": "ingolstadt",
-  "max": 0.373,
-  "with": "kinding",
-  "seed": 8,
-  "words": 709
+  "max": 0.345,
+  "with": "reichertshausen",
+  "seed": 2,
+  "words": 626
  },
  {
   "slug": "kuehbach",
   "region": "ingolstadt",
-  "max": 0.345,
-  "with": "mainburg",
-  "seed": 9,
-  "words": 678
+  "max": 0.376,
+  "with": "lenting",
+  "seed": 6,
+  "words": 647
  },
  {
   "slug": "inchenhofen",
   "region": "ingolstadt",
-  "max": 0.362,
-  "with": "pfaffenhofen-an-der-ilm",
-  "seed": 13,
-  "words": 694
+  "max": 0.368,
+  "with": "neustadt-an-der-donau",
+  "seed": 7,
+  "words": 679
  },
  {
   "slug": "kelheim",
   "region": "ingolstadt",
-  "max": 0.338,
-  "with": "eichstaett",
-  "seed": 5,
-  "words": 674
+  "max": 0.373,
+  "with": "rohrbach",
+  "seed": 4,
+  "words": 646
  },
  {
   "slug": "ihrlerstein",
   "region": "ingolstadt",
-  "max": 0.37,
-  "with": "kelheim",
-  "seed": 3,
-  "words": 670
+  "max": 0.373,
+  "with": "pfoerring",
+  "seed": 7,
+  "words": 646
  },
  {
   "slug": "nandlstadt",
   "region": "ingolstadt",
-  "max": 0.362,
-  "with": "wolnzach",
+  "max": 0.377,
+  "with": "rennertshofen",
   "seed": 4,
-  "words": 690
+  "words": 661
  },
  {
   "slug": "pappenheim",
   "region": "ingolstadt",
-  "max": 0.376,
-  "with": "muenchsmuenster",
-  "seed": 7,
-  "words": 696
+  "max": 0.362,
+  "with": "hohenwart",
+  "seed": 1,
+  "words": 649
  },
  {
   "slug": "berching",
   "region": "ingolstadt",
-  "max": 0.373,
-  "with": "dietfurt",
+  "max": 0.379,
+  "with": "gaimersheim",
   "seed": 5,
-  "words": 691
+  "words": 663
  },
  {
   "slug": "kirchdorf-an-der-amper",
   "region": "ingolstadt",
-  "max": 0.345,
-  "with": "koesching",
-  "seed": 4,
-  "words": 748
+  "max": 0.353,
+  "with": "grossmehring",
+  "seed": 15,
+  "words": 699
  },
  {
   "slug": "wolfersdorf",
   "region": "ingolstadt",
-  "max": 0.366,
-  "with": "eitensheim",
-  "seed": 4,
-  "words": 700
+  "max": 0.378,
+  "with": "koesching",
+  "seed": 7,
+  "words": 669
  },
  {
   "slug": "rain-am-lech",
   "region": "ingolstadt",
-  "max": 0.379,
-  "with": "neustadt-an-der-donau",
+  "max": 0.373,
+  "with": "hohenwart",
   "seed": 0,
-  "words": 759
+  "words": 726
  },
  {
   "slug": "breitenbrunn",
   "region": "ingolstadt",
-  "max": 0.369,
-  "with": "abensberg",
-  "seed": 9,
-  "words": 650
+  "max": 0.366,
+  "with": "rohrbach",
+  "seed": 12,
+  "words": 651
  },
  {
   "slug": "thalmaessing",
   "region": "ingolstadt",
-  "max": 0.354,
-  "with": "inchenhofen",
+  "max": 0.363,
+  "with": "aresing",
   "seed": 5,
-  "words": 692
+  "words": 659
  },
  {
   "slug": "jetzendorf",
   "region": "ingolstadt",
-  "max": 0.365,
-  "with": "marxheim",
-  "seed": 19,
-  "words": 711
+  "max": 0.381,
+  "with": "stammham",
+  "seed": 14,
+  "words": 670
  },
  {
   "slug": "attenkirchen",
   "region": "ingolstadt",
-  "max": 0.352,
-  "with": "schernfeld",
-  "seed": 11,
-  "words": 704
+  "max": 0.377,
+  "with": "denkendorf",
+  "seed": 26,
+  "words": 658
  },
  {
   "slug": "hilgertshausen-tandern",
   "region": "ingolstadt",
-  "max": 0.371,
-  "with": "schernfeld",
-  "seed": 12,
-  "words": 745
+  "max": 0.372,
+  "with": "abensberg",
+  "seed": 2,
+  "words": 675
  },
  {
   "slug": "hohenkammer",
   "region": "ingolstadt",
-  "max": 0.376,
-  "with": "attenkirchen",
-  "seed": 9,
-  "words": 707
+  "max": 0.375,
+  "with": "ehekirchen",
+  "seed": 5,
+  "words": 651
  },
  {
   "slug": "petershausen",
   "region": "ingolstadt",
-  "max": 0.378,
-  "with": "kipfenberg",
-  "seed": 15,
-  "words": 691
+  "max": 0.374,
+  "with": "pfoerring",
+  "seed": 21,
+  "words": 681
  },
  {
   "slug": "allershausen",
   "region": "ingolstadt",
-  "max": 0.367,
-  "with": "gerolsbach",
-  "seed": 1,
-  "words": 679
+  "max": 0.389,
+  "with": "dollnstein",
+  "seed": 39,
+  "words": 668
  },
  {
   "slug": "rohr-in-niederbayern",
   "region": "ingolstadt",
-  "max": 0.354,
-  "with": "hitzhofen",
+  "max": 0.363,
+  "with": "manching",
   "seed": 1,
-  "words": 737
+  "words": 707
  },
  {
   "slug": "aichach",
   "region": "ingolstadt",
-  "max": 0.36,
-  "with": "altmannstein",
-  "seed": 1,
-  "words": 703
+  "max": 0.377,
+  "with": "gaimersheim",
+  "seed": 11,
+  "words": 681
  },
  {
   "slug": "freising",
   "region": "ingolstadt",
-  "max": 0.377,
-  "with": "rohrbach",
-  "seed": 3,
+  "max": 0.364,
+  "with": "karlskron",
+  "seed": 37,
   "words": 689
  },
  {
   "slug": "donauwoerth",
   "region": "ingolstadt",
-  "max": 0.376,
-  "with": "neuburg-an-der-donau",
-  "seed": 28,
-  "words": 716
+  "max": 0.367,
+  "with": "riedenburg",
+  "seed": 4,
+  "words": 640
  },
  {
   "slug": "moosburg-an-der-isar",
   "region": "ingolstadt",
-  "max": 0.374,
-  "with": "siegenburg",
+  "max": 0.377,
+  "with": "nandlstadt",
   "seed": 5,
-  "words": 772
+  "words": 731
  },
  {
   "slug": "neufahrn-bei-freising",
   "region": "ingolstadt",
-  "max": 0.377,
-  "with": "gaimersheim",
-  "seed": 1,
-  "words": 712
+  "max": 0.37,
+  "with": "buxheim",
+  "seed": 12,
+  "words": 720
  },
  {
   "slug": "unterschleissheim",
   "region": "ingolstadt",
   "max": 0.363,
-  "with": "ehekirchen",
-  "seed": 2,
-  "words": 644
+  "with": "attenkirchen",
+  "seed": 27,
+  "words": 669
  },
  {
   "slug": "regensburg",
   "region": "ingolstadt",
-  "max": 0.367,
-  "with": "schernfeld",
-  "seed": 0,
-  "words": 684
+  "max": 0.384,
+  "with": "pollenfeld",
+  "seed": 36,
+  "words": 638
  },
  {
   "slug": "dachau",
   "region": "ingolstadt",
-  "max": 0.369,
-  "with": "stammham",
-  "seed": 0,
-  "words": 674
+  "max": 0.38,
+  "with": "greding",
+  "seed": 35,
+  "words": 635
  },
  {
   "slug": "gersthofen",
   "region": "ingolstadt",
-  "max": 0.38,
+  "max": 0.375,
   "with": "dachau",
-  "seed": 5,
-  "words": 678
+  "seed": 14,
+  "words": 654
  },
  {
   "slug": "friedberg",
   "region": "ingolstadt",
-  "max": 0.355,
-  "with": "hohenkammer",
-  "seed": 2,
-  "words": 708
+  "max": 0.392,
+  "with": "hepberg",
+  "seed": 39,
+  "words": 673
  },
  {
   "slug": "neumarkt-in-der-oberpfalz",
   "region": "ingolstadt",
-  "max": 0.365,
-  "with": "geisenfeld",
-  "seed": 0,
-  "words": 720
+  "max": 0.38,
+  "with": "schweitenkirchen",
+  "seed": 6,
+  "words": 700
  },
  {
   "slug": "augsburg",
   "region": "ingolstadt",
-  "max": 0.376,
-  "with": "schweitenkirchen",
-  "seed": 4,
-  "words": 667
+  "max": 0.377,
+  "with": "wettstetten",
+  "seed": 7,
+  "words": 662
  },
  {
   "slug": "roth",
   "region": "ingolstadt",
-  "max": 0.357,
-  "with": "greding",
-  "seed": 2,
-  "words": 697
+  "max": 0.39,
+  "with": "petershausen",
+  "seed": 29,
+  "words": 641
  },
  {
   "slug": "landshut",
   "region": "ingolstadt",
-  "max": 0.379,
-  "with": "abensberg",
-  "seed": 0,
-  "words": 687
+  "max": 0.376,
+  "with": "wellheim",
+  "seed": 13,
+  "words": 658
  },
  {
   "slug": "neusaess",
   "region": "ingolstadt",
-  "max": 0.374,
-  "with": "friedberg",
-  "seed": 27,
-  "words": 713
+  "max": 0.392,
+  "with": "landshut",
+  "seed": 24,
+  "words": 628
  },
  {
   "slug": "karlsfeld",
   "region": "ingolstadt",
-  "max": 0.387,
-  "with": "pollenfeld",
-  "seed": 9,
-  "words": 692
+  "max": 0.385,
+  "with": "dietfurt",
+  "seed": 37,
+  "words": 671
  },
  {
   "slug": "erding",
   "region": "ingolstadt",
-  "max": 0.375,
-  "with": "greding",
-  "seed": 11,
-  "words": 672
+  "max": 0.38,
+  "with": "ingolstadt",
+  "seed": 19,
+  "words": 660
  },
  {
   "slug": "olching",
   "region": "ingolstadt",
-  "max": 0.367,
-  "with": "riedenburg",
-  "seed": 20,
-  "words": 673
+  "max": 0.396,
+  "with": "geisenfeld",
+  "seed": 15,
+  "words": 641
  },
  {
   "slug": "fuerstenfeldbruck",
   "region": "ingolstadt",
-  "max": 0.364,
-  "with": "landshut",
-  "seed": 25,
-  "words": 653
+  "max": 0.386,
+  "with": "manching",
+  "seed": 30,
+  "words": 664
  },
  {
   "slug": "koenigsbrunn",
   "region": "ingolstadt",
-  "max": 0.37,
+  "max": 0.378,
   "with": "hepberg",
-  "seed": 21,
-  "words": 695
+  "seed": 18,
+  "words": 627
  },
  {
   "slug": "noerdlingen",
   "region": "ingolstadt",
-  "max": 0.38,
-  "with": "karlshuld",
-  "seed": 3,
-  "words": 711
+  "max": 0.383,
+  "with": "schernfeld",
+  "seed": 2,
+  "words": 632
  },
  {
   "slug": "puchheim",
   "region": "ingolstadt",
-  "max": 0.361,
-  "with": "karlsfeld",
-  "seed": 22,
-  "words": 682
+  "max": 0.381,
+  "with": "wettstetten",
+  "seed": 17,
+  "words": 675
  },
  {
   "slug": "schwabach",
   "region": "ingolstadt",
-  "max": 0.374,
-  "with": "regensburg",
-  "seed": 4,
-  "words": 655
+  "max": 0.366,
+  "with": "marxheim",
+  "seed": 7,
+  "words": 633
  },
  {
   "slug": "karlsruhe",
   "region": "karlsruhe",
-  "max": 0.37,
-  "with": "denkendorf",
-  "seed": 3,
-  "words": 670
+  "max": 0.372,
+  "with": "rudelzhausen",
+  "seed": 8,
+  "words": 667
  },
  {
   "slug": "eggenstein-leopoldshafen",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "puchheim",
-  "seed": 1,
-  "words": 737
+  "max": 0.378,
+  "with": "hepberg",
+  "seed": 2,
+  "words": 666
  },
  {
   "slug": "stutensee",
   "region": "karlsruhe",
-  "max": 0.366,
-  "with": "wellheim",
-  "seed": 0,
-  "words": 708
+  "max": 0.369,
+  "with": "rohr-in-niederbayern",
+  "seed": 5,
+  "words": 681
  },
  {
   "slug": "ettlingen",
   "region": "karlsruhe",
-  "max": 0.365,
-  "with": "eitensheim",
-  "seed": 3,
-  "words": 710
+  "max": 0.373,
+  "with": "unterschleissheim",
+  "seed": 4,
+  "words": 668
  },
  {
   "slug": "rheinstetten",
   "region": "karlsruhe",
-  "max": 0.373,
-  "with": "dietfurt",
-  "seed": 6,
-  "words": 679
+  "max": 0.38,
+  "with": "siegenburg",
+  "seed": 17,
+  "words": 687
  },
  {
   "slug": "pfinztal",
   "region": "karlsruhe",
-  "max": 0.374,
-  "with": "rheinstetten",
-  "seed": 1,
-  "words": 674
+  "max": 0.364,
+  "with": "geisenfeld",
+  "seed": 15,
+  "words": 664
  },
  {
   "slug": "weingarten-baden",
   "region": "karlsruhe",
-  "max": 0.349,
+  "max": 0.335,
   "with": "kinding",
   "seed": 2,
-  "words": 692
+  "words": 661
  },
  {
   "slug": "waldbronn",
   "region": "karlsruhe",
-  "max": 0.376,
-  "with": "beilngries",
-  "seed": 2,
-  "words": 694
+  "max": 0.375,
+  "with": "dachau",
+  "seed": 12,
+  "words": 636
  },
  {
   "slug": "hagenbach",
   "region": "karlsruhe",
-  "max": 0.351,
-  "with": "ehekirchen",
+  "max": 0.372,
+  "with": "thalmaessing",
   "seed": 0,
-  "words": 675
+  "words": 640
  },
  {
   "slug": "neuburg-am-rhein",
   "region": "karlsruhe",
-  "max": 0.374,
-  "with": "friedberg",
-  "seed": 0,
-  "words": 781
+  "max": 0.378,
+  "with": "wolnzach",
+  "seed": 4,
+  "words": 700
  },
  {
   "slug": "woerth-am-rhein",
   "region": "karlsruhe",
-  "max": 0.349,
-  "with": "moosburg-an-der-isar",
-  "seed": 2,
-  "words": 728
+  "max": 0.378,
+  "with": "abensberg",
+  "seed": 0,
+  "words": 718
  },
  {
   "slug": "durmersheim",
   "region": "karlsruhe",
-  "max": 0.372,
-  "with": "oberhausen",
-  "seed": 1,
-  "words": 659
+  "max": 0.35,
+  "with": "kipfenberg",
+  "seed": 2,
+  "words": 672
  },
  {
   "slug": "karlsbad",
   "region": "karlsruhe",
-  "max": 0.369,
-  "with": "oberhausen",
-  "seed": 8,
-  "words": 700
+  "max": 0.38,
+  "with": "muenchsmuenster",
+  "seed": 11,
+  "words": 674
  },
  {
   "slug": "linkenheim-hochstetten",
   "region": "karlsruhe",
-  "max": 0.378,
-  "with": "koenigsbrunn",
-  "seed": 6,
-  "words": 747
+  "max": 0.369,
+  "with": "manching",
+  "seed": 3,
+  "words": 706
  },
  {
   "slug": "jockgrim",
   "region": "karlsruhe",
-  "max": 0.355,
-  "with": "wolfersdorf",
-  "seed": 14,
-  "words": 668
+  "max": 0.376,
+  "with": "roth",
+  "seed": 4,
+  "words": 671
  },
  {
   "slug": "leimersheim",
   "region": "karlsruhe",
-  "max": 0.365,
-  "with": "ettlingen",
-  "seed": 5,
-  "words": 658
+  "max": 0.373,
+  "with": "mainburg",
+  "seed": 0,
+  "words": 643
  },
  {
   "slug": "au-am-rhein",
   "region": "karlsruhe",
-  "max": 0.378,
-  "with": "allershausen",
-  "seed": 0,
-  "words": 770
+  "max": 0.377,
+  "with": "koesching",
+  "seed": 4,
+  "words": 741
  },
  {
   "slug": "remchingen",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "weingarten-baden",
-  "seed": 5,
-  "words": 664
+  "max": 0.375,
+  "with": "allershausen",
+  "seed": 3,
+  "words": 651
  },
  {
   "slug": "malsch",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "neuburg-am-rhein",
-  "seed": 0,
-  "words": 695
+  "max": 0.374,
+  "with": "neustadt-an-der-donau",
+  "seed": 17,
+  "words": 674
  },
  {
   "slug": "walzbachtal",
   "region": "karlsruhe",
-  "max": 0.372,
-  "with": "scheyern",
-  "seed": 2,
-  "words": 695
+  "max": 0.375,
+  "with": "aresing",
+  "seed": 4,
+  "words": 666
  },
  {
   "slug": "bietigheim",
   "region": "karlsruhe",
-  "max": 0.352,
-  "with": "koenigsmoos",
-  "seed": 5,
-  "words": 712
+  "max": 0.366,
+  "with": "au-am-rhein",
+  "seed": 1,
+  "words": 648
  },
  {
   "slug": "rheinzabern",
   "region": "karlsruhe",
-  "max": 0.373,
-  "with": "rohrbach",
-  "seed": 0,
-  "words": 723
+  "max": 0.377,
+  "with": "attenkirchen",
+  "seed": 2,
+  "words": 674
  },
  {
   "slug": "koenigsbach-stein",
   "region": "karlsruhe",
-  "max": 0.375,
-  "with": "petershausen",
-  "seed": 3,
-  "words": 740
+  "max": 0.369,
+  "with": "kipfenberg",
+  "seed": 25,
+  "words": 694
  },
  {
   "slug": "elchesheim-illingen",
   "region": "karlsruhe",
-  "max": 0.378,
-  "with": "hilgertshausen-tandern",
-  "seed": 2,
-  "words": 709
+  "max": 0.375,
+  "with": "gachenbach",
+  "seed": 7,
+  "words": 680
  },
  {
   "slug": "hatzenbuehl",
   "region": "karlsruhe",
-  "max": 0.373,
-  "with": "karlsbad",
-  "seed": 15,
-  "words": 695
+  "max": 0.366,
+  "with": "kirchdorf-an-der-amper",
+  "seed": 4,
+  "words": 658
  },
  {
   "slug": "marxzell",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "nandlstadt",
-  "seed": 0,
-  "words": 658
+  "max": 0.376,
+  "with": "hilgertshausen-tandern",
+  "seed": 35,
+  "words": 628
  },
  {
   "slug": "keltern",
   "region": "karlsruhe",
-  "max": 0.383,
-  "with": "siegenburg",
-  "seed": 19,
-  "words": 663
+  "max": 0.379,
+  "with": "rheinzabern",
+  "seed": 18,
+  "words": 662
  },
  {
   "slug": "dettenheim",
   "region": "karlsruhe",
-  "max": 0.366,
-  "with": "pfinztal",
-  "seed": 8,
-  "words": 691
+  "max": 0.379,
+  "with": "marxzell",
+  "seed": 39,
+  "words": 661
  },
  {
   "slug": "kandel",
   "region": "karlsruhe",
-  "max": 0.371,
-  "with": "elchesheim-illingen",
-  "seed": 1,
-  "words": 676
+  "max": 0.37,
+  "with": "lenting",
+  "seed": 2,
+  "words": 651
  },
  {
   "slug": "kaempfelbach",
   "region": "karlsruhe",
-  "max": 0.376,
-  "with": "moosburg-an-der-isar",
-  "seed": 4,
-  "words": 660
+  "max": 0.372,
+  "with": "koesching",
+  "seed": 27,
+  "words": 656
  },
  {
   "slug": "muggensturm",
   "region": "karlsruhe",
-  "max": 0.363,
-  "with": "manching",
-  "seed": 10,
-  "words": 667
+  "max": 0.368,
+  "with": "olching",
+  "seed": 4,
+  "words": 687
  },
  {
   "slug": "oetigheim",
   "region": "karlsruhe",
-  "max": 0.379,
-  "with": "manching",
-  "seed": 6,
-  "words": 663
+  "max": 0.386,
+  "with": "rheinstetten",
+  "seed": 2,
+  "words": 661
  },
  {
   "slug": "karlsdorf-neuthard",
   "region": "karlsruhe",
-  "max": 0.371,
-  "with": "landshut",
-  "seed": 5,
-  "words": 695
+  "max": 0.384,
+  "with": "roth",
+  "seed": 0,
+  "words": 696
  },
  {
   "slug": "graben-neudorf",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "koenigsbach-stein",
+  "max": 0.367,
+  "with": "baar-ebenhausen",
   "seed": 2,
-  "words": 693
+  "words": 660
  },
  {
   "slug": "ruelzheim",
   "region": "karlsruhe",
-  "max": 0.371,
-  "with": "rain-am-lech",
-  "seed": 1,
-  "words": 727
+  "max": 0.362,
+  "with": "inchenhofen",
+  "seed": 7,
+  "words": 661
  },
  {
   "slug": "hoerdt",
   "region": "karlsruhe",
-  "max": 0.366,
-  "with": "bietigheim",
-  "seed": 4,
-  "words": 688
+  "max": 0.383,
+  "with": "aichach",
+  "seed": 5,
+  "words": 668
  },
  {
   "slug": "steinmauern",
   "region": "karlsruhe",
-  "max": 0.371,
-  "with": "stutensee",
-  "seed": 7,
-  "words": 712
+  "max": 0.374,
+  "with": "linkenheim-hochstetten",
+  "seed": 22,
+  "words": 637
  },
  {
   "slug": "gondelsheim",
   "region": "karlsruhe",
-  "max": 0.379,
-  "with": "wolnzach",
-  "seed": 33,
-  "words": 697
+  "max": 0.37,
+  "with": "kirchdorf-an-der-amper",
+  "seed": 7,
+  "words": 686
  },
  {
   "slug": "bruchsal",
   "region": "karlsruhe",
-  "max": 0.375,
-  "with": "elchesheim-illingen",
-  "seed": 22,
-  "words": 733
+  "max": 0.374,
+  "with": "burgheim",
+  "seed": 24,
+  "words": 661
  },
  {
   "slug": "herxheim-bei-landau-pfalz",
   "region": "karlsruhe",
   "max": 0.379,
-  "with": "eggenstein-leopoldshafen",
-  "seed": 4,
-  "words": 757
+  "with": "waldbronn",
+  "seed": 27,
+  "words": 715
  },
  {
   "slug": "straubenhardt",
   "region": "karlsruhe",
-  "max": 0.368,
-  "with": "eitensheim",
-  "seed": 28,
-  "words": 688
+  "max": 0.399,
+  "with": "manching",
+  "seed": 31,
+  "words": 657
  },
  {
   "slug": "rastatt",
   "region": "karlsruhe",
-  "max": 0.368,
-  "with": "fuerstenfeldbruck",
-  "seed": 11,
-  "words": 696
+  "max": 0.369,
+  "with": "kaempfelbach",
+  "seed": 16,
+  "words": 675
  },
  {
   "slug": "bretten",
   "region": "karlsruhe",
-  "max": 0.379,
-  "with": "walzbachtal",
-  "seed": 34,
-  "words": 686
+  "max": 0.383,
+  "with": "gachenbach",
+  "seed": 18,
+  "words": 664
  },
  {
   "slug": "birkenfeld",
   "region": "karlsruhe",
-  "max": 0.372,
-  "with": "rennertshofen",
+  "max": 0.38,
+  "with": "rheinstetten",
   "seed": 7,
-  "words": 691
+  "words": 656
  },
  {
   "slug": "gaggenau",
   "region": "karlsruhe",
-  "max": 0.367,
-  "with": "ehekirchen",
-  "seed": 0,
-  "words": 701
+  "max": 0.375,
+  "with": "altmannstein",
+  "seed": 26,
+  "words": 672
  },
  {
   "slug": "germersheim",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "friedberg",
-  "seed": 35,
-  "words": 724
+  "max": 0.371,
+  "with": "nandlstadt",
+  "seed": 18,
+  "words": 661
  },
  {
   "slug": "ubstadt-weiher",
   "region": "karlsruhe",
-  "max": 0.378,
-  "with": "pfoerring",
-  "seed": 0,
-  "words": 753
+  "max": 0.384,
+  "with": "landshut",
+  "seed": 10,
+  "words": 678
  },
  {
   "slug": "pforzheim",
   "region": "karlsruhe",
-  "max": 0.372,
-  "with": "bietigheim",
-  "seed": 2,
-  "words": 707
+  "max": 0.39,
+  "with": "grossmehring",
+  "seed": 17,
+  "words": 700
  },
  {
   "slug": "philippsburg",
   "region": "karlsruhe",
-  "max": 0.378,
-  "with": "scheyern",
-  "seed": 22,
-  "words": 671
+  "max": 0.379,
+  "with": "ihrlerstein",
+  "seed": 16,
+  "words": 653
  },
  {
   "slug": "kraichtal",
   "region": "karlsruhe",
-  "max": 0.383,
-  "with": "pollenfeld",
+  "max": 0.393,
+  "with": "scheyern",
   "seed": 19,
-  "words": 687
+  "words": 659
  },
  {
   "slug": "gernsbach",
   "region": "karlsruhe",
-  "max": 0.379,
-  "with": "reichertshausen",
-  "seed": 27,
-  "words": 705
+  "max": 0.395,
+  "with": "oetigheim",
+  "seed": 0,
+  "words": 648
  },
  {
   "slug": "bad-schoenborn",
   "region": "karlsruhe",
-  "max": 0.344,
-  "with": "koenigsmoos",
-  "seed": 10,
-  "words": 703
+  "max": 0.377,
+  "with": "hoerdt",
+  "seed": 11,
+  "words": 666
  },
  {
   "slug": "waghaeusel",
   "region": "karlsruhe",
-  "max": 0.381,
-  "with": "nandlstadt",
-  "seed": 21,
-  "words": 688
+  "max": 0.383,
+  "with": "karlsruhe",
+  "seed": 30,
+  "words": 635
  },
  {
   "slug": "niefern-oeschelbronn",
   "region": "karlsruhe",
-  "max": 0.38,
-  "with": "karlsdorf-neuthard",
-  "seed": 5,
-  "words": 729
+  "max": 0.387,
+  "with": "titting",
+  "seed": 0,
+  "words": 709
  },
  {
   "slug": "landau-in-der-pfalz",
   "region": "karlsruhe",
-  "max": 0.383,
-  "with": "rheinstetten",
-  "seed": 13,
-  "words": 716
+  "max": 0.373,
+  "with": "eitensheim",
+  "seed": 4,
+  "words": 726
  },
  {
   "slug": "oberderdingen",
   "region": "karlsruhe",
-  "max": 0.363,
-  "with": "petershausen",
-  "seed": 1,
-  "words": 641
+  "max": 0.397,
+  "with": "linkenheim-hochstetten",
+  "seed": 10,
+  "words": 685
  },
  {
   "slug": "baden-baden",
   "region": "karlsruhe",
-  "max": 0.363,
-  "with": "abensberg",
+  "max": 0.369,
+  "with": "rudelzhausen",
   "seed": 8,
-  "words": 716
+  "words": 684
  }
 ]

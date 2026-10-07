@@ -45,10 +45,10 @@ function header(current) {
         <div class="nav__drop" aria-label="Produkte">
           <a href="/produkte/">Alle Produkte</a>
           <a href="/produkte/kunststofffenster-koemmerling/">Kunststofffenster (Kömmerling)</a>
+          <a href="/produkte/kunststoff-aluminium-fenster/">Kunststoff-Aluminium-Fenster</a>
           <a href="/produkte/aluminiumfenster-cortizo/">Aluminiumfenster (Cortizo)</a>
           <a href="/produkte/schiebetueren/">Hebe-Schiebetüren</a>
           <a href="/produkte/haustueren/">Haustüren</a>
-          <a href="/produkte/holzfenster/">Holzfenster &amp; mehr</a>
         </div>
       </div>
       <a href="/leistungen/">Leistungen</a>

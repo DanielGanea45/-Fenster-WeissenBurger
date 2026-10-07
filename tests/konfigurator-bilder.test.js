@@ -38,7 +38,7 @@ test("Bilderliste und Dateien stimmen überein; vollständige Serie 144 Fenster 
 test("Alt-Texte: deutsch und sprechend", () => {
   assert.equal(altText("fenster-1fl-weiss-keine-kein"), "Fenster einflügelig (Dreh-Kipp) in Weiß, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft");
   assert.equal(altText("fenster-balkon-zweifarbig-wiener-aufsatz"), "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft");
-  assert.equal(altText("tuer-klassisch-goldenoak"), "Haustür klassisch in Holzoptik in Golden Oak – Abbildung beispielhaft");
+  assert.equal(altText("tuer-klassisch-goldenoak"), "Haustür klassisch in Eichenoptik in Golden Oak – Abbildung beispielhaft");
   assert.equal(altText("glas-vsg"), "Sicherheitsglas (VSG) – Abbildung beispielhaft");
 });
 

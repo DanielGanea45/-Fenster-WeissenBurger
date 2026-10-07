@@ -188,6 +188,7 @@
     { id: "uebersicht", gruppe: "Übersicht", label: "Übersicht", kurz: "Start", icon: I('<path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/>') },
     { id: "bilder", gruppe: "Inhalte", label: "Bilder", kurz: "Bilder", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>') },
     { id: "texte", gruppe: "Inhalte", label: "Texte", kurz: "Texte", icon: I('<path d="M5 4h14M12 4v16M8 20h8"/>') },
+    { id: "produkte", gruppe: "Inhalte", label: "Produkte", kurz: "Produkte", icon: I('<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>') },
     { id: "bewertungen", gruppe: "Inhalte", label: "Bewertungen", kurz: "Bewert.", badge: "bewertungen", icon: I('<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/>') },
     { id: "preise", gruppe: "Verkauf", label: "Preise & Konfigurator", kurz: "Preise", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>') },
     { id: "anfragen", gruppe: "Verkauf", label: "Anfragen", kurz: "Anfragen", badge: "anfragen", icon: I('<path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H8l-4 4z"/><path d="M8 10h8M8 13h5"/>') },
@@ -196,7 +197,7 @@
     { id: "versionen", gruppe: "System", label: "Änderungsprotokoll", kurz: "Versionen", icon: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>') },
     { id: "protokoll", gruppe: "System", label: "Zugriffsprotokoll", kurz: "Zugriffe", sub: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v6h6M8 13h8M8 17h6"/>') },
     { id: "konto", gruppe: "System", label: "Konto", kurz: "Konto", icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
-  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
+  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", produkte: "Produkte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
   function navHtml(aktiv) {
     const sichtbar = NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an");
     const gruppen = []; sichtbar.forEach((n) => { let g = gruppen.find((x) => x.name === n.gruppe); if (!g) { g = { name: n.gruppe, eintraege: [] }; gruppen.push(g); } g.eintraege.push(n); });
@@ -292,6 +293,32 @@
   /* ====================================================================
      Ansichten
      ==================================================================== */
+  async function verarbeite(file, fortschritt) {
+    let quelle = file;
+    if (/hei[cf]/i.test(file.type) || /\.hei[cf]$/i.test(file.name)) {
+      await ladeScript("/js/vendor/heic2any-0.0.4.min.js");
+      const out = await window.heic2any({ blob: file, toType: "image/jpeg", quality: 0.92 });
+      quelle = Array.isArray(out) ? out[0] : out;
+    }
+    fortschritt(20);
+    let bmp;
+    try { bmp = await createImageBitmap(quelle, { imageOrientation: "from-image" }); }
+    catch (e) { bmp = await new Promise((res, rej) => { const img = new Image(); img.onload = () => res(img); img.onerror = () => rej(new Error("Bild konnte nicht gelesen werden.")); img.src = URL.createObjectURL(quelle); }); }
+    const W = bmp.width || bmp.naturalWidth, H = bmp.height || bmp.naturalHeight;
+    const groessen = W > 900 ? [800, 1600] : [800];
+    const dateien = {}; let breite = 0, hoehe = 0;
+    for (const g of groessen) {
+      const f = Math.min(1, g / W);
+      const c = document.createElement("canvas"); c.width = Math.round(W * f); c.height = Math.round(H * f);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      const blob = await new Promise((res) => c.toBlob(res, "image/webp", 0.82));
+      if (!blob) throw new Error("WebP wird von diesem Browser nicht unterstützt.");
+      dateien[g] = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(",")[1]); fr.readAsDataURL(blob); });
+      if (!breite) { breite = c.width; hoehe = c.height; }
+      fortschritt(50 + 50 * (groessen.indexOf(g) + 1) / groessen.length);
+    }
+    return { dateien, breite, hoehe };
+  }
   const VIEWS = {};
 
   /* ---------- Übersicht ---------- */
@@ -432,32 +459,6 @@
       toast("Hochgeladen – Titel und Beschreibung prüfen, dann „Speichern & veröffentlichen“.", "ok");
       await render();
       if ($("#be-titel")) { $("#be-titel").focus(); }
-    }
-    async function verarbeite(file, fortschritt) {
-      let quelle = file;
-      if (/hei[cf]/i.test(file.type) || /\.hei[cf]$/i.test(file.name)) {
-        await ladeScript("/js/vendor/heic2any-0.0.4.min.js");
-        const out = await window.heic2any({ blob: file, toType: "image/jpeg", quality: 0.92 });
-        quelle = Array.isArray(out) ? out[0] : out;
-      }
-      fortschritt(20);
-      let bmp;
-      try { bmp = await createImageBitmap(quelle, { imageOrientation: "from-image" }); }
-      catch (e) { bmp = await new Promise((res, rej) => { const img = new Image(); img.onload = () => res(img); img.onerror = () => rej(new Error("Bild konnte nicht gelesen werden.")); img.src = URL.createObjectURL(quelle); }); }
-      const W = bmp.width || bmp.naturalWidth, H = bmp.height || bmp.naturalHeight;
-      const groessen = W > 900 ? [800, 1600] : [800];
-      const dateien = {}; let breite = 0, hoehe = 0;
-      for (const g of groessen) {
-        const f = Math.min(1, g / W);
-        const c = document.createElement("canvas"); c.width = Math.round(W * f); c.height = Math.round(H * f);
-        c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
-        const blob = await new Promise((res) => c.toBlob(res, "image/webp", 0.82));
-        if (!blob) throw new Error("WebP wird von diesem Browser nicht unterstützt.");
-        dateien[g] = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(",")[1]); fr.readAsDataURL(blob); });
-        if (!breite) { breite = c.width; hoehe = c.height; }
-        fortschritt(50 + 50 * (groessen.indexOf(g) + 1) / groessen.length);
-      }
-      return { dateien, breite, hoehe };
     }
   };
 
@@ -954,5 +955,5 @@
 
   /* ---------- Start ---------- */
   start();
-  window.FWAdmin = { $, $$, h, api, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, pubHtml };
+  window.FWAdmin = { $, $$, h, api, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, pubHtml, bildVerarbeiten: verarbeite };
 })();

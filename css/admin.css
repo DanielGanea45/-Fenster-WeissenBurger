@@ -612,3 +612,15 @@ h3 { font-size: 14px; }
 .dienst__kopf h2 { padding: 0; border: 0; }
 .dienst__links { padding: 8px 0 2px; }
 .dienst__links:empty { display: none; }
+
+/* Produkte (Admin): Kartenliste mit Drag & Drop */
+.pkarten { list-style: none; margin: 0; padding: 0; }
+.pkarte { cursor: default; }
+.pkarte.is-drag { opacity: .5; }
+.pkarte.is-aus { opacity: .7; }
+.pkarte__kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.pkarte__kopf h2 { padding: 0; border: 0; flex: 1 1 auto; min-width: 120px; }
+.pkarte__griff { cursor: grab; color: var(--ink-3); font-size: 16px; letter-spacing: -2px; padding: 0 2px; user-select: none; }
+.pkarte__bild { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--line); }
+.pkarte__tools { margin-left: auto; }
+.pkarte__upload { margin-top: 6px; align-self: flex-start; cursor: pointer; }

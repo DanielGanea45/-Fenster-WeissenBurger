@@ -20,7 +20,7 @@ const SEITEN = [
   { slug: "aluminiumfenster", datei: "produkte/aluminiumfenster-cortizo/index.html", titel: "Aluminiumfenster (Cortizo)", sektion: "produkte" },
   { slug: "schiebetueren", datei: "produkte/schiebetueren/index.html", titel: "Hebe-Schiebetüren", sektion: "produkte" },
   { slug: "haustueren", datei: "produkte/haustueren/index.html", titel: "Haustüren", sektion: "produkte" },
-  { slug: "holzfenster", datei: "produkte/holzfenster/index.html", titel: "Holzfenster & mehr", sektion: "produkte" },
+  { slug: "kunststoff-aluminium", datei: "produkte/kunststoff-aluminium-fenster/index.html", titel: "Kunststoff-Aluminium-Fenster", sektion: "produkte" },
   { slug: "einsatzgebiet", datei: "einsatzgebiet/index.html", titel: "Einsatzgebiet (Übersicht)", sektion: "sonstiges" },
   { slug: "impressum", datei: "impressum.html", titel: "Impressum", sektion: "sonstiges", geschuetzt: true },
   { slug: "datenschutz", datei: "datenschutz.html", titel: "Datenschutzerklärung", sektion: "sonstiges", geschuetzt: true },
@@ -32,6 +32,8 @@ function gesperrteBereiche(html) {
   const ranges = [];
   const re = /<(header|nav|form|footer|noscript|template|script|style|svg)\b[\s\S]*?<\/\1>/gi;
   let m; while ((m = re.exec(html))) ranges.push([m.index, m.index + m[0].length]);
+  const rp = /<!--produkte-karten-->[\s\S]*?<!--\/produkte-karten-->/g; // Produktkarten kommen aus Admin → Produkte
+  while ((m = rp.exec(html))) ranges.push([m.index, m.index + m[0].length]);
   return ranges;
 }
 const inRange = (ranges, i) => ranges.some(([a, b]) => i >= a && i < b);

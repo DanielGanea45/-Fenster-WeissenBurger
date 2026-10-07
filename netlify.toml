@@ -23,6 +23,16 @@
   to = "/sitemap-index.xml"
   status = 301
 
+# Ehemalige Seite „Holzfenster & mehr“ (es werden keine Produkte aus Holz angeboten)
+[[redirects]]
+  from = "/produkte/holzfenster/"
+  to = "/produkte/"
+  status = 301
+[[redirects]]
+  from = "/produkte/holzfenster"
+  to = "/produkte/"
+  status = 301
+
 # 301-Weiterleitungen von der bisherigen WordPress-Seite
 [[redirects]]
   from = "/aluplast/"
@@ -50,11 +60,11 @@
   status = 301
 [[redirects]]
   from = "/holz-mehr/"
-  to = "/produkte/holzfenster/"
+  to = "/produkte/"
   status = 301
 [[redirects]]
   from = "/holz-mehr"
-  to = "/produkte/holzfenster/"
+  to = "/produkte/"
   status = 301
 [[redirects]]
   from = "/uber-uns/"

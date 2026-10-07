@@ -4,8 +4,10 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const root = path.join(__dirname, "..");
+const root = process.env.FW_ROOT ? path.resolve(process.env.FW_ROOT) : path.join(__dirname, ".."); // FW_ROOT: Tests bauen in einer Kopie
 const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
+const produkteLib = require(path.join(root, "netlify/functions/_lib/produkte"));
+const produkte = JSON.parse(fs.readFileSync(path.join(root, "data/produkte.json"), "utf8"));
 const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
 const SITE = "https://fenster-weissenburger.de";
 const PARTNER = "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.";
@@ -20,10 +22,10 @@ if (!LOGO.includes("brand__svg")) throw new Error("Logo nicht gefunden");
 
 const PRODUCTS = [
   { slug: "kunststofffenster-koemmerling", short: "Kunststofffenster", menu: "Kunststofffenster (Kömmerling)" },
+  { slug: "kunststoff-aluminium-fenster", short: "Kunststoff-Aluminium-Fenster", menu: "Kunststoff-Aluminium-Fenster" },
   { slug: "aluminiumfenster-cortizo", short: "Aluminiumfenster", menu: "Aluminiumfenster (Cortizo)" },
   { slug: "schiebetueren", short: "Schiebetüren", menu: "Hebe-Schiebetüren" },
   { slug: "haustueren", short: "Haustüren", menu: "Haustüren" },
-  { slug: "holzfenster", short: "Holzfenster", menu: "Holzfenster & mehr" },
 ];
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -200,7 +202,6 @@ function form(p) {
     "Aluminiumfenster (Cortizo)",
     "Hebe-Schiebetür",
     "Haustür",
-    "Holzfenster / Holzarbeiten",
     "Beratung – noch unentschieden",
   ];
   return `<section class="sec sec--alt" id="anfrage" aria-labelledby="anfrage-title">
@@ -304,10 +305,10 @@ function footer() {
 const IMG = {
   kunststoff: { src640: "/assets/img/kunststofffenster-464.webp", src1200: "/assets/img/kunststofffenster-928.webp", w1200: 928, w: 928, h: 1152, alt: "Profilschnitt eines Kunststofffensters in Anthrazit mit Dreifachverglasung" },
   alu: { src640: "/assets/img/aluminiumfenster-464.webp", src1200: "/assets/img/aluminiumfenster-928.webp", w1200: 928, w: 928, h: 1152, alt: "Aluminiumfenster mit schmalem schwarzem Rahmen" },
-  holz: { src640: "/assets/img/holzfenster-464.webp", src1200: "/assets/img/holzfenster-928.webp", w1200: 928, w: 928, h: 1152, alt: "Holzfenster aus Eiche mit Messingbeschlag" },
-  haustuer: { src640: "/assets/img/leistungen/haustuere-modern-holz-optik-640.webp", src1200: "/assets/img/leistungen/haustuere-modern-holz-optik-1200.webp", w1200: 635, w: 635, h: 996, alt: "Moderne Haustür in Holzoptik mit Edelstahl-Stangengriff, von uns montiert" },
-  schiebe: { src640: "/assets/img/leistungen/kunststofftueren-doppelt-einbau-640.webp", src1200: "/assets/img/leistungen/kunststofftueren-doppelt-einbau-1200.webp", w1200: 787, w: 787, h: 866, alt: "Zweiflügelige Kunststofftür in Holzoptik zur Terrasse, von uns eingebaut" },
-  montage: { src640: "/assets/img/leistungen/kunststofffenster-braun-montage-rohbau-640.webp", src1200: "/assets/img/leistungen/kunststofffenster-braun-montage-rohbau-1200.webp", w1200: 1056, w: 1056, h: 722, alt: "Neu montierte Kunststofffenster in Holzoptik in einem Rohbau" },
+  haustuer: { src640: "/assets/img/leistungen/haustuere-modern-eichenoptik-640.webp", src1200: "/assets/img/leistungen/haustuere-modern-eichenoptik-1200.webp", w1200: 635, w: 635, h: 996, alt: "Moderne Haustür in Eichenoptik mit Edelstahl-Stangengriff, von uns montiert" },
+  kunstalu: { src640: "/assets/konfigurator/profil-76-aluclip-400.webp", src1200: "/assets/konfigurator/profil-76-aluclip-800.webp", w1200: 800, w: 800, h: 800, alt: "Profilschnitt Kunststoff-Aluminium-Fenster Kömmerling 76 AluClip mit Aluminium-Deckschale außen" },
+  schiebe: { src640: "/assets/img/leistungen/kunststofftueren-doppelt-einbau-640.webp", src1200: "/assets/img/leistungen/kunststofftueren-doppelt-einbau-1200.webp", w1200: 787, w: 787, h: 866, alt: "Zweiflügelige Kunststofftür in Eichenoptik zur Terrasse, von uns eingebaut" },
+  montage: { src640: "/assets/img/leistungen/kunststofffenster-braun-montage-rohbau-640.webp", src1200: "/assets/img/leistungen/kunststofffenster-braun-montage-rohbau-1200.webp", w1200: 1056, w: 1056, h: 722, alt: "Neu montierte Kunststofffenster in Eichenoptik in einem Rohbau" },
 };
 
 const pages = [];
@@ -317,7 +318,7 @@ const pages = [];
   const faqs = [
     { q: "Was bedeuten Uf und Uw?", a: "Uf ist der Wärmedurchgang des Rahmens, Uw der des gesamten Fensters inklusive Glas. Beide werden in W/(m²K) angegeben – je kleiner, desto besser dämmt das Fenster. Für Ihr Angebot berechnen wir den Uw-Wert aus Profil, Verglasung und Größe." },
     { q: "AD oder MD – was brauche ich?", a: "Bei der Anschlagdichtung (AD) dichten zwei Dichtungsebenen – bewährt und wirtschaftlich, ideal für Sanierung und Fenstertausch. Die Mitteldichtung (MD) ergänzt eine dritte Dichtung in der Profilmitte und verbessert Wärmedämmung und Schlagregendichtheit. Für Neubau und Energiesparhäuser empfehlen wir MD." },
-    { q: "Gibt es die Fenster auch farbig?", a: "Ja. Neben Weiß sind Holzdekore (z. B. Golden Oak, Anthrazit, Mahagoni), Grautöne und zweifarbige Ausführungen möglich – innen weiß, außen farbig. Bei den AluClip-Varianten ist die Außenseite aus Aluminium in RAL-Farben." },
+    { q: "Gibt es die Fenster auch farbig?", a: "Ja. Neben Weiß sind Dekore (z. B. Golden Oak in Eichenoptik, Anthrazit, Mahagoni), Grautöne und zweifarbige Ausführungen möglich – innen weiß, außen farbig. Bei den AluClip-Varianten ist die Außenseite aus Aluminium in RAL-Farben." },
     { q: "Kann ich Einbruchschutz nachrüsten?", a: "Sicherheitsbeschläge mit Pilzkopfzapfen, abschließbare Griffe und Sicherheitsglas lassen sich bei neuen Fenstern direkt mitbestellen; bei vielen bestehenden Fenstern ist eine Nachrüstung der Beschläge möglich. Wir beraten Sie vor Ort, welche Widerstandsklasse (RC1/RC2) für Ihr Haus sinnvoll ist." },
   ];
   const crumbs = [{ name: "Start", url: "/" }, { name: "Produkte", url: "/produkte/" }, { name: "Kunststofffenster", url: "/produkte/kunststofffenster-koemmerling/" }];
@@ -353,7 +354,7 @@ const pages = [];
             "<strong>Sehr gute Wärmedämmung</strong> – von Uf 1,2 W/(m²K) beim 70er-Profil bis 0,95 W/(m²K) beim 88er mit Passivhaus-Niveau.",
             "<strong>Schlanke Ansichten</strong> und viele Öffnungsarten: Dreh-Kipp, Festverglasung, Rundbogen, Stulp.",
             "<strong>Pflegeleicht</strong> – kein Streichen, Reinigung mit Wasser und mildem Reiniger.",
-            "<strong>Farben und Dekore</strong> – Weiß, Holzdekore, Grau- und Anthrazittöne, zweifarbig innen/außen.",
+            "<strong>Farben und Dekore</strong> – Weiß, Dekore in Eichenoptik, Grau- und Anthrazittöne, zweifarbig innen/außen.",
             "<strong>Einbruchschutz</strong> – Sicherheitsbeschläge und Sicherheitsglas bis RC2 möglich.",
             "<strong>Dreifachverglasung</strong> bis 52 mm Glasstärke, Schallschutz- und Sonnenschutzglas auf Wunsch.",
           ])}
@@ -436,7 +437,7 @@ const pages = [];
   const faqs = [
     { q: "Sind Aluminiumfenster nicht kalt?", a: "Moderne Aluminiumprofile sind thermisch getrennt: Ein Kunststoffsteg zwischen Außen- und Innenschale unterbricht den Wärmefluss. Bei Cortizo 70 ist diese thermische Trennung 35 mm breit, dazu kommt Dreifachverglasung bis 48 mm. So erreichen Aluminiumfenster Dämmwerte, die für Neubau und Sanierung geeignet sind." },
     { q: "Aluminium oder Kunststoff?", a: "Aluminium ist steifer und erlaubt größere Elemente mit schmaleren Rahmen – ideal für große Glasflächen und moderne Architektur. Kunststoff dämmt bei gleicher Bautiefe etwas besser und ist günstiger. Ein guter Kompromiss sind Kunststoff-Aluminium-Fenster (AluClip): innen Kunststoff, außen Aluminium." },
-    { q: "Welche Farben gibt es?", a: "Aluminiumprofile werden pulverbeschichtet und sind in praktisch allen RAL-Farben erhältlich, matt, glänzend oder strukturiert, außerdem in Holzdekoren und zweifarbig innen/außen." },
+    { q: "Welche Farben gibt es?", a: "Aluminiumprofile werden pulverbeschichtet und sind in praktisch allen RAL-Farben erhältlich, matt, glänzend oder strukturiert, außerdem in Dekoren mit Eichenoptik und zweifarbig innen/außen." },
     { q: "Was ist ein verdeckter Flügel?", a: "Beim verdeckten Flügel ist der Flügelrahmen von außen nicht sichtbar – man sieht nur Glas und den schmalen Blendrahmen. Das ergibt eine besonders ruhige Fassade. Solche Systeme bieten wir auf Anfrage an." },
   ];
   const crumbs = [{ name: "Start", url: "/" }, { name: "Produkte", url: "/produkte/" }, { name: "Aluminiumfenster", url: "/produkte/aluminiumfenster-cortizo/" }];
@@ -473,7 +474,7 @@ const pages = [];
             "<strong>Formstabil</strong> auch bei großen und schweren Elementen; kein Verziehen, kein Quellen.",
             "<strong>Thermisch getrennt</strong> – Kunststoffstege von 24 mm (Cortizo 60) bzw. 35 mm (Cortizo 70) unterbrechen den Wärmefluss.",
             "<strong>Pflegeleicht und langlebig</strong> – pulverbeschichtete Oberflächen, wetterfest, korrosionsbeständig.",
-            "<strong>Alle RAL-Farben</strong>, matt, glänzend, strukturiert oder in Holzdekor, auch zweifarbig.",
+            "<strong>Alle RAL-Farben</strong>, matt, glänzend, strukturiert oder in Dekor-Optik, auch zweifarbig.",
             "<strong>Recyclingfähig</strong> – Aluminium lässt sich ohne Qualitätsverlust wiederverwerten.",
           ])}
         </div>
@@ -662,16 +663,16 @@ const pages = [];
     slug: "haustueren",
     url: "/produkte/haustueren/",
     title: "Haustüren aus Aluminium und Kunststoff – Ingolstadt | Fenster-WeissenBurger",
-    ogTitle: "Haustüren aus Aluminium, Kunststoff und Holz",
+    ogTitle: "Haustüren aus Kunststoff, Kunststoff-Aluminium und Aluminium",
     description: "Haustüren aus Kunststoff, Kunststoff-Aluminium und Aluminium mit Türfüllungen, Seitenteilen und Sicherheit bis RC2. Beratung, Aufmaß und Montage in Ingolstadt.",
     image: IMG.haustuer,
-    productName: "Haustüren aus Aluminium, Kunststoff und Holz",
+    productName: "Haustüren aus Kunststoff, Kunststoff-Aluminium und Aluminium",
     category: "Haustüren",
     brand: null,
     formValue: "Haustür",
     eyebrowNo: "01",
     eyebrow: "Haustüren",
-    h1: "Haustüren aus <em>Aluminium, Kunststoff und Holz</em>",
+    h1: "Haustüren aus <em>Kunststoff, Kunststoff-Aluminium und Aluminium</em>",
     intro: "Die Haustür ist Visitenkarte und Schutz zugleich. Wir planen sie mit Ihnen: Werkstoff, Füllung, Glas, Seitenteile, Griff und Sicherheitsausstattung – und montieren sie fachgerecht, inklusive Ausbau der alten Tür.",
     jsonld: [],
     body: "",
@@ -689,7 +690,7 @@ const pages = [];
           ${checks([
             "<strong>Wärmedämmung</strong> – gedämmte Füllungen, Dreifachglas und Mitteldichtung; Ud-Werte je nach Modell unter 1,0 W/(m²K).",
             "<strong>Sicherheit bis RC2</strong> – Mehrfachverriegelung mit Bolzen und Haken, Sicherheitsglas, Bandseitensicherung.",
-            "<strong>Gestaltung</strong> – über 20 Füllungsdesigns, Glasausschnitte, Seitenteile, Oberlichter, Weiß, Holzdekore oder RAL-Farben.",
+            "<strong>Gestaltung</strong> – über 20 Füllungsdesigns, Glasausschnitte, Seitenteile, Oberlichter, Weiß, Dekore in Eichenoptik oder RAL-Farben.",
             "<strong>Griffe</strong> – Stoßgriff, Griffleiste oder Drücker in Edelstahl, Schwarz oder Aluminium.",
             "<strong>Komfort</strong> – barrierearme Schwelle, auf Wunsch automatische Verriegelung.",
             "<strong>Alles aus einer Hand</strong> – Beratung, Aufmaß, Montage und Entsorgung der alten Tür.",
@@ -735,7 +736,6 @@ const pages = [];
 
         <h3 class="h3">Türfüllungen und Griffe</h3>
         <p class="lead lead--sm">Zur Auswahl stehen Füllungen aus Kunststoff (Designs D 1, D 2, D 3, D 6, D 7, D 9, D 1420, Celia, Ella, Marta, Rebeca) und aus Aluminium (D 1404, D 1411, D 1413, D 1415, D 1420, D 1422, D 1434, D 1436), jeweils mit oder ohne Glasausschnitt und in den Farben der Tür. Griffe: Stoßgriffe in mehreren Längen, Griffleisten, Drücker und Schutzbeschläge in Edelstahl, Schwarz, Weiß, Bronze oder Aluminium. Muster zeigen wir Ihnen beim Beratungstermin.</p>
-        <!-- [MIT KUNDE KLÄREN] Holz-Haustüren: Lieferant und Ausführung bestätigen (siehe Seite Holzfenster & mehr). Fingerprint/Smart-Lock: Verfügbarkeit bestätigen. Herstellerbilder der Füllungen (fensterhelios.de) nur mit Freigabe verwenden. -->
       </div>
     </section>
 
@@ -749,7 +749,6 @@ const pages = [];
             "<strong>Neubau mit Energiekonzept:</strong> Performance 88 oder Performance 88 Premium mit Dreifachglas und gedämmter Füllung.",
             "<strong>Moderne, flächenbündige Fassade:</strong> Elegant 76 Premium, Performance 88 Premium oder Dauerhaft 70 Premium in RAL-Farbe.",
             "<strong>Nebeneingang, Keller, Garage:</strong> Praktik 70 oder Dauerhaft 60.",
-            "<strong>Holz gewünscht?</strong> Individuelle Holzhaustüren finden Sie unter <a href='/produkte/holzfenster/'>Holzfenster &amp; mehr</a>.",
           ])}
         </div>
         ${ratgeber([["Flügelüberdeckend", "Die Füllung überdeckt den Flügelrahmen – außen (einseitig) oder außen und innen (beidseitig). Ergibt eine glatte Türfläche ohne sichtbaren Rahmen."]])}
@@ -769,80 +768,78 @@ const pages = [];
   pages.push(p);
 }
 
-/* ---------- Holzfenster & mehr ---------- */
+/* ---------- Kunststoff-Aluminium-Fenster (Kömmerling AluClip) ---------- */
 {
   const faqs = [
-    { q: "Wie oft muss man Holzfenster streichen?", a: "Das hängt von Beschichtung und Wetterseite ab. Deckende Lacke halten außen meist länger als Lasuren; als Faustregel gilt eine Kontrolle alle zwei bis drei Jahre und ein Anstrich, sobald die Oberfläche matt oder rissig wird. Holz-Aluminium-Fenster brauchen außen keinen Anstrich." },
-    { q: "Holz oder Holz-Aluminium?", a: "Reine Holzfenster sind die klassische Lösung mit natürlicher Optik innen und außen. Holz-Aluminium-Fenster tragen außen eine Aluminiumschale: wetterfest, in RAL-Farben, praktisch wartungsfrei – innen bleibt das Holz sichtbar. Für Wetterseiten und wenig Pflegeaufwand empfehlen wir Holz-Aluminium." },
-    { q: "Welche Holzart passt zu mir?", a: "Kiefer und Fichte sind preiswert und dämmen gut; Lärche ist von Natur aus witterungsbeständig; Meranti und Eiche sind hart und formstabil, Eiche besonders langlebig und edel in der Optik. Welche Arten wir liefern, stimmen wir im Beratungsgespräch mit Ihnen ab." },
-    { q: "Welche Dämmwerte erreichen Holzfenster?", a: "Mit 78 mm Bautiefe und Dreifachverglasung erreichen Holzfenster Uw-Werte deutlich unter der Mindestanforderung von 1,3 W/(m²K) nach Gebäudeenergiegesetz; 92 mm Bautiefe ist für Energiesparhäuser ausgelegt. Den Wert Ihres Fensters berechnen wir im Angebot." },
+    { q: "Was ist ein Kunststoff-Aluminium-Fenster?", a: "Ein Kunststofffenster mit einer außen aufgesetzten Aluminium-Deckschale (AluClip). Innen bleibt der wärmedämmende, pflegeleichte Kunststoff; außen schützt und gestaltet Aluminium – wetterfest, farbstabil und in jeder RAL-Farbe lackierbar." },
+    { q: "Wie unterscheidet es sich von einem reinen Aluminiumfenster?", a: "Es dämmt wie ein Kunststofffenster (Uf bis 0,95 W/(m²K)) und ist günstiger als ein thermisch getrenntes Aluminiumfenster. Reines Aluminium erlaubt dafür noch größere Elemente mit schmaleren Ansichten." },
+    { q: "Welche Farben sind außen möglich?", a: "Praktisch alle RAL-Farben, matt, glänzend oder strukturiert, außerdem Dekore in Eichenoptik. Innen bleibt das Fenster in der Regel Weiß – auf Wunsch auch farbig." },
+    { q: "Was heißt flächenbündig?", a: "Bei den Pro-Varianten liegen Rahmen und Flügel außen in einer Ebene. Das ergibt eine ruhige, moderne Fassadenansicht ohne vorstehende Flügel." },
   ];
-  const crumbs = [{ name: "Start", url: "/" }, { name: "Produkte", url: "/produkte/" }, { name: "Holzfenster & mehr", url: "/produkte/holzfenster/" }];
+  const crumbs = [{ name: "Start", url: "/" }, { name: "Produkte", url: "/produkte/" }, { name: "Kunststoff-Aluminium-Fenster", url: "/produkte/kunststoff-aluminium-fenster/" }];
   const p = {
-    slug: "holzfenster",
-    url: "/produkte/holzfenster/",
-    title: "Holzfenster & Holztüren nach Maß – Ingolstadt | Fenster-WeissenBurger",
-    ogTitle: "Holzfenster & Holztüren – natürlich und individuell",
-    description: "Holzfenster, Holz-Aluminium-Fenster, Holztüren und ergänzende Holzarbeiten nach Maß: Beratung, kostenloses Aufmaß und Montage in Ingolstadt und Umgebung.",
-    image: IMG.holz,
-    productName: "Holzfenster und Holztüren nach Maß",
-    category: "Holzfenster",
-    brand: null,
-    formValue: "Holzfenster / Holzarbeiten",
+    slug: "kunststoff-aluminium-fenster",
+    url: "/produkte/kunststoff-aluminium-fenster/",
+    title: "Kunststoff-Aluminium-Fenster (Kömmerling AluClip) – Ingolstadt | Fenster-WeissenBurger",
+    ogTitle: "Kunststoff-Aluminium-Fenster – innen Kunststoff, außen Aluminium",
+    description: "Kunststoff-Aluminium-Fenster mit Kömmerling AluClip, 76 AluClip Pro und 88 AluClip Pro: wärmedämmend wie Kunststoff, wetterfest und farbig wie Aluminium. Beratung, kostenloses Aufmaß und Montage in Ingolstadt.",
+    image: IMG.kunstalu,
+    productName: "Kunststoff-Aluminium-Fenster mit Kömmerling AluClip",
+    category: "Kunststoff-Aluminium-Fenster",
+    brand: "Kömmerling",
+    formValue: "Kunststoff-Aluminium-Fenster (AluClip)",
     eyebrowNo: "01",
-    eyebrow: "Holz & mehr",
-    h1: "Holzfenster &amp; Holztüren – <em>natürlich und individuell.</em>",
-    intro: "Fenster, Haustüren, Innentüren, Treppen und ergänzende Holzarbeiten – handwerklich gefertigt und auf Ihr Haus abgestimmt. Holz schafft ein natürliches Raumklima, lässt sich in jeder Form und Farbe gestalten und ist bei richtiger Pflege über Jahrzehnte haltbar.",
+    eyebrow: "Kunststoff-Aluminium",
+    h1: "Kunststoff-Aluminium-Fenster – <em>innen Kunststoff, außen Aluminium.</em>",
+    intro: "Die AluClip-Systeme von Kömmerling verbinden zwei Werkstoffe: Innen der wärmedämmende, pflegeleichte Kunststoffrahmen, außen eine Aluminium-Deckschale, die Wind und Wetter trotzt und sich in jeder RAL-Farbe lackieren lässt. Gefertigt von unserem Partner Helios, montiert von uns in Ingolstadt und der Region.",
     jsonld: [],
     body: "",
   };
   p.jsonld = [productJsonLd(p), breadcrumbJsonLd(crumbs), faqJsonLd(faqs)];
   p.body = `
     ${breadcrumb(crumbs)}
-    ${hero(p).replace(`<p class="partner">${PARTNER}</p>`, `<p class="partner">Holzelemente werden nach Maß von Fachbetrieben gefertigt und von uns geplant und montiert.</p>`)}
+    ${hero(p)}
 
     <section class="sec" aria-labelledby="vorteile-title">
       <div class="wrap two">
         <div>
           <p class="eyebrow"><span>02</span> Vorteile</p>
-          <h2 class="h2" id="vorteile-title">Warum <em>Holz?</em></h2>
+          <h2 class="h2" id="vorteile-title">Das Beste aus <em>zwei Werkstoffen.</em></h2>
           ${checks([
-            "<strong>Natürliches Raumklima</strong> – Holz reguliert Feuchtigkeit und fühlt sich warm an.",
-            "<strong>Warme Optik</strong> – sichtbare Maserung, Lasur oder deckende Farbe nach Wunsch.",
-            "<strong>Individuelle Formen</strong> – Rundbögen, Sprossen, Sonderformen, denkmalgerechte Ausführungen.",
-            "<strong>Langlebig</strong> bei richtiger Pflege; Holz-Aluminium außen praktisch wartungsfrei.",
-            "<strong>Gute Dämmung</strong> – mit 78 oder 92 mm Bautiefe und Dreifachglas für Neubau und Sanierung.",
-            "<strong>Sicherheit</strong> – RC1/RC2-Beschläge und Sicherheitsglas möglich.",
+            "<strong>Wärmedämmung wie Kunststoff</strong> – Uf-Werte von 1,2 bis 0,95 W/(m²K), Dreifachverglasung bis 52 mm.",
+            "<strong>Wetterfest wie Aluminium</strong> – die Deckschale außen ist UV- und farbstabil, kein Streichen, kein Verziehen.",
+            "<strong>Farbe nach Wunsch</strong> – außen jede RAL-Farbe oder Eichenoptik, innen pflegeleichtes Weiß.",
+            "<strong>Flächenbündig</strong> bei den Pro-Varianten: Rahmen und Flügel in einer Ebene für moderne Fassaden.",
+            "<strong>Preisvorteil</strong> gegenüber reinen Aluminiumfenstern bei vergleichbarer Optik.",
+            "<strong>Einbruchschutz</strong> – Sicherheitsbeschläge und Sicherheitsglas bis RC2 möglich.",
           ])}
         </div>
         <div>
-          <p class="eyebrow"><span>03</span> Unser Holz-Angebot</p>
-          <h2 class="h2">Mehr als <em>Fenster.</em></h2>
+          <p class="eyebrow"><span>03</span> So funktioniert es</p>
+          <h2 class="h2" id="aufbau-title">Kunststoffprofil plus <em>Aluminium-Deckschale.</em></h2>
           <div class="infobox">
-            <p><strong>Fenster und Balkontüren</strong> aus Holz oder Holz-Aluminium, in Kiefer, Fichte, Lärche, Meranti oder Eiche.</p>
-            <p><strong>Haustüren und Innentüren</strong> aus Holz, passend zu Boden und Treppe.</p>
-            <p><strong>Treppen und ergänzende Holzarbeiten</strong> – Fensterbänke, Verkleidungen, Laibungen, kleinere Zimmerei- und Schreinerarbeiten rund um den Einbau.</p>
+            <p><strong>Innen:</strong> Kömmerling-Mehrkammerprofil aus Kunststoff – Wärmedämmung, Schallschutz, pflegeleichte Oberfläche.</p>
+            <p><strong>Außen:</strong> eine aufgeklipste Aluminiumschale – stabil, witterungsbeständig, pulverbeschichtet in der gewünschten Farbe. Sie schützt das Profil und bestimmt die Ansicht von der Straße.</p>
           </div>
-          <!-- [MIT KUNDE KLÄREN] Holzarten im Angebot (Kiefer/Fichte, Lärche, Meranti, Eiche) und Lieferant der Holzelemente bestätigen. -->
         </div>
       </div>
     </section>
 
     <section class="sec sec--alt" aria-labelledby="modelle-title">
       <div class="wrap">
-        <p class="eyebrow"><span>04</span> Bautiefen</p>
-        <h2 class="h2" id="modelle-title">Holzfenster-Profile <em>im Überblick.</em></h2>
-        <p class="lead lead--sm">Holzfenster werden nach Bautiefe eingeteilt (IV = Isolierverglasung). Je tiefer das Profil, desto dickeres Glas passt hinein und desto besser dämmt das Fenster.</p>
+        <p class="eyebrow"><span>04</span> Profile</p>
+        <h2 class="h2" id="modelle-title">Die AluClip-Systeme <em>im Überblick.</em></h2>
+        <p class="lead lead--sm">Alle Werte sind Herstellerangaben für die von Helios verwendeten Ausführungen.</p>
         ${table({
-          caption: "Holzfenster – übliche Profilklassen (herstellerübergreifend)",
-          head: ["Profil", "Bautiefe", "Verglasung", "Typischer Einsatz"],
+          caption: "Kunststoff-Aluminium-Fenster – Kömmerling AluClip",
+          head: ["Profil / Produktlinie", "Bautiefe", "Kammern", "Verglasung", "Uf-Wert", "Besonderheit"],
           rows: [
-            ["<strong>IV 68</strong>", "68 mm", "meist 2-fach", "Sanierung, Nebengebäude, denkmalgeschützte Fassaden"],
-            ["<strong>IV 78</strong>", "78 mm", "3-fach möglich", "Standard im Wohnbau, Neubau und Sanierung"],
-            ["<strong>IV 92</strong>", "92 mm", "3-fach", "Energiesparhaus, sehr gute Dämmung"],
+            ["<strong>Kömmerling 76 AluClip</strong><br><span class='sub'>Linie Elegant 76</span>", "81,5 mm", "5", "bis 48 mm, 3-fach", "bis zu 1,2 W/(m²K)", "Aluminium-Deckschale außen"],
+            ["<strong>Kömmerling 76 AluClip Pro</strong><br><span class='sub'>Linie Elegant 76 Premium</span>", "81,5 mm", "6", "bis 48 mm, 3-fach", "bis zu 1,1 W/(m²K)", "flächenbündig, Mitteldichtung"],
+            ["<strong>Kömmerling 88 AluClip Pro</strong><br><span class='sub'>Linie Performance 88 Premium</span>", "93,5 mm", "7", "bis 52 mm, 3-fach", "bis zu 0,95 W/(m²K)", "flächenbündig, Premium"],
           ],
         })}
-        <p class="tbl-note">Allgemeine Angaben. Nach Gebäudeenergiegesetz gilt für neue Fenster ein Uw-Wert von höchstens 1,3 W/(m²K). Weichhölzer wie Kiefer, Fichte und Lärche dämmen bei gleicher Bautiefe etwas besser als Harthölzer wie Eiche oder Meranti. Die Werte Ihres Fensters hängen von Holzart, Verglasung und Größe ab – wir berechnen sie im Angebot.</p>
+        <p class="tbl-note">${NOTE}</p>
       </div>
     </section>
 
@@ -850,22 +847,22 @@ const pages = [];
       <div class="wrap two">
         <div>
           <p class="eyebrow"><span>05</span> Für wen geeignet?</p>
-          <h2 class="h2" id="fuerwen-title">Holz ist richtig, <em>wenn …</em></h2>
+          <h2 class="h2" id="fuerwen-title">Wann sich Kunststoff-Aluminium <em>lohnt.</em></h2>
           ${checks([
-            "<strong>… das Haus Charakter hat:</strong> Altbau, Fachwerk, Denkmalschutz, Landhausstil.",
-            "<strong>… Sie Wert auf Natürlichkeit legen:</strong> echtes Holz innen, gesundes Raumklima.",
-            "<strong>… Sonderformen gefragt sind:</strong> Bögen, Sprossen, Schrägen, große Einzelstücke.",
-            "<strong>… außen wenig Pflege gewünscht ist:</strong> Holz-Aluminium mit RAL-farbiger Alu-Schale.",
+            "<strong>Moderne Fassade in Farbe:</strong> Anthrazit, Schwarz oder jede andere RAL-Farbe außen – ohne Aufpreis für Vollaluminium.",
+            "<strong>Wetterseite und Hanglage:</strong> die Aluminiumschale schützt dauerhaft vor Regen, Sonne und Temperaturwechsel.",
+            "<strong>Energetische Sanierung:</strong> 76 AluClip Pro mit Mitteldichtung oder 88 AluClip Pro auf Passivhaus-Niveau.",
+            "<strong>Neubau mit ruhiger Ansicht:</strong> flächenbündige Pro-Varianten für gerade Linien.",
           ])}
         </div>
-        ${ratgeber([["Holz-Aluminium", "Holzfenster mit außen aufgesetzter Aluminiumschale: innen Holz, außen wetterfestes, farbiges Aluminium."]])}
+        ${ratgeber()}
       </div>
     </section>
 
     <section class="sec sec--alt" aria-labelledby="faq-title">
       <div class="wrap wrap--narrow">
         <p class="eyebrow"><span>06</span> Häufige Fragen</p>
-        <h2 class="h2" id="faq-title">Fragen zu <em>Holzfenstern.</em></h2>
+        <h2 class="h2" id="faq-title">Fragen zu <em>Kunststoff-Aluminium-Fenstern.</em></h2>
         ${faq(faqs)}
       </div>
     </section>
@@ -878,20 +875,12 @@ const pages = [];
 /* ---------- Übersicht /produkte/ ---------- */
 {
   const crumbs = [{ name: "Start", url: "/" }, { name: "Produkte", url: "/produkte/" }];
-  const cats = [
-    { href: "/produkte/kunststofffenster-koemmerling/", img: IMG.kunststoff, title: "Kunststofffenster", sub: "Kömmerling 70 · 76 AD · 76 MD · 88", text: "Pflegeleicht, sehr gute Dämmung, viele Dekore. Vier Bautiefen vom Fenstertausch bis zum Passivhaus-Niveau." },
-    { href: "/produkte/kunststofffenster-koemmerling/#aluclip-title", img: IMG.montage, title: "Kunststoff-Aluminium-Fenster", sub: "Kömmerling 76 AluClip · 76 AluClip Pro · 88 AluClip Pro", text: "Innen Kunststoff, außen Aluminium in RAL-Farbe – auf Wunsch flächenbündig." },
-    { href: "/produkte/aluminiumfenster-cortizo/", img: IMG.alu, title: "Aluminiumfenster", sub: "Cortizo 60 · Cortizo 70 · weitere Systeme auf Anfrage", text: "Schmale Rahmen, große Glasflächen, formstabil – für moderne Architektur." },
-    { href: "/produkte/schiebetueren/", img: IMG.schiebe, title: "Hebe-Schiebetüren", sub: "Versatil 70 · Robust 76 · Robust 76 Premium · Visuell 60 / 116 / 160", text: "Großzügige Öffnungen zur Terrasse aus Kunststoff oder Aluminium, bis 6,5 m Breite." },
-    { href: "/produkte/haustueren/", img: IMG.haustuer, title: "Haustüren", sub: "Praktik 70 bis Performance 88 Premium · Dauerhaft 60 / 70 Premium", text: "Kunststoff, Kunststoff-Aluminium und Aluminium, Füllungen, Seitenteile, Sicherheit bis RC2." },
-    { href: "/produkte/holzfenster/", img: IMG.holz, title: "Holzfenster & mehr", sub: "Fenster · Haustüren · Treppen · Holzarbeiten", text: "Natürlich und individuell, handwerklich gefertigt – auch als Holz-Aluminium." },
-  ];
   const p = {
     slug: "index",
     url: "/produkte/",
     title: "Fenster, Haustüren und Schiebetüren – Produkte | Fenster-WeissenBurger Ingolstadt",
     ogTitle: "Unsere Produkte: Fenster, Haustüren, Schiebetüren",
-    description: "Kunststofffenster mit Kömmerling-Profilen, Aluminiumfenster mit Cortizo-Systemen, Hebe-Schiebetüren, Haustüren und Holzfenster – gefertigt von Helios, montiert in Ingolstadt und Umgebung.",
+    description: "Kunststofffenster mit Kömmerling-Profilen, Aluminiumfenster mit Cortizo-Systemen, Hebe-Schiebetüren, Haustüren und Kunststoff-Aluminium-Fenster – gefertigt von Helios, montiert in Ingolstadt und Umgebung.",
     image: IMG.montage,
     jsonld: [],
     body: "",
@@ -902,7 +891,7 @@ const pages = [];
       "@context": "https://schema.org",
       "@type": "ItemList",
       name: "Produkte von Fenster-WeissenBurger",
-      itemListElement: cats.filter((c) => !c.href.includes("#")).map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.title, url: SITE + c.href })),
+      itemListElement: produkteLib.jsonLd(produkte, SITE).itemListElement,
     },
   ];
   p.body = `
@@ -912,7 +901,7 @@ const pages = [];
         <div class="phero__text">
           <p class="eyebrow"><span>Produkte</span> Fenster · Türen · Schiebetüren</p>
           <h1 class="title" id="h1">Fenster und Türen – <em>nach Maß für Ihr Zuhause.</em></h1>
-          <p class="lead">Kunststoff, Kunststoff-Aluminium, Aluminium oder Holz: Wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster, Haustüren und Schiebetüren in Ingolstadt und der Region.</p>
+          <p class="lead">Kunststoff, Kunststoff-Aluminium oder Aluminium: Wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster, Haustüren und Schiebetüren in Ingolstadt und der Region.</p>
           <p class="partner">${PARTNER}</p>
           <div class="actions">
             <a class="btn btn--primary" href="#anfrage">Kostenloses Aufmaß anfragen</a>
@@ -929,19 +918,9 @@ const pages = [];
       <div class="wrap">
         <p class="eyebrow"><span>01</span> Kategorien</p>
         <h2 class="h2" id="kat-title">Unsere <em>Produktgruppen.</em></h2>
-        <ul class="cards cards--grid">
-${cats.map((c) => `          <li class="card">
-            <a class="card__link" href="${c.href}">
-              <img src="${c.img.src640}" width="${c.img.w}" height="${c.img.h}" alt="${esc(c.img.alt)}" loading="lazy" decoding="async">
-              <div class="card__body">
-                <h3>${c.title}</h3>
-                <p class="sub">${esc(c.sub)}</p>
-                <p>${c.text}</p>
-                <span class="link">Mehr erfahren</span>
-              </div>
-            </a>
-          </li>`).join("\n")}
-        </ul>
+        <!--produkte-karten-->
+        ${produkteLib.uebersichtHtml(produkte, einst)}
+        <!--/produkte-karten-->
       </div>
     </section>
 
@@ -995,7 +974,7 @@ for (const p of pages) {
   const html = `${head(p)}
 ${header(p.slug)}
 ${p.body}
-    ${footer()}`;
+    ${footer()}`.replace(/\n[ \t]*<!-- \[MIT KUNDE KLÄREN\][\s\S]*?-->/g, "");
   fs.writeFileSync(out, html);
   console.log("geschrieben:", path.relative(root, out), html.length, "Bytes");
 }

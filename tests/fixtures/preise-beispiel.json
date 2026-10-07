@@ -59,7 +59,7 @@
     "modelle": {
       "modern-voll":          { "name": "Modern, vollflächig",         "grundpreis": 2400, "bild": "haustuer-modern-voll",          "kurz": "Flächenbündige Füllung, Stangengriff" },
       "modern-glasstreifen":  { "name": "Modern mit Glasstreifen",     "grundpreis": 2700, "bild": "haustuer-modern-glasstreifen",  "kurz": "Satinierter Glasstreifen bandseitig" },
-      "klassisch-golden-oak": { "name": "Klassisch, Holzoptik",        "grundpreis": 2600, "bild": "haustuer-klassisch-golden-oak", "kurz": "Kassettenfüllung, Ornamentglas" },
+      "klassisch-golden-oak": { "name": "Klassisch, Eichenoptik",        "grundpreis": 2600, "bild": "haustuer-klassisch-golden-oak", "kurz": "Kassettenfüllung, Ornamentglas" },
       "mit-seitenteil":       { "name": "Modern mit Seitenteil",       "grundpreis": 3100, "bild": "haustuer-mit-seitenteil",       "kurz": "Inklusive festem Seitenteil aus satiniertem Glas" }
     },
     "farben": {

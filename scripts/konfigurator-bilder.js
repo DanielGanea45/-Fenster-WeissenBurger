@@ -23,7 +23,7 @@ const W = {
   farbe: { weiss: "Weiß", anthrazit: "Anthrazit", goldenoak: "Golden Oak", zweifarbig: "zweifarbig (außen farbig, innen weiß)", ral: "RAL-Farbe" },
   sprossen: { keine: "ohne Sprossen", innen: "mit innenliegenden Sprossen", wiener: "mit Wiener Sprossen" },
   rollladen: { kein: "ohne Rollladen", aufsatz: "mit Aufsatzrollladen", vorsatz: "mit Vorsatzrollladen" },
-  modell: { voll: "modern, vollflächig", glasstreifen: "modern mit Glasstreifen", seitenteil: "modern mit Seitenteil", klassisch: "klassisch in Holzoptik" },
+  modell: { voll: "modern, vollflächig", glasstreifen: "modern mit Glasstreifen", seitenteil: "modern mit Seitenteil", klassisch: "klassisch in Eichenoptik" },
   glas: { "2fach": "Zweifach-Wärmeschutzglas", "3fach": "Dreifach-Wärmeschutzglas", schallschutz: "Schallschutzglas", vsg: "Sicherheitsglas (VSG)" },
   zusatz: { rc2: "Einbruchschutz RC2 – Pilzkopfverriegelung", insektenschutz: "Insektenschutz-Rahmen", rollladenmotor: "Rollladenmotor", "fensterbank-innen": "Fensterbank innen", "fensterbank-aussen": "Fensterbank außen aus Aluminium", montage: "Fachgerechte Montage", demontage: "Demontage und Entsorgung der alten Fenster" },
 };

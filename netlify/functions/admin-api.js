@@ -162,6 +162,10 @@ async function schreiben(body, s, event) {
         fehler = validate.validiereEinstellungen(neu);
         if (!fehler.length && neu.steuer.satzProzent !== Steuer.satz(alt) && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: Steuer.texte(neu.steuer.satzProzent).bestaetigung });
         if (!fehler.length && neu.konfigurator.status === "online" && alt.konfigurator.status !== "online" && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: "Der Konfigurator wird damit öffentlich sichtbar (Menü, Sitemap, Suchmaschinen). Bitte bestätigen." });
+      } else if (bereich === "produkte") {
+        neu = { karten: Array.isArray(body.daten && body.daten.karten) ? body.daten.karten : body.daten };
+        neu.karten = (neu.karten || []).map((k) => Object.assign({}, k, { id: String(k.id || "").trim() }));
+        fehler = validate.validiereProdukte(neu);
       } else if (bereich === "texte") {
         const reg = daten.repoDatei("texte");
         const roh = (await daten.ladeRoh("texte")) || {};
