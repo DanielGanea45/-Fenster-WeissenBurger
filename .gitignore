@@ -24,3 +24,6 @@ media-src/
 *.log
 Thumbs.db
 .DS_Store
+
+# Kunden-Rohmaterial (nicht committen)
+assets/logo danielganea/
