@@ -36,8 +36,14 @@ assets/logo-fenster-weissenburger/
 # Konfigurator-Rohbilder (nicht committen)
 bilder-original/
 bilder-original.zip
-konfigurator-bilder.json
+bilder-original-2/
+bilder-original-2.zip
+/konfigurator-bilder.json
 
 # Lokaler Admin-Datenspeicher (Blobs-Ersatz) und npm
 .netlify-blobs-local/
 package-lock.json
+
+# Hilfsdateien des Kunden für die Bildserie (nicht committen)
+/bilder-2-herunterladen.ps1
+/konfigurator-bilder-2.json

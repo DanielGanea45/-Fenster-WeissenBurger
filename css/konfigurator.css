@@ -134,3 +134,13 @@
 /* Vorschau-Modus (nur für angemeldete Admins, eingefügt von netlify/functions/konfigurator-vorschau.js) */
 .vorschau-banner { position: sticky; top: 0; z-index: 1000; background: #1b2430; color: #fff; font-weight: 600; font-size: 14px; line-height: 1.4; padding: 10px 16px; text-align: center; border-bottom: 3px solid #0B5ED7; }
 .vorschau-banner a { color: #8ab8ff; }
+
+/* Fotos im Konfigurator (Serie fenster-/tuer-/glas-/zusatz-): Vorschau mit Überblendung, Zusätze mit Vorschaubild */
+.preview__media { position: relative; }
+.preview__foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 10px; opacity: 1; transition: opacity .35s ease; }
+.preview__foto.is-wechsel { opacity: 0; }
+.preview.hat-foto svg { visibility: hidden; }
+.preview__masse { margin: 10px 0 0; font-size: 14px; font-weight: 700; color: var(--ink); text-align: center; min-height: 1.4em; }
+.check--bild { grid-template-columns: 22px 56px 1fr; align-items: center; }
+.check--bild img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: #fff; display: block; }
+@media (prefers-reduced-motion: reduce) { .preview__foto { transition: none; } }

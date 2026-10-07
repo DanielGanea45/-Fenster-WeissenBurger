@@ -4,6 +4,7 @@
    Auf Produktion antwortet alles mit 404, solange ADMIN_SETUP_TOKEN nicht gesetzt ist. */
 "use strict";
 const auth = require("./_lib/auth");
+const store = require("./_lib/store");
 const http = require("./_lib/http");
 const mail = require("./_lib/mail");
 
@@ -20,7 +21,7 @@ async function handler(event) {
   if (event.httpMethod === "GET") {
     /* Zustand für die Oberfläche: eingerichtet? angemeldet? */
     const s = await http.requireSession(event);
-    return http.json(200, { ok: true, eingerichtet: kontoDa, angemeldet: s.ok, csrf: s.ok ? s.csrf : null, name: s.ok ? s.account.name : null, email: s.ok ? s.account.email : null, kontext: process.env.CONTEXT || "lokal" });
+    return http.json(200, { ok: true, eingerichtet: kontoDa, angemeldet: s.ok, csrf: s.ok ? s.csrf : null, name: s.ok ? s.account.name : null, email: s.ok ? s.account.email : null, kontext: store.kontext(), kontextLabel: store.kontextLabel() });
   }
   if (event.httpMethod !== "POST") return http.json(405, { ok: false, error: "Methode nicht erlaubt." });
   const body = http.parseBody(event);
