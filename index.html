@@ -19,7 +19,7 @@
   <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/video/home-poster.webp" as="image">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <a class="skip" href="#home-content">Zum Inhalt springen</a>
@@ -38,7 +38,17 @@
 
     <nav class="nav nav--top" aria-label="Hauptnavigation">
       <a href="#home" data-go="0" aria-current="page">Home</a>
-      <a href="#produkte" data-go="1">Produkte</a>
+      <div class="nav__item">
+        <a href="#produkte" data-go="1">Produkte</a>
+        <div class="nav__drop" aria-label="Produkte">
+          <a href="produkte/">Alle Produkte</a>
+          <a href="produkte/kunststofffenster-koemmerling/">Kunststofffenster (Kömmerling)</a>
+          <a href="produkte/aluminiumfenster-cortizo/">Aluminiumfenster (Cortizo)</a>
+          <a href="produkte/schiebetueren/">Hebe-Schiebetüren</a>
+          <a href="produkte/haustueren/">Haustüren</a>
+          <a href="produkte/holzfenster/">Holzfenster &amp; mehr</a>
+        </div>
+      </div>
       <a href="#leistungen" data-go="2">Leistungen</a>
       <a href="leistungen/" class="nav__ext">Fenstermontage</a>
       <a href="#ueber-uns" data-go="3">Über uns</a>
@@ -90,7 +100,7 @@
           <div class="scene__content scene__content--wide">
             <p class="eyebrow"><span>02</span> Produkte</p>
             <h2 class="title title--sm" id="produkte-title">Vier Werkstoffe. <em>Ein Anspruch.</em></h2>
-            <p class="lead lead--sm">Alle Fenster mit Wärmeschutzverglasung, nach Maß gefertigt und von uns montiert. Preise verstehen sich pro Element, abhängig von Größe und Ausstattung.</p>
+            <p class="lead lead--sm">Alle Fenster mit Wärmeschutzverglasung, nach Maß gefertigt und von uns montiert. Preise verstehen sich pro Element, abhängig von Größe und Ausstattung. <a class="inline-link" href="produkte/">Alle Produkte</a> · <a class="inline-link" href="produkte/schiebetueren/">Hebe-Schiebetüren</a></p>
             <ul class="products">
               <li class="product">
                 <picture>
@@ -99,6 +109,7 @@
                 <h3>Kunststofffenster</h3>
                 <p>Pflegeleicht, sehr gute Dämmwerte, große Auswahl an Dekoren – die wirtschaftliche Lösung für Neubau und Sanierung.</p>
                 <p class="price">ab <strong>[PREIS] €</strong></p>
+                <a class="product__more" href="produkte/kunststofffenster-koemmerling/">Mehr erfahren</a>
               </li>
               <li class="product">
                 <picture>
@@ -107,6 +118,7 @@
                 <h3>Aluminiumfenster</h3>
                 <p>Schmale Ansichten, große Glasflächen, langlebig und formstabil – für moderne Architektur.</p>
                 <p class="price">ab <strong>[PREIS] €</strong></p>
+                <a class="product__more" href="produkte/aluminiumfenster-cortizo/">Mehr erfahren</a>
               </li>
               <li class="product">
                 <picture>
@@ -115,6 +127,7 @@
                 <h3>Holzfenster</h3>
                 <p>Natürlicher Werkstoff, warme Optik, auf Wunsch mit Aluminium-Deckschale außen.</p>
                 <p class="price">ab <strong>[PREIS] €</strong></p>
+                <a class="product__more" href="produkte/holzfenster/">Mehr erfahren</a>
               </li>
               <li class="product">
                 <picture>
@@ -123,6 +136,7 @@
                 <h3>Haustüren</h3>
                 <p>Aluminium- oder Kunststoff-Haustüren mit Seitenteil, Mehrfachverriegelung und Wärmedämmung.</p>
                 <p class="price">ab <strong>[PREIS] €</strong></p>
+                <a class="product__more" href="produkte/haustueren/">Mehr erfahren</a>
               </li>
             </ul>
           </div>
@@ -174,11 +188,19 @@
         </video>
         <div class="scene__shade"></div>
         <div class="scene__inner">
-          <div class="scene__content">
+          <div class="scene__content scene__content--wide">
             <p class="eyebrow"><span>04</span> Über uns</p>
             <h2 class="title title--sm" id="ueber-uns-title">Fensterbau aus Ingolstadt – <em>persönlich und verbindlich.</em></h2>
-            <p class="lead lead--sm">Fenster-WeissenBurger ist ein inhabergeführtes Unternehmen aus Ingolstadt. Wir liefern und montieren Fenster und Haustüren für Privatkunden, Bauträger und Hausverwaltungen in Ingolstadt und der Region.</p>
-            <p class="lead lead--sm">[DE COMPLETAT: Gründungsjahr, Team, Erfahrung, Referenzen – 2–3 Sätze vom Kunden]</p>
+            <div class="about">
+              <div>
+                <p class="lead lead--sm"><strong>Fenster-WeissenBurger – nah, persönlich, zuverlässig.</strong> Unsere Philosophie ist einfach: Wir sind für Sie da, egal wie klein oder groß Ihre Frage ist. Bei uns gibt es keine „dummen Fragen“ – wir beraten Sie freundlich, offen und ehrlich. Gemeinsam finden wir die beste Lösung für Ihr Zuhause.</p>
+                <p class="lead lead--sm">Wir sind ein junges, dynamisches Team, das sich mit Leidenschaft für Fenster, Türen und Rollläden einsetzt. Bei uns steht der Kunde im Mittelpunkt, denn jedes Zuhause ist einzigartig. Was uns besonders macht, ist die Nähe zu unseren Kunden: Wir nehmen uns Zeit, hören genau zu und sorgen dafür, dass Sie sich rundum wohlfühlen – mit erstklassigen Produkten, fachgerechter Montage und einer Betreuung, die begeistert.</p>
+                <p class="lead lead--sm">Sprechen Sie uns an – wir freuen uns darauf, Sie persönlich kennenzulernen.</p>
+              </div>
+              <figure class="about__fig">
+                <img src="assets/img/beratung-560.webp" srcset="assets/img/beratung-560.webp 560w, assets/img/beratung-1024.webp 1024w" sizes="(min-width: 900px) 420px, 92vw" width="1024" height="825" alt="Persönliche Beratung: Mitarbeiter von Fenster-WeissenBurger erklärt einer Kundin ein Fensterprofil" loading="lazy" decoding="async">
+              </figure>
+            </div>
             <dl class="pillars">
               <div><dt>Ein Ansprechpartner</dt><dd>Von der ersten Beratung bis zur Abnahme.</dd></div>
               <div><dt>Feste Termine</dt><dd>Klare Absprachen für Aufmaß, Lieferung und Montage.</dd></div>
@@ -253,6 +275,7 @@
             </div>
 
             <footer class="legal">
+              <a href="produkte/">Produkte</a>
               <a href="leistungen/">Leistungen</a>
               <a href="impressum.html">Impressum</a>
               <a href="datenschutz.html">Datenschutzerklärung</a>
