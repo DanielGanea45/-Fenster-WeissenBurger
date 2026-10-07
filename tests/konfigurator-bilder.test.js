@@ -9,9 +9,70 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const liste = JSON.parse(fs.readFileSync(path.join(ROOT, "data/konfigurator-bilder.json"), "utf8"));
 const preise = JSON.parse(fs.readFileSync(path.join(ROOT, "data/preise.json"), "utf8"));
-const { Bilder } = require("../js/konfigurator-bilder.js");
+const { Bilder, teil } = require("../js/konfigurator-bilder.js");
 const { altText } = require("../scripts/konfigurator-bilder.js");
-const B = Bilder(liste);
+const B = Bilder(liste, preise);
+
+/* ---------- Zuordnung Preislisten-Schlüssel → Bildteile ---------- */
+test("Zuordnung der Repo-Schlüssel: Typ, Farbe, Sprossen, Rollladen, Modell", () => {
+  const F = preise.fenster;
+  assert.deepEqual(Object.keys(F.typen).map((k) => teil("typ", k, F.typen[k].name)), ["1fl", "2fl", "fest", "balkon"]);
+  assert.deepEqual(Object.keys(F.farben).map((k) => teil("farbe", k, F.farben[k].name)), ["weiss", "anthrazit", "goldenoak", "zweifarbig"]);
+  assert.deepEqual(Object.keys(F.sprossen).map((k) => teil("sprossen", k, F.sprossen[k].name)), ["keine", "innen", "wiener"]);
+  assert.deepEqual(Object.keys(F.rollladen).map((k) => teil("rollladen", k, F.rollladen[k].name)), ["kein", "aufsatz", "vorsatz"]);
+  assert.deepEqual(Object.keys(preise.haustuer.modelle).map((k) => teil("modell", k, preise.haustuer.modelle[k].name)), ["voll", "glasstreifen", "klassisch", "seitenteil"]);
+  assert.equal(teil("farbe", "ral", "RAL-Farbe nach Wunsch"), null, "RAL bewusst ohne Foto");
+});
+test("Zuordnung über Namen/Schlagwörter – im Admin umbenannte oder neu angelegte Optionen", () => {
+  assert.equal(teil("farbe", "anthrazit-aussen", "Anthrazit außen"), "anthrazit");
+  assert.equal(teil("farbe", "anthrazit-beidseitig", "Anthrazit beidseitig"), "anthrazit");
+  assert.equal(teil("farbe", "golden-oak-beidseitig", "Golden Oak beidseitig"), "goldenoak");
+  assert.equal(teil("farbe", "eiche-dunkel", "Eiche dunkel"), "goldenoak");
+  assert.equal(teil("farbe", "aussen-anthrazit-innen-weiss", "Außen Anthrazit, innen Weiß"), "zweifarbig");
+  assert.equal(teil("farbe", "sonderfarbe", "Sonderfarbe RAL 6005"), null);
+  assert.equal(teil("rollladen", "aufsatz-gurt", "Aufsatzrollladen Gurt/elektrisch"), "aufsatz");
+  assert.equal(teil("rollladen", "gurt-elektrisch", "Gurt/elektrisch"), "aufsatz");
+  assert.equal(teil("rollladen", "vorbau", "Vorbaurollladen mit Funkmotor"), "vorsatz");
+  assert.equal(teil("rollladen", "ohne", "Ohne"), "kein");
+  assert.equal(teil("sprossen", "glasteilend", "Glasteilende Sprossen (Wiener Art)"), "wiener");
+  assert.equal(teil("sprossen", "szr", "Sprossen im Scheibenzwischenraum"), "innen");
+  assert.equal(teil("typ", "stulp", "Stulpfenster zweiflügelig"), "2fl");
+  assert.equal(teil("typ", "fix", "Fixverglasung"), "fest");
+  assert.equal(teil("typ", "terrassentuer", "Terrassentür Dreh-Kipp"), "balkon");
+  assert.equal(teil("zusatz", "motor", "Rollladenmotor (nur mit Rollladen)"), "zusatz-rollladenmotor");
+  assert.equal(teil("zusatz", "pilzkopf", "Pilzkopfverriegelung RC 2"), "zusatz-rc2");
+  assert.equal(teil("zusatz", "fensterbank-marmor", "Fensterbank innen Marmor"), "zusatz-fensterbank-innen");
+  assert.equal(teil("glas", "ug06", "Dreifachglas Ug 0,6"), "glas-3fach");
+  assert.equal(teil("zusatzTuer", "finger", "Fingerprint-Öffner"), "zusatz-rc2");
+  /* unbekannte Option: Karte bekommt trotzdem ein Bild, Vorschau bleibt Zeichnung */
+  const B2 = Bilder(liste, preise);
+  assert.ok(B2.karte("fenster", "farbe", "regenbogen", { name: "Regenbogen" }, { typ: "1-fluegelig" }));
+  assert.equal(B2.vorschau("fenster", { typ: "1-fluegelig", farbe: "regenbogen", sprossen: "keine", rollladen: "keiner" }), null);
+});
+test("Alle vorhandenen 1fl- und 2fl-Fotos werden von der passenden Konfiguration EXAKT getroffen", () => {
+  const F = preise.fenster;
+  const rueck = { typ: { "1fl": "1-fluegelig", "2fl": "2-fluegelig", fest: "festverglasung", balkon: "balkontuer" }, farbe: { weiss: "weiss", anthrazit: "anthrazit", goldenoak: "golden-oak", zweifarbig: "zweifarbig" }, sprossen: { keine: "keine", innen: "innenliegend", wiener: "wiener" }, rollladen: { kein: "keiner", aufsatz: "aufsatz", vorsatz: "vorsatz" } };
+  const fotos = Object.keys(liste.bilder).filter((k) => /^fenster-(1fl|2fl)-/.test(k));
+  assert.ok(fotos.length >= 60, "Serie 1fl/2fl: " + fotos.length);
+  for (const f of fotos) {
+    const [, typ, farbe, sprossen, rollladen] = f.split("-");
+    const state = { typ: rueck.typ[typ], farbe: rueck.farbe[farbe], sprossen: rueck.sprossen[sprossen], rollladen: rueck.rollladen[rollladen] };
+    assert.ok(F.typen[state.typ] && F.farben[state.farbe] && F.sprossen[state.sprossen] && F.rollladen[state.rollladen], f + ": Schlüssel vorhanden");
+    assert.equal(B.vorschau("fenster", state), f, `Vorschau für ${JSON.stringify(state)}`);
+  }
+  /* der gemeldete Fall */
+  assert.equal(B.vorschau("fenster", { typ: "1-fluegelig", farbe: "weiss", sprossen: "keine", rollladen: "aufsatz" }), "fenster-1fl-weiss-keine-aufsatz");
+  /* alle 1fl- und 2fl-Kombinationen der Preisliste haben ein Foto (bis auf 2fl zweifarbig mit Sprossen) */
+  let exakt = 0, gesamt = 0;
+  for (const typ of ["1-fluegelig", "2-fluegelig"]) for (const farbe of Object.keys(F.farben)) for (const s of Object.keys(F.sprossen)) for (const r of Object.keys(F.rollladen)) { gesamt++; if (B.vorschau("fenster", { typ, farbe, sprossen: s, rollladen: r })) exakt++; }
+  assert.equal(gesamt, 72); assert.equal(exakt, 66, "66 von 72 (2fl zweifarbig gibt es nur ohne Sprossen)");
+});
+test("Abdeckungsbericht läuft und zählt", () => {
+  const { bericht } = require("../scripts/konfigurator-bilder-abdeckung.js");
+  const r = bericht();
+  assert.equal(r.gesamt, 144); assert.equal(r.z.exakt + r.z.aehnlich + r.z.fehlt, 144); assert.equal(r.z.fehlt, 0, "jede Kombination hat zumindest ein ähnliches Foto");
+  assert.equal(r.z.exakt, 68); assert.equal(r.zz.exakt, 12); assert.match(r.md, /\| Typ \| Farbe \| Sprossen \| Rollladen \|/);
+});
 const ORDNER = path.join(ROOT, "assets", "konfigurator");
 
 test("Bilderliste und Dateien stimmen überein (jede Größe vorhanden, keine Datei ohne Eintrag)", () => {

@@ -144,3 +144,6 @@
 .check--bild { grid-template-columns: 22px 56px 1fr; align-items: center; }
 .check--bild img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: #fff; display: block; }
 @media (prefers-reduced-motion: reduce) { .preview__foto { transition: none; } }
+/* Abstände ohne Inline-Styles (CSP) */
+.checks--abstand { margin-top: 14px; }
+.price__note--abstand { margin-top: 10px; }

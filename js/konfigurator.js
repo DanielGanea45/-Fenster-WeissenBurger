@@ -34,6 +34,7 @@
   Promise.all([fetch("/data/preise.json", { cache: "no-cache" }).then(function (r) { return r.json(); }), bilderGeladen]).then(function (res) {
     var j = res[0];
     liste = j; listeOk = Preis.validiereListe(j).ok;
+    if (B) B.setPreise(j); // Optionsnamen für die Bildzuordnung (auch im Admin umbenannte/neue Optionen)
     if (!listeOk) console.warn("Preisliste ungültig:", Preis.validiereListe(j).fehler);
     render();
   }).catch(function () { liste = null; listeOk = false; render(); });
@@ -105,7 +106,7 @@
       var sub = opts.sub ? opts.sub(e, id) : (e.kurz || "");
       var badges = opts.badges ? opts.badges(e, id) : "";
       var bildName = B ? B.karte(produkt, key, id, e, state) : e.bild;
-      var img = bildName ? pic(bildName, (opts.alt ? opts.alt(e) : e.name) + " – Abbildung beispielhaft", opts.imgCls, idx < 4) : (e.hex ? '<div class="opt__swatch" style="background:' + esc(e.hex) + '"></div>' : "");
+      var img = bildName ? pic(bildName, (opts.alt ? opts.alt(e) : e.name) + " – Abbildung beispielhaft", opts.imgCls, idx < 4) : (e.hex ? '<div class="opt__swatch" data-hex="' + esc(e.hex) + '"></div>' : "");
       return '<label class="opt' + (opts.imgCls === "tuer" ? " opt--tuer" : "") + (sel ? " is-selected" : "") + '"><input type="radio" name="k-' + key + '" value="' + esc(id) + '"' + (sel ? " checked" : "") + ">" + badges + img +
         '<div class="opt__body"><span class="opt__name">' + esc(e.name) + "</span>" + (sub ? '<span class="opt__sub">' + sub + "</span>" : "") +
         '<span class="opt__price">' + (opts.price ? opts.price(e, id) : deltaText(key, id)) + "</span></div></label>";
@@ -148,7 +149,7 @@
         '<div class="form__row' + (fe.some(function (x) { return /menge/.test(x); }) ? " is-invalid" : "") + '"><label for="k-menge">Anzahl gleicher Elemente</label><input id="k-menge" type="number" inputmode="numeric" min="1" max="' + g.mengeMax + '" step="1" value="' + state.menge + '" data-num="menge"><span class="range">1 – ' + g.mengeMax + "</span></div>" +
         (produkt === "fenster" ? '<div class="form__row"><label>&nbsp;</label><span class="range">Mindestabrechnung ' + String(g.mindestflaecheM2).replace(".", ",") + " m² je Element</span></div>" : '<div class="form__row"><label>&nbsp;</label><span class="range">Über ' + g.standardBreiteMaxMm + " × " + g.standardHoeheMaxMm + " mm: Übergröße +" + g.uebergroesseProzent + " %</span></div>") +
         "</div>" + (fe.length && fe[0] !== "preisliste" ? '<p class="fehler">Bitte prüfen Sie die rot markierten Maße.</p>' : "") +
-        '<div class="checks checks--konf" style="margin-top:14px">' +
+        '<div class="checks checks--konf checks--abstand">' +
         '<label class="check' + (B && B.hat("zusatz-montage") ? " check--bild" : "") + (state.montage ? " is-selected" : "") + '"><input type="checkbox" data-bool="montage"' + (state.montage ? " checked" : "") + '>' + (B && B.hat("zusatz-montage") ? pic("zusatz-montage", "Fachgerechte Montage – Abbildung beispielhaft", "klein", false) : "") + '<span><strong>Montage durch Fenster-WeissenBurger</strong><span class="sub">' + fmtEuro(Preis.cent(D.montage.montageProElement)) + " je Element</span></span></label>" +
         '<label class="check' + (B && B.hat("zusatz-demontage") ? " check--bild" : "") + (state.demontage ? " is-selected" : "") + '"><input type="checkbox" data-bool="demontage"' + (state.demontage ? " checked" : "") + (state.montage ? "" : " disabled") + '>' + (B && B.hat("zusatz-demontage") ? pic("zusatz-demontage", "Demontage und Entsorgung – Abbildung beispielhaft", "klein", false) : "") + '<span><strong>Demontage &amp; Entsorgung der alten Elemente</strong><span class="sub">' + fmtEuro(Preis.cent(D.montage.demontageEntsorgungProElement)) + " je Element (nur mit Montage)</span></span></label></div>";
     } else if (s === "farbe") {
@@ -167,11 +168,12 @@
       var r2 = calc();
       html = '<h2>Angebot <em>anfordern.</em></h2><p class="lead lead--sm">Wir prüfen Ihre Konfiguration, nehmen das Aufmaß kostenlos vor Ort und schicken Ihnen ein verbindliches Angebot.</p>' +
         '<div class="angebot__summary summary"><h3>Ihre Konfiguration</h3><dl>' + summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("") + "</dl>" +
-        (r2.ok ? '<p class="price__note" style="margin-top:10px">Richtpreis: <strong>' + fmtEuro(r2.brutto) + "</strong> inkl. " + r2.mwstProzent + " % MwSt. (unverbindlich)</p>" : '<p class="price__note" style="margin-top:10px">Preis auf Anfrage</p>') + "</div>";
+        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.brutto) + "</strong> inkl. " + r2.mwstProzent + " % MwSt. (unverbindlich)</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + "</div>";
     }
     html += '<p class="konf__hint">Abbildungen beispielhaft. Alle Preise unverbindliche Richtpreise inkl. 19 % MwSt.; verbindlich wird es mit dem Angebot nach dem Aufmaß.</p>';
     html += '<div class="konf__nav">' + (step > 0 ? '<button type="button" class="btn btn--ghost" data-nav="-1">Zurück</button>' : "<span></span>") + (step < STEPS.length - 1 ? '<button type="button" class="btn btn--primary" data-nav="1">Weiter</button>' : "") + "</div>";
     els.panels.innerHTML = '<section class="konf__panel is-active">' + html + "</section>";
+    Array.prototype.forEach.call(els.panels.querySelectorAll(".opt__swatch[data-hex]"), function (sw) { sw.style.background = sw.getAttribute("data-hex"); }); // CSSOM statt Inline-Style (CSP)
     if (s === "angebot" && els.form) { els.form.hidden = false; } else if (els.form) { els.form.hidden = true; }
     if (s === "masse") { var inp = els.panels.querySelector("input[data-num]"); if (inp && window.matchMedia("(min-width: 900px)").matches) inp.focus(); }
   }
