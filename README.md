@@ -10,7 +10,7 @@ Lokal testen: beliebigen statischen Server im Projektordner starten, z. B. `npx 
 
 ## Kundenstimmen pflegen
 
-Bewertungen erscheinen **nicht automatisch**. Das Formular „Bewertung abgeben“ (Seite `/referenzen/`) sendet die Bewertung über Netlify Forms (Formular `bewertung`) an die Firma. Nach der Prüfung (Auftrag tatsächlich ausgeführt?) wird eine freigegebene Bewertung von Hand in `data/bewertungen.json` eingetragen:
+Bewertungen erscheinen **nicht automatisch**. Das Formular „Bewertung abgeben“ (Seite `/referenzen/`) sendet die Bewertung über Netlify Forms (Formular `bewertung`) an die Firma. Nach der Prüfung (Auftrag tatsächlich ausgeführt?) wird eine Bewertung freigegeben – am einfachsten im Admin-Bereich unter *Bewertungen* (siehe unten); alternativ von Hand in `data/bewertungen.json`:
 
 ```json
 [
@@ -82,10 +82,68 @@ Das Widget-Skript liegt selbst gehostet unter `js/vendor/friendly-captcha-sdk-1.
   - `aus` (Standard): kein Menüpunkt, keine Links, nicht in der Sitemap; `/konfigurator/fenster/` und `/konfigurator/haustuer/` zeigen „Demnächst verfügbar“ mit `noindex`.
   - `vorschau`: Konfigurator unter beiden URLs nutzbar (zum Testen für den Kunden), aber `noindex`, kein Menüpunkt, nicht in der Sitemap.
   - `online`: öffentlich, Menüpunkt „Konfigurator“, Buttons „Online konfigurieren“ auf den Produktseiten, Sitemap, indexierbar.
-  Nach dem Umschalten `node scripts/build-konfigurator.js` ausführen (passiert bei jedem Netlify-Build automatisch) und committen.
+  Im Admin-Bereich (*Preise & Konfigurator*) wird der Schalter direkt gesetzt und veröffentlicht; die Datei ist nur noch der Rückfall ohne Admin-Daten.
 - **Preise ausschließlich in `data/preise.json`** – keine Zahl im Code. Die aktuellen Werte sind **BEISPIELWERTE** (`version: 2026-10-07-beispiel`) zur Abnahme; vor dem Status `online` durch echte Preise ersetzen und `version` ändern. Struktur: €/m² je System, Mindestfläche, Min-/Max-Maße (Systemgrenzen überschreiben die allgemeinen), Zuschläge (Typ %, Farbe %, Glas €/m², Sprossen €/Element, Rollladen €/m², Zusätze €/Element oder €/lfm), Montage/Demontage je Element, Online-Rabatt %, MwSt %. Haustüren: Grundpreis je Modell, Übergröße %, Farbe %, Glas, Seitenteil, Zusätze. Die Datei ist so aufgebaut, dass ein späteres Admin-Panel sie direkt bearbeiten kann (flache Schlüssel, ein Objekt je Option).
 - **Ein Rechner für alles:** `js/preis.js` läuft im Browser (`window.FWPreis`), in der Netlify Function und in den Tests. Rechenweg in ganzen Cent, kaufmännische Rundung nach jedem Schritt in fester Reihenfolge: Basis → Zuschläge (einzeln) → Elementpreis × Menge → Online-Rabatt (nur Produkt) → Montage/Demontage → Netto → MwSt → Brutto. Anzeige: „Preis ohne Online-Rabatt → Online-Rabatt → Ihr Preis“, „inkl. 19 % MwSt.“, „unverbindlicher Richtpreis“.
 - **Schema-Prüfung:** `FWPreis.validiereListe()` lehnt negative, leere, unplausible Werte (z. B. MwSt > 30 %, Rabatt > 50 %, mehr als 2 Nachkommastellen) ab. Ist die Liste ungültig, zeigt der Konfigurator „Preis auf Anfrage“ statt eines falschen Preises.
 - **Serverseitige Nachrechnung:** Beim „Angebot anfordern“ sendet der Browser Konfiguration + Browserpreis an `netlify/functions/anfrage.js` (Formular `angebot-konfigurator`). Die Function rechnet mit derselben Liste neu und speichert in der Netlify-Forms-Einsendung: `konfiguration` (JSON), `preis_server_brutto`/`_netto`, `preis_server_text`, `preis_browser_brutto`, `preis_abweichung`, `preisliste_version`, `positionen`, `zusammenfassung`.
 - **Tests:** `npm test` (`tests/preis.test.js`, 45 Tests: 36 handgerechnete Fälle inkl. Mindestfläche, Systemgrenzen, alle Optionen, Menge 10/50, Schema-Fehler; 4 Eigenschaftstests: monoton in Breite/Höhe, nie negativ, linear in der Menge, Festverglasung günstiger). Der Netlify-Build (`npm run build`) führt die Tests aus; schlägt einer fehl, bricht der Build ab und es wird nichts veröffentlicht.
 - Bilder: `assets/konfigurator/*-400.webp` / `*-800.webp` (KI-generierte Beispieldarstellungen, Hinweis „Abbildung beispielhaft“ auf der Seite).
+
+## Verwaltung (Admin-Bereich unter `/admin/`)
+
+Der Admin-Bereich läuft komplett auf Netlify (Functions + Blobs), ohne Fremddienste außer dem kostenlosen Brevo-Plan für E-Mails. Alles, was dort gespeichert wird (Preise, Konfigurator-Schalter, Texte, Bilder, freigegebene Bewertungen), landet in Netlify Blobs; **„Speichern & veröffentlichen“** stößt einen Netlify-Build an, der die Daten holt, **alle Tests** ausführt (Preisrechner, Admin, Kontrast) und erst dann die Website neu erzeugt. Schlägt ein Test fehl, wird nichts veröffentlicht – die bisherige Version bleibt online, der Admin zeigt „Nicht veröffentlicht – Fehler: …“.
+
+### So melden Sie sich an
+
+1. **Einmalige Einrichtung** (macht in der Regel der Entwickler, Sie können es aber auch selbst): In Netlify unter *Site configuration → Environment variables* die Variable `ADMIN_SETUP_TOKEN` mit einer langen Zufallszeichenfolge (mind. 24 Zeichen) anlegen. Danach die Seite einmal neu deployen (*Deploys → Trigger deploy*), damit die Variable für die Functions gilt.
+2. Im Browser `https://fenster-weissenburger.de/admin/?token=IHR-TOKEN` öffnen (den Wert aus Schritt 1 einsetzen). Dort Name, E-Mail und ein Passwort mit **mindestens 12 Zeichen** eingeben → „Konto anlegen“. Der Einrichtungslink funktioniert nur ein einziges Mal; danach gibt es genau ein Konto.
+3. Ab dann: `https://fenster-weissenburger.de/admin/` → E-Mail und Passwort. „Angemeldet bleiben“ hält die Sitzung 30 Tage, sonst 8 Stunden. Nach **5 Fehlversuchen** ist der Zugang **15 Minuten** gesperrt.
+4. **Passwort vergessen?** Link unter dem Anmeldeformular → Sie erhalten eine E-Mail mit einem Link, der 30 Minuten gültig ist (setzt `BREVO_API_KEY` voraus).
+5. Empfohlen: Unter *Konto → Sicherheit* die **Zwei-Faktor-Anmeldung** einschalten (QR-Code mit einer Authenticator-App scannen). Dort finden Sie auch „Auf allen Geräten abmelden“.
+
+Solange `ADMIN_SETUP_TOKEN` auf Produktion **nicht** gesetzt ist, antworten `/admin/` und alle Admin-Functions mit **404** – der Admin ist dann schlicht nicht vorhanden. Auf Deploy Previews ist er immer aktiv (mit eigenem, getrenntem Datenspeicher).
+
+### So ändern Sie Bilder und Texte
+
+**Bilder** (Menü *Bilder*): Oben die Bereiche filtern (Startseite, Referenzen, Produkte, Leistungen …). Ein Bild anklicken → rechts Titel, Bildbeschreibung und Bereich bearbeiten, **Ersetzen** lädt ein neues Foto an dieselbe Stelle, **Löschen** entfernt Galeriebilder (fest im Layout verbaute Bilder lassen sich nur ersetzen). **+ Bilder hochladen** bzw. der gestrichelte Bereich nehmen Fotos vom Computer oder direkt vom Handy an (JPG, PNG, HEIC); sie werden im Browser verkleinert (800/1600 px), in WebP umgewandelt und von EXIF/GPS-Daten befreit. Neue Fotos im Bereich „Referenzen“ erscheinen nach dem Veröffentlichen automatisch in der Galerie auf `/referenzen/`. Zum Schluss **Speichern & veröffentlichen**.
+
+**Texte** (Menü *Texte*): Links die Seite wählen, rechts jede Überschrift und jeden Absatz direkt bearbeiten. Erlaubt sind fett, kursiv, Links und Zeilenumbrüche (Schaltflächen über den Feldern). **Vorschau** zeigt den Text der Seite in Lesereihenfolge; „Original wiederherstellen“ setzt einen Baustein zurück. **Impressum und Datenschutzerklärung** sind geschützt: Änderungen werden erst nach einer zusätzlichen Bestätigung gespeichert. Jede Speicherung ist eine Version; unter *Änderungsprotokoll* sehen Sie wer/wann/was und können jeden Stand mit einem Klick **wiederherstellen** (wird sofort mit allen Tests veröffentlicht).
+
+**Bewertungen** (Menü *Bewertungen*): Neue Bewertungen aus dem Formular auf `/referenzen/` warten hier auf Freigabe. **Freigeben** oder **Ablehnen**, danach **Veröffentlichen** – nur freigegebene Bewertungen erscheinen auf der Website. (Das manuelle Bearbeiten von `data/bewertungen.json` entfällt.)
+
+**Anfragen** (Menü *Anfragen*): Alle Anfragen aus Formularen und Konfigurator mit allen Feldern; bei Konfigurator-Anfragen zusätzlich die Konfiguration, der **vom Server nachgerechnete Preis** und eine rote Warnung, falls der im Browser gezeigte Preis abweicht.
+
+### So ändern Sie Preise und schalten den Konfigurator online
+
+Menü *Preise & Konfigurator*:
+
+1. **Reiter** Fenster · Haustüren · Hebe-Schiebetüren · Montage & Allgemein. Jede Zahl aus `data/preise.json` ist dort ein Feld (Preis €/m² je Profilsystem, Maximalmaße, Zuschläge in % oder €, Montage, Online-Rabatt, MwSt., Versionsbezeichnung). Ungültige Eingaben (negativ, leer, min > max, unplausible Prozente) werden sofort am Feld und in einer Liste oben gemeldet – **Speichern ist erst möglich, wenn alles stimmt**; der Server prüft dieselben Regeln noch einmal. Mit dem Häkchen „Aktiv“ lassen sich Systeme/Optionen ausblenden, ohne sie zu löschen.
+2. **Testrechner** (rechts): Konfiguration wählen, jede Rechenzeile und **„Kunde sieht: … €“** werden live mit den gerade eingegebenen (auch ungespeicherten) Werten berechnet – mit demselben Rechner wie auf der Website und auf dem Server („Vom Server nachrechnen lassen“ bestätigt das). **Mit eigenem Angebot vergleichen:** Ihren realen Angebotspreis eintragen → Abweichung in € und %.
+3. **Speichern** legt eine Version an (mit Notiz), **Speichern & veröffentlichen** startet zusätzlich den Build. Der Status (läuft / veröffentlicht / Fehler) und das Datum der letzten Veröffentlichung stehen oben in der Statusleiste.
+4. **Schalter „Konfigurator auf der Website“:** *Aus* (Besucher sehen „Demnächst verfügbar“), *Vorschau* (nur Sie nach Anmeldung, mit Banner „Vorschau – nicht öffentlich“, nicht für Suchmaschinen), *Online* (für alle, mit Menüpunkt und Sitemap – wird vor dem Umschalten noch einmal bestätigt). Der Schalter speichert und veröffentlicht sofort. Das manuelle Bearbeiten von `data/einstellungen.json` entfällt.
+
+Wichtig: Die ausgelieferten Preise sind **Beispielwerte**. Vor „Online“ bitte echte Preise eintragen und die Versionsbezeichnung ändern.
+
+### Umgebungsvariablen (Netlify → Site configuration → Environment variables)
+
+| Variable | Pflicht | Kontext | Zweck |
+|---|---|---|---|
+| `ADMIN_SETUP_TOKEN` | ja (sonst ist der Admin auf Produktion aus) | **Production** (optional auch Deploy Previews) | Einmaliger Einrichtungslink `/admin/?token=…`; zugleich Hauptschalter: ohne diese Variable antworten `/admin/*` und die Admin-Functions auf Produktion mit 404. Lange Zufallszeichenfolge, z. B. `openssl rand -hex 24`. |
+| `SESSION_SECRET` | empfohlen | alle Kontexte | Geheimnis für die CSRF-Token (ohne Angabe wird `ADMIN_SETUP_TOKEN` verwendet). Beliebige lange Zufallszeichenfolge. |
+| `NETLIFY_BUILD_HOOK` | ja, für „Veröffentlichen“ | **Production** | URL eines Build Hooks (*Site configuration → Build & deploy → Build hooks → Add build hook*, Branch `main`). Ohne diese Variable werden Änderungen gespeichert, aber nicht veröffentlicht (klare Fehlermeldung im Admin). Für Deploy Previews kann ein zweiter Hook mit `?trigger_branch=<branch>` als Deploy-Preview-Wert hinterlegt werden. |
+| `BREVO_API_KEY` | ja, für E-Mails | mindestens **Production** | API-Schlüssel aus dem kostenlosen Brevo-Konto (*SMTP & API → API-Schlüssel*). Versendet: Passwort-vergessen-Link, Bestätigung bei E-Mail-Änderung, Benachrichtigungen über neue Anfragen/Bewertungen, Ergebnis der Veröffentlichung. Ohne Schlüssel werden keine Mails versendet; auf Deploy Previews zeigt der Admin die Links dann direkt an. |
+| `MAIL_FROM` / `MAIL_FROM_NAME` | optional | alle | Absenderadresse/-name (Standard `info@fenster-weissenburger.de` / „Fenster-WeissenBurger Website“). Die Absenderadresse muss in Brevo als Absender bestätigt sein. |
+| `NETLIFY_API_TOKEN` + `SITE_ID` | nur falls der Build Blobs nicht automatisch erreicht | **Builds** (Production) | Persönlicher Zugriffstoken (*User settings → Applications → Personal access tokens*) und Site-ID, damit `scripts/build.js` die Admin-Daten aus Netlify Blobs lesen kann. In aktuellen Netlify-Builds ist der Blobs-Zugriff automatisch vorhanden; die Variablen sind der Rückfall. |
+| `FRC_API_KEY`, `FRC_SITEKEY`, `FRC_ENDPOINT`, `SPAM_MIN_SECONDS` | optional | alle | Siehe Abschnitt *Spam-Schutz* (unverändert). |
+
+Nach dem Anlegen oder Ändern von Variablen einmal neu deployen (*Deploys → Trigger deploy → Deploy site*), damit Functions und Build sie sehen. Keiner dieser Werte gehört ins Repository.
+
+### Technik (für Entwickler)
+
+- **Functions:** `netlify/functions/admin-auth.js` (Einrichtung, Login mit Sperre 5/15 min, Abmelden, Passwort-Links, E-Mail-Bestätigung), `admin-api.js` (alle Daten: Speichern mit Validierung + Version, Bilder, Bewertungen, Anfragen, Veröffentlichen, Testrechner, Konto, 2FA), `admin-seite.js` (liefert `admin/index.html`; `/admin/*` wird per Rewrite hierher geleitet, 404-Schalter), `admin-bild.js` (Bildvorschau aus Blobs, nur angemeldet), `konfigurator-vorschau.js` (Modus „Vorschau“: Sitzungsprüfung + Banner, sonst „Demnächst verfügbar“; aktiviert über die vom Build erzeugte `_redirects`). Gemeinsame Bausteine in `netlify/functions/_lib/` (Store mit Blobs/Dateisystem-Rückfall, Auth/bcrypt/TOTP, HTTP/CSRF/Rate-Limit/Protokoll, Daten/Versionen/Diff, Validierung, Mail).
+- **Sicherheit:** Sitzung = zufälliges Token (SHA-256 im Store) im Cookie `fw_admin` (HttpOnly, Secure, SameSite=Strict); schreibende Aufrufe prüfen Origin + Header `X-CSRF` (HMAC aus Sitzungstoken); Rate-Limit je IP (Auth 30/min, API 240/min); Passwörter bcrypt (Kosten 12, mind. 12 Zeichen); 2FA TOTP (RFC 6238) mit Replay-Schutz; Zugriffsprotokoll (letzte 500 Einträge) unter *Zugriffsprotokoll*. Store-Namen sind je Deploy-Kontext getrennt (`admin` auf Produktion, `admin-deploy-preview` usw.).
+- **Build:** `npm run build` = `scripts/build.js`: Admin-Daten aus Blobs → `data/*.json`, Textbausteine (`data-text="…"`, Register `data/texte.json`) und Bilder (Register `data/bilder.json`, Dateien nach `assets/bilder/admin/`) in die Seiten einsetzen → Tests (`tests/*.test.js`, darunter `admin-auth.test.js` und `admin-daten.test.js`) → `scripts/kontrast-check.js` → `scripts/build-konfigurator.js`. Der Status wird unter `veroeffentlichung` im Store abgelegt (läuft/veröffentlicht/fehler + Meldung). Lokal ohne Blobs: `npm run build:lokal`. Register neu erzeugen (nach Änderungen an den Seiten): `node scripts/inhalte-registry.js`.
+- **Validierung** teilen sich Browser und Server: `js/preis-validate.js` (UMD), serverseitig über `netlify/functions/_lib/validate.js`.
+- **Platzhalter:** Das Modul „Angebote & Rechnungen“ ist als versteckter Menüpunkt vorbereitet (`#angebote`; sichtbar mit `localStorage.setItem("fw-modul-angebote","an")`).
+- Der Admin-Code (`css/admin.css`, `js/admin.js`, Vendor-Skripte) wird ausschließlich unter `/admin/` geladen; öffentliche Seiten bleiben unverändert.
