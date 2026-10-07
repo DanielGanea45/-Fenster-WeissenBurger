@@ -34,11 +34,28 @@ async function hashPassword(pw) { return bcrypt.hash(pw, 12); }
 async function verifyPassword(pw, hash) { try { return await bcrypt.compare(pw, hash); } catch (e) { return false; } }
 
 /* Erstes Konto über Einrichtungs-Token (nur einmal) */
-async function setup({ token, email, password, name }) {
-  const expected = process.env.ADMIN_SETUP_TOKEN;
+/* Token-Vergleich: Env-Wert und empfangener Wert getrimmt; zusätzlich der rohe URL-Wert (undekodiert) und die
+   Variante mit „+“ statt Leerzeichen (URLSearchParams macht aus „+“ ein Leerzeichen). Konstantzeit-Vergleich. */
+function tokenPasst(empfangen, roh, erwartet) {
+  const kandidaten = new Set();
+  for (const t of [empfangen, roh]) {
+    if (t === undefined || t === null) continue;
+    const s = String(t).trim();
+    kandidaten.add(s); kandidaten.add(s.replace(/ /g, "+"));
+    try { kandidaten.add(decodeURIComponent(s)); } catch (e) { /* kein gültiges Encoding */ }
+  }
+  return [...kandidaten].some((k) => k.length > 0 && k.length === erwartet.length && crypto.timingSafeEqual(Buffer.from(k), Buffer.from(erwartet)));
+}
+async function setup({ token, tokenRoh, email, password, name, diagnose }) {
+  const expected = String(process.env.ADMIN_SETUP_TOKEN || "").trim();
   if (!expected) return { ok: false, error: "Einrichtung nicht aktiviert (ADMIN_SETUP_TOKEN fehlt)." };
   if (await accountExists()) return { ok: false, error: "Es gibt bereits ein Konto. Der Einrichtungslink ist verbraucht." };
-  if (!token || token.length !== expected.length || !crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected))) return { ok: false, error: "Einrichtungs-Token ungültig." };
+  if (!tokenPasst(token, tokenRoh, expected)) {
+    let error = "Einrichtungs-Token ungültig.";
+    /* TEMPORÄRE Diagnose (nur außerhalb der Produktion): Länge und letzte 4 Zeichen beider Werte */
+    if (diagnose) { const e4 = (s) => (s ? "…" + String(s).slice(-4) : "–"); const t = String(token || "").trim(); error += ` [Diagnose Vorschau: ENV vorhanden: ja, Länge ${expected.length}, Ende ${e4(expected)} | empfangen: Länge ${t.length}, Ende ${e4(t)}${tokenRoh !== undefined && String(tokenRoh) !== t ? ` | roh aus URL: Länge ${String(tokenRoh).length}, Ende ${e4(tokenRoh)}` : ""}]`; }
+    return { ok: false, error };
+  }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email || "")) return { ok: false, error: "Bitte eine gültige E-Mail-Adresse angeben." };
   const pp = passwordProblems(password);
   if (pp.length) return { ok: false, error: "Passwort: " + pp.join(" ") };

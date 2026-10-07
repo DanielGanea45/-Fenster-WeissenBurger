@@ -42,6 +42,21 @@ test("Ohne Konto: Anmeldung nicht möglich, Einrichtung nur mit gültigem Token"
   assert.match(parse(r).error, /12 Zeichen/);
 });
 
+test("Token-Vergleich: Leerraum, URL-dekodiertes „+“ und Roh-URL-Wert werden akzeptiert; Diagnose nur außerhalb der Produktion", async () => {
+  const alt = process.env.ADMIN_SETUP_TOKEN;
+  process.env.ADMIN_SETUP_TOKEN = " ab+cd/ef==xyz1234567890 ";
+  let r = await authFn.handler(ev("POST", { aktion: "einrichten", token: "ab cd/ef==xyz1234567890", email: "a@b.de", passwort: "zu-kurz" }));
+  assert.match(parse(r).error, /12 Zeichen/, "Token mit Leerzeichen statt + wird erkannt, erst das Passwort scheitert");
+  r = await authFn.handler(ev("POST", { aktion: "einrichten", token: "falsch", tokenRoh: "ab%2Bcd%2Fef%3D%3Dxyz1234567890", email: "a@b.de", passwort: "zu-kurz" }));
+  assert.match(parse(r).error, /12 Zeichen/, "roher URL-Wert wird dekodiert");
+  r = await authFn.handler(ev("POST", { aktion: "einrichten", token: "ganz-falsch", email: "a@b.de", passwort: PW }));
+  assert.ok(parse(r).error.includes("Einrichtungs-Token ungültig. [Diagnose Vorschau: ENV vorhanden: ja, Länge 23, Ende …7890 | empfangen: Länge 11, Ende …lsch]"), parse(r).error);
+  process.env.CONTEXT = "production";
+  r = await authFn.handler(ev("POST", { aktion: "einrichten", token: "ganz-falsch", email: "a@b.de", passwort: PW }));
+  assert.equal(parse(r).error, "Einrichtungs-Token ungültig.", "auf Produktion keine Diagnose");
+  delete process.env.CONTEXT; process.env.ADMIN_SETUP_TOKEN = alt;
+});
+
 let cookie = "", csrf = "";
 test("Einrichtung mit Token legt das Konto an und meldet an; zweiter Versuch scheitert", async () => {
   let r = await authFn.handler(ev("POST", { aktion: "einrichten", token: process.env.ADMIN_SETUP_TOKEN, email: "Daniel@Example.de", passwort: PW, name: "Daniel" }));

@@ -145,7 +145,8 @@
       const btn = $("button[type=submit]", e.target); btn.disabled = true; btn.textContent = "Wird gespeichert …";
       const zurueck = (fehler) => einrichtenForm(token, { fehler: "Konto konnte nicht gespeichert werden: " + fehler, name: fd.get("name"), email: fd.get("email") });
       try {
-        const r = await api.auth("einrichten", { token, name: fd.get("name"), email: fd.get("email"), passwort: fd.get("p1") });
+        const tokenRoh = (location.search.match(/[?&]token=([^&#]*)/) || [])[1]; // undekodierter Wert aus der URL („+“ bleibt „+“)
+        const r = await api.auth("einrichten", { token: String(token || "").trim(), tokenRoh, name: fd.get("name"), email: fd.get("email"), passwort: fd.get("p1") });
         if (!r.ok) return zurueck(r.error || ("Serverantwort " + r.status + " ohne Fehlertext"));
         /* Persistenz prüfen: Der Server muss das Konto jetzt dauerhaft kennen (Netlify Blobs). */
         const st = await call(AUTH);
