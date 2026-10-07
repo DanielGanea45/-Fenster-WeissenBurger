@@ -214,4 +214,58 @@ test("Build: ungültige Preisliste im Store ⇒ Abbruch vor den Tests", async ()
   await store.setJSON("daten/preise", repoPreise());
 });
 
+/* ---------- Blobs im Build nicht verfügbar ---------- */
+test("Build: Blobs nicht verfügbar (kein Token) ⇒ Hinweis, Build läuft mit Repository-Daten weiter", async () => {
+  const tmp = seitenAbbild();
+  const logs = [];
+  const r = await build.lauf({ root: tmp, blobs: { ok: false, art: "keine", grund: "NETLIFY_BLOBS_TOKEN fehlt" }, kontext: "deploy-preview", adminAktiv: true, still: true, ohneMail: true, log: (l) => logs.push(l), schritte: [{ name: "Tests", cmd: "node -e \"process.exit(0)\"" }] });
+  assert.equal(r.ok, true);
+  assert.ok(logs.some((l) => /Admin-Daten nicht verfügbar – NETLIFY_BLOBS_TOKEN fehlt/.test(l)), logs.join("\n"));
+  assert.ok(!logs.some((l) => /✖/.test(l)));
+  assert.ok(fs.existsSync(path.join(tmp, "_redirects")));
+});
+test("Build: Produktion mit aktivem Admin, aber ohne Blobs-Token ⇒ Abbruch mit klarer Meldung", async () => {
+  const tmp = seitenAbbild();
+  const r = await build.lauf({ root: tmp, blobs: { ok: false, art: "keine", grund: "NETLIFY_BLOBS_TOKEN fehlt" }, kontext: "production", adminAktiv: true, still: true, ohneMail: true, log: () => {}, schritte: [] });
+  assert.equal(r.ok, false);
+  assert.match(r.fehler, /NETLIFY_BLOBS_TOKEN/);
+  assert.match(r.fehler, /ADMIN_SETUP_TOKEN/);
+});
+test("Build: Produktion ohne aktiven Admin und ohne Blobs ⇒ normaler Build", async () => {
+  const tmp = seitenAbbild();
+  const r = await build.lauf({ root: tmp, blobs: { ok: false, art: "keine", grund: "NETLIFY_BLOBS_TOKEN fehlt" }, kontext: "production", adminAktiv: false, still: true, ohneMail: true, log: () => {}, schritte: [] });
+  assert.equal(r.ok, true);
+});
+test("Build: Blobs-Zugriff schlägt zur Laufzeit fehl (MissingBlobsEnvironmentError) ⇒ kein Absturz, Hinweis", async () => {
+  const tmp = seitenAbbild();
+  const origLade = daten.lade; const logs = [];
+  daten.lade = async () => { const e = new Error("The environment has not been configured to use Netlify Blobs."); e.name = "MissingBlobsEnvironmentError"; throw e; };
+  try {
+    const r = await build.lauf({ root: tmp, blobs: { ok: true, art: "token" }, kontext: "deploy-preview", adminAktiv: true, still: true, ohneMail: true, log: (l) => logs.push(l), schritte: [] });
+    assert.equal(r.ok, true);
+    assert.ok(logs.some((l) => /Admin-Daten nicht verfügbar/.test(l)));
+  } finally { daten.lade = origLade; }
+});
+test("Build: Fehler beim Schreiben des Veröffentlichungsstatus bricht den Build nicht ab", async () => {
+  const tmp = seitenAbbild();
+  const orig = daten.setPublishStatus; const logs = [];
+  daten.setPublishStatus = async () => { throw new Error("Blobs nicht erreichbar"); };
+  try {
+    const r = await build.lauf({ root: tmp, mitStore: true, still: true, ohneMail: true, log: (l) => logs.push(l), schritte: [] });
+    assert.equal(r.ok, true);
+    assert.ok(logs.some((l) => /Warnung: Veröffentlichungsstatus nicht speicherbar/.test(l)));
+  } finally { daten.setPublishStatus = orig; }
+});
+test("store.blobsStatus: Build ohne Token meldet den fehlenden Token, Functions-Kontext ist automatisch", () => {
+  const sichern = { ...process.env };
+  delete process.env.FW_STORE_DIR; process.env.NETLIFY = "true"; process.env.SITE_ID = "abc"; delete process.env.NETLIFY_BLOBS_TOKEN; delete process.env.NETLIFY_BLOBS_CONTEXT;
+  assert.deepEqual(store.blobsStatus(), { ok: false, art: "keine", grund: "NETLIFY_BLOBS_TOKEN fehlt" });
+  process.env.NETLIFY_BLOBS_TOKEN = "nfp_x";
+  assert.equal(store.blobsStatus().art, "token");
+  process.env.NETLIFY_BLOBS_CONTEXT = "eyJ9";
+  assert.equal(store.blobsStatus().art, "automatisch");
+  for (const k of Object.keys(process.env)) if (!(k in sichern)) delete process.env[k];
+  Object.assign(process.env, sichern);
+});
+
 test.after(() => { try { fs.rmSync(dir, { recursive: true, force: true }); } catch (e) { /* egal */ } });

@@ -149,22 +149,35 @@ function redirectsSchreiben(root, status) {
 async function lauf(opt = {}) {
   const root = opt.root || path.join(__dirname, "..");
   const schritte = opt.schritte || DEFAULT_SCHRITTE;
-  let mitStore = opt.mitStore !== undefined ? opt.mitStore : (store.useBlobs() || !!process.env.FW_STORE_DIR) && !process.argv.includes("--ohne-blobs");
   const log = opt.log || console.log;
   const hook = process.env.INCOMING_HOOK_TITLE || "";
   const start = Date.now();
-  let status = null;
+  const kontext = opt.kontext || process.env.CONTEXT || "";
+  const adminAktiv = opt.adminAktiv !== undefined ? opt.adminAktiv : !!process.env.ADMIN_SETUP_TOKEN;
+  /* Woher kommen die Admin-Daten? Lokaler Dateistore (Tests), Blobs (Build mit SITE_ID + NETLIFY_BLOBS_TOKEN) oder gar nicht. */
+  const blobs = opt.blobs || (process.env.FW_STORE_DIR ? { ok: true, art: "datei" } : store.blobsStatus());
+  let mitStore = opt.mitStore !== undefined ? opt.mitStore : blobs.ok && !process.argv.includes("--ohne-blobs");
+  /* Status schreiben darf den Build NIE abbrechen */
+  const statusSetzen = async (s) => { if (!mitStore) return; try { await daten.setPublishStatus(s); } catch (e) { log("Warnung: Veröffentlichungsstatus nicht speicherbar (" + e.message + ")."); } };
   const fehlerMelden = async (text) => {
     log("✖ " + text);
-    if (mitStore) { try { await daten.setPublishStatus({ status: "fehler", fehler: text, ende: Date.now(), dauerMs: Date.now() - start }); } catch (e) { log("Status nicht speicherbar: " + e.message); } }
+    await statusSetzen({ status: "fehler", fehler: text, ende: Date.now(), dauerMs: Date.now() - start });
     if (mitStore && !opt.ohneMail) await benachrichtigen(false, text);
     return { ok: false, fehler: text };
   };
+  /* Ohne Blobs: auf Produktion mit aktivem Admin abbrechen (sonst würde ohne Admin-Daten veröffentlicht), andernfalls Hinweis. */
+  const ohneAdminDaten = (grund) => {
+    if (kontext === "production" && adminAktiv) { const t = `Build abgebrochen: Der Admin-Bereich ist aktiv (ADMIN_SETUP_TOKEN gesetzt), aber die Admin-Daten sind im Build nicht erreichbar (${grund}). Bitte NETLIFY_BLOBS_TOKEN (Scope Builds) setzen – sonst würde die Website ohne die im Admin gespeicherten Preise/Texte veröffentlicht.`; log("✖ " + t); return { ok: false, fehler: t }; }
+    log(`Admin-Daten nicht verfügbar – ${grund}. Build mit den Daten aus dem Repository.`);
+    mitStore = false;
+    redirectsSchreiben(root, daten.repoDatei("einstellungen").konfigurator.status);
+    return null;
+  };
+  if (!mitStore && !opt.mitStore) { const abbruch = ohneAdminDaten(blobs.grund || "kein Datenspeicher"); if (abbruch) return abbruch; }
 
   try {
     if (mitStore) {
-      status = await daten.publishStatus();
-      await daten.setPublishStatus({ status: "laeuft", start, fehler: "", ausloeser: hook || process.env.CONTEXT || "build" });
+      await statusSetzen({ status: "laeuft", start, fehler: "", ausloeser: hook || kontext || "build" });
       /* 1) Daten holen und prüfen */
       const preise = await daten.lade("preise");
       const fp = validate.validierePreise(preise);
@@ -184,16 +197,11 @@ async function lauf(opt = {}) {
       const nBew = bewertungenSchreiben(root, bew);
       redirectsSchreiben(root, einst.konfigurator.status);
       log(`Admin-Daten übernommen: Preisliste ${preise.version}, Konfigurator ${einst.konfigurator.status}, ${nT} Texte, ${nB} Bilder, ${nBew} Bewertungen.`);
-    } else {
-      const einst = daten.repoDatei("einstellungen");
-      redirectsSchreiben(root, einst.konfigurator.status);
-      log("Build ohne Blobs: Daten aus dem Repository.");
     }
   } catch (e) {
-    if (process.env.INCOMING_HOOK_URL || hook) return await fehlerMelden("Admin-Daten konnten nicht geladen werden: " + e.message);
-    log("Hinweis: Admin-Daten nicht erreichbar (" + e.message + ") – Build mit Repository-Daten. Für Blobs im Build ggf. NETLIFY_API_TOKEN + SITE_ID setzen (README).");
-    mitStore = false;
-    redirectsSchreiben(root, daten.repoDatei("einstellungen").konfigurator.status);
+    if (hook) return await fehlerMelden("Admin-Daten konnten nicht geladen werden: " + e.message);
+    const abbruch = ohneAdminDaten("Zugriff fehlgeschlagen: " + e.message);
+    if (abbruch) return abbruch;
   }
 
   /* 2)+3) Tests und Generatoren – jeder Fehler bricht ab */
@@ -207,8 +215,7 @@ async function lauf(opt = {}) {
     }
   }
   if (mitStore) {
-    try { await daten.setPublishStatus({ status: "veroeffentlicht", ende: Date.now(), dauerMs: Date.now() - start, fehler: "", letzteVeroeffentlichung: Date.now() }); }
-    catch (e) { log("Status nicht speicherbar: " + e.message); }
+    await statusSetzen({ status: "veroeffentlicht", ende: Date.now(), dauerMs: Date.now() - start, fehler: "", letzteVeroeffentlichung: Date.now() });
     if (!opt.ohneMail && hook) await benachrichtigen(true, `Auslöser: ${hook}`);
   }
   log("✔ Build erfolgreich.");

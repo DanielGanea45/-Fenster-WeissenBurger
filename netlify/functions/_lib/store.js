@@ -16,14 +16,27 @@ function kontext() {
 function storeName() { const k = kontext(); return k === "production" ? "admin" : "admin-" + k.replace(/[^a-z0-9-]/gi, "-"); }
 let blobsStore = null;
 
+/* Zugriffsarten:
+   – Functions: Netlify konfiguriert Blobs automatisch (NETLIFY_BLOBS_CONTEXT ist gesetzt).
+   – Build (scripts/build.js): KEINE automatische Konfiguration → explizit mit SITE_ID (von Netlify gesetzt)
+     und NETLIFY_BLOBS_TOKEN (Personal Access Token, als geheime Variable im Scope „Builds“).
+   – Lokal/Tests: FW_STORE_DIR → Dateisystem. */
+function blobsStatus() {
+  if (process.env.FW_STORE_DIR) return { ok: false, art: "datei", grund: "FW_STORE_DIR gesetzt (lokaler Dateistore)" };
+  if (process.env.NETLIFY_BLOBS_CONTEXT) return { ok: true, art: "automatisch" };
+  if (process.env.SITE_ID && process.env.NETLIFY_BLOBS_TOKEN) return { ok: true, art: "token" };
+  if (!process.env.NETLIFY) return { ok: false, art: "keine", grund: "nicht in einer Netlify-Umgebung" };
+  return { ok: false, art: "keine", grund: process.env.SITE_ID ? "NETLIFY_BLOBS_TOKEN fehlt" : "SITE_ID und NETLIFY_BLOBS_TOKEN fehlen" };
+}
 function useBlobs() {
   if (process.env.FW_STORE_DIR) return false;
-  return !!(process.env.NETLIFY || process.env.NETLIFY_BLOBS_CONTEXT || (process.env.SITE_ID && process.env.NETLIFY_API_TOKEN));
+  return blobsStatus().ok || !!process.env.NETLIFY; // in Netlify-Umgebungen nie still auf Dateien ausweichen
 }
 function getBlobs() {
   if (blobsStore) return blobsStore;
   const { getStore } = require("@netlify/blobs");
-  if (process.env.SITE_ID && process.env.NETLIFY_API_TOKEN) blobsStore = getStore({ name: storeName(), siteID: process.env.SITE_ID, token: process.env.NETLIFY_API_TOKEN, consistency: "strong" });
+  const st = blobsStatus();
+  if (st.art === "token") blobsStore = getStore({ name: storeName(), siteID: process.env.SITE_ID, token: process.env.NETLIFY_BLOBS_TOKEN, consistency: "strong" });
   else blobsStore = getStore({ name: storeName(), consistency: "strong" });
   return blobsStore;
 }
@@ -83,4 +96,4 @@ async function list(prefix) {
   return [...new Set(out)].filter((k) => k.startsWith(prefix)).sort();
 }
 
-module.exports = { getJSON, setJSON, del, getBinary, setBinary, list, useBlobs, kontext, storeName };
+module.exports = { getJSON, setJSON, del, getBinary, setBinary, list, useBlobs, blobsStatus, kontext, storeName };
