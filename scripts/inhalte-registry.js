@@ -46,6 +46,7 @@ function verarbeiteTexte(seite, html, registry) {
   const out = html.replace(/<(h1|h2|h3|p)(\s[^>]*)?>([\s\S]*?)<\/\1>/gi, (ganz, tag, attrs, inner, offset) => {
     if (inRange(gesperrt, offset)) return ganz;
     attrs = attrs || "";
+    if (/\sdata-firma="/.test(attrs)) return ganz; // Firmendaten kommen aus Einstellungen → Firma & Kontakt, nicht aus dem Texte-Editor
     /* Nur Elemente mit reinem Inline-Inhalt */
     const tags = [...inner.matchAll(/<\/?([a-zA-Z0-9]+)/g)].map((x) => x[1]);
     if (tags.some((t) => !INLINE.test(t))) return ganz;

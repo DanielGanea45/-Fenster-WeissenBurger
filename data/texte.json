@@ -2247,25 +2247,11 @@
    "label": "Anbieter",
    "geschuetzt": true
   },
-  "impressum-4": {
-   "seite": "impressum",
-   "tag": "p",
-   "html": "<strong>Fenster-WeissenBurger UG (haftungsbeschränkt)</strong><br>\n      Richard-Strauß-Straße 21<br>\n      85057 Ingolstadt<br>\n      Deutschland",
-   "label": "Fenster-WeissenBurger UG (haftungsbeschränkt) Richard-Strauß-Straße 21",
-   "geschuetzt": true
-  },
   "impressum-5": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Vertreten durch",
    "label": "Vertreten durch",
-   "geschuetzt": true
-  },
-  "impressum-6": {
-   "seite": "impressum",
-   "tag": "p",
-   "html": "Geschäftsführer: Daniel Alexandru Ganea",
-   "label": "Geschäftsführer: Daniel Alexandru Ganea",
    "geschuetzt": true
   },
   "impressum-7": {
@@ -2275,25 +2261,11 @@
    "label": "Kontakt",
    "geschuetzt": true
   },
-  "impressum-8": {
-   "seite": "impressum",
-   "tag": "p",
-   "html": "Telefon: <a href=\"tel:+4917681338935\">0176 81338935</a><br>\n    E-Mail: <span class=\"mail\" data-u=\"info\" data-d=\"fenster-weissenburger.de\">info [at] fenster-weissenburger.de</span><br>\n    Erreichbarkeit: Mo–Fr 9–17 Uhr",
-   "label": "Telefon: 0176 81338935 E-Mail: info [at] fenster-weissenburger.de Erre",
-   "geschuetzt": true
-  },
   "impressum-9": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Registereintrag",
    "label": "Registereintrag",
-   "geschuetzt": true
-  },
-  "impressum-10": {
-   "seite": "impressum",
-   "tag": "p",
-   "html": "Eintragung im Handelsregister<br>\n    Registergericht: Amtsgericht Ingolstadt<br>\n    Registernummer: HRB 12705",
-   "label": "Eintragung im Handelsregister Registergericht: Amtsgericht Ingolstadt ",
    "geschuetzt": true
   },
   "impressum-11": {
@@ -2303,25 +2275,11 @@
    "label": "Umsatzsteuer-ID",
    "geschuetzt": true
   },
-  "impressum-12": {
-   "seite": "impressum",
-   "tag": "p",
-   "html": "Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>DE451686074",
-   "label": "Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:DE4",
-   "geschuetzt": true
-  },
   "impressum-13": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
    "label": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
-   "geschuetzt": true
-  },
-  "impressum-14": {
-   "seite": "impressum",
-   "tag": "p",
-   "html": "Daniel Alexandru Ganea<br>Richard-Strauß-Straße 21<br>85057 Ingolstadt",
-   "label": "Daniel Alexandru GaneaRichard-Strauß-Straße 2185057 Ingolstadt",
    "geschuetzt": true
   },
   "impressum-15": {
@@ -2406,13 +2364,6 @@
    "tag": "p",
    "html": "Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
    "label": "Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
-   "geschuetzt": true
-  },
-  "datenschutz-5": {
-   "seite": "datenschutz",
-   "tag": "p",
-   "html": "<strong>Fenster-WeissenBurger UG (haftungsbeschränkt)</strong><br>\n      vertreten durch den Geschäftsführer Daniel Alexandru Ganea<br>\n      Richard-Strauß-Straße 21<br>\n      85057 Ingolstadt<br>\n      Telefon: <a href=\"tel:+4917681338935\">0176 81338935</a><br>\n      E-Mail: <span class=\"mail\" data-u=\"info\" data-d=\"fenster-weissenburger.de\">info [at] fenster-weissenburger.de</span>",
-   "label": "Fenster-WeissenBurger UG (haftungsbeschränkt) vertreten durch den Gesc",
    "geschuetzt": true
   },
   "datenschutz-6": {

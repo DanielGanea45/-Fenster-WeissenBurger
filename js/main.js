@@ -260,9 +260,22 @@
     desktop.addEventListener ? desktop.addEventListener("change", function () { closeItems(); setMenu(false); }) : desktop.addListener(function () { closeItems(); setMenu(false); });
   }
 
+
+  /* ---------- Ankündigungsbanner: nur im eingestellten Zeitraum, nach dem Schließen für die Sitzung ausgeblendet ---------- */
+  function initBanner() {
+    var b = document.querySelector(".ankuendigung"); if (!b) return;
+    var von = b.getAttribute("data-von"), bis = b.getAttribute("data-bis"), heute = new Date().toISOString().slice(0, 10);
+    if ((von && heute < von) || (bis && heute > bis)) return;
+    try { if (sessionStorage.getItem("fw-banner-zu") === "1") return; } catch (e) { /* egal */ }
+    b.hidden = false;
+    var zu = b.querySelector(".ankuendigung__zu");
+    if (zu) zu.addEventListener("click", function () { b.hidden = true; try { sessionStorage.setItem("fw-banner-zu", "1"); } catch (e) { /* egal */ } });
+  }
+
   function initPage() {
     initHeader();
     initNav();
+    initBanner();
     initMail();
     var y = document.getElementById("year");
     if (y) y.textContent = String(new Date().getFullYear());

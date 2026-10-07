@@ -5,6 +5,8 @@
 const fs = require("fs");
 const path = require("path");
 const root = path.join(__dirname, "..");
+const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
+const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
 const SITE = "https://fenster-weissenburger.de";
 const PARTNER = "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.";
 const NOTE = "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.";
@@ -68,7 +70,7 @@ ${PRODUCTS.map((x) => `          <a href="/produkte/${x.slug}/"${current === x.s
 }
 
 function header(current) {
-  return `<body class="page lp pp">
+  return `<body class="page lp pp">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   <header class="top">
     <a class="brand" href="/#home" aria-label="Fenster-WeissenBurger – Startseite">
@@ -89,7 +91,7 @@ function header(current) {
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
-    <a class="btn btn--call" href="tel:+4917681338935">
+    <a class="btn btn--call" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
       <span>Anrufen</span>
     </a>
@@ -114,7 +116,7 @@ function hero(p) {
           <p class="partner">${PARTNER}</p>
           <div class="actions">
             <a class="btn btn--primary" href="#anfrage">Kostenloses Aufmaß anfragen</a>
-            <a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a>
+            <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
             <a class="btn btn--ghost konf-link" href="${p.slug === "haustueren" ? "/konfigurator/haustuer/" : "/konfigurator/fenster/"}" hidden>Online konfigurieren</a>
           </div>
         </div>
@@ -186,7 +188,7 @@ function productJsonLd(p) {
       priceCurrency: "EUR",
       price: "0",
       priceSpecification: { "@type": "PriceSpecification", priceCurrency: "EUR", description: "Preis auf Anfrage – individuelles Angebot nach kostenlosem Aufmaß" },
-      seller: { "@type": "LocalBusiness", name: "Fenster-WeissenBurger UG (haftungsbeschränkt)", url: SITE + "/" },
+      seller: { "@type": "LocalBusiness", name: firmaLib.vollerName(einst), url: SITE + "/" },
     },
   };
 }
@@ -207,13 +209,7 @@ function form(p) {
           <p class="eyebrow"><span>→</span> Anfrage</p>
           <h2 class="h2" id="anfrage-title">Kostenloses Aufmaß <em>anfragen.</em></h2>
           <p class="lead lead--sm">Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.</p>
-          <address class="contact__card">
-            <strong>Fenster-WeissenBurger UG (haftungsbeschränkt)</strong><br>
-            Richard-Strauß-Straße 21<br>85057 Ingolstadt<br>
-            <a href="tel:+4917681338935">0176 81338935</a><br>
-            <span class="mail" data-u="info" data-d="fenster-weissenburger.de">info [at] fenster-weissenburger.de</span><br>
-            <span class="muted">Mo–Fr 9–17 Uhr</span>
-          </address>
+          ${firmaLib.kontaktKarteHtml(einst)}
           <p class="more-links"><a href="/produkte/">Alle Produkte</a> · <a href="/leistungen/">Unsere Leistungen: Beratung, Aufmaß, Montage</a></p>
         </div>
         <form class="form" name="anfrage-produkte" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
@@ -287,11 +283,11 @@ function footer() {
       <a href="/einsatzgebiet/">Einsatzgebiet</a>
       <a href="/impressum.html">Impressum</a>
       <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> Fenster-WeissenBurger UG (haftungsbeschränkt)</span>
+      <span>© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></span>
     </footer>
   </main>
   <div class="ctabar" aria-label="Schnellkontakt">
-    <a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a>
+    <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
     <a class="btn btn--primary" href="#anfrage">Anfrage</a>
   </div>
   <script src="/js/config.js?v=1" defer></script>

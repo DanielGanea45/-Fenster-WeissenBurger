@@ -9,10 +9,14 @@
 const fs = require("fs");
 const path = require("path");
 const root = path.join(__dirname, "..");
+const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
+const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
 const SITE = "https://fenster-weissenburger.de";
 const TODAY = "2026-10-07";
 const data = JSON.parse(fs.readFileSync(path.join(root, "data/orte.json"), "utf8"));
 const regions = Object.fromEntries(data.regions.map((r) => [r.key, r]));
+/* Veröffentlichung je Region aus Admin → Einstellungen → Öffnungszeiten & Einsatzgebiet (überschreibt data/orte.json) */
+{ const eg = (JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8")).einsatzgebiet) || {}; for (const r of data.regions) if (typeof eg[r.key] === "boolean") r.veroeffentlicht = eg[r.key]; }
 
 /* ---------- Gemeinsame Bausteine aus index.html (Logo, Asset-Versionen) ---------- */
 const indexHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
@@ -47,7 +51,7 @@ function ctx(o) {
 
 const INTRO = [
   (c) => c.isHQ
-    ? `Ingolstadt ist unser Zuhause: Von der Richard-Strauß-Straße aus beraten, vermessen und montieren wir in allen Stadtteilen – ohne Anfahrtspauschale und mit kurzen Wegen für Nachbesserungen oder ein zweites Aufmaß.`
+    ? `Ingolstadt ist unser Zuhause: Von der <span data-firma="strasse-name">${firmaLib.esc(firmaLib.strassenName(einst))}</span> aus beraten, vermessen und montieren wir in allen Stadtteilen – ohne Anfahrtspauschale und mit kurzen Wegen für Nachbesserungen oder ein zweites Aufmaß.`
     : c.hq
       ? `${c.lkIn.charAt(0).toUpperCase() + c.lkIn.slice(1)} liegt rund ${c.km} km Luftlinie von unserem Firmensitz in Ingolstadt entfernt – etwa ${c.min} Minuten Fahrt. Für Beratung und Aufmaß kommen wir ohne Umwege zu Ihnen, und auch am Montagetag ist das Team schnell vor Ort.`
       : `${c.name} liegt rund ${c.km} km von Karlsruhe entfernt, etwa ${c.min} Minuten Fahrt. Wir sind auch im Raum Karlsruhe für Sie im Einsatz: Beratung, Aufmaß und Montage führen wir vor Ort durch, Anfahrt und Termin stimmen wir individuell mit Ihnen ab.`,
@@ -229,7 +233,7 @@ function header() {
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
-    <a class="btn btn--call" href="tel:+4917681338935">
+    <a class="btn btn--call" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
       <span>Anrufen</span>
     </a>
@@ -262,7 +266,7 @@ function head(o, meta) {
   <link rel="stylesheet" href="/css/leistungen.css?v=2">
   <link rel="stylesheet" href="/css/produkte.css?v=1">
   <link rel="stylesheet" href="/css/orte.css?v=1">
-${meta.jsonld.map((j) => `  <script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
+${meta.jsonld.map((j) => `  <script type="application/ld+json"${JSON.stringify(j).includes('"LocalBusiness"') ? ' data-firma="jsonld"' : ""}>${JSON.stringify(j)}</script>`).join("\n")}
 </head>`;
 }
 function footer() {
@@ -274,11 +278,11 @@ function footer() {
       <a href="/einsatzgebiet/">Einsatzgebiet</a>
       <a href="/impressum.html">Impressum</a>
       <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> Fenster-WeissenBurger UG (haftungsbeschränkt)</span>
+      <span>© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></span>
     </footer>
   </main>
   <div class="ctabar" aria-label="Schnellkontakt">
-    <a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a>
+    <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
     <a class="btn btn--primary" href="#anfrage">Anfrage</a>
   </div>
   <script src="/js/config.js?v=1" defer></script>
@@ -287,7 +291,7 @@ function footer() {
 </html>
 `;
 }
-const PROVIDER = { "@type": "LocalBusiness", "@id": SITE + "/#firma", name: "Fenster-WeissenBurger UG (haftungsbeschränkt)", url: SITE + "/", telephone: "+49 176 81338935", address: { "@type": "PostalAddress", streetAddress: "Richard-Strauß-Straße 21", postalCode: "85057", addressLocality: "Ingolstadt", addressRegion: "Bayern", addressCountry: "DE" } };
+const PROVIDER = firmaLib.jsonLdFirma(einst, SITE);
 
 function form(o) {
   return `<section class="sec sec--alt" id="anfrage" aria-labelledby="anfrage-title">
@@ -296,13 +300,7 @@ function form(o) {
           <p class="eyebrow"><span>→</span> Anfrage</p>
           <h2 class="h2" id="anfrage-title">Kostenloses Aufmaß in ${esc(o.name)} <em>anfragen.</em></h2>
           <p class="lead lead--sm">Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Termin bei Ihnen in ${esc(o.name)}.</p>
-          <address class="contact__card">
-            <strong>Fenster-WeissenBurger UG (haftungsbeschränkt)</strong><br>
-            Richard-Strauß-Straße 21<br>85057 Ingolstadt<br>
-            <a href="tel:+4917681338935">0176 81338935</a><br>
-            <span class="mail" data-u="info" data-d="fenster-weissenburger.de">info [at] fenster-weissenburger.de</span><br>
-            <span class="muted">Mo–Fr 9–17 Uhr</span>
-          </address>
+          ${firmaLib.kontaktKarteHtml(einst)}
         </div>
         <form class="form" name="anfrage-einsatzgebiet" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="anfrage-einsatzgebiet">
@@ -401,7 +399,7 @@ function buildOrt(o, seed) {
         <p class="lead lead--sm">${nbSentence}</p>
         <div class="actions">
           <a class="btn btn--primary" href="#anfrage">Kostenloses Aufmaß anfragen</a>
-          <a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a>
+          <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
         </div>
       </div>
     </section>
@@ -449,7 +447,7 @@ ${nb.map((n) => `          <li><a href="/einsatzgebiet/${n.x.slug}/">${esc(n.x.n
 
     ${form(o)}`;
   const html = `${head(o, meta)}
-<body class="page lp pp ort">
+<body class="page lp pp ort">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   ${header()}
   <main id="inhalt">${body}
@@ -507,7 +505,7 @@ ${groups.map(([lk, os]) => `          <div class="lk">
     </section>`;
   }).join("\n");
   const html = `${head(null, meta)}
-<body class="page lp pp ort">
+<body class="page lp pp ort">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   ${header()}
   <main id="inhalt">

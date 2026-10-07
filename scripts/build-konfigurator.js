@@ -6,6 +6,7 @@
 const fs = require("fs");
 const path = require("path");
 const root = process.env.FW_ROOT ? path.resolve(process.env.FW_ROOT) : path.join(__dirname, ".."); // FW_ROOT: Tests bauen in einer Kopie
+const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
 const SITE = "https://fenster-weissenburger.de";
 const TODAY = "2026-10-07";
 const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
@@ -62,7 +63,7 @@ function header(current) {
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
-    <a class="btn btn--call" href="tel:+4917681338935">
+    <a class="btn btn--call" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
       <span>Anrufen</span>
     </a>
@@ -108,7 +109,7 @@ function footer(barHtml) {
       <a href="/einsatzgebiet/">Einsatzgebiet</a>
       <a href="/impressum.html">Impressum</a>
       <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> Fenster-WeissenBurger UG (haftungsbeschränkt)</span>
+      <span>© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></span>
     </footer>
   </main>
   ${barHtml || ""}
@@ -122,7 +123,7 @@ function footer(barHtml) {
 function pageSoon(key) {
   const p = PAGES[key];
   return `${head(p, true)}
-<body class="page lp pp">
+<body class="page lp pp">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   ${header(false)}
   <main id="inhalt">
@@ -133,13 +134,13 @@ function pageSoon(key) {
         <h1 class="title" id="h1">Demnächst <em>verfügbar.</em></h1>
         <p class="lead">Unser Online-Konfigurator für ${key === "fenster" ? "Fenster" : "Haustüren"} ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>
         <div class="actions" style="justify-content:center">
-          <a class="btn btn--primary" href="tel:+4917681338935">0176 81338935</a>
+          <a class="btn btn--primary" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel">${firmaLib.esc(einst.firma.telefon)}</a>
           <a class="btn btn--ghost" href="/#kontakt">Kostenloses Aufmaß anfragen</a>
         </div>
-        <p class="konf__hint">Mo–Fr 9–17 Uhr · <a href="${key === "fenster" ? "/produkte/kunststofffenster-koemmerling/" : "/produkte/haustueren/"}">Zu den ${key === "fenster" ? "Fenstern" : "Haustüren"}</a></p>
+        <p class="konf__hint"><span data-firma="zeiten">${firmaLib.esc(firmaLib.zeitenText(einst.oeffnungszeiten))}</span> · <a href="${key === "fenster" ? "/produkte/kunststofffenster-koemmerling/" : "/produkte/haustueren/"}">Zu den ${key === "fenster" ? "Fenstern" : "Haustüren"}</a></p>
       </div>
     </section>
-    ${footer('<div class="ctabar" aria-label="Schnellkontakt"><a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a><a class="btn btn--primary" href="/#kontakt">Anfrage</a></div>')}`;
+    ${footer('<div class="ctabar" aria-label="Schnellkontakt"><a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a><a class="btn btn--primary" href="/#kontakt">Anfrage</a></div>')}`;
 }
 
 function pageKonf(key) {
@@ -147,7 +148,7 @@ function pageKonf(key) {
   const noindex = status !== "online";
   const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/steuer.js?v=1" defer></script>\n  <script src="/js/konfigurator-bilder.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=3" defer></script>`;
   return `${head(p, noindex, scripts)}
-<body class="page lp pp konf-page">
+<body class="page lp pp konf-page">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   ${header(key)}
   <main id="inhalt">

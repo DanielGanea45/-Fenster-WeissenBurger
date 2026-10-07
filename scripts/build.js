@@ -18,11 +18,14 @@ const env = require(path.join(LIB, "env")); // trimmt Umgebungsvariablen vor all
 const store = require(path.join(LIB, "store"));
 const daten = require(path.join(LIB, "daten"));
 const Steuer = require(path.join(__dirname, "..", "js", "steuer.js"));
+const firmaLib = require(path.join(LIB, "firma"));
+const firmaEinsetzen = require(path.join(__dirname, "firma-einsetzen.js"));
 const validate = require(path.join(LIB, "validate"));
 const mail = require(path.join(LIB, "mail"));
 
 const DEFAULT_SCHRITTE = [
   { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" }, // zuerst: die Tests prüfen die fertigen Seiten (Steuertexte), Asset-Hashes danach
+  { name: "Einsatzgebiet-Seiten", cmd: "node scripts/build-orte.js" },
   { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
   { name: "Tests (Preisrechner, Admin, Steuer-Audit)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
@@ -143,10 +146,12 @@ function bewertungenSchreiben(root, liste) {
   fs.writeFileSync(path.join(root, "data", "bewertungen.json"), JSON.stringify(frei, null, 2) + "\n");
   return frei.length;
 }
-function redirectsSchreiben(root, status) {
+function redirectsSchreiben(root, einst) {
+  const status = typeof einst === "string" ? einst : einst && einst.konfigurator && einst.konfigurator.status;
   const kopf = "# Automatisch erzeugt von scripts/build.js – nicht von Hand bearbeiten.\n";
+  const wartung = typeof einst === "object" ? firmaLib.wartungRedirects(einst) : "";
   const vorschau = status === "vorschau" ? "/konfigurator/*  /.netlify/functions/konfigurator-vorschau  200!\n" : "";
-  fs.writeFileSync(path.join(root, "_redirects"), kopf + vorschau);
+  fs.writeFileSync(path.join(root, "_redirects"), kopf + wartung + vorschau);
 }
 
 async function lauf(opt = {}) {
@@ -173,7 +178,7 @@ async function lauf(opt = {}) {
     if (kontext === "production" && adminAktiv) { const t = `Build abgebrochen: Der Admin-Bereich ist aktiv (ADMIN_SETUP_TOKEN gesetzt), aber die Admin-Daten sind im Build nicht erreichbar (${grund}). Bitte NETLIFY_BLOBS_TOKEN (Scope Builds) setzen – sonst würde die Website ohne die im Admin gespeicherten Preise/Texte veröffentlicht.`; log("✖ " + t); return { ok: false, fehler: t }; }
     log(`Admin-Daten nicht verfügbar – ${grund}. Build mit den Daten aus dem Repository.`);
     mitStore = false;
-    redirectsSchreiben(root, daten.repoDatei("einstellungen").konfigurator.status);
+    redirectsSchreiben(root, daten.repoDatei("einstellungen"));
     return null;
   };
   if (!mitStore && !opt.mitStore) { const abbruch = ohneAdminDaten(blobs.grund || "kein Datenspeicher"); if (abbruch) return abbruch; }
@@ -191,15 +196,15 @@ async function lauf(opt = {}) {
       const texte = await daten.lade("texte");
       const bilder = await daten.lade("bilder");
       const bew = await daten.lade("bewertungen");
-      const repoEinst = daten.repoDatei("einstellungen");
-      repoEinst.konfigurator.status = einst.konfigurator.status;
-      repoEinst.steuer = Object.assign({}, repoEinst.steuer, { satzProzent: Steuer.satz(einst) }); // Steuersatz aus dem Admin → alle Seiten, Rechner, E-Mails
+      const repoEinst = daten.tief(daten.repoDatei("einstellungen"), einst); // alle Zweige aus dem Admin → Seiten, Rechner, Functions, Generatoren
       fs.writeFileSync(path.join(root, "data", "preise.json"), JSON.stringify(preise, null, 2) + "\n");
       fs.writeFileSync(path.join(root, "data", "einstellungen.json"), JSON.stringify(repoEinst, null, 2) + "\n");
       const nT = texteEinsetzen(root, texte, Steuer.satz(einst));
       const nB = await bilderEinsetzen(root, bilder, texte);
       const nBew = bewertungenSchreiben(root, bew);
-      redirectsSchreiben(root, einst.konfigurator.status);
+      redirectsSchreiben(root, repoEinst);
+      const nF = firmaEinsetzen.lauf(root, repoEinst);
+      log(`Firmendaten eingesetzt: ${nF.marker} Marker in ${nF.dateien} Datei(en) aktualisiert${nF.banner ? ", Ankündigungsbanner in " + nF.banner + " Datei(en)" : ""}.`);
       log(`Admin-Daten übernommen: Preisliste ${preise.version}, Konfigurator ${einst.konfigurator.status}, ${nT} Texte, ${nB} Bilder, ${nBew} Bewertungen.`);
     }
   } catch (e) {

@@ -1,5 +1,5 @@
 {
-  "hinweis": "Zentrale Schalter der Website. Nach jeder Änderung: node scripts/build-konfigurator.js (läuft auch bei jedem Netlify-Build).",
+  "hinweis": "Zentrale Einstellungen der Website (Admin → Einstellungen). Werte aus dem Admin-Speicher überschreiben diese Datei beim Build; danach: node scripts/firma-einsetzen.js, node scripts/build-konfigurator.js, node scripts/build-orte.js (laufen bei jedem Netlify-Build).",
   "konfigurator": {
     "status": "aus",
     "statusWerte": {
@@ -10,6 +10,61 @@
   },
   "steuer": {
     "satzProzent": 0,
-    "hinweis": "0 = Kleinunternehmer nach § 19 UStG (kein Steuerausweis, Endpreis = Summe), 19 = Regelbesteuerung. Umschalten im Admin unter „Steuer“ – alle Texte dazu stehen ausschließlich in js/steuer.js. Bereits erstellte Vorgänge behalten ihren Satz."
+    "hinweis": "0 = Kleinunternehmer nach § 19 UStG (kein Steuerausweis, Endpreis = Summe), 19 = Regelbesteuerung. Umschalten im Admin unter „Einstellungen → Steuer“ – alle Texte dazu stehen ausschließlich in js/steuer.js. Bereits erstellte Vorgänge behalten ihren Satz."
+  },
+  "firma": {
+    "name": "Fenster-WeissenBurger",
+    "rechtsform": "UG (haftungsbeschränkt)",
+    "strasse": "Richard-Strauß-Straße 21",
+    "plz": "85057",
+    "ort": "Ingolstadt",
+    "telefon": "0176 81338935",
+    "email": "info@fenster-weissenburger.de",
+    "registernummer": "HRB 12705",
+    "registergericht": "Amtsgericht Ingolstadt",
+    "geschaeftsfuehrer": "Daniel Alexandru Ganea",
+    "ustIdNr": "DE451686074"
+  },
+  "bank": {
+    "bank": "",
+    "kontoinhaber": "",
+    "iban": "",
+    "bic": "",
+    "zahlungszielTage": 14,
+    "anzahlungProzent": 0,
+    "skontoProzent": 0,
+    "skontoTage": 0
+  },
+  "dokumente": {
+    "angebot": { "nummerStart": "AN-2026-0001", "gueltigTage": 30, "einleitung": "", "schluss": "" },
+    "auftragsbestaetigung": { "nummerStart": "AB-2026-0001", "einleitung": "", "schluss": "" },
+    "rechnung": { "nummerStart": "RE-2026-0001", "einleitung": "", "schluss": "" }
+  },
+  "email": {
+    "anfragen": "",
+    "bewertungen": "",
+    "absenderName": "Fenster-WeissenBurger"
+  },
+  "bewertungen": {
+    "googleBewertungLink": "",
+    "googleProfilLink": ""
+  },
+  "oeffnungszeiten": {
+    "mo": "09:00-17:00",
+    "di": "09:00-17:00",
+    "mi": "09:00-17:00",
+    "do": "09:00-17:00",
+    "fr": "09:00-17:00",
+    "sa": "",
+    "so": ""
+  },
+  "einsatzgebiet": {
+    "ingolstadt": true,
+    "karlsruhe": false
+  },
+  "website": {
+    "wartung": false,
+    "wartungText": "Wir überarbeiten gerade unsere Website und sind in Kürze wieder für Sie da. Telefonisch erreichen Sie uns wie gewohnt.",
+    "banner": { "aktiv": false, "text": "", "von": "", "bis": "" }
   }
 }
