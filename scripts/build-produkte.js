@@ -74,12 +74,18 @@ function header(current) {
     <a class="brand" href="/#home" aria-label="Fenster-WeissenBurger – Startseite">
       ${LOGO}
     </a>
-    <nav class="nav nav--top" aria-label="Hauptnavigation">
+    <nav class="nav nav--top" id="hauptnav" aria-label="Hauptnavigation">
       <a href="/#home">Home</a>
       ${navDrop(current)}
       <a href="/leistungen/">Leistungen</a>
       <a href="/referenzen/">Referenzen</a>
-      <a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a>
+      <div class="nav__item nav__item--konf konf-link" hidden>
+        <a href="/konfigurator/fenster/" aria-haspopup="true" aria-expanded="false">Konfigurator</a>
+        <div class="nav__drop nav__drop--konf" aria-label="Konfigurator">
+          <a href="/konfigurator/haustuer/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 3v18M9 7h7M9 11h7M9 15h7"/><circle cx="14.5" cy="12" r=".9" fill="currentColor"/></svg><span>Haustür konfigurieren</span></a>
+          <a href="/konfigurator/fenster/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><span>Fenster konfigurieren</span></a>
+        </div>
+      </div>
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
@@ -87,6 +93,7 @@ function header(current) {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
       <span>Anrufen</span>
     </a>
+    <button type="button" class="menu-btn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="hauptnav"><span class="menu-btn__i" aria-hidden="true"></span></button>
   </header>
   <main id="inhalt">`;
 }

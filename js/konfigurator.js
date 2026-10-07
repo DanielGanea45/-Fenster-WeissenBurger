@@ -25,6 +25,7 @@
     previewBox: root.querySelector(".preview"), foto: root.querySelector(".preview__foto"), etikett: root.querySelector(".preview__etikett"), masse: root.querySelector(".preview__masse"), note: root.querySelector(".preview__note"),
     price: root.querySelector(".price"), summary: root.querySelector(".summary dl"), pos: root.querySelector(".posliste tbody"),
     bar: document.querySelector(".konf__bar"), form: root.querySelector("form[data-netlify]"),
+    progress: root.querySelector(".konf__progress__txt"), progressBar: root.querySelector(".konf__progress__bar i"),
   };
 
   renderSteps();
@@ -96,7 +97,9 @@
       return '<li><button type="button" class="' + (i === step ? "is-active" : i < step ? "is-done" : "") + '" data-step="' + i + '"><span class="n">' + (i + 1) + "</span>" + esc(s.label) + "</button></li>";
     }).join("");
     var active = els.steps.querySelector(".is-active");
-    if (active && active.scrollIntoView) active.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    if (active && els.steps.scrollWidth > els.steps.clientWidth + 4) els.steps.scrollLeft = Math.max(0, active.getBoundingClientRect().left - els.steps.getBoundingClientRect().left + els.steps.scrollLeft - 16);
+    if (els.progress) els.progress.textContent = "Schritt " + (step + 1) + " von " + STEPS.length + " · " + STEPS[step].label;
+    if (els.progressBar) els.progressBar.style.width = Math.round((step + 1) / STEPS.length * 100) + "%"; // CSSOM statt Inline-Style (CSP)
   }
   function cards(key, map, opts) {
     opts = opts || {};
@@ -190,6 +193,8 @@
     html += '<div class="konf__nav">' + (step > 0 ? '<button type="button" class="btn btn--ghost" data-nav="-1">Zurück</button>' : "<span></span>") + (step < STEPS.length - 1 ? '<button type="button" class="btn btn--primary" data-nav="1">Weiter</button>' : "") + "</div>";
     els.panels.innerHTML = '<section class="konf__panel is-active">' + html + "</section>";
     Array.prototype.forEach.call(els.panels.querySelectorAll(".opt__swatch[data-hex]"), function (sw) { sw.style.background = sw.getAttribute("data-hex"); }); // CSSOM statt Inline-Style (CSP)
+    // Telefon: waagerecht scrollbare Kartenreihe – gewählte Karte ins Bild rücken
+    Array.prototype.forEach.call(els.panels.querySelectorAll(".opts"), function (o) { if (o.scrollWidth > o.clientWidth + 4) { var sel = o.querySelector(".is-selected"); if (sel) o.scrollLeft = Math.max(0, sel.getBoundingClientRect().left - o.getBoundingClientRect().left + o.scrollLeft - 16); } });
     if (s === "angebot" && els.form) { els.form.hidden = false; } else if (els.form) { els.form.hidden = true; }
     if (s === "masse") { var inp = els.panels.querySelector("input[data-num]"); if (inp && window.matchMedia("(min-width: 900px)").matches) inp.focus(); }
   }
@@ -230,7 +235,7 @@
   /* Foto der aktuellen Kombination einblenden (weiche Überblendung); ohne passendes Foto bleibt die SVG-Zeichnung */
   function zeigeFoto(name) {
     var img = els.foto, box = els.previewBox; if (!img || !box) return;
-    if (!name) { img.hidden = true; img.removeAttribute("src"); img.removeAttribute("data-name"); box.classList.remove("hat-foto"); if (els.note) els.note.textContent = "Schematische Darstellung · Abbildung beispielhaft"; return; }
+    if (!name) { img.hidden = true; img.removeAttribute("src"); img.removeAttribute("data-name"); box.classList.remove("hat-foto"); if (els.note) els.note.textContent = "Schematische Darstellung"; return; }
     if (img.getAttribute("data-name") === name) return;
     img.setAttribute("data-name", name);
     var info = B.info(name) || {}; var groessen = (info.groessen || [900]).slice().reverse();
@@ -240,7 +245,7 @@
       var pre = new Image();
       pre.onload = function () {
         if (img.getAttribute("data-name") !== name) return;
-        var fertig = function () { img.src = src; img.alt = info.alt || "Vorschau Ihrer Konfiguration – Abbildung beispielhaft"; img.hidden = false; box.classList.add("hat-foto"); if (els.note) els.note.textContent = "Foto · Abbildung beispielhaft"; requestAnimationFrame(function () { img.classList.remove("is-wechsel"); }); };
+        var fertig = function () { img.src = src; img.alt = info.alt || "Vorschau Ihrer Konfiguration – Abbildung beispielhaft"; img.hidden = false; box.classList.add("hat-foto"); if (els.note) els.note.textContent = "Abbildung beispielhaft"; requestAnimationFrame(function () { img.classList.remove("is-wechsel"); }); };
         if (img.hidden || !img.getAttribute("src")) fertig();
         else { img.classList.add("is-wechsel"); setTimeout(fertig, 180); } // kurze Überblendung, altes Foto bleibt bis dahin sichtbar
       };
@@ -272,19 +277,25 @@
     if (els.masse) els.masse.textContent = state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "");
     var r = calc();
     if (els.price) {
+      var offen = (function () { var d = els.price.querySelector(".posliste"); return !!(d && d.open); })();
+      var letzter = step >= STEPS.length - 1;
+      var cta = letzter ? '<a class="btn btn--primary price__cta" href="#angebot-form">Angebot anfordern</a>' : '<button type="button" class="btn btn--primary price__cta" data-step="' + (STEPS.length - 1) + '">Angebot anfordern</button>';
+      var zusammen = '<h4>Ihre Konfiguration</h4><dl class="price__zusammen">' + summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("") + "</dl>";
       if (!r.ok) {
-        els.price.innerHTML = "<h3>Ihre Konfiguration</h3><p class=\"price__na\">Preis auf Anfrage</p><p class=\"price__note\">" + (r.fehler[0] === "preisliste" ? "Die Preisliste ist derzeit nicht verfügbar. Wir erstellen Ihnen gern ein individuelles Angebot." : "Bitte prüfen Sie die Maße – außerhalb des konfigurierbaren Bereichs erstellen wir ein individuelles Angebot.") + "</p>";
+        els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">auf Anfrage</strong></div>' + cta + "</div>" +
+          '<p class="price__note">' + (r.fehler[0] === "preisliste" ? "Die Preisliste ist derzeit nicht verfügbar. Wir erstellen Ihnen gern ein individuelles Angebot." : "Bitte prüfen Sie die Maße – außerhalb des konfigurierbaren Bereichs erstellen wir ein individuelles Angebot.") + "</p>" +
+          '<details class="posliste"' + (offen ? " open" : "") + "><summary>Einzelpositionen anzeigen</summary>" + zusammen + "</details>";
       } else {
-        els.price.innerHTML = "<h3>Ihre Konfiguration</h3><div class=\"price__rows\">" +
+        els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">' + fmtEuro(r.brutto) + "<small>inkl. " + r.mwstProzent + " % MwSt.</small></strong></div>" + cta + "</div>" +
+          '<details class="posliste"' + (offen ? " open" : "") + '><summary>Einzelpositionen anzeigen</summary><div class="price__rows">' +
           "<div><span>Preis ohne Online-Rabatt</span><span>" + fmtEuro(r.ohneRabattBrutto) + "</span></div>" +
           "<div><span>Online-Rabatt −" + r.rabattProzent + " %</span><span>− " + fmtEuro(r.ersparnisBrutto) + "</span></div>" +
           (r.montage ? "<div><span>darin Montage" + (state.demontage ? " &amp; Entsorgung" : "") + "</span><span>" + fmtEuro(r.montage + Preis.rund(r.montage * r.mwstProzent / 100)) + "</span></div>" : "") +
-          "</div><div class=\"price__total\"><span class=\"lbl\">Ihr Preis</span><strong>" + fmtEuro(r.brutto) + "</strong></div>" +
-          "<p class=\"price__note\">inkl. " + r.mwstProzent + " % MwSt. · unverbindlicher Richtpreis" + (state.menge > 1 ? " für " + state.menge + " Elemente" : "") + " · Preisliste " + esc(r.version) + "</p>" +
-          "<details class=\"posliste\"><summary>Einzelpositionen anzeigen</summary><table><tbody>" + r.positionen.map(function (p) { return "<tr><td>" + esc(p.name) + (p.detail ? " <small>(" + esc(p.detail) + ")</small>" : "") + "</td><td>" + fmtEuro(p.betrag) + "</td></tr>"; }).join("") +
+          "</div><h4>Einzelpositionen</h4><table><tbody>" + r.positionen.map(function (p) { return "<tr><td>" + esc(p.name) + (p.detail ? " <small>(" + esc(p.detail) + ")</small>" : "") + "</td><td>" + fmtEuro(p.betrag) + "</td></tr>"; }).join("") +
           (state.menge > 1 ? "<tr><td>× " + state.menge + " Elemente</td><td>" + fmtEuro(r.produkt) + "</td></tr>" : "") +
           "<tr><td>Online-Rabatt " + r.rabattProzent + " %</td><td>− " + fmtEuro(r.rabatt) + "</td></tr>" + (r.montage ? "<tr><td>Montage" + (state.demontage ? " + Demontage/Entsorgung" : "") + "</td><td>" + fmtEuro(r.montage) + "</td></tr>" : "") +
-          "<tr><td>Netto</td><td>" + fmtEuro(r.netto) + "</td></tr><tr><td>MwSt. " + r.mwstProzent + " %</td><td>" + fmtEuro(r.mwst) + "</td></tr></tbody></table></details>";
+          "<tr><td>Netto</td><td>" + fmtEuro(r.netto) + "</td></tr><tr><td>MwSt. " + r.mwstProzent + " %</td><td>" + fmtEuro(r.mwst) + "</td></tr></tbody></table>" + zusammen +
+          '<p class="price__note">Unverbindlicher Richtpreis' + (state.menge > 1 ? " für " + state.menge + " Elemente" : "") + " · Preisliste " + esc(r.version) + "</p></details>";
       }
     }
     if (els.summary) els.summary.innerHTML = summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("");

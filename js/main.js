@@ -219,8 +219,50 @@
     });
   }
 
+
+  /* ---------- Hauptmenü: Untermenüs (Produkte, Konfigurator) per Klick/Tastatur, Menü-Knopf auf dem Telefon ---------- */
+  function initNav() {
+    var top = document.querySelector(".top"), nav = top && top.querySelector(".nav--top"), btn = top && top.querySelector(".menu-btn");
+    if (!top || !nav) return;
+    var desktop = window.matchMedia("(min-width: 900px)");
+    var items = function () { return Array.prototype.slice.call(nav.querySelectorAll(".nav__item")); };
+    function setItem(item, open) {
+      item.classList.toggle("is-open", open);
+      var a = item.querySelector(":scope > a"); if (a) a.setAttribute("aria-expanded", String(open));
+    }
+    function closeItems(except) { items().forEach(function (it) { if (it !== except) setItem(it, false); }); }
+    function setMenu(open) {
+      if (!btn) return;
+      top.classList.toggle("is-menu-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+      if (open) { closeItems(); var k = nav.querySelector(".nav__item--konf:not([hidden])"); if (k) setItem(k, true); }
+    }
+    if (btn) btn.addEventListener("click", function () { setMenu(!top.classList.contains("is-menu-open")); });
+    nav.addEventListener("click", function (e) {
+      var a = e.target.closest(".nav__item > a"); if (!a || !nav.contains(a)) return;
+      var item = a.parentNode;
+      if (!desktop.matches || item.classList.contains("nav__item--konf")) { e.preventDefault(); var open = !item.classList.contains("is-open"); closeItems(item); setItem(item, open); }
+    });
+    nav.addEventListener("keydown", function (e) {
+      var item = e.target.closest(".nav__item");
+      if (e.key === "Escape") { closeItems(); setMenu(false); if (item) { var a0 = item.querySelector(":scope > a"); if (a0) a0.focus(); } else if (btn && !desktop.matches) btn.focus(); return; }
+      if (item && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+        var links = Array.prototype.slice.call(item.querySelectorAll(".nav__drop a")); if (!links.length) return;
+        e.preventDefault(); setItem(item, true);
+        var i = links.indexOf(document.activeElement);
+        var next = e.key === "ArrowDown" ? (i < 0 ? 0 : Math.min(links.length - 1, i + 1)) : (i <= 0 ? -1 : i - 1);
+        if (next < 0) { var a1 = item.querySelector(":scope > a"); if (a1) a1.focus(); } else links[next].focus();
+      }
+    });
+    nav.addEventListener("focusout", function (e) { var item = e.target.closest(".nav__item"); if (item && desktop.matches && !item.contains(e.relatedTarget)) setItem(item, false); });
+    document.addEventListener("click", function (e) { if (!top.contains(e.target)) { closeItems(); setMenu(false); } });
+    desktop.addEventListener ? desktop.addEventListener("change", function () { closeItems(); setMenu(false); }) : desktop.addListener(function () { closeItems(); setMenu(false); });
+  }
+
   function initPage() {
     initHeader();
+    initNav();
     initMail();
     var y = document.getElementById("year");
     if (y) y.textContent = String(new Date().getFullYear());
