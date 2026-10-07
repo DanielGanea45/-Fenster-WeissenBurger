@@ -19,8 +19,8 @@
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/video/leistungen-poster.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="/css/style.css?v=3">
-  <link rel="stylesheet" href="/css/leistungen.css?v=1">
+  <link rel="stylesheet" href="/css/style.css?v=4">
+  <link rel="stylesheet" href="/css/leistungen.css?v=2">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -102,7 +102,17 @@
     </a>
     <nav class="nav nav--top" aria-label="Hauptnavigation">
       <a href="/#home">Home</a>
-      <a href="/#produkte">Produkte</a>
+      <div class="nav__item">
+        <a href="/#produkte">Produkte</a>
+        <div class="nav__drop" aria-label="Produkte">
+          <a href="/produkte/">Alle Produkte</a>
+          <a href="/produkte/kunststofffenster-koemmerling/">Kunststofffenster (Kömmerling)</a>
+          <a href="/produkte/aluminiumfenster-cortizo/">Aluminiumfenster (Cortizo)</a>
+          <a href="/produkte/schiebetueren/">Hebe-Schiebetüren</a>
+          <a href="/produkte/haustueren/">Haustüren</a>
+          <a href="/produkte/holzfenster/">Holzfenster &amp; mehr</a>
+        </div>
+      </div>
       <a href="/leistungen/" aria-current="page">Leistungen</a>
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
@@ -348,6 +358,7 @@
 
     <footer class="legal wrap">
       <a href="/#home">Startseite</a>
+      <a href="/produkte/">Produkte</a>
       <a href="/impressum.html">Impressum</a>
       <a href="/datenschutz.html">Datenschutzerklärung</a>
       <span>© <span id="year">2026</span> Fenster-WeissenBurger UG (haftungsbeschränkt)</span>

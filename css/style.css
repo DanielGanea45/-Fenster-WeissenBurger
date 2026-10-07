@@ -203,6 +203,13 @@ ul, ol { padding: 0; list-style: none; }
 .pillars dt { font-weight: 800; font-size: 15px; }
 .pillars dd { margin: 2px 0 0; font-size: 14px; color: var(--ink-2); }
 
+/* Über uns */
+.about { display: grid; gap: 18px; }
+.about__fig { margin: 18px 0 0; max-width: 380px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+.about__fig img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.product__more { display: inline-block; margin-top: 8px; min-height: 44px; line-height: 44px; font-size: 13.5px; font-weight: 700; color: var(--accent); text-decoration: none; }
+.product__more::after { content: " →"; }
+
 /* Kontakt */
 .contact { display: grid; gap: 20px; }
 .contact__card {
@@ -290,7 +297,21 @@ ul, ol { padding: 0; list-style: none; }
   .nav--top a:hover { color: #fff; }
   .nav--top a[aria-current="page"] { color: #fff; }
   .nav--top a[aria-current="page"]::after { transform: scaleX(1); }
-  .nav--top .nav__ext { color: var(--accent); }
+  .nav__item { position: relative; display: inline-flex; align-items: center; }
+  .nav__drop {
+    display: none; position: absolute; top: 100%; left: 0; min-width: 260px; padding: 8px;
+    background: rgba(15, 18, 21, .96); border: 1px solid var(--line); border-radius: 12px; backdrop-filter: blur(14px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
+  }
+  .nav__item:hover .nav__drop, .nav__item:focus-within .nav__drop { display: block; }
+  .nav__drop a { display: block; padding: 10px 12px; font-size: 14px; font-weight: 700; color: var(--ink-2); text-decoration: none; border-radius: 8px; white-space: nowrap; min-height: 0; }
+  .nav__drop a::after { display: none; }
+  .nav__drop a:hover, .nav__drop a:focus { background: rgba(255, 255, 255, .06); color: #fff; }
+  .nav__drop a[aria-current="page"] { color: var(--accent); }
+  .nav__drop a:first-child { color: var(--accent); border-bottom: 1px solid var(--line); border-radius: 8px 8px 0 0; margin-bottom: 4px; }
+  .about { grid-template-columns: minmax(0, 600px) minmax(0, 380px); gap: 48px; align-items: center; }
+  #ueber-uns .title--sm, #ueber-uns .pillars { max-width: 760px; }
+  .about__fig { margin: 0; }
   .nav--bottom { display: none; }
 
   .scene__shade {
