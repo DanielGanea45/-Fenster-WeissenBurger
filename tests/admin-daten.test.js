@@ -256,6 +256,30 @@ test("Build: Fehler beim Schreiben des Veröffentlichungsstatus bricht den Build
     assert.ok(logs.some((l) => /Warnung: Veröffentlichungsstatus nicht speicherbar/.test(l)));
   } finally { daten.setPublishStatus = orig; }
 });
+test("Umgebungsvariablen werden getrimmt (Leerraum aus Copy & Paste), Token-Hinweis nennt nur Länge und Präfix", () => {
+  const env = require("../netlify/functions/_lib/env");
+  const probe = { NETLIFY_BLOBS_TOKEN: "  nfp_abcDEF123 \r\n", SESSION_SECRET: "\tgeheim ", BREVO_API_KEY: "xkeysib-1", NETLIFY_BUILD_HOOK: " https://api.netlify.com/build_hooks/abc\n", ADMIN_SETUP_TOKEN: " tok " };
+  const geaendert = env.bereinige(probe);
+  assert.deepEqual(geaendert.sort(), ["ADMIN_SETUP_TOKEN", "NETLIFY_BLOBS_TOKEN", "NETLIFY_BUILD_HOOK", "SESSION_SECRET"]);
+  assert.equal(probe.NETLIFY_BLOBS_TOKEN, "nfp_abcDEF123"); assert.equal(probe.SESSION_SECRET, "geheim"); assert.equal(probe.NETLIFY_BUILD_HOOK, "https://api.netlify.com/build_hooks/abc");
+  const hinweis = env.blobsTokenHinweis({ NETLIFY_BLOBS_TOKEN: " nfp_abcDEF123 " });
+  assert.match(hinweis, /Länge 13 Zeichen/); assert.match(hinweis, /enthielt Leerraum/); assert.match(hinweis, /„nfp_“: ja/);
+  assert.ok(!hinweis.includes("abcDEF123"), "Tokenwert erscheint nicht im Hinweis");
+  assert.match(env.blobsTokenHinweis({}), /nicht gesetzt/);
+});
+test("Build: Blobs verweigert den Zugriff (401) ⇒ Token-Hinweis ohne Wert im Protokoll", async () => {
+  const tmp = seitenAbbild();
+  const origLade = daten.lade; const logs = [];
+  const alt = process.env.NETLIFY_BLOBS_TOKEN; process.env.NETLIFY_BLOBS_TOKEN = "nfp_geheimerwert1234";
+  daten.lade = async () => { throw new Error("Netlify Blobs has generated an internal error (401 status code, user does not have access)"); };
+  try {
+    const r = await build.lauf({ root: tmp, blobs: { ok: true, art: "token" }, kontext: "production", adminAktiv: true, still: true, ohneMail: true, log: (l) => logs.push(l), schritte: [] });
+    assert.equal(r.ok, false, "auf Produktion mit aktivem Admin wird nicht ohne Admin-Daten veröffentlicht");
+    const h = logs.find((l) => /NETLIFY_BLOBS_TOKEN: vorhanden, Länge 20/.test(l));
+    assert.ok(h, logs.join("\n"));
+    assert.ok(!logs.some((l) => l.includes("geheimerwert")), "Tokenwert nie im Protokoll");
+  } finally { daten.lade = origLade; if (alt === undefined) delete process.env.NETLIFY_BLOBS_TOKEN; else process.env.NETLIFY_BLOBS_TOKEN = alt; }
+});
 test("store.blobsStatus: Build ohne Token meldet den fehlenden Token, Functions-Kontext ist automatisch", () => {
   const sichern = { ...process.env };
   delete process.env.FW_STORE_DIR; process.env.NETLIFY = "true"; process.env.SITE_ID = "abc"; delete process.env.NETLIFY_BLOBS_TOKEN; delete process.env.NETLIFY_BLOBS_CONTEXT;

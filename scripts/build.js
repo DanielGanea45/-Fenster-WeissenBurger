@@ -14,6 +14,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 const LIB = path.join(__dirname, "..", "netlify", "functions", "_lib");
+const env = require(path.join(LIB, "env")); // trimmt Umgebungsvariablen vor allem anderen
 const store = require(path.join(LIB, "store"));
 const daten = require(path.join(LIB, "daten"));
 const validate = require(path.join(LIB, "validate"));
@@ -199,6 +200,8 @@ async function lauf(opt = {}) {
       log(`Admin-Daten übernommen: Preisliste ${preise.version}, Konfigurator ${einst.konfigurator.status}, ${nT} Texte, ${nB} Bilder, ${nBew} Bewertungen.`);
     }
   } catch (e) {
+    /* Zugriff verweigert (401/403)? Dann Hinweis zum Token ins Protokoll – ohne den Wert selbst. */
+    if (/401|403|does not have access|unauthori|forbidden|invalid token/i.test(e.message)) log("Hinweis: " + env.blobsTokenHinweis());
     if (hook) return await fehlerMelden("Admin-Daten konnten nicht geladen werden: " + e.message);
     const abbruch = ohneAdminDaten("Zugriff fehlgeschlagen: " + e.message);
     if (abbruch) return abbruch;

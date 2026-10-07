@@ -127,7 +127,7 @@ Wichtig: Die ausgelieferten Preise sind **Beispielwerte**. Vor „Online“ bitt
 
 ### Umgebungsvariablen (Netlify → Site configuration → Environment variables)
 
-Beim Anlegen jeder Variable in Netlify: **Scopes** auf *Builds* und/oder *Functions* beschränken (siehe Spalte), **Contexts** wie angegeben wählen, und bei „geheim: ja“ die Option **„Contains secret values“** aktivieren. Nach dem Anlegen oder Ändern einmal neu deployen (*Deploys → Trigger deploy → Deploy site*). Keiner dieser Werte gehört ins Repository.
+Beim Anlegen jeder Variable in Netlify: **Scopes** auf *Builds* und/oder *Functions* beschränken (siehe Spalte), **Contexts** wie angegeben wählen, und bei „geheim: ja“ die Option **„Contains secret values“** aktivieren. Nach dem Anlegen oder Ändern einmal neu deployen (*Deploys → Trigger deploy → Deploy site*). Keiner dieser Werte gehört ins Repository. Leerzeichen oder Zeilenumbrüche am Anfang/Ende (typisch beim Kopieren aus PowerShell) werden beim Einlesen entfernt. Verweigert Netlify Blobs im Build den Zugriff (401/403), steht im Build-Protokoll ein Hinweis mit Länge und Präfix des Tokens – nie der Wert selbst; dann einen neuen Personal Access Token erzeugen.
 
 | Variable | Zweck | Netlify-Kontext | Scope | Geheim | Woher |
 |---|---|---|---|---|---|
