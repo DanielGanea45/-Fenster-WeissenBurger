@@ -1,0 +1,11 @@
+{
+  "hinweis": "Zentrale Schalter der Website. Nach jeder Änderung: node scripts/build-konfigurator.js (läuft auch bei jedem Netlify-Build).",
+  "konfigurator": {
+    "status": "aus",
+    "statusWerte": {
+      "aus": "Konfigurator nicht erreichbar: kein Menüpunkt, nicht in der Sitemap, Links ausgeblendet, /konfigurator/* zeigt „Demnächst verfügbar“ mit noindex.",
+      "vorschau": "Konfigurator unter /konfigurator/fenster/ und /konfigurator/haustuer/ erreichbar (für den Kunden zum Testen), aber noindex, kein Menüpunkt, nicht in der Sitemap.",
+      "online": "Konfigurator öffentlich: Menüpunkt, Links auf Produktseiten, Sitemap, indexierbar."
+    }
+  }
+}
