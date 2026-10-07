@@ -48,7 +48,7 @@ function head(p) {
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=4">
+  <link rel="stylesheet" href="/css/style.css?v=5">
   <link rel="stylesheet" href="/css/uebergang.css?v=1">
   <script src="/js/uebergang.js?v=1"></script>
   <link rel="stylesheet" href="/css/leistungen.css?v=2">
@@ -78,6 +78,7 @@ function header(current) {
       <a href="/#home">Home</a>
       ${navDrop(current)}
       <a href="/leistungen/">Leistungen</a>
+      <a href="/referenzen/">Referenzen</a>
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
@@ -273,6 +274,7 @@ function footer() {
       <a href="/#home">Startseite</a>
       <a href="/produkte/">Produkte</a>
       <a href="/leistungen/">Leistungen</a>
+      <a href="/referenzen/">Referenzen</a>
       <a href="/impressum.html">Impressum</a>
       <a href="/datenschutz.html">Datenschutzerklärung</a>
       <span>© <span id="year">2026</span> Fenster-WeissenBurger UG (haftungsbeschränkt)</span>
