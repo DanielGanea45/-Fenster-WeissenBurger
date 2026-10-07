@@ -211,6 +211,10 @@ ul, ol { padding: 0; list-style: none; }
 .product__more { display: inline-block; margin-top: 8px; min-height: 44px; line-height: 44px; font-size: 13.5px; font-weight: 700; color: var(--accent); text-decoration: none; }
 .product__more::after { content: " →"; }
 
+/* E-Mail (ohne JS lesbare Schreibweise, mit JS mailto-Link) */
+.mail { word-break: break-word; }
+.contact__card .mail--ready { color: #fff; text-decoration: none; border-bottom: 1px solid var(--accent); }
+
 /* Kontakt */
 .contact { display: grid; gap: 20px; }
 .contact__card {
