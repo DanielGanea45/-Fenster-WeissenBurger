@@ -67,7 +67,7 @@
   /* Texte dieses Moduls, die auf der Website stehen dürfen (aktueller Satz + beide Schalter-Beschriftungen) */
   function erlaubteTexte(s) {
     var t = texte(s), out = [t.lang, t.bestaetigung, t.adminKurz, t.beschreibung, t.kurz, t.steuerLabel, t.summeLabel];
-    SAETZE.forEach(function (x) { var o = texte(x); out.push(o.beschreibung, o.option); });
+    SAETZE.forEach(function (x) { out.push(texte(x).beschreibung); }); // Schalter-Beschriftungen („Umsatzsteuer: 19 %“), nicht das bloße „19 %“
     out.push(SCHALTER_LABEL + ":");
     return out.filter(function (x, i, a) { return x && a.indexOf(x) === i; }).sort(function (a, b) { return b.length - a.length; });
   }
