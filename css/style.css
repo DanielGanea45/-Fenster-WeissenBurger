@@ -75,9 +75,9 @@ ul, ol { padding: 0; list-style: none; }
 .top > * { pointer-events: auto; }
 
 .brand { display: block; text-decoration: none; flex: 0 0 auto; min-width: 0; }
-.brand__box { display: block; height: 50px; }
+.brand__box { display: block; width: 221px; height: 48px; }
 .brand__svg {
-  display: block; height: 100%; width: auto; aspect-ratio: 386 / 84; overflow: visible;
+  display: block; width: 221px; height: 48px; overflow: visible;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .45));
 }
 
@@ -102,7 +102,6 @@ ul, ol { padding: 0; list-style: none; }
 /* Schmale Telefone (360 px): kompakter Kopf, Name bleibt vollständig */
 @media (max-width: 419px) {
   .top { gap: 10px; padding-left: 12px; padding-right: 12px; }
-  .brand__box { height: 48px; }
   .btn--call { padding: 10px 13px; font-size: 14px; }
   .btn--call svg { display: none; }
 }
@@ -274,7 +273,8 @@ ul, ol { padding: 0; list-style: none; }
     padding: 0 var(--gutter);
     background: linear-gradient(to bottom, rgba(15, 18, 21, .7), rgba(15, 18, 21, 0));
   }
-  .brand__box { height: 62px; }
+  .brand__box { width: 285px; height: 62px; }
+  .brand__svg { width: 285px; height: 62px; }
   .nav--top {
     display: flex; gap: 6px; margin-left: auto;
   }
