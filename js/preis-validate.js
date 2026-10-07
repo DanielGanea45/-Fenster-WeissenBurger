@@ -69,13 +69,93 @@
     return f;
   }
 
+  /* IBAN-Prüfsumme (Modulo 97) */
+  function ibanGueltig(iban) {
+    var s = String(iban || "").replace(/\s+/g, "").toUpperCase();
+    if (!/^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(s)) return false;
+    var um = (s.slice(4) + s.slice(0, 4)).replace(/[A-Z]/g, function (c) { return String(c.charCodeAt(0) - 55); });
+    var rest = 0; for (var i = 0; i < um.length; i++) rest = (rest * 10 + Number(um[i])) % 97;
+    return rest === 1;
+  }
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var URL_HTTPS = /^https:\/\/[^\s]+$/;
+  var ZEIT = /^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d$/;
+  var NUMMER = /^[A-Z]{1,5}-\d{4}-\d{3,6}$/;
+  var DATUM = /^\d{4}-\d{2}-\d{2}$/;
+  var TAGE = ["mo", "di", "mi", "do", "fr", "sa", "so"];
+
   function validiereEinstellungen(e) {
     var f = [];
-    if (!e || typeof e !== "object" || !e.konfigurator) f.push({ feld: "konfigurator", meldung: "Einstellungen unvollständig." });
-    else if (STATUS.indexOf(e.konfigurator.status) < 0) f.push({ feld: "konfigurator.status", meldung: "Status muss aus, vorschau oder online sein." });
-    if (e && e.steuer !== undefined && !(e.steuer && Steuer && Steuer.gueltig(e.steuer.satzProzent))) f.push({ feld: "steuer.satzProzent", meldung: "Steuersatz muss " + (Steuer ? Steuer.SAETZE.join(" oder ") : "0 oder 19") + " sein." });
+    var add = function (feld, meldung) { f.push({ feld: feld, meldung: meldung }); };
+    var str = function (x) { return typeof x === "string" ? x.trim() : ""; };
+    var ganz = function (x, min, max) { return typeof x === "number" && isFinite(x) && Math.floor(x) === x && x >= min && x <= max; };
+    if (!e || typeof e !== "object" || !e.konfigurator) { add("konfigurator", "Einstellungen unvollständig."); return f; }
+    if (STATUS.indexOf(e.konfigurator.status) < 0) add("konfigurator.status", "Status muss aus, vorschau oder online sein.");
+    if (e.steuer !== undefined && !(e.steuer && Steuer && Steuer.gueltig(e.steuer.satzProzent))) add("steuer.satzProzent", "Steuersatz muss " + (Steuer ? Steuer.SAETZE.join(" oder ") : "0 oder 19") + " sein.");
+    if (e.firma !== undefined) {
+      var fi = e.firma || {};
+      if (!str(fi.name)) add("firma.name", "Firmenname fehlt.");
+      if (!str(fi.strasse)) add("firma.strasse", "Straße und Hausnummer fehlen.");
+      if (!/^\d{5}$/.test(str(fi.plz))) add("firma.plz", "Postleitzahl: fünf Ziffern.");
+      if (!str(fi.ort)) add("firma.ort", "Ort fehlt.");
+      if (!/^\+?[\d\s()\/-]{6,}$/.test(str(fi.telefon))) add("firma.telefon", "Telefonnummer prüfen (nur Ziffern, Leerzeichen, +, /, -).");
+      if (!EMAIL.test(str(fi.email))) add("firma.email", "E-Mail-Adresse prüfen.");
+      if (str(fi.ustIdNr) && !/^[A-Z]{2}[A-Z0-9]{8,12}$/.test(str(fi.ustIdNr).replace(/\s/g, ""))) add("firma.ustIdNr", "Format z. B. DE123456789.");
+    }
+    if (e.bank !== undefined) {
+      var b = e.bank || {};
+      if (str(b.iban) && !ibanGueltig(b.iban)) add("bank.iban", "IBAN ist ungültig (Prüfsumme).");
+      if (str(b.bic) && !/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(str(b.bic).toUpperCase())) add("bank.bic", "BIC: 8 oder 11 Zeichen, z. B. BYLADEM1ING.");
+      if (!ganz(b.zahlungszielTage, 0, 90)) add("bank.zahlungszielTage", "Zahlungsziel: 0 bis 90 Tage.");
+      if (!ganz(b.anzahlungProzent, 0, 100)) add("bank.anzahlungProzent", "Anzahlung: 0 bis 100 %.");
+      if (!ganz(b.skontoProzent, 0, 10)) add("bank.skontoProzent", "Skonto: 0 bis 10 %.");
+      if (!ganz(b.skontoTage, 0, 60)) add("bank.skontoTage", "Skonto-Frist: 0 bis 60 Tage.");
+    }
+    if (e.dokumente !== undefined) {
+      var d = e.dokumente || {};
+      ["angebot", "auftragsbestaetigung", "rechnung"].forEach(function (k) {
+        var x = d[k] || {};
+        if (!NUMMER.test(str(x.nummerStart))) add("dokumente." + k + ".nummerStart", "Format z. B. " + { angebot: "AN", auftragsbestaetigung: "AB", rechnung: "RE" }[k] + "-2026-0001 (Kürzel-Jahr-Nummer).");
+        if (k === "angebot" && !ganz(x.gueltigTage, 1, 365)) add("dokumente.angebot.gueltigTage", "Gültigkeit: 1 bis 365 Tage.");
+        if (str(x.einleitung).length > 2000) add("dokumente." + k + ".einleitung", "Einleitung: höchstens 2.000 Zeichen.");
+        if (str(x.schluss).length > 2000) add("dokumente." + k + ".schluss", "Schlusstext: höchstens 2.000 Zeichen.");
+      });
+    }
+    if (e.email !== undefined) {
+      var m = e.email || {};
+      if (str(m.anfragen) && !EMAIL.test(str(m.anfragen))) add("email.anfragen", "E-Mail-Adresse prüfen.");
+      if (str(m.bewertungen) && !EMAIL.test(str(m.bewertungen))) add("email.bewertungen", "E-Mail-Adresse prüfen.");
+      if (!str(m.absenderName)) add("email.absenderName", "Absendername fehlt.");
+    }
+    if (e.bewertungen !== undefined) {
+      var bw = e.bewertungen || {};
+      if (str(bw.googleBewertungLink) && !URL_HTTPS.test(str(bw.googleBewertungLink))) add("bewertungen.googleBewertungLink", "Link muss mit https:// beginnen.");
+      if (str(bw.googleProfilLink) && !URL_HTTPS.test(str(bw.googleProfilLink))) add("bewertungen.googleProfilLink", "Link muss mit https:// beginnen.");
+    }
+    if (e.oeffnungszeiten !== undefined) {
+      var oz = e.oeffnungszeiten || {};
+      TAGE.forEach(function (t) { var z = str(oz[t]); if (z && !ZEIT.test(z)) add("oeffnungszeiten." + t, "Format 09:00-17:00 oder leer (geschlossen)."); });
+    }
+    if (e.einsatzgebiet !== undefined) {
+      var eg = e.einsatzgebiet || {};
+      ["ingolstadt", "karlsruhe"].forEach(function (k) { if (typeof eg[k] !== "boolean") add("einsatzgebiet." + k, "Schalter an/aus."); });
+    }
+    if (e.website !== undefined) {
+      var w = e.website || {};
+      if (typeof w.wartung !== "boolean") add("website.wartung", "Schalter an/aus.");
+      if (str(w.wartungText).length > 600) add("website.wartungText", "Höchstens 600 Zeichen.");
+      var bn = w.banner || {};
+      if (typeof bn.aktiv !== "boolean") add("website.banner.aktiv", "Schalter an/aus.");
+      if (bn.aktiv && !str(bn.text)) add("website.banner.text", "Text für das Banner fehlt.");
+      if (str(bn.text).length > 300) add("website.banner.text", "Höchstens 300 Zeichen.");
+      if (str(bn.von) && !DATUM.test(str(bn.von))) add("website.banner.von", "Datum im Format JJJJ-MM-TT.");
+      if (str(bn.bis) && !DATUM.test(str(bn.bis))) add("website.banner.bis", "Datum im Format JJJJ-MM-TT.");
+      if (str(bn.von) && str(bn.bis) && str(bn.bis) < str(bn.von)) add("website.banner.bis", "Ende liegt vor dem Beginn.");
+    }
     return f;
   }
+  /* Zweige, deren Änderung die Website verändert (→ automatische Veröffentlichung) */
+  var ZWEIGE_WEBSITE = ["konfigurator", "steuer", "firma", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website"];
 
-  return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, STATUS: STATUS };
+  return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, ibanGueltig: ibanGueltig, STATUS: STATUS, ZWEIGE_WEBSITE: ZWEIGE_WEBSITE };
 });

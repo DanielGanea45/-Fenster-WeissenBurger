@@ -19,6 +19,13 @@ const BEREICHE = {
   bewertungen: { datei: "data/bewertungen.json", titel: "Bewertungen" },
 };
 
+/* Tiefe Zusammenführung: Werte aus b überschreiben a; Objekte werden zusammengeführt, Arrays ersetzt */
+function tief(a, b) {
+  if (!b || typeof b !== "object" || Array.isArray(b)) return b === undefined ? a : b;
+  const out = Object.assign({}, a && typeof a === "object" ? a : {});
+  for (const [k, v] of Object.entries(b)) out[k] = v && typeof v === "object" && !Array.isArray(v) ? tief(out[k], v) : v;
+  return out;
+}
 function repoDatei(bereich) {
   const p = path.join(ROOT, BEREICHE[bereich].datei);
   if (!fs.existsSync(p)) return bereich === "bewertungen" ? [] : {};
@@ -43,6 +50,7 @@ async function lade(bereich) {
     for (const [id, b] of Object.entries(ue)) if (!out.bilder[id] && b && b.neu) out.bilder[id] = b; // hochgeladene Zusatzbilder
     return out;
   }
+  if (bereich === "einstellungen") return tief(repoDatei("einstellungen"), gespeichert || {});
   const out = gespeichert === null ? repoDatei(bereich) : gespeichert;
   if (bereich === "preise" && out && typeof out === "object") for (const k of Object.keys(out)) if (!PREISE_FELDER.has(k)) delete out[k]; // Altbestand (z. B. früherer Steuersatz in der Liste) verwerfen – der Steuersatz steht in den Einstellungen
   return out;
@@ -103,4 +111,4 @@ async function wiederherstelle(id, wer) {
 async function publishStatus() { return store.getJSON("veroeffentlichung", { status: "nie", wann: 0 }); }
 async function setPublishStatus(s) { const alt = await publishStatus(); const neu = Object.assign({}, alt, s); await store.setJSON("veroeffentlichung", neu); return neu; }
 
-module.exports = { BEREICHE, ROOT, repoDatei, lade, ladeRoh, speichere, versionen, version, wiederherstelle, diff, flach, publishStatus, setPublishStatus };
+module.exports = { BEREICHE, ROOT, tief, repoDatei, lade, ladeRoh, speichere, versionen, version, wiederherstelle, diff, flach, publishStatus, setPublishStatus };

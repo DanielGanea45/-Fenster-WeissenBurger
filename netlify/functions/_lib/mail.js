@@ -3,13 +3,13 @@
 "use strict";
 const API = "https://api.brevo.com/v3/smtp/email";
 
-function sender() {
-  return { name: process.env.MAIL_FROM_NAME || "Fenster-WeissenBurger Website", email: process.env.MAIL_FROM || "info@fenster-weissenburger.de" };
+function sender(absenderName) {
+  return { name: absenderName || process.env.MAIL_FROM_NAME || "Fenster-WeissenBurger Website", email: process.env.MAIL_FROM || "info@fenster-weissenburger.de" };
 }
-async function send({ to, subject, text, html }) {
+async function send({ to, subject, text, html, absenderName }) {
   const key = process.env.BREVO_API_KEY;
   if (!key) { console.log("[mail skipped] an:", to, "Betreff:", subject); return { ok: false, skipped: true }; }
-  const body = { sender: sender(), to: [{ email: to }], subject, textContent: text, htmlContent: html || `<pre style="font:15px/1.5 Manrope,Arial,sans-serif;white-space:pre-wrap">${escapeHtml(text)}</pre>` };
+  const body = { sender: sender(absenderName), to: [{ email: to }], subject, textContent: text, htmlContent: html || `<pre style="font:15px/1.5 Manrope,Arial,sans-serif;white-space:pre-wrap">${escapeHtml(text)}</pre>` };
   const r = await fetch(API, { method: "POST", headers: { "api-key": key, "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body) });
   if (!r.ok) { const t = await r.text().catch(() => ""); return { ok: false, error: `Brevo ${r.status}: ${t.slice(0, 200)}` }; }
   return { ok: true };
