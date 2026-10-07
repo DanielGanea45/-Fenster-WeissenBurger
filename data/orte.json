@@ -16,7 +16,7 @@
    "lat": 49.0069,
    "lon": 8.4037,
    "radiusKm": 30,
-   "status": "MIT KUNDE KLÄREN – noch nicht veröffentlicht (noindex, nicht in Sitemap)"
+   "status": "vom Kunden bestätigt – Stufe 1 wird veröffentlicht; Firmensitz bleibt Ingolstadt (keine lokale Adresse)"
   }
  ],
  "orte": [
@@ -35,7 +35,8 @@
    "population": 140799,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q3004 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "lenting",
@@ -52,7 +53,8 @@
    "population": 4980,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q525782 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hepberg",
@@ -69,7 +71,8 @@
    "population": 3077,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q508800 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "gaimersheim",
@@ -86,7 +89,8 @@
    "population": 12526,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q528700 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "manching",
@@ -103,7 +107,8 @@
    "population": 12958,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q252036 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "wettstetten",
@@ -120,7 +125,8 @@
    "population": 5205,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q510936 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "koesching",
@@ -137,7 +143,8 @@
    "population": 9737,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q519663 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "grossmehring",
@@ -154,7 +161,8 @@
    "population": 7498,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q31602 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "eitensheim",
@@ -171,7 +179,8 @@
    "population": 3030,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q261742 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "stammham",
@@ -188,7 +197,8 @@
    "population": 4159,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q525838 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "buxheim",
@@ -205,7 +215,8 @@
    "population": 3771,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q516273 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "baar-ebenhausen",
@@ -222,7 +233,8 @@
    "population": 5554,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q490463 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "karlskron",
@@ -239,7 +251,8 @@
    "population": 5159,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505278 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "reichertshofen",
@@ -256,7 +269,8 @@
    "population": 8134,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q489285 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hitzhofen",
@@ -273,7 +287,8 @@
    "population": 3022,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q510995 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "karlshuld",
@@ -290,7 +305,8 @@
    "population": 5972,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505424 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "vohburg-an-der-donau",
@@ -307,7 +323,8 @@
    "population": 8828,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q251778 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "geisenfeld",
@@ -324,7 +341,8 @@
    "population": 11642,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q259795 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "adelschlag",
@@ -341,7 +359,8 @@
    "population": 2981,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q355390 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "neuburg-an-der-donau",
@@ -358,7 +377,8 @@
    "population": 30039,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q125652 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "denkendorf",
@@ -375,7 +395,8 @@
    "population": 5059,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q261453 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hohenwart",
@@ -392,7 +413,8 @@
    "population": 4886,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q489217 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "koenigsmoos",
@@ -409,7 +431,8 @@
    "population": 4931,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q508657 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "muenchsmuenster",
@@ -426,7 +449,8 @@
    "population": 3264,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q269579 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "rohrbach",
@@ -443,7 +467,8 @@
    "population": 6136,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q490174 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "pfoerring",
@@ -460,7 +485,8 @@
    "population": 4100,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505785 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "kipfenberg",
@@ -477,7 +503,8 @@
    "population": 5835,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q507258 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "altmannstein",
@@ -494,7 +521,8 @@
    "population": 7195,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q442666 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "eichstaett",
@@ -511,7 +539,8 @@
    "population": 14066,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q252772 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "wolnzach",
@@ -528,7 +557,8 @@
    "population": 11520,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491958 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "oberhausen",
@@ -545,7 +575,8 @@
    "population": 3231,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q526163 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "schrobenhausen",
@@ -562,7 +593,8 @@
    "population": 17916,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504746 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "neustadt-an-der-donau",
@@ -580,7 +612,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q269010 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": true,
-   "nameSource": "Wikidata Q269010 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q269010 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "wellheim",
@@ -597,7 +630,8 @@
    "population": 2725,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q509998 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "pollenfeld",
@@ -614,7 +648,8 @@
    "population": 3051,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q627460 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "kinding",
@@ -632,7 +667,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q521544 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q521544 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q521544 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "pfaffenhofen-an-der-ilm",
@@ -649,7 +685,8 @@
    "population": 27228,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q490319 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "aresing",
@@ -666,7 +703,8 @@
    "population": 3099,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q522443 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "ehekirchen",
@@ -683,7 +721,8 @@
    "population": 3674,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504009 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "schernfeld",
@@ -700,7 +739,8 @@
    "population": 3285,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q627484 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "dollnstein",
@@ -717,7 +757,8 @@
    "population": 2850,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q521067 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "rennertshofen",
@@ -734,7 +775,8 @@
    "population": 4835,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505627 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "mainburg",
@@ -751,7 +793,8 @@
    "population": 15279,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503661 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "riedenburg",
@@ -769,7 +812,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503693 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": true,
-   "nameSource": "Wikidata Q503693 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q503693 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "scheyern",
@@ -786,7 +830,8 @@
    "population": 4883,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491974 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "beilngries",
@@ -803,7 +848,8 @@
    "population": 10242,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q573230 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "titting",
@@ -820,7 +866,8 @@
    "population": 2688,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504734 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "gerolsbach",
@@ -837,7 +884,8 @@
    "population": 3833,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q260245 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "burgheim",
@@ -854,7 +902,8 @@
    "population": 4656,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q257160 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "poettmes",
@@ -871,7 +920,8 @@
    "population": 7052,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q251897 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "siegenburg",
@@ -889,7 +939,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503945 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q503945 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q503945 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "abensberg",
@@ -906,7 +957,8 @@
    "population": 15254,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q255698 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "dietfurt",
@@ -923,7 +975,8 @@
    "population": 6448,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504648 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "greding",
@@ -940,7 +993,8 @@
    "population": 7070,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q534651 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "rudelzhausen",
@@ -957,7 +1011,8 @@
    "population": 3510,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q507874 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "gachenbach",
@@ -974,7 +1029,8 @@
    "population": 2624,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q510090 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "schweitenkirchen",
@@ -991,7 +1047,8 @@
    "population": 5595,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q489303 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "au-in-der-hallertau",
@@ -1008,7 +1065,8 @@
    "population": 6266,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q523939 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "reichertshausen",
@@ -1025,7 +1083,8 @@
    "population": 5142,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q489066 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "marxheim",
@@ -1042,7 +1101,8 @@
    "population": 2571,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q49911 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "kuehbach",
@@ -1059,7 +1119,8 @@
    "population": 4100,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q1796912 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "inchenhofen",
@@ -1076,7 +1137,8 @@
    "population": 2760,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q259473 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "kelheim",
@@ -1093,7 +1155,8 @@
    "population": 17108,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q494305 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "ihrlerstein",
@@ -1110,7 +1173,8 @@
    "population": 4154,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503699 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "nandlstadt",
@@ -1127,7 +1191,8 @@
    "population": 5617,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503330 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "pappenheim",
@@ -1144,7 +1209,8 @@
    "population": 3934,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503763 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "berching",
@@ -1162,7 +1228,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q248062 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": true,
-   "nameSource": "Wikidata Q248062 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q248062 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "kirchdorf-an-der-amper",
@@ -1179,7 +1246,8 @@
    "population": 3393,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506009 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "wolfersdorf",
@@ -1196,7 +1264,8 @@
    "population": 2582,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q627586 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "rain-am-lech",
@@ -1213,7 +1282,8 @@
    "population": 9197,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503737 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "breitenbrunn",
@@ -1231,7 +1301,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q529077 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q529077 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q529077 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "thalmaessing",
@@ -1248,7 +1319,8 @@
    "population": 5233,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q527361 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "jetzendorf",
@@ -1265,7 +1337,8 @@
    "population": 3116,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491965 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "attenkirchen",
@@ -1282,7 +1355,8 @@
    "population": 2734,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q523922 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hilgertshausen-tandern",
@@ -1299,7 +1373,8 @@
    "population": 3343,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q524247 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hohenkammer",
@@ -1316,7 +1391,8 @@
    "population": 2671,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506180 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "petershausen",
@@ -1333,7 +1409,8 @@
    "population": 6401,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q533046 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "allershausen",
@@ -1350,7 +1427,8 @@
    "population": 5953,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q218427 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "rohr-in-niederbayern",
@@ -1368,7 +1446,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q529002 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q529002 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q529002 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 1
   },
   {
    "slug": "saal-an-der-donau",
@@ -1385,7 +1464,8 @@
    "population": 5759,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503854 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "hollenbach",
@@ -1402,7 +1482,8 @@
    "population": 2530,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504472 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "aichach",
@@ -1419,7 +1500,8 @@
    "population": 22011,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q251678 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "hemau",
@@ -1436,7 +1518,8 @@
    "population": 9348,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491402 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "pfeffenhausen",
@@ -1453,7 +1536,8 @@
    "population": 5444,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q513303 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "oberndorf-am-lech",
@@ -1470,7 +1554,8 @@
    "population": 2649,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503794 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "monheim",
@@ -1487,7 +1572,8 @@
    "population": 5416,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504521 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "weichs",
@@ -1504,7 +1590,8 @@
    "population": 3672,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q551190 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "kranzberg",
@@ -1521,7 +1608,8 @@
    "population": 4288,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506248 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "zolling",
@@ -1538,7 +1626,8 @@
    "population": 4976,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q218693 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "treuchtlingen",
@@ -1555,7 +1644,8 @@
    "population": 13110,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q252466 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "thierhaupten",
@@ -1572,7 +1662,8 @@
    "population": 4086,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q302907 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "weissenburg-in-bayern",
@@ -1589,7 +1680,8 @@
    "population": 18172,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q44500 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "aindling",
@@ -1606,7 +1698,8 @@
    "population": 4694,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q258041 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "markt-indersdorf",
@@ -1623,7 +1716,8 @@
    "population": 10366,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q513161 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "vierkirchen",
@@ -1640,7 +1734,8 @@
    "population": 4628,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q526524 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "mauern",
@@ -1657,7 +1752,8 @@
    "population": 3158,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q255396 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "rottenburg-an-der-laaber",
@@ -1675,7 +1771,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q170243 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": true,
-   "nameSource": "Wikidata Q170243 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q170243 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 2
   },
   {
    "slug": "haag-an-der-amper",
@@ -1692,7 +1789,8 @@
    "population": 2718,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q517447 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "asbach-baeumenheim",
@@ -1709,7 +1807,8 @@
    "population": 4777,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q507064 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "muehlhausen",
@@ -1726,7 +1825,8 @@
    "population": 5353,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q572419 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "kaisheim",
@@ -1743,7 +1843,8 @@
    "population": 3999,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505166 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "langquaid",
@@ -1760,7 +1861,8 @@
    "population": 5931,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q524395 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "beratzhausen",
@@ -1777,7 +1879,8 @@
    "population": 5664,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q429492 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "heideck",
@@ -1794,7 +1897,8 @@
    "population": 4662,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q502445 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "seubersdorf-in-der-oberpfalz",
@@ -1811,7 +1915,8 @@
    "population": 5270,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504359 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "ellingen",
@@ -1828,7 +1933,8 @@
    "population": 3923,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504544 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "freising",
@@ -1845,7 +1951,8 @@
    "population": 48953,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q6998 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "affing",
@@ -1862,7 +1969,8 @@
    "population": 5586,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q259662 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "fahrenzhausen",
@@ -1879,7 +1987,8 @@
    "population": 5087,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506233 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "nordendorf",
@@ -1896,7 +2005,8 @@
    "population": 2660,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505111 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "furth",
@@ -1913,7 +2023,8 @@
    "population": 3683,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q537414 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "laaber",
@@ -1930,7 +2041,8 @@
    "population": 5321,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491811 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "donauwoerth",
@@ -1947,7 +2059,8 @@
    "population": 20024,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q53742 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "rehling",
@@ -1964,7 +2077,8 @@
    "population": 2710,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q260492 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "roehrmoos",
@@ -1981,7 +2095,8 @@
    "population": 6471,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q511495 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "wang",
@@ -1998,7 +2113,8 @@
    "population": 2507,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q514499 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "langenbach",
@@ -2015,7 +2131,8 @@
    "population": 4023,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q532907 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "freystadt",
@@ -2032,7 +2149,8 @@
    "population": 9097,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504499 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "nittendorf",
@@ -2049,7 +2167,8 @@
    "population": 8769,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491658 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "mertingen",
@@ -2066,7 +2185,8 @@
    "population": 3977,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506753 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "parsberg",
@@ -2083,7 +2203,8 @@
    "population": 7829,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q509925 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "lupburg",
@@ -2101,7 +2222,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q508879 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q508879 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q508879 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 2
   },
   {
    "slug": "marzling",
@@ -2118,7 +2240,8 @@
    "population": 3259,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506502 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "bruckberg",
@@ -2135,7 +2258,8 @@
    "population": 5704,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q31690 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "hilpoltstein",
@@ -2152,7 +2276,8 @@
    "population": 13707,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q521132 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "moosburg-an-der-isar",
@@ -2169,7 +2294,8 @@
    "population": 20107,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q31872 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "meitingen",
@@ -2186,7 +2312,8 @@
    "population": 12328,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q252494 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "dasing",
@@ -2203,7 +2330,8 @@
    "population": 5840,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q645832 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "deining",
@@ -2221,7 +2349,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503778 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q503778 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q503778 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 2
   },
   {
    "slug": "erdweg",
@@ -2238,7 +2367,8 @@
    "population": 6214,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q541512 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "hohenthann",
@@ -2255,7 +2385,8 @@
    "population": 4297,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512719 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "haimhausen",
@@ -2272,7 +2403,8 @@
    "population": 5715,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512178 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "sinzing",
@@ -2289,7 +2421,8 @@
    "population": 7306,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491611 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "schwabhausen",
@@ -2306,7 +2439,8 @@
    "population": 6264,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512162 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "langweid-am-lech",
@@ -2323,7 +2457,8 @@
    "population": 8818,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q544732 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "sengenthal",
@@ -2340,7 +2475,8 @@
    "population": 4114,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505589 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "roettenbach",
@@ -2357,7 +2493,8 @@
    "population": 3351,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q520347 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "pentling",
@@ -2374,7 +2511,8 @@
    "population": 6404,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491788 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "biberbach",
@@ -2391,7 +2529,8 @@
    "population": 3475,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q526553 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "hebertshausen",
@@ -2408,7 +2547,8 @@
    "population": 5781,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q509243 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "odelzhausen",
@@ -2425,7 +2565,8 @@
    "population": 5727,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512193 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "schierling",
@@ -2442,7 +2583,8 @@
    "population": 8306,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q490201 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "wemding",
@@ -2459,7 +2601,8 @@
    "population": 5742,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q502758 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "neufahrn-bei-freising",
@@ -2476,7 +2619,8 @@
    "population": 21066,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q31658 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "eching",
@@ -2493,7 +2637,8 @@
    "population": 14732,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q254001 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "pettendorf",
@@ -2510,7 +2655,8 @@
    "population": 3426,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491624 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "hallbergmoos",
@@ -2527,7 +2673,8 @@
    "population": 11602,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q285955 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "harburg-schwaben",
@@ -2544,7 +2691,8 @@
    "population": 5543,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503226 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "sulzemoos",
@@ -2561,7 +2709,8 @@
    "population": 2841,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q524223 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "berngau",
@@ -2578,7 +2727,8 @@
    "population": 2636,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504711 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "langenpreising",
@@ -2595,7 +2745,8 @@
    "population": 2884,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q528673 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "unterschleissheim",
@@ -2612,7 +2763,8 @@
    "population": 28193,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q59096 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "velburg",
@@ -2629,7 +2781,8 @@
    "population": 5457,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504758 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "buttenwiesen",
@@ -2646,7 +2799,8 @@
    "population": 6124,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q510701 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "tapfheim",
@@ -2663,7 +2817,8 @@
    "population": 4126,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503123 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "altdorf",
@@ -2680,7 +2835,8 @@
    "population": 11407,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q435221 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "eching-landshut",
@@ -2697,7 +2853,8 @@
    "population": 4254,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q260279 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "allersberg",
@@ -2715,7 +2872,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q588957 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q588957 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q588957 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 2
   },
   {
    "slug": "georgensgmuend",
@@ -2732,7 +2890,8 @@
    "population": 6891,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q550757 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "neufahrn-in-niederbayern",
@@ -2749,7 +2908,8 @@
    "population": 4300,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q528715 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "regensburg",
@@ -2766,7 +2926,8 @@
    "population": 151517,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q2978 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "thalmassing",
@@ -2783,7 +2944,8 @@
    "population": 3570,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491653 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "dachau",
@@ -2800,7 +2962,8 @@
    "population": 47461,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q7077 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "gersthofen",
@@ -2817,7 +2980,8 @@
    "population": 23409,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q502767 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "friedberg",
@@ -2834,7 +2998,8 @@
    "population": 29980,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q507194 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "berglern",
@@ -2851,7 +3016,8 @@
    "population": 2915,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q511811 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "gablingen",
@@ -2868,7 +3034,8 @@
    "population": 4804,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q529373 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "eitting",
@@ -2885,7 +3052,8 @@
    "population": 3155,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q513542 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "bergkirchen",
@@ -2902,7 +3070,8 @@
    "population": 7636,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q514940 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "tiefenbach",
@@ -2919,7 +3088,8 @@
    "population": 3931,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q278469 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "ergoldsbach",
@@ -2936,7 +3106,8 @@
    "population": 8535,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q258844 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "wartenberg",
@@ -2953,7 +3124,8 @@
    "population": 5497,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q551142 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "neumarkt-in-der-oberpfalz",
@@ -2970,7 +3142,8 @@
    "population": 41258,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q14887 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "buch-am-erlbach",
@@ -2987,7 +3160,8 @@
    "population": 3911,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q254025 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "spalt",
@@ -3004,7 +3178,8 @@
    "population": 5203,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q312335 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "oberschleissheim",
@@ -3021,7 +3196,8 @@
    "population": 11926,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q253881 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "ergolding",
@@ -3038,7 +3214,8 @@
    "population": 13511,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q264256 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "lappersdorf",
@@ -3055,7 +3232,8 @@
    "population": 13477,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491550 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "egenhofen",
@@ -3072,7 +3250,8 @@
    "population": 3446,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q256518 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "ried",
@@ -3089,7 +3268,8 @@
    "population": 3289,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q509959 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "augsburg",
@@ -3106,7 +3286,8 @@
    "population": 301786,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q2749 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "roth",
@@ -3123,7 +3304,8 @@
    "population": 25473,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504019 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "obertraubling",
@@ -3140,7 +3322,8 @@
    "population": 8688,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491647 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "oberding",
@@ -3157,7 +3340,8 @@
    "population": 6355,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q254933 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "kallmuenz",
@@ -3174,7 +3358,8 @@
    "population": 2823,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q490185 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "landshut",
@@ -3191,7 +3376,8 @@
    "population": 71922,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q3974 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "mallersdorf-pfaffenberg",
@@ -3208,7 +3394,8 @@
    "population": 6670,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q261440 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "neusaess",
@@ -3225,7 +3412,8 @@
    "population": 23026,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503208 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "bissingen",
@@ -3242,7 +3430,8 @@
    "population": 3647,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q515410 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "alteglofsheim",
@@ -3259,7 +3448,8 @@
    "population": 3228,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q436522 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "koefering",
@@ -3276,7 +3466,8 @@
    "population": 3106,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491602 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "garching-bei-muenchen",
@@ -3293,7 +3484,8 @@
    "population": 17729,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q264620 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "karlsfeld",
@@ -3310,7 +3502,8 @@
    "population": 21425,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q268707 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "postbauer-heng",
@@ -3327,7 +3520,8 @@
    "population": 7932,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q16799 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "pyrbaum",
@@ -3344,7 +3538,8 @@
    "population": 5884,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503362 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "essenbach",
@@ -3361,7 +3556,8 @@
    "population": 11970,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q269499 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "zeitlarn",
@@ -3379,7 +3575,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q186132 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q186132 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q186132 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 2
   },
   {
    "slug": "kissing",
@@ -3396,7 +3593,8 @@
    "population": 11671,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q257284 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "stadtbergen",
@@ -3413,7 +3611,8 @@
    "population": 15595,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503300 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "wertingen",
@@ -3430,7 +3629,8 @@
    "population": 9534,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q502930 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "berg-bei-neumarkt-in-der-oberpfalz",
@@ -3447,7 +3647,8 @@
    "population": 8069,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506943 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "fraunberg",
@@ -3464,7 +3665,8 @@
    "population": 3896,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q32040 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "pilsach",
@@ -3481,7 +3683,8 @@
    "population": 2892,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505419 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "buechenbach",
@@ -3498,7 +3701,8 @@
    "population": 5419,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q527283 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "neutraubling",
@@ -3515,7 +3719,8 @@
    "population": 14351,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q488625 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "moettingen",
@@ -3532,7 +3737,8 @@
    "population": 2700,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q378270 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "vilsheim",
@@ -3549,7 +3755,8 @@
    "population": 2696,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q526491 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "tegernheim",
@@ -3566,7 +3773,8 @@
    "population": 5530,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q490206 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "kumhausen",
@@ -3583,7 +3791,8 @@
    "population": 5599,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q260564 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "maisach",
@@ -3600,7 +3809,8 @@
    "population": 13955,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q255106 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "moosinning",
@@ -3617,7 +3827,8 @@
    "population": 6064,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q511796 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "aystetten",
@@ -3634,7 +3845,8 @@
    "population": 3062,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503190 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "gunzenhausen",
@@ -3651,7 +3863,8 @@
    "population": 16698,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503640 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "ismaning",
@@ -3668,7 +3881,8 @@
    "population": 18038,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q254897 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "barbing",
@@ -3685,7 +3899,8 @@
    "population": 5926,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q489142 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "abenberg",
@@ -3702,7 +3917,8 @@
    "population": 5455,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q261822 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "erding",
@@ -3719,7 +3935,8 @@
    "population": 37341,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q15980 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "olching",
@@ -3736,7 +3953,8 @@
    "population": 27418,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q178486 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "mintraching",
@@ -3753,7 +3971,8 @@
    "population": 5036,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491539 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "groebenzell",
@@ -3770,7 +3989,8 @@
    "population": 19206,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q278609 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "donaustauf",
@@ -3787,7 +4007,8 @@
    "population": 4336,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q278169 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "schwanstetten",
@@ -3804,7 +4025,8 @@
    "population": 7146,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q529745 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "mering",
@@ -3821,7 +4043,8 @@
    "population": 15329,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q275579 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "rednitzhembach",
@@ -3839,7 +4062,8 @@
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q540876 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
    "isCity": false,
-   "nameSource": "Wikidata Q540876 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim"
+   "nameSource": "Wikidata Q540876 (de.wikipedia-Sitelink), bestätigt per OSM Nominatim",
+   "stufe": 2
   },
   {
    "slug": "bockhorn",
@@ -3856,7 +4080,8 @@
    "population": 4062,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q533203 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "adelsried",
@@ -3873,7 +4098,8 @@
    "population": 2569,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q355526 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "oettingen-in-bayern",
@@ -3890,7 +4116,8 @@
    "population": 5189,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q556312 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "altfraunhofen",
@@ -3907,7 +4134,8 @@
    "population": 2571,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q264385 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "hoechstaedt-an-der-donau",
@@ -3924,7 +4152,8 @@
    "population": 6910,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q505909 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "regenstauf",
@@ -3941,7 +4170,8 @@
    "population": 16390,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491641 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "emmering",
@@ -3958,7 +4188,8 @@
    "population": 6849,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q203397 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "laberweinting",
@@ -3975,7 +4206,8 @@
    "population": 3496,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q547972 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "welden",
@@ -3992,7 +4224,8 @@
    "population": 3900,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q511540 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "merching",
@@ -4009,7 +4242,8 @@
    "population": 3203,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q1921480 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "mammendorf",
@@ -4026,7 +4260,8 @@
    "population": 5068,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q252426 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "unterfoehring",
@@ -4043,7 +4278,8 @@
    "population": 11729,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q267408 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "wenzenbach",
@@ -4060,7 +4296,8 @@
    "population": 8703,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q491617 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "burgthann",
@@ -4077,7 +4314,8 @@
    "population": 11558,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q508162 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "adlkofen",
@@ -4094,7 +4332,8 @@
    "population": 4549,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q252939 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "schwarzenbruck",
@@ -4111,7 +4350,8 @@
    "population": 8212,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q508456 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "fuerstenfeldbruck",
@@ -4128,7 +4368,8 @@
    "population": 37666,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q16003 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "kammerstein",
@@ -4145,7 +4386,8 @@
    "population": 3046,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q527430 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "burglengenfeld",
@@ -4162,7 +4404,8 @@
    "population": 14681,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q589515 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "diedorf",
@@ -4179,7 +4422,8 @@
    "population": 10634,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q506614 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "haundorf",
@@ -4196,7 +4440,8 @@
    "population": 2740,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q525879 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "eichenau",
@@ -4213,7 +4458,8 @@
    "population": 11483,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q263496 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "neuching",
@@ -4230,7 +4476,8 @@
    "population": 2789,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512066 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "wassertruedingen",
@@ -4247,7 +4494,8 @@
    "population": 6374,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q502762 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "koenigsbrunn",
@@ -4264,7 +4512,8 @@
    "population": 27847,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q509355 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "horgau",
@@ -4281,7 +4530,8 @@
    "population": 2935,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q532260 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "finsing",
@@ -4298,7 +4548,8 @@
    "population": 4713,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q511719 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "niederaichbach",
@@ -4315,7 +4566,8 @@
    "population": 4234,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q511685 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "noerdlingen",
@@ -4332,7 +4584,8 @@
    "population": 20442,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q489902 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "lauterhofen",
@@ -4349,7 +4602,8 @@
    "population": 3737,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q517565 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "wendelstein",
@@ -4366,7 +4620,8 @@
    "population": 16410,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q522236 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "puchheim",
@@ -4383,7 +4638,8 @@
    "population": 20896,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q254778 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "pliening",
@@ -4400,7 +4656,8 @@
    "population": 5957,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q521701 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "woerth",
@@ -4417,7 +4674,8 @@
    "population": 4416,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q528465 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "alling",
@@ -4434,7 +4692,8 @@
    "population": 4103,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q256260 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "altenmuenster",
@@ -4451,7 +4710,8 @@
    "population": 4826,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q437465 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "woerth-an-der-isar",
@@ -4468,7 +4728,8 @@
    "population": 3275,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q528579 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "maxhuette-haidhof",
@@ -4485,7 +4746,8 @@
    "population": 12075,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q250866 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "windsbach",
@@ -4502,7 +4764,8 @@
    "population": 6110,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q502441 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "geisenhausen",
@@ -4519,7 +4782,8 @@
    "population": 7212,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q533032 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "aschheim",
@@ -4536,7 +4800,8 @@
    "population": 8998,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q503747 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "winkelhaid",
@@ -4553,7 +4818,8 @@
    "population": 4178,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q524382 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "schwabach",
@@ -4570,7 +4836,8 @@
    "population": 40702,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q14889 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "altdorf-bei-nuernberg",
@@ -4587,7 +4854,8 @@
    "population": 15527,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q435295 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "feucht",
@@ -4604,7 +4872,8 @@
    "population": 13604,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512293 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "kirchheim-bei-muenchen",
@@ -4621,7 +4890,8 @@
    "population": 13708,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504880 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "gessertshausen",
@@ -4638,7 +4908,8 @@
    "population": 4380,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q512928 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "taufkirchen-vils",
@@ -4655,7 +4926,8 @@
    "population": 10705,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q545342 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 2
   },
   {
    "slug": "teublitz",
@@ -4672,7 +4944,8 @@
    "population": 8114,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q507731 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 2
   },
   {
    "slug": "karlsruhe",
@@ -4689,7 +4962,8 @@
    "population": 309247,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q1040 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "eggenstein-leopoldshafen",
@@ -4706,7 +4980,8 @@
    "population": 16850,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q520583 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "stutensee",
@@ -4723,7 +4998,8 @@
    "population": 25422,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q22884 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "ettlingen",
@@ -4740,7 +5016,8 @@
    "population": 38557,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q14893 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "rheinstetten",
@@ -4757,7 +5034,8 @@
    "population": 21233,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q520595 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "pfinztal",
@@ -4774,7 +5052,8 @@
    "population": 18291,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504462 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "weingarten-baden",
@@ -4791,7 +5070,8 @@
    "population": 10582,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q550666 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "waldbronn",
@@ -4808,7 +5088,8 @@
    "population": 13799,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542533 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hagenbach",
@@ -4825,7 +5106,8 @@
    "population": 5295,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q541669 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "neuburg-am-rhein",
@@ -4842,7 +5124,8 @@
    "population": 2520,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q570888 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "woerth-am-rhein",
@@ -4859,7 +5142,8 @@
    "population": 18350,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q522165 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "durmersheim",
@@ -4876,7 +5160,8 @@
    "population": 11747,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q81858 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "karlsbad",
@@ -4893,7 +5178,8 @@
    "population": 16137,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542659 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "linkenheim-hochstetten",
@@ -4910,7 +5196,8 @@
    "population": 12601,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542589 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "jockgrim",
@@ -4927,7 +5214,8 @@
    "population": 7484,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q22974 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "leimersheim",
@@ -4944,7 +5232,8 @@
    "population": 2609,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q656053 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "au-am-rhein",
@@ -4961,7 +5250,8 @@
    "population": 3389,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q545371 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "remchingen",
@@ -4978,7 +5268,8 @@
    "population": 11757,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q80577 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "malsch",
@@ -4995,7 +5286,8 @@
    "population": 14728,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q545164 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "walzbachtal",
@@ -5012,7 +5304,8 @@
    "population": 9940,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q521524 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "bietigheim",
@@ -5029,7 +5322,8 @@
    "population": 6473,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q550649 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "rheinzabern",
@@ -5046,7 +5340,8 @@
    "population": 4958,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q22464 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "koenigsbach-stein",
@@ -5063,7 +5358,8 @@
    "population": 10133,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q81247 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "elchesheim-illingen",
@@ -5080,7 +5376,8 @@
    "population": 3252,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q80502 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hatzenbuehl",
@@ -5097,7 +5394,8 @@
    "population": 2847,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q567280 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "marxzell",
@@ -5114,7 +5412,8 @@
    "population": 4978,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542521 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "keltern",
@@ -5131,7 +5430,8 @@
    "population": 8687,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q80700 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "dettenheim",
@@ -5148,7 +5448,8 @@
    "population": 6753,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542630 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "kandel",
@@ -5165,7 +5466,8 @@
    "population": 9285,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q22957 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "kaempfelbach",
@@ -5182,7 +5484,8 @@
    "population": 6252,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q81265 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "muggensturm",
@@ -5199,7 +5502,8 @@
    "population": 6103,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q80708 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "oetigheim",
@@ -5216,7 +5520,8 @@
    "population": 5004,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q83202 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "karlsdorf-neuthard",
@@ -5233,7 +5538,8 @@
    "population": 10673,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542470 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "graben-neudorf",
@@ -5250,7 +5556,8 @@
    "population": 12496,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q22942 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "ruelzheim",
@@ -5267,7 +5574,8 @@
    "population": 8456,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q23032 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "hoerdt",
@@ -5284,7 +5592,8 @@
    "population": 2730,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q654264 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "steinmauern",
@@ -5301,7 +5610,8 @@
    "population": 3198,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q81679 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "gondelsheim",
@@ -5318,7 +5628,8 @@
    "population": 4139,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542411 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "bruchsal",
@@ -5335,24 +5646,8 @@
    "population": 47578,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q7059 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "eisingen",
-   "name": "Eisingen",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q81128",
-   "lat": 48.9475,
-   "lon": 8.66861,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 20.4,
-   "drivingMinutes": 27,
-   "population": 4677,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q81128 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "herxheim-bei-landau-pfalz",
@@ -5369,24 +5664,8 @@
    "population": 11041,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q201065 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "bischweier",
-   "name": "Bischweier",
-   "landkreis": "Landkreis Rastatt",
-   "bundesland": "",
-   "wikidata": "Q548684",
-   "lat": 48.83778,
-   "lon": 8.28417,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 20.7,
-   "drivingMinutes": 27,
-   "population": 3046,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q548684 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "straubenhardt",
@@ -5403,41 +5682,8 @@
    "population": 11317,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q81498 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "forst",
-   "name": "Forst",
-   "landkreis": "Landkreis Karlsruhe",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q569502",
-   "lat": 49.15333,
-   "lon": 8.58417,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 20.9,
-   "drivingMinutes": 27,
-   "population": 7998,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q569502 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "ispringen",
-   "name": "Ispringen",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q81719",
-   "lat": 48.91583,
-   "lon": 8.67083,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 22,
-   "drivingMinutes": 29,
-   "population": 5891,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q81719 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "rastatt",
@@ -5454,7 +5700,8 @@
    "population": 50753,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q6874 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "bretten",
@@ -5471,58 +5718,8 @@
    "population": 30312,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q495428 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "neuenbuerg",
-   "name": "Neuenbürg",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80759",
-   "lat": 48.84611,
-   "lon": 8.58889,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 22.4,
-   "drivingMinutes": 29,
-   "population": 8012,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80759 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "hambruecken",
-   "name": "Hambrücken",
-   "landkreis": "Landkreis Karlsruhe",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q520473",
-   "lat": 49.18611,
-   "lon": 8.54389,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 22.4,
-   "drivingMinutes": 29,
-   "population": 5687,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q520473 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "kuppenheim",
-   "name": "Kuppenheim",
-   "landkreis": "Landkreis Rastatt",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q518505",
-   "lat": 48.8275,
-   "lon": 8.25444,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 22.7,
-   "drivingMinutes": 30,
-   "population": 8161,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q518505 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "birkenfeld",
@@ -5539,41 +5736,8 @@
    "population": 10134,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q80783 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "bad-herrenalb",
-   "name": "Bad Herrenalb",
-   "landkreis": "Landkreis Calw",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q374242",
-   "lat": 48.80056,
-   "lon": 8.44083,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 23.1,
-   "drivingMinutes": 30,
-   "population": 7681,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q374242 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "bellheim",
-   "name": "Bellheim",
-   "landkreis": "Landkreis Germersheim",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q552382",
-   "lat": 49.19806,
-   "lon": 8.27917,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 23.1,
-   "drivingMinutes": 30,
-   "population": 8715,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q552382 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "gaggenau",
@@ -5590,7 +5754,8 @@
    "population": 29394,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504451 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "germersheim",
@@ -5607,24 +5772,8 @@
    "population": 21532,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q22629 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "neulingen",
-   "name": "Neulingen",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80683",
-   "lat": 48.96833,
-   "lon": 8.72472,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 23.8,
-   "drivingMinutes": 31,
-   "population": 6555,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80683 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "ubstadt-weiher",
@@ -5641,7 +5790,8 @@
    "population": 13077,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q520414 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "pforzheim",
@@ -5658,24 +5808,8 @@
    "population": 134422,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q3046 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "knittlingen",
-   "name": "Knittlingen",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80565",
-   "lat": 49.02389,
-   "lon": 8.75694,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 25.8,
-   "drivingMinutes": 34,
-   "population": 8138,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80565 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "philippsburg",
@@ -5692,24 +5826,8 @@
    "population": 13765,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q541161 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "offenbach-an-der-queich",
-   "name": "Offenbach an der Queich",
-   "landkreis": "Landkreis Südliche Weinstraße",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q631832",
-   "lat": 49.19768,
-   "lon": 8.19741,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 26,
-   "drivingMinutes": 34,
-   "population": 6268,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q631832 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "kraichtal",
@@ -5726,92 +5844,8 @@
    "population": 14546,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542606 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "oelbronn-duerrn",
-   "name": "Ölbronn-Dürrn",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80508",
-   "lat": 48.95694,
-   "lon": 8.75722,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 26.4,
-   "drivingMinutes": 34,
-   "population": 3530,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80508 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "kieselbronn",
-   "name": "Kieselbronn",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80587",
-   "lat": 48.93333,
-   "lon": 8.74861,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 26.5,
-   "drivingMinutes": 34,
-   "population": 2904,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80587 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "engelsbrand",
-   "name": "Engelsbrand",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80505",
-   "lat": 48.83,
-   "lon": 8.65,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 26.7,
-   "drivingMinutes": 35,
-   "population": 4493,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80505 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "billigheim-ingenheim",
-   "name": "Billigheim-Ingenheim",
-   "landkreis": "Landkreis Südliche Weinstraße",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q566068",
-   "lat": 49.13889,
-   "lon": 8.09806,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 26.7,
-   "drivingMinutes": 35,
-   "population": 3846,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q566068 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "lingenfeld",
-   "name": "Lingenfeld",
-   "landkreis": "Landkreis Germersheim",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q22973",
-   "lat": 49.24528,
-   "lon": 8.34417,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 26.9,
-   "drivingMinutes": 35,
-   "population": 5890,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q22973 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "gernsbach",
@@ -5828,7 +5862,8 @@
    "population": 14264,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q520119 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "bad-schoenborn",
@@ -5845,41 +5880,8 @@
    "population": 13529,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q306405 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "lustadt",
-   "name": "Lustadt",
-   "landkreis": "Landkreis Germersheim",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q22970",
-   "lat": 49.24444,
-   "lon": 8.27417,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 28,
-   "drivingMinutes": 36,
-   "population": 3379,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q22970 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "iffezheim",
-   "name": "Iffezheim",
-   "landkreis": "Landkreis Rastatt",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q81169",
-   "lat": 48.82056,
-   "lon": 8.14222,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 28.2,
-   "drivingMinutes": 37,
-   "population": 5186,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q81169 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "waghaeusel",
@@ -5896,58 +5898,8 @@
    "population": 22301,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q504457 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "oberhausen-rheinhausen",
-   "name": "Oberhausen-Rheinhausen",
-   "landkreis": "Landkreis Karlsruhe",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q636197",
-   "lat": 49.26056,
-   "lon": 8.485,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 28.8,
-   "drivingMinutes": 37,
-   "population": 9515,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q636197 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "kronau",
-   "name": "Kronau",
-   "landkreis": "Landkreis Karlsruhe",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q542399",
-   "lat": 49.22,
-   "lon": 8.63389,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 29,
-   "drivingMinutes": 38,
-   "population": 6077,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q542399 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
-  },
-  {
-   "slug": "hochstadt",
-   "name": "Hochstadt",
-   "landkreis": "Landkreis Südliche Weinstraße",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q426780",
-   "lat": 49.24028,
-   "lon": 8.21583,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 29.3,
-   "drivingMinutes": 38,
-   "population": 2721,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q426780 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "niefern-oeschelbronn",
@@ -5964,7 +5916,8 @@
    "population": 12583,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q80592 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": false,
+   "stufe": 1
   },
   {
    "slug": "landau-in-der-pfalz",
@@ -5981,24 +5934,8 @@
    "population": 48280,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q7052 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "maulbronn",
-   "name": "Maulbronn",
-   "landkreis": "Enzkreis",
-   "bundesland": "Baden-Württemberg",
-   "wikidata": "Q80560",
-   "lat": 49.00028,
-   "lon": 8.81083,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 29.7,
-   "drivingMinutes": 39,
-   "population": 6371,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q80560 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "oberderdingen",
@@ -6015,7 +5952,8 @@
    "population": 11753,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q542545 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
+   "isCity": true,
+   "stufe": 1
   },
   {
    "slug": "baden-baden",
@@ -6032,24 +5970,12 @@
    "population": 56952,
    "populationDate": "2025-12-31",
    "populationSource": "Wikidata Q4100 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": true
-  },
-  {
-   "slug": "schwegenheim",
-   "name": "Schwegenheim",
-   "landkreis": "Landkreis Germersheim",
-   "bundesland": "Rheinland-Pfalz",
-   "wikidata": "Q653296",
-   "lat": 49.27,
-   "lon": 8.32833,
-   "region": "karlsruhe",
-   "center": "Karlsruhe",
-   "distanceKm": 29.8,
-   "drivingMinutes": 39,
-   "population": 3242,
-   "populationDate": "2025-12-31",
-   "populationSource": "Wikidata Q653296 (Einwohnerzahl, Stand 2025-12-31, amtliche Statistik)",
-   "isCity": false
+   "isCity": true,
+   "stufe": 1
   }
- ]
+ ],
+ "stufen": {
+  "1": "veröffentlicht. Ingolstadt: ≤ 40 km oder kreisfrei oder > 20.000 Einwohner (40–70 km). Karlsruhe: ≤ 20 km oder kreisfrei/Stadt/> 10.000 Einwohner (20–30 km)",
+  "2": "noch nicht erzeugt, für später"
+ }
 }
