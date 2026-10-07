@@ -45,7 +45,7 @@
   function typeFor(a, url) {
     var t = a && a.getAttribute && a.getAttribute("data-uebergang");
     if (t && TYPES[t]) return t;
-    if (/^\/produkte\/haustueren\/?$/.test(url.pathname)) return "tuer";
+    if (/^\/(produkte\/haustueren|konfigurator\/haustuer)\/?$/.test(url.pathname)) return "tuer";
     return "fenster";
   }
   function tuerMarkup() {

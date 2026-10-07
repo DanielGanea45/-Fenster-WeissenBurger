@@ -32,3 +32,8 @@ assets/logo-fenster-weissenburger/
 # Recherche-/Inhaltsdokumente (nicht committen)
 /*.md
 !/README.md
+
+# Konfigurator-Rohbilder (nicht committen)
+bilder-original/
+bilder-original.zip
+konfigurator-bilder.json

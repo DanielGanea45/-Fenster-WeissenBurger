@@ -169,6 +169,8 @@ ul, ol { padding: 0; list-style: none; }
 }
 .facts li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: 2px; }
 
+.inline-link { color: #fff; text-decoration: none; border-bottom: 1px solid var(--accent); }
+
 /* Produkte */
 .products {
   display: flex; gap: 12px; margin: 18px calc(-1 * var(--gutter)) 0; padding: 4px var(--gutter) 8px;

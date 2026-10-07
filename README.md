@@ -75,3 +75,17 @@ Schritte:
 6. Deployen, Formular testen (Widget erscheint vor dem Absenden-Button; Lösung läuft im Hintergrund).
 
 Das Widget-Skript liegt selbst gehostet unter `js/vendor/friendly-captcha-sdk-1.0.2.min.js` (MPL-2.0); die CSP erlaubt bereits `eu.frcapi.com`/`global.frcapi.com`.
+
+## Konfigurator (Fenster & Haustüren)
+
+- **Schalter:** `data/einstellungen.json` → `konfigurator.status`:
+  - `aus` (Standard): kein Menüpunkt, keine Links, nicht in der Sitemap; `/konfigurator/fenster/` und `/konfigurator/haustuer/` zeigen „Demnächst verfügbar“ mit `noindex`.
+  - `vorschau`: Konfigurator unter beiden URLs nutzbar (zum Testen für den Kunden), aber `noindex`, kein Menüpunkt, nicht in der Sitemap.
+  - `online`: öffentlich, Menüpunkt „Konfigurator“, Buttons „Online konfigurieren“ auf den Produktseiten, Sitemap, indexierbar.
+  Nach dem Umschalten `node scripts/build-konfigurator.js` ausführen (passiert bei jedem Netlify-Build automatisch) und committen.
+- **Preise ausschließlich in `data/preise.json`** – keine Zahl im Code. Die aktuellen Werte sind **BEISPIELWERTE** (`version: 2026-10-07-beispiel`) zur Abnahme; vor dem Status `online` durch echte Preise ersetzen und `version` ändern. Struktur: €/m² je System, Mindestfläche, Min-/Max-Maße (Systemgrenzen überschreiben die allgemeinen), Zuschläge (Typ %, Farbe %, Glas €/m², Sprossen €/Element, Rollladen €/m², Zusätze €/Element oder €/lfm), Montage/Demontage je Element, Online-Rabatt %, MwSt %. Haustüren: Grundpreis je Modell, Übergröße %, Farbe %, Glas, Seitenteil, Zusätze. Die Datei ist so aufgebaut, dass ein späteres Admin-Panel sie direkt bearbeiten kann (flache Schlüssel, ein Objekt je Option).
+- **Ein Rechner für alles:** `js/preis.js` läuft im Browser (`window.FWPreis`), in der Netlify Function und in den Tests. Rechenweg in ganzen Cent, kaufmännische Rundung nach jedem Schritt in fester Reihenfolge: Basis → Zuschläge (einzeln) → Elementpreis × Menge → Online-Rabatt (nur Produkt) → Montage/Demontage → Netto → MwSt → Brutto. Anzeige: „Preis ohne Online-Rabatt → Online-Rabatt → Ihr Preis“, „inkl. 19 % MwSt.“, „unverbindlicher Richtpreis“.
+- **Schema-Prüfung:** `FWPreis.validiereListe()` lehnt negative, leere, unplausible Werte (z. B. MwSt > 30 %, Rabatt > 50 %, mehr als 2 Nachkommastellen) ab. Ist die Liste ungültig, zeigt der Konfigurator „Preis auf Anfrage“ statt eines falschen Preises.
+- **Serverseitige Nachrechnung:** Beim „Angebot anfordern“ sendet der Browser Konfiguration + Browserpreis an `netlify/functions/anfrage.js` (Formular `angebot-konfigurator`). Die Function rechnet mit derselben Liste neu und speichert in der Netlify-Forms-Einsendung: `konfiguration` (JSON), `preis_server_brutto`/`_netto`, `preis_server_text`, `preis_browser_brutto`, `preis_abweichung`, `preisliste_version`, `positionen`, `zusammenfassung`.
+- **Tests:** `npm test` (`tests/preis.test.js`, 45 Tests: 36 handgerechnete Fälle inkl. Mindestfläche, Systemgrenzen, alle Optionen, Menge 10/50, Schema-Fehler; 4 Eigenschaftstests: monoton in Breite/Höhe, nie negativ, linear in der Menge, Festverglasung günstiger). Der Netlify-Build (`npm run build`) führt die Tests aus; schlägt einer fehl, bricht der Build ab und es wird nichts veröffentlicht.
+- Bilder: `assets/konfigurator/*-400.webp` / `*-800.webp` (KI-generierte Beispieldarstellungen, Hinweis „Abbildung beispielhaft“ auf der Seite).
