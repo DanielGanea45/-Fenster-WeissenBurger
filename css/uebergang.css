@@ -155,3 +155,117 @@ html.fw-enter body {
   .fw, .fw__sash, .fw__handle, html.fw-leave body, html.fw-enter body { animation: none !important; }
   .fw { display: none !important; }
 }
+
+/* ===================== Variante „Haustür“ (Ziel /produkte/haustueren/) ===================== */
+.fw--tuer { display: block; transform-origin: 50% 55%; }
+.fw__opening--tuer {
+  position: absolute; left: 50%; top: 6svh; bottom: 0; width: 40vw; height: auto;
+  transform: translateX(-50%);
+  border: 22px solid transparent; border-bottom: 0;
+  border-image: linear-gradient(180deg, #c9c4bb, #d8d3cb) 1;
+  box-shadow:
+    inset 0 18px 24px -12px rgba(0, 0, 0, .45),
+    0 30px 60px -20px rgba(0, 0, 0, .35),
+    0 0 0 100vmax #e7e3dc;
+}
+.fw__frame--tuer { border-bottom-width: 0; perspective-origin: 50% 60%; }
+.fw__frame--tuer .fw__hinge--1 { top: 10%; }
+.fw__frame--tuer .fw__hinge--2 { top: 48%; }
+.fw__frame--tuer .fw__hinge--3 { top: 86%; }
+/* Aluminium-Schwelle */
+.fw__threshold {
+  position: absolute; left: -22px; right: -22px; bottom: 0; height: 14px;
+  background: linear-gradient(180deg, #e9ebee, #b9bec5 60%, #9aa0a7);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+/* Türblatt (ein Flügel, Bänder links) */
+.fw__door {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 70%;
+  background: linear-gradient(135deg, #4a5159, #353a41 55%, #2c3036);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .12), inset -1px -1px 0 rgba(0, 0, 0, .5);
+  transform-origin: 0% 50%;
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  animation:
+    fw-door-open 800ms cubic-bezier(.42, 0, .18, 1) calc(512ms - var(--fw-t)) both,
+    fw-recoil 256ms cubic-bezier(.4, 0, .2, 1) calc(240ms - var(--fw-t)) backwards;
+}
+.fw__edge--door { width: 28px; right: 0; transform-origin: 100% 50%; transform: rotateY(90deg); background: linear-gradient(180deg, #3d434a, #262a2f); }
+/* Satinierter Glasstreifen nahe der Bandseite */
+.fw__strip {
+  position: absolute; left: 12%; top: 8%; bottom: 8%; width: 9%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .42), rgba(255, 255, 255, .3));
+  border: 2px solid #3d434a; box-shadow: 0 0 0 2px #0e1012, inset 0 0 12px rgba(255, 255, 255, .5);
+  overflow: hidden;
+}
+.fw__strip::after {
+  content: ""; position: absolute; top: -10%; bottom: -10%; left: 30%; width: 25%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
+  transform: skewX(-18deg);
+}
+/* Edelstahl-Stangengriff mit zwei Haltern */
+.fw__bar {
+  position: absolute; right: 12%; top: 20%; height: 60%; width: 14px; border-radius: 7px;
+  background: linear-gradient(90deg, #f2f3f5, #c3c8ce 45%, #8e939a);
+  box-shadow: 3px 4px 8px rgba(0, 0, 0, .55), inset 1px 0 0 rgba(255, 255, 255, .8);
+  overflow: hidden;
+}
+.fw__bar::before {
+  content: ""; position: absolute; left: 2px; right: 2px; top: 12%; height: 10px; border-radius: 3px;
+  background: linear-gradient(90deg, #d9dcdf, #9ea3a9);
+  box-shadow: 0 54vh 0 0 #b5babf;
+}
+/* Lichtreflex beim „Aufschließen“ */
+.fw__bar::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 28%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .95), rgba(255, 255, 255, 0));
+  opacity: 0;
+  animation: fw-unlock 256ms ease-in-out calc(240ms - var(--fw-t)) both;
+}
+/* Profilzylinder unter dem Griff */
+.fw__lock {
+  position: absolute; right: calc(12% + 2px); top: 56%; width: 10px; height: 20px; border-radius: 5px;
+  background: linear-gradient(90deg, #e1e4e7, #a3a8ae);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}
+.fw__lock::after { content: ""; position: absolute; left: 4px; top: 8px; width: 2px; height: 6px; background: #2a2e33; }
+/* Festes Seitenteil aus satiniertem Glas */
+.fw__panel {
+  position: absolute; top: 0; bottom: 0; right: 0; width: 30%;
+  border-left: 10px solid #31363c; box-sizing: border-box; overflow: hidden;
+  background: linear-gradient(165deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .5));
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .55);
+}
+.fw__panel::after {
+  content: ""; position: absolute; top: -10%; bottom: -10%; left: 35%; width: 18%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .35), rgba(255, 255, 255, 0));
+  transform: skewX(-20deg);
+}
+
+@keyframes fw-door-open {
+  0% { transform: rotateY(0deg); filter: brightness(1); }
+  12% { transform: rotateY(-4deg); filter: brightness(.97); }
+  100% { transform: rotateY(-105deg); filter: brightness(.6); }
+}
+@keyframes fw-recoil {
+  0% { transform: rotateY(0deg); }
+  45% { transform: rotateY(-2deg); }
+  100% { transform: rotateY(0deg); }
+}
+@keyframes fw-unlock {
+  0% { opacity: 0; transform: translateY(-100%); }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(360%); }
+}
+
+@media (max-width: 899px) {
+  .fw__opening--tuer { width: 70vw; border-width: 16px; border-bottom: 0; }
+  .fw__frame--tuer { border-width: 12px; border-bottom-width: 0; }
+  .fw__threshold { left: -16px; right: -16px; height: 12px; }
+  .fw__bar { width: 11px; right: 11%; }
+  .fw__edge--door { width: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fw__door, .fw__bar::after { animation: none !important; }
+}

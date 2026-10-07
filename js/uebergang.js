@@ -19,7 +19,7 @@
     html.style.setProperty("--fw-t", elapsed + "ms");
     html.classList.add("fw-enter");
     var startEnter = function () {
-      var ov = buildOverlay();
+      var ov = buildOverlay(pending.type);
       html.appendChild(ov); /* außerhalb von <body>, damit die Body-Animation das Overlay nicht mitskaliert */
       state = { phase: "enter", overlay: ov, started: Date.now() - elapsed };
       state.timer = setTimeout(finishEnter, TOTAL - elapsed + 60);
@@ -39,11 +39,29 @@
   }
 
   /* ---------- Overlay ---------- */
-  function buildOverlay() {
-    var ov = doc.createElement("div");
-    ov.className = "fw";
-    ov.setAttribute("aria-hidden", "true");
-    ov.innerHTML =
+  /* Übergangstypen: "fenster" (Standard), "tuer" (Haustür). Weitere Typen hier registrieren
+     und per data-uebergang="…" am Link oder in typeFor() zuweisen. */
+  var TYPES = { fenster: fensterMarkup, tuer: tuerMarkup };
+  function typeFor(a, url) {
+    var t = a && a.getAttribute && a.getAttribute("data-uebergang");
+    if (t && TYPES[t]) return t;
+    if (/^\/produkte\/haustueren\/?$/.test(url.pathname)) return "tuer";
+    return "fenster";
+  }
+  function tuerMarkup() {
+    return (
+      '<div class="fw__opening fw__opening--tuer">' +
+        '<div class="fw__frame fw__frame--tuer">' +
+          '<span class="fw__hinge fw__hinge--l fw__hinge--1"></span><span class="fw__hinge fw__hinge--l fw__hinge--2"></span><span class="fw__hinge fw__hinge--l fw__hinge--3"></span>' +
+          '<div class="fw__door"><div class="fw__strip"></div><div class="fw__bar"></div><div class="fw__lock"></div><div class="fw__edge fw__edge--door"></div></div>' +
+          '<div class="fw__panel"></div>' +
+        "</div>" +
+        '<div class="fw__threshold"></div>' +
+      "</div>"
+    );
+  }
+  function fensterMarkup() {
+    return (
       '<div class="fw__opening">' +
         '<div class="fw__frame">' +
           '<span class="fw__hinge fw__hinge--l fw__hinge--t"></span><span class="fw__hinge fw__hinge--l fw__hinge--b"></span>' +
@@ -52,7 +70,15 @@
           '<div class="fw__sash fw__sash--r"><div class="fw__glass"></div><div class="fw__edge"></div></div>' +
         "</div>" +
         '<div class="fw__sill"></div>' +
-      "</div>";
+      "</div>"
+    );
+  }
+  function buildOverlay(type) {
+    type = TYPES[type] ? type : "fenster";
+    var ov = doc.createElement("div");
+    ov.className = "fw fw--" + type;
+    ov.setAttribute("aria-hidden", "true");
+    ov.innerHTML = TYPES[type]();
     return ov;
   }
 
@@ -70,21 +96,21 @@
     return url;
   }
 
-  function leave(url) {
+  function leave(url, type) {
     if (state) return;
     var t0 = Date.now();
     html.style.setProperty("--fw-t", "0ms");
     html.classList.add("fw-leave");
-    var ov = buildOverlay();
+    var ov = buildOverlay(type);
     html.appendChild(ov); /* außerhalb von <body>, damit die Body-Animation das Overlay nicht mitskaliert */
-    state = { phase: "leave", overlay: ov, started: t0, url: url.href };
+    state = { phase: "leave", overlay: ov, started: t0, url: url.href, type: type };
     state.timer = setTimeout(function () { go(url, t0); }, NAV_AT);
   }
 
   function go(url, t0) {
     if (!state || state.phase !== "leave") return;
     clearTimeout(state.timer);
-    try { sessionStorage.setItem(KEY, JSON.stringify({ t0: t0, url: url.pathname })); } catch (e) { /* kein Storage: normale Navigation */ }
+    try { sessionStorage.setItem(KEY, JSON.stringify({ t0: t0, url: url.pathname, type: state.type })); } catch (e) { /* kein Storage: normale Navigation */ }
     state.navigating = true;
     location.href = url.href;
   }
@@ -106,7 +132,7 @@
     var url = internalLink(a, e);
     if (!url) return;
     e.preventDefault();
-    leave(url);
+    leave(url, typeFor(a, url));
   });
 
   /* Vorladen bei Hover / Touch / Fokus */
