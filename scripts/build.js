@@ -86,6 +86,11 @@ async function bilderEinsetzen(root, bilder, texte) {
           const pStart = html.lastIndexOf("<picture>", m.index), pEnd = html.indexOf("</picture>", m.index);
           if (pStart >= 0 && pEnd > pStart && !html.slice(pStart, m.index).includes("</picture>")) { html = html.slice(0, pStart) + tag + html.slice(pEnd + "</picture>".length); }
           else html = html.replace(m[0], tag);
+          /* Lightbox-Link (<a href="…"> direkt vor dem Bild) auf die größte neue Datei umstellen */
+          const gross = dateien[dateien.length - 1][1];
+          const vor = html.slice(Math.max(0, html.indexOf(tag) - 300), html.indexOf(tag));
+          const aM = vor.match(/<a href="([^"]+)">\s*$/);
+          if (aM) html = html.replace(aM[0], aM[0].replace(aM[1], gross));
           n++;
           continue;
         }
@@ -94,6 +99,38 @@ async function bilderEinsetzen(root, bilder, texte) {
     }
     fs.writeFileSync(f, html);
   }
+  n += await neueBilderAnhaengen(root, bilder, seiten);
+  return n;
+}
+
+/* Hochgeladene Zusatzbilder (Bereich Referenzen) werden an die Galerie auf /referenzen/ angehängt;
+   als Vorlage dient das erste vorhandene Galerie-Element. */
+async function neueBilderAnhaengen(root, bilder, seiten) {
+  const neue = Object.entries(bilder.bilder || {}).filter(([, b]) => b.neu && b.blob && !b.geloescht && b.sektion === "referenzen");
+  if (!neue.length || !seiten.referenzen) return 0;
+  const f = path.join(root, seiten.referenzen.datei);
+  if (!fs.existsSync(f)) return 0;
+  let html = fs.readFileSync(f, "utf8");
+  const gal = html.indexOf('<ul class="refs" id="gallery">');
+  const ende = gal >= 0 ? html.indexOf("</ul>", gal) : -1;
+  if (ende < 0) return 0;
+  const vorlageM = html.slice(gal, ende).match(/<li class="ref">[\s\S]*?<\/li>/);
+  if (!vorlageM) return 0;
+  const outDir = path.join(root, "assets", "bilder", "admin");
+  fs.mkdirSync(outDir, { recursive: true });
+  let eingefuegt = "", n = 0;
+  for (const [id, b] of neue) {
+    const dateien = [];
+    for (const g of b.groessen || []) { const buf = await store.getBinary(`bilder/${id}/${g}`); if (!buf) continue; const name = `${id}-${hash(buf)}-${g}.webp`; fs.writeFileSync(path.join(outDir, name), buf); dateien.push([g, "/assets/bilder/admin/" + name]); }
+    if (!dateien.length) continue;
+    const klein = dateien[0][1], gross = dateien[dateien.length - 1][1];
+    let li = vorlageM[0];
+    li = li.replace(/<a href="[^"]*">/, `<a href="${gross}">`);
+    li = li.replace(/<img[^>]*>/, `<img src="${klein}" srcset="${dateien.map(([g, p]) => p + " " + g + "w").join(", ")}" width="${b.breite || 800}" height="${b.hoehe || 600}" alt="${esc(b.alt || b.titel || "")}" loading="lazy" decoding="async">`);
+    li = li.replace(/<figcaption>[\s\S]*?<\/figcaption>/, `<figcaption><strong>${esc(b.titel || "")}</strong>${b.alt ? " – " + esc(b.alt) : ""}</figcaption>`);
+    eingefuegt += "\n          " + li; n++;
+  }
+  if (n) { html = html.slice(0, ende) + eingefuegt + "\n        " + html.slice(ende); fs.writeFileSync(f, html); }
   return n;
 }
 

@@ -9,7 +9,7 @@ const http = require("./_lib/http");
 const ROOT = path.join(__dirname, "..", "..");
 function lies(rel) { const p = path.join(ROOT, rel); return fs.existsSync(p) ? fs.readFileSync(p, "utf8") : null; }
 
-const BANNER = `<div class="vorschau-banner" role="status" style="position:sticky;top:0;z-index:1000;background:#1b2430;color:#fff;font:600 14px/1.4 Manrope,system-ui,sans-serif;padding:10px 16px;text-align:center;border-bottom:3px solid #0B5ED7">Vorschau – nicht öffentlich · Dieser Konfigurator ist nur für angemeldete Administratoren sichtbar. <a href="/admin/#preise" style="color:#8ab8ff">Zum Admin</a></div>`;
+const BANNER = `<div class="vorschau-banner" role="status">Vorschau – nicht öffentlich · Dieser Konfigurator ist nur für angemeldete Administratoren sichtbar. <a href="/admin/#preise">Zum Admin</a></div>`;
 
 exports.handler = async (event) => {
   const p = (event.path || "/konfigurator/fenster/").replace(/\/+$/, "/");

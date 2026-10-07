@@ -91,7 +91,7 @@
   }
   function cards(key, map, opts) {
     opts = opts || {};
-    var html = Object.keys(map).map(function (id, idx) {
+    var html = Object.keys(map).filter(function (id) { return map[id].aktiv !== false; }).map(function (id, idx) {
       var e = map[id];
       var sel = state[key] === id;
       var sub = opts.sub ? opts.sub(e, id) : (e.kurz || "");
@@ -104,7 +104,7 @@
     return '<div class="opts' + (opts.four ? " opts--4" : "") + '" data-key="' + key + '">' + html + "</div>";
   }
   function multiCards(key, map) {
-    return '<div class="checks checks--konf" data-multi="' + key + '">' + Object.keys(map).map(function (id) {
+    return '<div class="checks checks--konf" data-multi="' + key + '">' + Object.keys(map).filter(function (id) { return map[id].aktiv !== false; }).map(function (id) {
       var e = map[id]; var sel = state[key].indexOf(id) >= 0;
       var preisTxt = e.art === "proLfm" ? fmtEuro(Preis.cent(e.zuschlag)) + " je lfm Breite" : "+ " + fmtEuro(Preis.cent(e.zuschlag)) + " je Element";
       return '<label class="check' + (sel ? " is-selected" : "") + '"><input type="checkbox" value="' + esc(id) + '"' + (sel ? " checked" : "") + '><span><strong>' + esc(e.name) + '</strong><span class="sub">' + preisTxt + (e.nurMitRollladen ? " · nur zusammen mit Rollladen" : "") + "</span></span></label>";

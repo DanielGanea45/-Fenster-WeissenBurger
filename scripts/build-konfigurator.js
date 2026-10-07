@@ -135,7 +135,7 @@ function pageSoon(key) {
 function pageKonf(key) {
   const p = PAGES[key];
   const noindex = status !== "online";
-  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=1" defer></script>`;
+  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=2" defer></script>`;
   return `${head(p, noindex, scripts)}
 <body class="page lp pp konf-page">
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>

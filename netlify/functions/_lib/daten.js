@@ -52,7 +52,7 @@ function flach(obj, prefix, out) {
   if (obj === null || typeof obj !== "object") { out[prefix || ""] = obj; return out; }
   if (Array.isArray(obj)) { obj.forEach((v, i) => flach(v, prefix ? prefix + "[" + i + "]" : "[" + i + "]", out)); if (!obj.length) out[prefix] = "[]"; return out; }
   const keys = Object.keys(obj);
-  if (!keys.length) out[prefix] = "{}";
+  if (!keys.length && prefix) out[prefix] = "{}";
   for (const k of keys) flach(obj[k], prefix ? prefix + "." + k : k, out);
   return out;
 }
