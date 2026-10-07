@@ -1,0 +1,69 @@
+/* Produktseiten – ergänzt style.css und leistungen.css */
+
+/* Brotkrumen */
+.crumbs { padding-top: calc(var(--header-h) + 14px); font-size: 13px; color: var(--ink-3); }
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 4px 6px; list-style: none; margin: 0; padding: 0; }
+.crumbs li + li::before { content: "›"; margin-right: 6px; color: var(--ink-3); }
+.crumbs a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line); }
+.crumbs a:hover { color: #fff; border-color: var(--accent); }
+
+/* Produkt-Hero */
+.phero { padding: 18px 0 40px; background: var(--bg); }
+.phero__grid { display: grid; gap: 22px; }
+.phero .title { font-size: clamp(30px, 8vw, 54px); }
+.phero .lead { max-width: 56ch; }
+.partner { margin-top: 14px; padding: 10px 12px; border-left: 2px solid var(--accent); color: var(--ink-2); font-size: 14px; }
+.phero__fig { margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-2); }
+.phero__fig img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 35%; }
+
+/* Infobox */
+.infobox { margin-top: 18px; padding: 16px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); }
+.infobox p { color: var(--ink-2); font-size: 14.5px; line-height: 1.55; }
+.infobox p + p { margin-top: 10px; }
+.infobox strong { color: #fff; }
+
+/* Tabellen */
+.h3 { font-weight: 800; font-size: 20px; letter-spacing: -0.01em; margin-top: 34px; }
+.tbl-wrap { margin-top: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, .02); }
+.tbl { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
+.tbl caption { text-align: left; padding: 12px 14px 6px; font-weight: 800; font-size: 14px; color: var(--accent); letter-spacing: .02em; }
+.tbl th, .tbl td { padding: 10px 14px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); line-height: 1.4; }
+.tbl thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); border-top: 0; }
+.tbl tbody th { font-weight: 700; color: #fff; }
+.tbl tbody th .sub { display: block; font-weight: 500; font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.tbl td { color: var(--ink-2); }
+.tbl-note { margin-top: 10px; font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+
+/* Ratgeber */
+.ratgeber { padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--glass); align-self: start; }
+.ratgeber .h3 { margin-top: 0; font-size: 18px; }
+.ratgeber dl { margin: 14px 0 0; display: grid; gap: 10px; }
+.ratgeber dt { font-weight: 800; font-size: 14px; color: var(--accent); }
+.ratgeber dd { margin: 2px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+
+/* Kategorie-Karten (Übersicht) */
+.cards--grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 22px 0 0; padding: 0; overflow: visible; }
+.cards--grid .card { flex: none; max-width: none; }
+.card__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
+.card__link:hover img { transform: scale(1.03); }
+.card__link img { transition: transform .4s var(--ease); }
+.card .sub { font-size: 12.5px; color: var(--accent); font-weight: 700; margin: 4px 0 0; }
+
+/* Weitere Produkte */
+.plinks { margin-top: 18px; display: grid; gap: 8px; }
+.plinks a { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: #fff; font-weight: 700; font-size: 15px; background: rgba(255, 255, 255, .03); }
+.plinks a:hover { border-color: var(--accent); }
+.plinks a::after { content: " →"; color: var(--accent); }
+.more-links { margin-top: 16px; font-size: 14px; color: var(--ink-3); }
+.more-links a { color: var(--accent); }
+.pp .checks a { color: var(--accent); }
+
+@media (min-width: 900px) {
+  .phero { padding: 24px 0 64px; }
+  .phero__grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: 48px; }
+  .phero .title { font-size: clamp(40px, 4.4vw, 62px); }
+  .cards--grid { grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 32px; }
+  .plinks { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .tbl { font-size: 14.5px; }
+  .ratgeber { padding: 22px; }
+}
