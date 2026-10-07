@@ -34,7 +34,7 @@ async function handler(event) {
   switch (body.aktion) {
     case "einrichten": {
       if (kontoDa) return http.json(409, { ok: false, error: "Es gibt bereits ein Konto. Bitte anmelden." });
-      const r = await auth.setup({ token: String(body.token || ""), tokenRoh: body.tokenRoh !== undefined ? String(body.tokenRoh) : undefined, email: String(body.email || "").trim(), password: String(body.passwort || ""), name: String(body.name || "").trim(), diagnose: !http.isProduction() });
+      const r = await auth.setup({ token: String(body.token || ""), tokenRoh: body.tokenRoh !== undefined ? String(body.tokenRoh) : undefined, email: String(body.email || "").trim(), password: String(body.passwort || ""), name: String(body.name || "").trim() });
       if (!r.ok) { await http.protokoll(event, "einrichtung-fehler", r.error); return http.json(400, { ok: false, error: r.error }); }
       await http.protokoll(event, "einrichtung", "Konto angelegt: " + r.account.email, r.account.email);
       const s = await auth.createSession(r.account, false);

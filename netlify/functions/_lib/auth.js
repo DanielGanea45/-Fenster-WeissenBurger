@@ -46,16 +46,11 @@ function tokenPasst(empfangen, roh, erwartet) {
   }
   return [...kandidaten].some((k) => k.length > 0 && k.length === erwartet.length && crypto.timingSafeEqual(Buffer.from(k), Buffer.from(erwartet)));
 }
-async function setup({ token, tokenRoh, email, password, name, diagnose }) {
+async function setup({ token, tokenRoh, email, password, name }) {
   const expected = String(process.env.ADMIN_SETUP_TOKEN || "").trim();
   if (!expected) return { ok: false, error: "Einrichtung nicht aktiviert (ADMIN_SETUP_TOKEN fehlt)." };
   if (await accountExists()) return { ok: false, error: "Es gibt bereits ein Konto. Der Einrichtungslink ist verbraucht." };
-  if (!tokenPasst(token, tokenRoh, expected)) {
-    let error = "Einrichtungs-Token ungültig.";
-    /* TEMPORÄRE Diagnose (nur außerhalb der Produktion): Länge und letzte 4 Zeichen beider Werte */
-    if (diagnose) { const e4 = (s) => (s ? "…" + String(s).slice(-4) : "–"); const t = String(token || "").trim(); error += ` [Diagnose Vorschau: ENV vorhanden: ja, Länge ${expected.length}, Ende ${e4(expected)} | empfangen: Länge ${t.length}, Ende ${e4(t)}${tokenRoh !== undefined && String(tokenRoh) !== t ? ` | roh aus URL: Länge ${String(tokenRoh).length}, Ende ${e4(tokenRoh)}` : ""}]`; }
-    return { ok: false, error };
-  }
+  if (!tokenPasst(token, tokenRoh, expected)) return { ok: false, error: "Einrichtungs-Token ungültig." };
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email || "")) return { ok: false, error: "Bitte eine gültige E-Mail-Adresse angeben." };
   const pp = passwordProblems(password);
   if (pp.length) return { ok: false, error: "Passwort: " + pp.join(" ") };
