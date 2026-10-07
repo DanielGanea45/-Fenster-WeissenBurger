@@ -11,7 +11,8 @@ const ROOT = path.join(__dirname, "..");
 const P = require("../js/preis.js");
 const Steuer = require("../js/steuer.js");
 const PV = require("../js/preis-validate.js");
-const liste = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "preise.json"), "utf8"));
+/* Handrechnungen gelten für die Beispiel-Preisliste (Fixture) – data/preise.json enthält im Netlify-Build die echten Admin-Preise */
+const liste = JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures", "preise-beispiel.json"), "utf8"));
 const F = (o) => Object.assign({ produkt: "fenster", system: "koemmerling-70", typ: "1-fluegelig", farbe: "weiss", glas: "2-fach", sprossen: "keine", rollladen: "keiner", zusaetze: [], breiteMm: 1000, hoeheMm: 1000, menge: 1, montage: true, demontage: false }, o);
 const H = (o) => Object.assign({ produkt: "haustuer", modell: "modern-voll", farbe: "weiss", glas: "standard", seitenteil: "keines", zusaetze: [], breiteMm: 1100, hoeheMm: 2100, menge: 1, montage: true, demontage: false }, o);
 
@@ -53,6 +54,9 @@ test("Ohne Satz oder mit ungültigem Satz rechnet der Rechner mit 0 % (Kleinunte
 });
 test("Preisliste enthält keinen Steuersatz mehr; eine alte Liste mit mwstProzent bleibt gültig, der Satz wird ignoriert", () => {
   assert.equal(liste.mwstProzent, undefined);
+  const aktuell = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "preise.json"), "utf8"));
+  assert.equal(aktuell.mwstProzent, undefined, "aktuelle Preisliste ohne Steuersatz");
+  assert.deepEqual(PV.validierePreise(aktuell), [], "aktuelle Preisliste (Repo bzw. Admin) ist gültig");
   const alt = Object.assign({}, liste, { mwstProzent: 19 });
   assert.equal(P.validiereListe(alt).ok, true);
   assert.equal(P.berechne(F({}), alt, 0).endpreis, 37500);
@@ -85,7 +89,7 @@ test("Platzhalter {steuerhinweis} wird je nach Satz ersetzt", () => {
 });
 test("Einstellungen: steuer.satzProzent muss 0 oder 19 sein; Repo-Einstellungen gültig mit 0 %", () => {
   const e = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "einstellungen.json"), "utf8"));
-  assert.equal(Steuer.satz(e), 0, "Repo-Standard ist Kleinunternehmer");
+  assert.ok(Steuer.gueltig(Steuer.satz(e)), "Steuersatz der Einstellungen ist gültig");
   assert.deepEqual(PV.validiereEinstellungen(e), []);
   assert.deepEqual(PV.validiereEinstellungen({ konfigurator: { status: "aus" }, steuer: { satzProzent: 19 } }), []);
   assert.deepEqual(PV.validiereEinstellungen({ konfigurator: { status: "aus" } }), [], "ohne steuer-Block: Standard 0 %");

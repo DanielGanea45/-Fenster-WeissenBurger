@@ -1,0 +1,90 @@
+{
+  "version": "2026-10-07-beispiel",
+  "hinweis": "BEISPIELWERTE zur Abnahme des Konfigurators – vor Veröffentlichung durch die echten Preise ersetzen. Alle Beträge in Euro (max. 2 Nachkommastellen), Prozentwerte als Zahl (15 = 15 %). Der Rechner (js/preis.js) wandelt alles in ganze Cent um.",
+  "waehrung": "EUR",
+  "onlineRabattProzent": 5,
+  "rundung": "Kaufmännisch auf ganze Cent nach jedem Schritt, in fester Reihenfolge: Basis → Zuschläge (einzeln) → Elementpreis × Menge → Online-Rabatt → Montage/Demontage → Summe → Steuer (Satz aus data/einstellungen.json) → Endpreis.",
+  "fenster": {
+    "grenzen": { "breiteMinMm": 400, "breiteMaxMm": 2500, "hoeheMinMm": 400, "hoeheMaxMm": 2500, "mindestflaecheM2": 0.5, "mengeMax": 50 },
+    "systeme": {
+      "koemmerling-70":           { "name": "Kömmerling 70",           "material": "Kunststoff",           "bautiefeMm": 70,   "kammern": 5, "uf": 1.2,  "preisProM2": 300, "besterPreis": true,  "bild": "profil-koemmerling-70",     "kurz": "Wirtschaftlich für Sanierung und Fenstertausch" },
+      "koemmerling-76-ad":        { "name": "Kömmerling 76 AD",        "material": "Kunststoff",           "bautiefeMm": 76,   "kammern": 5, "uf": 1.1,  "preisProM2": 340, "besterPreis": false, "bild": "profil-koemmerling-76-ad",  "kurz": "Anschlagdichtung, Dreifachglas bis 48 mm" },
+      "koemmerling-76-md":        { "name": "Kömmerling 76 MD",        "material": "Kunststoff",           "bautiefeMm": 76,   "kammern": 6, "uf": 1.0,  "preisProM2": 380, "besterPreis": false, "bild": "profil-koemmerling-76-md",  "kurz": "Mitteldichtung – unsere Empfehlung für Neubau" },
+      "koemmerling-88":           { "name": "Kömmerling 88",           "material": "Kunststoff",           "bautiefeMm": 88,   "kammern": 7, "uf": 0.95, "preisProM2": 440, "besterPreis": false, "bild": "profil-koemmerling-88",     "kurz": "Passivhaus-Niveau, Verglasung bis 52 mm" },
+      "koemmerling-76-aluclip":   { "name": "Kömmerling 76 AluClip",   "material": "Kunststoff-Aluminium", "bautiefeMm": 81.5, "kammern": 5, "uf": 1.2,  "preisProM2": 460, "besterPreis": false, "bild": "profil-76-aluclip",         "kurz": "Außen Aluminium in RAL-Farbe" },
+      "koemmerling-76-aluclip-pro": { "name": "Kömmerling 76 AluClip Pro", "material": "Kunststoff-Aluminium", "bautiefeMm": 81.5, "kammern": 6, "uf": 1.1, "preisProM2": 520, "besterPreis": false, "bild": "profil-76-aluclip-pro",   "kurz": "Flächenbündig, Mitteldichtung" },
+      "koemmerling-88-aluclip-pro": { "name": "Kömmerling 88 AluClip Pro", "material": "Kunststoff-Aluminium", "bautiefeMm": 93.5, "kammern": 7, "uf": 0.95, "preisProM2": 600, "besterPreis": false, "bild": "profil-88-aluclip-pro",  "kurz": "Premium, flächenbündig, optional Dämmkern" },
+      "cortizo-60":               { "name": "Cortizo 60",              "material": "Aluminium",            "bautiefeMm": 60,   "thermischeTrennungMm": 24, "uf": 2.1, "preisProM2": 540, "besterPreis": false, "bild": "profil-cortizo-60", "kurz": "Aluminium, 2-fach Standard", "breiteMaxMm": 1400, "hoeheMaxMm": 2600 },
+      "cortizo-70":               { "name": "Cortizo 70",              "material": "Aluminium",            "bautiefeMm": 70,   "thermischeTrennungMm": 35, "uf": 1.9, "preisProM2": 620, "besterPreis": false, "bild": "profil-cortizo-70", "kurz": "Aluminium, Dreifachglas bis 48 mm", "breiteMaxMm": 1600, "hoeheMaxMm": 2600 }
+    },
+    "typen": {
+      "1-fluegelig":    { "name": "Dreh-Kipp, 1-flügelig",  "zuschlagProzent": 0,   "bild": "typ-1-fluegelig" },
+      "2-fluegelig":    { "name": "2-flügelig (Stulp)",      "zuschlagProzent": 20,  "bild": "typ-2-fluegelig" },
+      "festverglasung": { "name": "Festverglasung",          "zuschlagProzent": -20, "bild": "typ-festverglasung" },
+      "balkontuer":     { "name": "Balkontür (Dreh-Kipp)",   "zuschlagProzent": 15 }
+    },
+    "farben": {
+      "weiss":      { "name": "Weiß",                    "zuschlagProzent": 0,  "bild": "farbe-weiss",      "hex": "#f4f4f2" },
+      "anthrazit":  { "name": "Anthrazit (einseitig)",   "zuschlagProzent": 15, "bild": "farbe-anthrazit",  "hex": "#3a3f45" },
+      "golden-oak": { "name": "Golden Oak (einseitig)",  "zuschlagProzent": 20, "bild": "farbe-golden-oak", "hex": "#b8782f" },
+      "zweifarbig": { "name": "Zweifarbig (außen farbig, innen weiß)", "zuschlagProzent": 25, "hex": "#3a3f45" }
+    },
+    "glas": {
+      "2-fach":       { "name": "2-fach Wärmeschutz (Ug 1,1)", "zuschlagProM2": 0 },
+      "3-fach":       { "name": "3-fach Wärmeschutz (Ug 0,6)", "zuschlagProM2": 40 },
+      "schallschutz": { "name": "Schallschutzglas",            "zuschlagProM2": 60 },
+      "sicherheit":   { "name": "Sicherheitsglas (VSG)",       "zuschlagProM2": 80 }
+    },
+    "sprossen": {
+      "keine":        { "name": "Keine Sprossen",        "zuschlagProElement": 0 },
+      "innenliegend": { "name": "Innenliegende Sprossen", "zuschlagProElement": 40 },
+      "wiener":       { "name": "Wiener Sprossen",       "zuschlagProElement": 100, "bild": "sprossen-wiener" }
+    },
+    "rollladen": {
+      "keiner":  { "name": "Kein Rollladen",      "zuschlagProM2": 0 },
+      "aufsatz": { "name": "Aufsatzrollladen",    "zuschlagProM2": 150, "bild": "rollladen-aufsatz" },
+      "vorsatz": { "name": "Vorsatzrollladen",    "zuschlagProM2": 120 }
+    },
+    "zusaetze": {
+      "rc2":                { "name": "Einbruchschutz RC2",        "art": "proElement", "zuschlag": 120 },
+      "insektenschutz":     { "name": "Insektenschutz",            "art": "proElement", "zuschlag": 80 },
+      "rollladenmotor":     { "name": "Rollladenmotor (nur mit Rollladen)", "art": "proElement", "zuschlag": 110, "nurMitRollladen": true },
+      "fensterbank-innen":  { "name": "Fensterbank innen",         "art": "proLfm",     "zuschlag": 50 },
+      "fensterbank-aussen": { "name": "Fensterbank außen (Alu)",   "art": "proLfm",     "zuschlag": 70 }
+    },
+    "montage": { "montageProElement": 90, "demontageEntsorgungProElement": 40 }
+  },
+  "haustuer": {
+    "grenzen": { "breiteMinMm": 800, "breiteMaxMm": 1300, "hoeheMinMm": 1900, "hoeheMaxMm": 2400, "mengeMax": 5, "standardBreiteMaxMm": 1100, "standardHoeheMaxMm": 2100, "uebergroesseProzent": 10 },
+    "modelle": {
+      "modern-voll":          { "name": "Modern, vollflächig",         "grundpreis": 2400, "bild": "haustuer-modern-voll",          "kurz": "Flächenbündige Füllung, Stangengriff" },
+      "modern-glasstreifen":  { "name": "Modern mit Glasstreifen",     "grundpreis": 2700, "bild": "haustuer-modern-glasstreifen",  "kurz": "Satinierter Glasstreifen bandseitig" },
+      "klassisch-golden-oak": { "name": "Klassisch, Holzoptik",        "grundpreis": 2600, "bild": "haustuer-klassisch-golden-oak", "kurz": "Kassettenfüllung, Ornamentglas" },
+      "mit-seitenteil":       { "name": "Modern mit Seitenteil",       "grundpreis": 3100, "bild": "haustuer-mit-seitenteil",       "kurz": "Inklusive festem Seitenteil aus satiniertem Glas" }
+    },
+    "farben": {
+      "weiss":      { "name": "Weiß",        "zuschlagProzent": 0,  "hex": "#f4f4f2" },
+      "anthrazit":  { "name": "Anthrazit",   "zuschlagProzent": 10, "hex": "#3a3f45" },
+      "golden-oak": { "name": "Golden Oak",  "zuschlagProzent": 12, "hex": "#b8782f" },
+      "ral":        { "name": "RAL-Farbe nach Wunsch", "zuschlagProzent": 15, "hex": "#5b6770" }
+    },
+    "glas": {
+      "standard":   { "name": "Standard (satiniert)",   "zuschlagProElement": 0 },
+      "sicherheit": { "name": "Sicherheitsglas (VSG)",  "zuschlagProElement": 150 },
+      "ornament":   { "name": "Ornamentglas",           "zuschlagProElement": 120 }
+    },
+    "seitenteil": {
+      "keines":     { "name": "Kein zusätzliches Seitenteil", "zuschlagProElement": 0 },
+      "links":      { "name": "Seitenteil links",             "zuschlagProElement": 700 },
+      "rechts":     { "name": "Seitenteil rechts",            "zuschlagProElement": 700 },
+      "beidseitig": { "name": "Seitenteile beidseitig",       "zuschlagProElement": 1300 }
+    },
+    "zusaetze": {
+      "rc2":             { "name": "Einbruchschutz RC2",      "art": "proElement", "zuschlag": 300 },
+      "fingerprint":     { "name": "Fingerprint-Öffner",      "art": "proElement", "zuschlag": 600 },
+      "automatikschloss":{ "name": "Automatische Verriegelung","art": "proElement", "zuschlag": 450 },
+      "oberlicht":       { "name": "Oberlicht",               "art": "proElement", "zuschlag": 500 }
+    },
+    "montage": { "montageProElement": 350, "demontageEntsorgungProElement": 80 }
+  }
+}
