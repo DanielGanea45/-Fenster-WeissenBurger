@@ -197,6 +197,16 @@
     }
   }
 
+  /* ---------- Kopfzeile: über dunklem Hero transparent, nach dem Scrollen weiß ---------- */
+  function initHeader() {
+    var top = document.querySelector(".top");
+    if (!top || !document.body.classList.contains("dark-hero")) return;
+    var tick = false;
+    function update() { top.classList.toggle("top--solid", window.scrollY > 40); tick = false; }
+    window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+
   /* ---------- E-Mail-Adresse erst im Browser zusammensetzen (Schutz vor Adress-Sammlern) ---------- */
   function initMail() {
     Array.prototype.slice.call(document.querySelectorAll(".mail[data-u][data-d]")).forEach(function (el) {
@@ -210,6 +220,7 @@
   }
 
   function initPage() {
+    initHeader();
     initMail();
     var y = document.getElementById("year");
     if (y) y.textContent = String(new Date().getFullYear());

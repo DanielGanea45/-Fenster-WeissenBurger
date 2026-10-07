@@ -251,7 +251,7 @@
         for (var c = 1; c < cols; c++) s += "<line x1=\"" + (gx + gw * c / cols) + "\" y1=\"" + gy + "\" x2=\"" + (gx + gw * c / cols) + "\" y2=\"" + (gy + gh) + "\" stroke=\"" + col + "\" stroke-width=\"" + t + "\"/>";
         for (var rr = 1; rr < rows; rr++) s += "<line x1=\"" + gx + "\" y1=\"" + (gy + gh * rr / rows) + "\" x2=\"" + (gx + gw) + "\" y2=\"" + (gy + gh * rr / rows) + "\" stroke=\"" + col + "\" stroke-width=\"" + t + "\"/>";
       }
-      if (!fixed) { var hx = sashes === 2 ? (i === 0 ? sx + sw - 4 : sx + 4) : sx + sw - 5; s += "<rect x=\"" + (hx - 2) + "\" y=\"" + (iy + ih / 2 - 12) + "\" width=\"4\" height=\"24\" rx=\"2\" fill=\"#b9bcc1\" stroke=\"#6f747a\" stroke-width=\".6\"/>"; }
+      if (!fixed) { var hx = sashes === 2 ? (i === 0 ? sx + sw - 4 : sx + 4) : sx + sw - 5; s += "<rect x=\"" + (hx - 2) + "\" y=\"" + (iy + ih / 2 - 12) + "\" width=\"4\" height=\"24\" rx=\"2\" fill=\"#0B5ED7\" stroke=\"#083f91\" stroke-width=\".6\"/>"; }
       if (state.typ === "balkontuer") { bh = bh; }
     }
     s += "<rect x=\"" + (x - 10) + "\" y=\"" + (y + bh) + "\" width=\"" + (bw + 20) + "\" height=\"8\" fill=\"#e8e6e0\" stroke=\"#b5b2aa\"/>";
@@ -280,7 +280,7 @@
     if (model === "klassisch-golden-oak") { s += "<rect x=\"" + (cx + dw * .2) + "\" y=\"" + (cy + dh * .12) + "\" width=\"" + (dw * .6) + "\" height=\"" + (dh * .22) + "\" fill=\"url(#satin)\" stroke=\"" + dark + "\"/>"; s += "<rect x=\"" + (cx + dw * .2) + "\" y=\"" + (cy + dh * .42) + "\" width=\"" + (dw * .6) + "\" height=\"" + (dh * .18) + "\" fill=\"none\" stroke=\"" + dark + "\"/><rect x=\"" + (cx + dw * .2) + "\" y=\"" + (cy + dh * .66) + "\" width=\"" + (dw * .6) + "\" height=\"" + (dh * .22) + "\" fill=\"none\" stroke=\"" + dark + "\"/>"; }
     if (model === "mit-seitenteil" || model === "modern-voll") { for (var i = 0; i < 3; i++) s += (model === "mit-seitenteil" ? "" : ""); }
     var gx = cx + dw * .8;
-    s += "<rect x=\"" + (gx - 2) + "\" y=\"" + (cy + dh * .25) + "\" width=\"4\" height=\"" + (dh * .5) + "\" rx=\"2\" fill=\"#d9dcdf\" stroke=\"#8e939a\" stroke-width=\".6\"/>";
+    s += "<rect x=\"" + (gx - 2) + "\" y=\"" + (cy + dh * .25) + "\" width=\"4\" height=\"" + (dh * .5) + "\" rx=\"2\" fill=\"#0B5ED7\" stroke=\"#083f91\" stroke-width=\".6\"/>";
     cx += dw;
     if (right) s += "<rect x=\"" + (cx + 4) + "\" y=\"" + cy + "\" width=\"" + (400 * scale - 4) + "\" height=\"" + dh + "\" fill=\"url(#satin)\"/>";
     s += "<rect x=\"" + (x0 - 10) + "\" y=\"" + (y0 + th) + "\" width=\"" + (tw + 20) + "\" height=\"6\" fill=\"#c6cacf\"/>";
