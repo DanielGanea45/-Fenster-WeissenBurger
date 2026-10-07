@@ -1,6 +1,9 @@
 [build]
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+
 # Sitemap-Index ersetzt die alte sitemap.xml
 [[redirects]]
   from = "/sitemap.xml"
@@ -96,7 +99,7 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'sha256-iI6R5uwJVQojgZLUEcPZSFv4d5Dx3yu48qFGa6t/lhU='; script-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'sha256-iI6R5uwJVQojgZLUEcPZSFv4d5Dx3yu48qFGa6t/lhU='; script-src 'self'; connect-src 'self' https://eu.frcapi.com https://global.frcapi.com; worker-src 'self' blob:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
 
 [[headers]]
   for = "/assets/*"

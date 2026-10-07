@@ -273,12 +273,13 @@ function footer() {
     <a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a>
     <a class="btn btn--primary" href="#anfrage">Anfrage</a>
   </div>
+  <script src="/js/config.js?v=1" defer></script>
   <script src="/js/main.js?v=${V.main}" defer></script>
 </body>
 </html>
 `;
 }
-const PROVIDER = { "@type": "LocalBusiness", "@id": SITE + "/#firma", name: "Fenster-WeissenBurger UG (haftungsbeschränkt)", url: SITE + "/", telephone: "+49 176 81338935", email: "info@fenster-weissenburger.de", address: { "@type": "PostalAddress", streetAddress: "Richard-Strauß-Straße 21", postalCode: "85057", addressLocality: "Ingolstadt", addressRegion: "Bayern", addressCountry: "DE" } };
+const PROVIDER = { "@type": "LocalBusiness", "@id": SITE + "/#firma", name: "Fenster-WeissenBurger UG (haftungsbeschränkt)", url: SITE + "/", telephone: "+49 176 81338935", address: { "@type": "PostalAddress", streetAddress: "Richard-Strauß-Straße 21", postalCode: "85057", addressLocality: "Ingolstadt", addressRegion: "Bayern", addressCountry: "DE" } };
 
 function form(o) {
   return `<section class="sec sec--alt" id="anfrage" aria-labelledby="anfrage-title">
@@ -291,7 +292,7 @@ function form(o) {
             <strong>Fenster-WeissenBurger UG (haftungsbeschränkt)</strong><br>
             Richard-Strauß-Straße 21<br>85057 Ingolstadt<br>
             <a href="tel:+4917681338935">0176 81338935</a><br>
-            <a href="mailto:info@fenster-weissenburger.de">info@fenster-weissenburger.de</a><br>
+            <span class="mail" data-u="info" data-d="fenster-weissenburger.de">info [at] fenster-weissenburger.de</span><br>
             <span class="muted">Mo–Fr 9–17 Uhr</span>
           </address>
         </div>
