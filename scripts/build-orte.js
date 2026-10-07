@@ -239,7 +239,7 @@ function head(o, meta) {
   <meta name="description" content="${esc(meta.description)}">
   ${meta.noindex ? '<meta name="robots" content="noindex, follow">' : ""}
   <link rel="canonical" href="${SITE}${meta.url}">
-  <meta name="theme-color" content="#0f1215">
+  <meta name="theme-color" content="#0B5ED7">
   <meta property="og:title" content="${esc(meta.title)}">
   <meta property="og:description" content="${esc(meta.description)}">
   <meta property="og:type" content="website">
@@ -468,9 +468,9 @@ function mapSvg(list, center) {
   const X = (x) => (W / 2 + x * sc).toFixed(1), Y = (y) => (H / 2 + y * sc).toFixed(1);
   const rings = [10, 20, 30, 40, 50, 60, 70].filter((r) => r < R);
   return `<svg class="map" viewBox="0 0 ${W} ${H}" role="img" aria-label="Karte: Orte im Raum ${esc(center.center)} (Luftlinie, schematisch)">
-  <rect width="${W}" height="${H}" rx="16" fill="rgba(255,255,255,.03)"/>
-  ${rings.map((r) => `<circle cx="${W / 2}" cy="${H / 2}" r="${(r * sc).toFixed(1)}" fill="none" stroke="rgba(255,255,255,.12)" stroke-dasharray="3 5"/><text x="${(W / 2 + r * sc + 2).toFixed(1)}" y="${H / 2 - 4}" fill="rgba(255,255,255,.4)" font-size="11">${r} km</text>`).join("")}
-  ${pts.map((p) => `<a href="/einsatzgebiet/${p.o.slug}/"><circle cx="${X(p.x)}" cy="${Y(p.y)}" r="${p.o.population > 20000 ? 6 : 3.5}" fill="${p.o.slug === center.key ? "#F7A600" : "rgba(255,255,255,.75)"}"><title>${esc(p.o.name)} – ${Math.round(p.o.distanceKm)} km</title></circle>${p.o.population > 20000 || p.o.slug === center.key ? `<text x="${(+X(p.x) + 8).toFixed(1)}" y="${(+Y(p.y) + 4).toFixed(1)}" fill="#fff" font-size="12" font-weight="700">${esc(p.o.name)}</text>` : ""}</a>`).join("")}
+  <rect width="${W}" height="${H}" rx="16" fill="#ffffff"/>
+  ${rings.map((r) => `<circle cx="${W / 2}" cy="${H / 2}" r="${(r * sc).toFixed(1)}" fill="none" stroke="rgba(27,36,48,.18)" stroke-dasharray="3 5"/><text x="${(W / 2 + r * sc + 2).toFixed(1)}" y="${H / 2 - 4}" fill="#4f5b68" font-size="11">${r} km</text>`).join("")}
+  ${pts.map((p) => `<a href="/einsatzgebiet/${p.o.slug}/"><circle cx="${X(p.x)}" cy="${Y(p.y)}" r="${p.o.population > 20000 ? 6 : 3.5}" fill="${p.o.slug === center.key ? "#0B5ED7" : "#1b2430"}"><title>${esc(p.o.name)} – ${Math.round(p.o.distanceKm)} km</title></circle>${p.o.population > 20000 || p.o.slug === center.key ? `<text x="${(+X(p.x) + 8).toFixed(1)}" y="${(+Y(p.y) + 4).toFixed(1)}" fill="#1b2430" font-size="12" font-weight="700">${esc(p.o.name)}</text>` : ""}</a>`).join("")}
 </svg>`;
 }
 function buildOverview() {

@@ -95,7 +95,7 @@
 .fw__handle {
   position: absolute; top: 50%; right: 8px; width: 26px; height: 26px; margin-top: -13px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fafafa, #c9ccd1 55%, #8d9299);
+  background: radial-gradient(circle at 35% 30%, #7fb0ff, #0B5ED7 55%, #083f91);
   box-shadow: 0 2px 4px rgba(0, 0, 0, .55), inset 0 -1px 2px rgba(0, 0, 0, .3);
   transform-origin: 13px 13px;
   animation: fw-handle 256ms cubic-bezier(.4, 0, .2, 1) calc(240ms - var(--fw-t)) both;
@@ -103,7 +103,7 @@
 .fw__handle::after {
   content: ""; position: absolute; left: 6px; top: 10px; width: 14px; height: 74px;
   border-radius: 7px;
-  background: linear-gradient(90deg, #e9ebee, #b7bcc3 60%, #8e939a);
+  background: linear-gradient(90deg, #5e9bff, #0B5ED7 60%, #083f91);
   box-shadow: 2px 3px 6px rgba(0, 0, 0, .5), inset 1px 0 0 rgba(255, 255, 255, .7);
 }
 
@@ -206,13 +206,13 @@ html.fw-enter body {
 /* Edelstahl-Stangengriff mit zwei Haltern */
 .fw__bar {
   position: absolute; right: 12%; top: 20%; height: 60%; width: 14px; border-radius: 7px;
-  background: linear-gradient(90deg, #f2f3f5, #c3c8ce 45%, #8e939a);
+  background: linear-gradient(90deg, #5e9bff, #0B5ED7 45%, #083f91);
   box-shadow: 3px 4px 8px rgba(0, 0, 0, .55), inset 1px 0 0 rgba(255, 255, 255, .8);
   overflow: hidden;
 }
 .fw__bar::before {
   content: ""; position: absolute; left: 2px; right: 2px; top: 12%; height: 10px; border-radius: 3px;
-  background: linear-gradient(90deg, #d9dcdf, #9ea3a9);
+  background: linear-gradient(90deg, #4c8df0, #0A4FB5);
   box-shadow: 0 54vh 0 0 #b5babf;
 }
 /* Lichtreflex beim „Aufschließen“ */
@@ -225,7 +225,7 @@ html.fw-enter body {
 /* Profilzylinder unter dem Griff */
 .fw__lock {
   position: absolute; right: calc(12% + 2px); top: 56%; width: 10px; height: 20px; border-radius: 5px;
-  background: linear-gradient(90deg, #e1e4e7, #a3a8ae);
+  background: linear-gradient(90deg, #5e9bff, #0A4FB5);
   box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
 }
 .fw__lock::after { content: ""; position: absolute; left: 4px; top: 8px; width: 2px; height: 6px; background: #2a2e33; }
