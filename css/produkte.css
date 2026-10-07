@@ -13,29 +13,29 @@
 .phero .title { font-size: clamp(30px, 8vw, 54px); }
 .phero .lead { max-width: 56ch; }
 .partner { margin-top: 14px; padding: 10px 12px; border-left: 2px solid var(--accent); color: var(--ink-2); font-size: 14px; }
-.phero__fig { margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-2); }
+.phero__fig { margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
 .phero__fig img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 35%; }
 
 /* Infobox */
-.infobox { margin-top: 18px; padding: 16px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); }
+.infobox { margin-top: 18px; padding: 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
 .infobox p { color: var(--ink-2); font-size: 14.5px; line-height: 1.55; }
 .infobox p + p { margin-top: 10px; }
-.infobox strong { color: #fff; }
+.infobox strong { color: var(--ink); }
 
 /* Tabellen */
 .h3 { font-weight: 800; font-size: 20px; letter-spacing: -0.01em; margin-top: 34px; }
-.tbl-wrap { margin-top: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, .02); }
+.tbl-wrap { margin-top: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .tbl { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
 .tbl caption { text-align: left; padding: 12px 14px 6px; font-weight: 800; font-size: 14px; color: var(--accent); letter-spacing: .02em; }
 .tbl th, .tbl td { padding: 10px 14px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); line-height: 1.4; }
 .tbl thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); border-top: 0; }
-.tbl tbody th { font-weight: 700; color: #fff; }
+.tbl tbody th { font-weight: 700; color: var(--ink); }
 .tbl tbody th .sub { display: block; font-weight: 500; font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
 .tbl td { color: var(--ink-2); }
 .tbl-note { margin-top: 10px; font-size: 13px; color: var(--ink-3); line-height: 1.5; }
 
 /* Ratgeber */
-.ratgeber { padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--glass); align-self: start; }
+.ratgeber { padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); align-self: start; }
 .ratgeber .h3 { margin-top: 0; font-size: 18px; }
 .ratgeber dl { margin: 14px 0 0; display: grid; gap: 10px; }
 .ratgeber dt { font-weight: 800; font-size: 14px; color: var(--accent); }
@@ -51,7 +51,7 @@
 
 /* Weitere Produkte */
 .plinks { margin-top: 18px; display: grid; gap: 8px; }
-.plinks a { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: #fff; font-weight: 700; font-size: 15px; background: rgba(255, 255, 255, .03); }
+.plinks a { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 15px; background: var(--surface); }
 .plinks a:hover { border-color: var(--accent); }
 .plinks a::after { content: " →"; color: var(--accent); }
 .more-links { margin-top: 16px; font-size: 14px; color: var(--ink-3); }
