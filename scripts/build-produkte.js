@@ -79,6 +79,7 @@ function header(current) {
       ${navDrop(current)}
       <a href="/leistungen/">Leistungen</a>
       <a href="/referenzen/">Referenzen</a>
+      <a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a>
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
@@ -107,6 +108,7 @@ function hero(p) {
           <div class="actions">
             <a class="btn btn--primary" href="#anfrage">Kostenloses Aufmaß anfragen</a>
             <a class="btn btn--ghost" href="tel:+4917681338935">Anrufen</a>
+            <a class="btn btn--ghost konf-link" href="${p.slug === "haustueren" ? "/konfigurator/haustuer/" : "/konfigurator/fenster/"}" hidden>Online konfigurieren</a>
           </div>
         </div>
         <figure class="phero__fig">

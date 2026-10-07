@@ -219,6 +219,7 @@ function header() {
       </div>
       <a href="/leistungen/">Leistungen</a>
       <a href="/referenzen/">Referenzen</a>
+      <a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a>
       <a href="/#ueber-uns">Über uns</a>
       <a href="/#kontakt">Kontakt</a>
     </nav>
