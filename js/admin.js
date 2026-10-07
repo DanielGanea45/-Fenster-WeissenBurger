@@ -7,6 +7,7 @@
   const API = "/.netlify/functions/admin-api";
   const BILD = "/.netlify/functions/admin-bild";
   const Preis = window.FWPreis;
+  const Steuer = window.FWSteuer;
   const PV = window.FWPreisValidate;
 
   /* ---------- Hilfen ---------- */
@@ -186,6 +187,7 @@
   const NAV = [
     { id: "uebersicht", label: "Übersicht", kurz: "Start", icon: I('<path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/>') },
     { id: "preise", label: "Preise & Konfigurator", kurz: "Preise", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>') },
+    { id: "einstellungen", label: "Einstellungen", kurz: "Einstell.", icon: I('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>') },
     { id: "bilder", label: "Bilder", kurz: "Bilder", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>') },
     { id: "texte", label: "Texte", kurz: "Texte", icon: I('<path d="M5 4h14M12 4v16M8 20h8"/>') },
     { id: "bewertungen", label: "Bewertungen", kurz: "Bewert.", badge: "bewertungen", icon: I('<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/>') },
@@ -195,7 +197,7 @@
     { id: "konto", label: "Konto", kurz: "Konto", icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
     { id: "angebote", label: "Angebote & Rechnungen", kurz: "Angebote", hidden: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>') }, // Platzhalter für ein späteres Modul
   ];
-  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", preise: "Preise & Konfigurator", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
+  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen" };
   function navHtml(aktiv) {
     return NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an").map((n) => `<a href="#${n.id}" class="${n.sub ? "nav--sub" : ""}" title="${h(n.label)}" ${aktiv === n.id ? 'aria-current="page"' : ""}>${n.icon}<span class="lbl">${h(n.kurz || n.label)}</span>${n.badge && S[n.badge + "Badge"] ? `<span class="badge ${n.badge === "anfragen" ? "badge--grey" : ""}">${S[n.badge + "Badge"]}</span>` : ""}</a>`).join("");
   }
@@ -307,7 +309,8 @@
           <a href="#protokoll" class="small strong">Vollständiges Zugriffsprotokoll →</a>
         </div>
       </div>
-      <div class="card"><div class="row row--between"><h2>Konfigurator</h2><span class="pill ${d.konfigurator === "online" ? "pill--ok" : d.konfigurator === "vorschau" ? "pill--warn" : ""}">${{ aus: "Aus", vorschau: "Vorschau", online: "Online" }[d.konfigurator]}</span></div><p class="muted">Preisliste ${h(d.preislisteVersion)} · <a href="#preise">Preise &amp; Schalter →</a></p></div>`;
+      <div class="card"><div class="row row--between"><h2>Konfigurator</h2><span class="pill ${d.konfigurator === "online" ? "pill--ok" : d.konfigurator === "vorschau" ? "pill--warn" : ""}">${{ aus: "Aus", vorschau: "Vorschau", online: "Online" }[d.konfigurator]}</span></div><p class="muted">Preisliste ${h(d.preislisteVersion)} · <a href="#preise">Preise &amp; Schalter →</a></p></div>
+      <div class="card"><div class="row row--between"><h2>${h(Steuer.TITEL)}</h2><span class="pill ${d.steuer ? "pill--warn" : ""}">${h(Steuer.SCHALTER_LABEL)}: ${h(Steuer.texte(d.steuer).option)}</span></div><p class="muted">${h(Steuer.texte(d.steuer).adminKurz)} <a href="#einstellungen">Einstellungen →</a></p></div>`;
     if (S.pub.status === "laeuft") startPoll();
   };
 
@@ -448,9 +451,10 @@
     return t.innerHTML;
   }
   VIEWS.texte = async (main, sub) => {
-    const d = await api.get("daten", { bereich: "texte" });
+    const [d, de] = await Promise.all([api.get("daten", { bereich: "texte" }), api.get("daten", { bereich: "einstellungen" })]);
     if (!d.ok) throw new Error(d.error);
-    S.texte = d.daten; S.texteAend = S.texteAend || {};
+    S.texte = d.daten; S.texteAend = S.texteAend || {}; if (de.ok) S.einst = de.daten;
+    const steuerSatz = () => Steuer.satz(S.einst);
     if (sub && S.texte.seiten[sub]) S.seite = sub;
     if (!S.texte.seiten[S.seite]) S.seite = Object.keys(S.texte.seiten)[0];
     const bloeckeVon = (seite) => Object.entries(S.texte.bloecke).filter(([, b]) => b.seite === seite);
@@ -471,6 +475,7 @@
         <section class="card">
           <div class="row row--between"><h2>${h(s.titel)}</h2><a href="${h(url)}" target="_blank" rel="noopener" class="small strong">Auf der Seite ansehen ↗</a></div>
           ${s.geschuetzt ? '<div class="alert alert--warn">Impressum und Datenschutzerklärung sind rechtlich relevante Texte. Änderungen werden erst nach einer zusätzlichen Bestätigung gespeichert.</div>' : ""}
+          <p class="small muted">Steuertexte nie von Hand schreiben: Der Platzhalter <code>${h(Steuer.PLATZHALTER)}</code> wird beim Veröffentlichen durch den aktuellen Steuerhinweis ersetzt (zurzeit: „${h(Steuer.texte(steuerSatz()).lang)}“).</p>
           <label class="field"><span class="sr-only">Suche</span><input type="search" id="txt-suche" placeholder="In den Texten dieser Seite suchen …"></label>
           <div class="toolbar" role="toolbar" aria-label="Formatierung"><button type="button" class="tb-b" data-tb="b" title="Fett">B</button><button type="button" class="tb-i" data-tb="i" title="Kursiv">I</button><button type="button" data-tb="a">Link</button><button type="button" data-tb="br">Zeilenumbruch</button><span class="hint">Markieren Sie Text im Feld und klicken Sie auf eine Schaltfläche.</span></div>
           <div class="stack" id="txt-bloecke">${bl.map(([id, b]) => { const wert = S.texteAend[id] !== undefined ? S.texteAend[id] : b.html; const ge = b.geaendert || S.texteAend[id] !== undefined; return `<div class="block block--${b.tag}" data-block="${id}"><div class="block__head"><b>${TAG_LABEL[b.tag] || b.tag}</b><span>${ge ? `geändert · <button type="button" class="btn btn--link" data-reset="${id}">Original wiederherstellen</button>` : ""} <span class="zeichen">${wert.replace(/<[^>]+>/g, "").length} Zeichen</span></span></div><textarea rows="${b.tag === "p" ? 3 : 2}" data-id="${id}" class="${ge ? "is-geaendert" : ""}" aria-label="${TAG_LABEL[b.tag]}">${h(wert)}</textarea></div>`; }).join("")}</div>
@@ -500,7 +505,7 @@
       const b = e.target.closest("[data-t]"); if (!b) return;
       if (b.dataset.t === "vorschau") {
         const s = S.texte.seiten[S.seite];
-        const html = bloeckeVon(S.seite).map(([id, blk]) => { const wert = S.texteAend[id] !== undefined && S.texteAend[id] !== null ? S.texteAend[id] : S.texteAend[id] === null ? d.daten.bloecke[id].html : blk.html; const ge = S.texteAend[id] !== undefined || blk.geaendert; return `<${blk.tag} class="${ge ? "is-geaendert" : ""}">${sanitizeClient(wert)}</${blk.tag}>`; }).join("");
+        const html = bloeckeVon(S.seite).map(([id, blk]) => { const wert = S.texteAend[id] !== undefined && S.texteAend[id] !== null ? S.texteAend[id] : S.texteAend[id] === null ? d.daten.bloecke[id].html : blk.html; const ge = S.texteAend[id] !== undefined || blk.geaendert; return `<${blk.tag} class="${ge ? "is-geaendert" : ""}">${Steuer.ersetzePlatzhalter(sanitizeClient(wert), steuerSatz())}</${blk.tag}>`; }).join("");
         modal({ titel: "Vorschau · " + s.titel, html: `<div class="vorschau">${html}</div><p class="small muted">Geänderte Bausteine sind blau umrandet. Die Vorschau zeigt den Text in Lesereihenfolge, ohne das Seitenlayout.</p>`, ok: "Schließen", abbrechen: "" });
       }
       if (b.dataset.t === "speichern" || b.dataset.t === "speichern-pub") {
@@ -589,7 +594,7 @@
     const kpiTests = () => { const p = S.pub || {}; if (p.status === "veroeffentlicht") return `<div class="value value--ok">✓ bestanden</div><div class="sub">Letzter Build ${fmtDT(p.letzteVeroeffentlichung || p.ende)} · alle Prüfungen erfolgreich</div>`; if (p.status === "fehler") return `<div class="value value--err">Fehler</div><div class="sub">${h((p.fehler || "").slice(0, 120))}</div>`; if (p.status === "laeuft") return `<div class="value value--sm">läuft …</div><div class="sub">Build gestartet ${fmtDT(p.start)}</div>`; return `<div class="value value--ink value--sm">–</div><div class="sub">Noch kein Build über den Admin</div>`; };
     const sysAktiv = () => { const s = Object.values(S.preise.fenster.systeme); return [s.filter((x) => x.aktiv !== false).length, s.length]; };
     main.innerHTML = `
-      <div class="page-head"><div><h1>Preise &amp; Konfigurator</h1><span class="muted">Alle Preise netto in Euro. MwSt. und Online-Rabatt rechnet der Konfigurator automatisch – Website und Server nutzen dasselbe Modul.</span></div>
+      <div class="page-head"><div><h1>Preise &amp; Konfigurator</h1><span class="muted">Alle Preise in Euro ohne Steuer. Steuer (Schalter unter <a href="#einstellungen">Einstellungen</a>) und Online-Rabatt rechnet der Konfigurator automatisch – Website und Server nutzen dasselbe Modul.</span></div>
         <div class="row"><a class="btn btn--sm" href="#versionen">Änderungsprotokoll</a></div></div>
       <div class="kpis">
         <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${ICON_KPI.systeme}</span>Systeme aktiv</div><div class="value" id="kpi-sys">${sysAktiv()[0]}</div><div class="sub" id="kpi-sys-sub">von ${sysAktiv()[1]} Profilsystemen</div></div>
@@ -653,7 +658,7 @@
         ${mapTable("schiebetueren", "Grundpreise Hebe-Schiebetüren", "schiebetuer.systeme", (p.schiebetuer || {}).systeme || {}, [{ key: "preisProM2", label: "Preis", einheit: "€/m²" }], { loeschbar: true, neu: { name: "Neues System", preisProM2: 600 }, neuLabel: "System" })}`;
       else el.innerHTML = `
         ${sub([["allgemein", "Allgemein"], ["montage-f", "Montage Fenster"], ["montage-h", "Montage Haustür"], ["anfahrt", "Anfahrt"]])}
-        ${feldTable("allgemein", "Allgemein", [["version", "Versionsbezeichnung der Preisliste (wird bei jeder Anfrage mitgespeichert)", p.version, "", "text"], ["mwstProzent", "MwSt.", p.mwstProzent, "%"], ["onlineRabattProzent", "Online-Rabatt", p.onlineRabattProzent, "%"]])}
+        ${feldTable("allgemein", "Allgemein", [["version", "Versionsbezeichnung der Preisliste (wird bei jeder Anfrage mitgespeichert)", p.version, "", "text"], ["onlineRabattProzent", "Online-Rabatt", p.onlineRabattProzent, "%"]])}
         ${feldTable("montage-f", "Montage Fenster", [["fenster.montage.montageProElement", "Montage je Element", F.montage.montageProElement, "€"], ["fenster.montage.demontageEntsorgungProElement", "Demontage & Entsorgung je Element", F.montage.demontageEntsorgungProElement, "€"]])}
         ${feldTable("montage-h", "Montage Haustür", [["haustuer.montage.montageProElement", "Montage je Tür", H.montage.montageProElement, "€"], ["haustuer.montage.demontageEntsorgungProElement", "Demontage & Entsorgung je Tür", H.montage.demontageEntsorgungProElement, "€"]])}
         ${feldTable("anfahrt", "Anfahrt", [["anfahrt.freiBisKm", "Anfahrt frei bis", (p.anfahrt || {}).freiBisKm, "km"], ["anfahrt.proKm", "Danach je km", (p.anfahrt || {}).proKm, "€"]], "Hinweis: Die Anfahrt wird im Online-Richtpreis derzeit nicht berechnet. Die Werte dienen als Information für Ihre Angebote.")}`;
@@ -708,24 +713,25 @@
       const cfg = t.produkt === "fenster"
         ? { produkt: "fenster", system: t.system, typ: t.typ, breiteMm: t.breiteMm, hoeheMm: t.hoeheMm, menge: t.menge, farbe: t.farbe, glas: t.glas, sprossen: t.sprossen, rollladen: t.rollladen, zusaetze: t.zusaetze.filter((z) => F.zusaetze[z]), montage: t.montage, demontage: t.demontage }
         : { produkt: "haustuer", modell: t.modell, breiteMm: t.breiteMm, hoeheMm: t.hoeheMm, menge: t.menge, farbe: H.farben[t.farbe] ? t.farbe : Object.keys(H.farben)[0], glas: t.glasT, seitenteil: t.seitenteil, zusaetze: t.zusaetze.filter((z) => H.zusaetze[z]), montage: t.montage, demontage: t.demontage };
-      let r; try { r = Preis.berechne(cfg, p); } catch (e) { r = { ok: false, fehler: [e.message] }; }
+      const ST = Steuer.texte(Steuer.satz(S.einst));
+      let r; try { r = Preis.berechne(cfg, p, ST.satz); } catch (e) { r = { ok: false, fehler: [e.message] }; }
       const FEHLER = { breiteMin: "Breite unter Minimum", breiteMax: "Breite über Maximum", hoeheMin: "Höhe unter Minimum", hoeheMax: "Höhe über Maximum", mengeMin: "Menge zu klein", mengeMax: "Menge zu groß", system: "System fehlt", typ: "Typ fehlt", farbe: "Farbe fehlt", glas: "Glas fehlt", modell: "Modell fehlt" };
       const basis = r.ok ? r.positionen[0].betrag : 0, zuschlaege = r.ok ? r.positionen.slice(1).reduce((a, x) => a + x.betrag, 0) : 0;
       const ergebnis = r.ok ? `
         <div class="ergebnis"><div class="ergebnis__titel">Ergebnis Vorschau</div>
-          <div class="ergebnis__body"><img class="ergebnis__bild" src="${bildFuer(cfg)}" alt="" width="112" height="112" loading="lazy"><div class="ergebnis__preis"><div class="preis-gross">${euro(r.brutto)}</div><div class="preis-sub">Kunde sieht · inkl. ${r.mwstProzent} % MwSt.</div></div></div>
+          <div class="ergebnis__body"><img class="ergebnis__bild" src="${bildFuer(cfg)}" alt="" width="112" height="112" loading="lazy"><div class="ergebnis__preis"><div class="preis-gross">${euro(r.endpreis)}</div><div class="preis-sub">Kunde sieht · ${h(ST.kurz)}</div></div></div>
           <div class="line"><span>Basis (${h(r.positionen[0].name)})</span><span class="wert">${euro(basis)}</span></div>
           <div class="line"><span>Zuschläge</span><span class="wert">${euro(zuschlaege)}</span></div>
           ${r.menge > 1 ? `<div class="line"><span>× ${r.menge} Stück</span><span class="wert">${euro(r.produkt)}</span></div>` : ""}
           ${r.rabatt ? `<div class="line"><span>Online-Rabatt −${r.rabattProzent} %</span><span class="wert">−${euro(r.rabatt)}</span></div>` : ""}
           <div class="line"><span>Montage${t.demontage && r.montage ? " + Demontage" : ""}</span><span class="wert">${euro(r.montage)}</span></div>
-          <div class="line line--top"><span>Netto / MwSt.</span><span class="wert">${euro(r.netto)} / ${euro(r.mwst)}</span></div>
-          <details><summary>Alle Rechenzeilen</summary>${r.positionen.map((x) => `<div class="line"><span>${h(x.name)}${x.detail ? " · " + h(x.detail) : ""}</span><span class="wert">${euro(x.betrag)}</span></div>`).join("")}<div class="line"><span>Ohne Online-Rabatt</span><span class="wert">${euro(r.ohneRabattBrutto)}</span></div></details>
+          ${ST.steuerLabel ? `<div class="line line--top"><span>${h(ST.summeLabel)} / ${h(ST.steuerLabel)}</span><span class="wert">${euro(r.summe)} / ${euro(r.steuer)}</span></div>` : `<div class="line line--top"><span>${h(ST.summeLabel)}</span><span class="wert">${euro(r.summe)}</span></div>`}
+          <details><summary>Alle Rechenzeilen</summary>${r.positionen.map((x) => `<div class="line"><span>${h(x.name)}${x.detail ? " · " + h(x.detail) : ""}</span><span class="wert">${euro(x.betrag)}</span></div>`).join("")}<div class="line"><span>Ohne Online-Rabatt</span><span class="wert">${euro(r.ohneRabatt)}</span></div></details>
         </div>`
         : `<div class="ergebnis"><div class="err">Keine Berechnung: ${(r.fehler || []).map((f) => FEHLER[f] || f).join(", ")}</div></div>`;
       let diff = "";
       const ang = zahl(t.angebot);
-      if (r.ok && ang != null && !isNaN(ang) && ang > 0) { const a = Math.round(ang * 100); const d = r.brutto - a; const proz = (d / a) * 100; diff = `<div class="diff ${d > 0 ? "diff--neg" : ""}">Abweichung: ${d >= 0 ? "+" : "−"}${euro(Math.abs(d))} (${d >= 0 ? "+" : "−"}${Math.abs(proz).toFixed(2).replace(".", ",")} %) – Konfigurator liegt ${d > 0 ? "über" : d < 0 ? "unter" : "gleichauf mit"} Ihrem Angebot</div>`; }
+      if (r.ok && ang != null && !isNaN(ang) && ang > 0) { const a = Math.round(ang * 100); const d = r.endpreis - a; const proz = (d / a) * 100; diff = `<div class="diff ${d > 0 ? "diff--neg" : ""}">Abweichung: ${d >= 0 ? "+" : "−"}${euro(Math.abs(d))} (${d >= 0 ? "+" : "−"}${Math.abs(proz).toFixed(2).replace(".", ",")} %) – Konfigurator liegt ${d > 0 ? "über" : d < 0 ? "unter" : "gleichauf mit"} Ihrem Angebot</div>`; }
       box.innerHTML = `<div class="calc__head"><span class="kpi__icon">${ICON_KPI.calc}</span><div><span class="eyebrow">Schnellkalkulation</span><h2>Testrechner</h2></div></div>
         <span class="small muted">Rechnet mit den Werten in diesem Formular – auch ungespeicherten.</span>
         <div class="seg" role="radiogroup" aria-label="Produkt"><button type="button" role="radio" aria-checked="${t.produkt === "fenster"}" data-tp="fenster">Fenster</button><button type="button" role="radio" aria-checked="${t.produkt === "haustuer"}" data-tp="haustuer">Haustür</button></div>
@@ -741,7 +747,7 @@
           <label class="check"><input type="checkbox" data-tf="montage" ${t.montage ? "checked" : ""}> Montage</label><label class="check"><input type="checkbox" data-tf="demontage" ${t.demontage ? "checked" : ""}> Demontage &amp; Entsorgung</label></div>
         <div class="conf">${h(cfg.produkt === "fenster" ? (F.systeme[cfg.system] || {}).name : (H.modelle[cfg.modell] || {}).name)} · ${cfg.breiteMm} × ${cfg.hoeheMm} mm · ${cfg.menge} Stk.</div>
         ${ergebnis}
-        <label class="field">Mit eigenem Angebot vergleichen (€ brutto)<input type="text" inputmode="decimal" data-tf="angebot" value="${h(t.angebot)}" placeholder="z. B. 760,00"></label>${diff}
+        <label class="field">Mit eigenem Angebot vergleichen (€ Endpreis)<input type="text" inputmode="decimal" data-tf="angebot" value="${h(t.angebot)}" placeholder="z. B. 760,00"></label>${diff}
         <button type="button" class="btn btn--sm" data-tp="server">Vom Server nachrechnen lassen</button><span id="calc-server" class="small"></span>`;
       box.onchange = box.oninput = (e) => {
         const f = e.target;
@@ -750,7 +756,7 @@
       };
       box.onclick = async (e) => {
         const b = e.target.closest("[data-tp]"); if (!b) return;
-        if (b.dataset.tp === "server") { const rr = await api.post("rechnen", { konfiguration: cfg, preise: p }); $("#calc-server").innerHTML = rr.ok && rr.ergebnis.ok ? `<span class="ok">Server: ${euro(rr.ergebnis.brutto)} – ${r.ok && rr.ergebnis.brutto === r.brutto ? "identisch ✓" : "WEICHT AB!"}</span>` : `<span class="err">${h(rr.error || (rr.ergebnis && rr.ergebnis.fehler.join(", ")) || "Fehler")}</span>`; return; }
+        if (b.dataset.tp === "server") { const rr = await api.post("rechnen", { konfiguration: cfg, preise: p }); $("#calc-server").innerHTML = rr.ok && rr.ergebnis.ok ? `<span class="ok">Server: ${euro(rr.ergebnis.endpreis)} – ${r.ok && rr.ergebnis.endpreis === r.endpreis ? "identisch ✓" : "WEICHT AB!"}</span>` : `<span class="err">${h(rr.error || (rr.ergebnis && rr.ergebnis.fehler.join(", ")) || "Fehler")}</span>`; return; }
         t.produkt = b.dataset.tp; t.zusaetze = []; t.farbe = "weiss"; if (t.produkt === "haustuer") { t.breiteMm = 1100; t.hoeheMm = 2100; } else { t.breiteMm = 1200; t.hoeheMm = 1400; } zeichneCalc();
       };
     };
@@ -821,7 +827,7 @@
     const d = await api.get("anfragen");
     if (!d.ok) throw new Error(d.error);
     const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator" };
-    const AUSBLENDEN = ["konfiguration", "preis_server_brutto", "preis_server_netto", "preis_server_text", "preis_abweichung", "preisliste_version", "positionen", "preis_browser_brutto", "datenschutz"];
+    const AUSBLENDEN = ["konfiguration", "preis_server", "preis_server_text", "preis_abweichung", "preisliste_version", "positionen", "preis_browser", "steuersatz_prozent", "datenschutz"];
     main.innerHTML = `<div class="page-head"><div><h1>Anfragen</h1><span class="muted">Alle Anfragen aus Formularen und Konfigurator (zusätzlich zur E-Mail-Benachrichtigung und zum Netlify-Dashboard). Konfigurator-Anfragen zeigen den vom Server nachgerechneten Preis.</span></div></div>
       <div class="chips" id="anf-filter">${[["alle", "Alle"], ...Object.entries(FORM)].map(([k, l]) => `<button type="button" class="chip" aria-selected="${k === "alle"}" data-f="${k}">${l}</button>`).join("")}</div>
       <div class="stack" id="anf-liste"></div>`;
@@ -832,9 +838,9 @@
         const konf = a.formular === "angebot-konfigurator";
         const abw = konf && /JA/.test(a.abweichung || "");
         return `<div class="card anfrage ${a.status === "erledigt" ? "is-erledigt" : ""}"><div class="row row--between"><div><span class="badge ${konf ? "" : "badge--grey"}">${FORM[a.formular] || a.formular}</span> <b>${h(k.name || "")}</b>${k.plz || k.ort ? " · " + h([k.plz, k.ort].filter(Boolean).join(" ")) : ""}</div><span class="small muted">${fmtDT(a.eingegangen)}</span></div>
-          ${abw ? `<div class="alert alert--err"><b>Achtung:</b> Der im Browser angezeigte Preis (${k.preis_browser_brutto ? euro(Number(k.preis_browser_brutto)) : "?"}) weicht vom Serverpreis ab – mögliche Manipulation oder veraltete Preisliste. Maßgeblich ist der Serverpreis.</div>` : ""}
+          ${abw ? `<div class="alert alert--err"><b>Achtung:</b> Der im Browser angezeigte Preis (${k.preis_browser ? euro(Number(k.preis_browser)) : "?"}) weicht vom Serverpreis ab – mögliche Manipulation oder veraltete Preisliste. Maßgeblich ist der Serverpreis.</div>` : ""}
           <dl>${Object.entries(k).filter(([key]) => !AUSBLENDEN.includes(key) && key !== "name").map(([key, v]) => `<dt>${h(key)}</dt><dd>${key === "email" ? `<a href="mailto:${h(v)}">${h(v)}</a>` : key === "telefon" ? `<a href="tel:${h(v)}">${h(v)}</a>` : h(v)}</dd>`).join("")}</dl>
-          ${konf ? `<details><summary>Konfiguration &amp; Preis (Server)</summary><dl><dt>Serverpreis</dt><dd><b>${a.preisServerBrutto ? euro(a.preisServerBrutto) : h(k.preis_server_text || "–")}</b> ${k.preis_server_text ? "· " + h(k.preis_server_text) : ""}</dd><dt>Browserpreis</dt><dd>${a.preisBrowserBrutto ? euro(a.preisBrowserBrutto) : "–"} · Abweichung: ${h(a.abweichung || "–")}</dd><dt>Preisliste</dt><dd>${h(a.preislisteVersion || "–")}</dd><dt>Positionen</dt><dd>${h(k.positionen || "–")}</dd><dt>Konfiguration</dt><dd><code class="small">${h(JSON.stringify(a.konfiguration))}</code></dd></dl></details>` : ""}
+          ${konf ? `<details><summary>Konfiguration &amp; Preis (Server)</summary><dl><dt>Serverpreis</dt><dd><b>${a.preisServer ? euro(a.preisServer) : h(k.preis_server_text || "–")}</b> ${k.preis_server_text ? "· " + h(k.preis_server_text) : ""}</dd>${a.steuerProzent !== undefined && !isNaN(a.steuerProzent) ? `<dt>${h(Steuer.TITEL)} bei Anfrage</dt><dd>${h(Steuer.texte(a.steuerProzent).option)}</dd>` : ""}<dt>Browserpreis</dt><dd>${a.preisBrowser ? euro(a.preisBrowser) : "–"} · Abweichung: ${h(a.abweichung || "–")}</dd><dt>Preisliste</dt><dd>${h(a.preislisteVersion || "–")}</dd><dt>Positionen</dt><dd>${h(k.positionen || "–")}</dd><dt>Konfiguration</dt><dd><code class="small">${h(JSON.stringify(a.konfiguration))}</code></dd></dl></details>` : ""}
           <div class="row"><button type="button" class="btn btn--xs" data-st="${a.status === "erledigt" ? "neu" : "erledigt"}" data-id="${h(a.id)}">${a.status === "erledigt" ? "Als neu markieren" : "Als erledigt markieren"}</button>${a.status === "erledigt" ? '<span class="badge badge--ok">erledigt</span>' : ""}</div></div>`;
       }).join("") || '<p class="muted">Keine Anfragen.</p>';
     };
@@ -844,6 +850,44 @@
   };
 
   /* ---------- Änderungsprotokoll (Versionen) ---------- */
+  VIEWS.einstellungen = async (main) => {
+    const [de, ds] = await Promise.all([api.get("daten", { bereich: "einstellungen" }), api.get("status")]);
+    if (!de.ok) throw new Error(de.error);
+    S.einst = de.daten; S.pub = ds.veroeffentlichung;
+    const satz = () => Steuer.satz(S.einst);
+    const zeichne = () => {
+      main.innerHTML = `
+      <div class="page-head"><div><h1>Einstellungen</h1><span class="muted">Zentrale Schalter der Website. Jede Umstellung wird versioniert, im Änderungsprotokoll festgehalten und automatisch veröffentlicht.</span></div>
+        <div class="row"><a class="btn btn--sm" href="#versionen">Änderungsprotokoll</a></div></div>
+      <div class="grid2">
+        <section class="card" id="steuer-card" aria-labelledby="steuer-h">
+          <div class="row row--between"><h2 id="steuer-h">${h(Steuer.TITEL)}</h2><span class="pill ${satz() ? "pill--warn" : "pill--ok"}">${h(Steuer.texte(satz()).option)}</span></div>
+          <p class="muted">${h(Steuer.SCHALTER_LABEL)}:</p>
+          <div class="seg" role="radiogroup" aria-label="${h(Steuer.SCHALTER_LABEL)}" id="steuer-satz">${Steuer.optionen().map((o) => `<button type="button" role="radio" aria-checked="${satz() === o.satz}" data-satz="${o.satz}">${h(o.label)}</button>`).join("")}</div>
+          <p class="small muted">${h(Steuer.texte(satz()).adminKurz)}</p>
+          <p class="small muted">Gilt für alle Seiten, den Konfigurator, Richtpreise in Anfragen, E-Mails und künftige PDF-Dokumente – aus einer einzigen Quelle (<code>js/steuer.js</code>). Bereits erstellte Angebote, Auftragsbestätigungen und Rechnungen behalten den Steuerstatus vom Zeitpunkt ihrer Erstellung.</p>
+        </section>
+        <section class="card" aria-labelledby="konf-h">
+          <div class="row row--between"><h2 id="konf-h">Konfigurator</h2><span class="pill ${S.einst.konfigurator.status === "online" ? "pill--ok" : S.einst.konfigurator.status === "vorschau" ? "pill--warn" : ""}">${{ aus: "Aus", vorschau: "Vorschau", online: "Online" }[S.einst.konfigurator.status]}</span></div>
+          <p class="muted">Sichtbarkeit des Konfigurators (Aus · Vorschau · Online) schalten Sie unter <a href="#preise">Preise &amp; Konfigurator</a>.</p>
+        </section>
+      </div>`;
+      $("#steuer-satz").addEventListener("click", async (e) => {
+        const b = e.target.closest("[data-satz]"); if (!b) return;
+        const neu = Number(b.dataset.satz), alt = satz();
+        if (neu === alt) return;
+        const ok = await bestaetigen(Steuer.TITEL + " umstellen auf " + Steuer.texte(neu).option, Steuer.texte(neu).bestaetigung, "Umstellen und veröffentlichen");
+        if (!ok) return;
+        const r = await api.post("speichern", { bereich: "einstellungen", daten: { steuer: { satzProzent: neu } }, bestaetigt: true, beschreibung: Steuer.texte(neu).beschreibung, veroeffentlichen: true });
+        if (!r.ok) return toast(r.error, "err");
+        S.einst.steuer = Object.assign({}, S.einst.steuer, { satzProzent: neu });
+        toast(Steuer.texte(neu).beschreibung + " gespeichert.", "ok");
+        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet – die Website wird mit dem neuen Steuerstatus neu gebaut.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
+        await ladeStatus(); zeichne();
+      });
+    };
+    zeichne();
+  };
   VIEWS.versionen = async (main) => {
     const d = await api.get("versionen");
     if (!d.ok) throw new Error(d.error);
