@@ -7,13 +7,30 @@ const path = require("path");
 
 /* Deploy-Kontext: Produktion nutzt den Store „admin“, Deploy Previews/Branch-Deploys eigene Stores,
    damit Tests in der Vorschau die Produktionsdaten nicht berühren. */
+/* In der Functions-Laufzeit sind CONTEXT und NETLIFY NICHT gesetzt – der Kontext wird deshalb je Anfrage aus den
+   Netlify-Headern bestimmt (x-nf-deploy-context bzw. Host: deploy-preview-N--site / branch--site). Im Build gilt CONTEXT. */
+let kontextAnfrage = null;
+function kontextAusEvent(event) {
+  const h = (event && event.headers) || {};
+  const dc = String(h["x-nf-deploy-context"] || "").toLowerCase();
+  if (["production", "deploy-preview", "branch-deploy", "dev"].includes(dc)) return dc;
+  const host = String(h["x-forwarded-host"] || h.host || "").toLowerCase().split(":")[0];
+  if (/^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host)) return "deploy-preview";
+  if (/^[^.]+--[^.]+\.netlify\.app$/.test(host)) return "branch-deploy";
+  if (/\.netlify\.app$/.test(host) || (host && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(host) && (process.env.LAMBDA_TASK_ROOT || process.env.NETLIFY))) return "production";
+  return null;
+}
 function kontext() {
+  if (kontextAnfrage) return kontextAnfrage;
   if (process.env.CONTEXT) return process.env.CONTEXT;
   const d = process.env.DEPLOY_PRIME_URL || "";
   if (/deploy-preview-\d+--/.test(d)) return "deploy-preview";
   if (process.env.URL && d && d !== process.env.URL) return "branch-deploy";
-  return process.env.NETLIFY ? "production" : "lokal";
+  if (process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT) return "production";
+  return "lokal";
 }
+function kontextLabel(k) { k = k || kontext(); return { production: "Produktion", "deploy-preview": "Deploy Preview", "branch-deploy": "Branch-Deploy", dev: "Netlify Dev", lokal: "lokal" }[k] || k; }
+function setzeKontext(k) { k = k || null; if (k !== kontextAnfrage) { kontextAnfrage = k; blobsStore = null; } }
 function storeName() { const k = kontext(); return k === "production" ? "admin" : "admin-" + k.replace(/[^a-z0-9-]/gi, "-"); }
 let blobsStore = null;
 
@@ -34,6 +51,7 @@ function blobsStatus() {
 /* Functions mit klassischem handler(event): Netlify liefert den Blobs-Kontext in event.blobs – muss vor dem
    ersten getStore() verbunden werden. Ohne diesen Schritt gäbe es keinen Zugriff auf den Datenspeicher. */
 function verbinde(event) {
+  setzeKontext(kontextAusEvent(event)); // zuerst der Kontext → bestimmt den Store-Namen (admin / admin-deploy-preview / …)
   if (!event || !event.blobs || process.env.NETLIFY_BLOBS_CONTEXT) return;
   try {
     /* Wie connectLambda() aus @netlify/blobs, zusätzlich mit der ungecachten Edge-URL (nötig für „strong“-Lesen). */
@@ -124,4 +142,4 @@ async function list(prefix) {
   return [...new Set(out)].filter((k) => k.startsWith(prefix)).sort();
 }
 
-module.exports = { getJSON, setJSON, del, getBinary, setBinary, list, useBlobs, blobsStatus, verbinde, inNetlify, StoreNichtVerfuegbar, kontext, storeName };
+module.exports = { getJSON, setJSON, del, getBinary, setBinary, list, useBlobs, blobsStatus, verbinde, inNetlify, StoreNichtVerfuegbar, kontext, kontextAusEvent, kontextLabel, setzeKontext, storeName };

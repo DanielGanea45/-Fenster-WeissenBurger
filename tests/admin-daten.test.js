@@ -25,7 +25,8 @@ const PW = "SicheresPasswort!2026";
 const klon = (o) => JSON.parse(JSON.stringify(o));
 const repoPreise = () => klon(JSON.parse(fs.readFileSync(path.join(ROOT, "data/preise.json"), "utf8")));
 let cookie = "", csrf = "";
-const ev = (method, body, extra = {}) => ({ httpMethod: method, path: "/.netlify/functions/admin-api", headers: Object.assign({ host: "localhost:8888", origin: "http://localhost:8888", cookie, "x-csrf": csrf }, extra.headers || {}), body: body ? JSON.stringify(body) : null, queryStringParameters: extra.query || {} });
+/* Produktions-Host: Veröffentlichen nutzt nur dort den Produktions-Hook (Vorschau/lokal: siehe admin-kontext.test.js) */
+const ev = (method, body, extra = {}) => ({ httpMethod: method, path: "/.netlify/functions/admin-api", headers: Object.assign({ host: "fensterweissenburger.netlify.app", origin: "https://fensterweissenburger.netlify.app", cookie, "x-csrf": csrf }, extra.headers || {}), body: body ? JSON.stringify(body) : null, queryStringParameters: extra.query || {} });
 const parse = (r) => JSON.parse(r.body);
 
 test.before(async () => {
