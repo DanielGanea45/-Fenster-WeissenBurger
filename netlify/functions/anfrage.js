@@ -12,8 +12,44 @@
      SPAM_MIN_SECONDS – Mindestzeit in Sekunden (Standard 3) */
 "use strict";
 
-const ALLOWED_FORMS = ["kontakt", "anfrage-leistungen", "anfrage-produkte", "anfrage-einsatzgebiet", "bewertung"];
-const INTERNAL_FIELDS = ["ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name"];
+const ALLOWED_FORMS = ["kontakt", "anfrage-leistungen", "anfrage-produkte", "anfrage-einsatzgebiet", "bewertung", "angebot-konfigurator"];
+const path = require("path");
+const fs = require("fs");
+const Preis = require("../../js/preis.js");
+let PREISLISTE = null;
+function preisliste() {
+  if (PREISLISTE) return PREISLISTE;
+  const p = path.join(__dirname, "..", "..", "data", "preise.json");
+  PREISLISTE = JSON.parse(fs.readFileSync(p, "utf8"));
+  return PREISLISTE;
+}
+/* Konfigurator-Anfrage: Konfiguration prüfen, Preis NEU berechnen (dem Browser wird nicht vertraut),
+   Ergebnis + Preislistenversion als Felder an Netlify Forms übergeben. */
+function konfiguratorNachrechnen(fields) {
+  let cfg;
+  try { cfg = JSON.parse(String(fields.konfiguration || "")); } catch (e) { return { ok: false, reason: "konfiguration" }; }
+  if (!cfg || typeof cfg !== "object") return { ok: false, reason: "konfiguration" };
+  let liste;
+  try { liste = preisliste(); } catch (e) { return { ok: false, reason: "preisliste" }; }
+  const r = Preis.berechne(cfg, liste);
+  const out = {};
+  out.konfiguration = JSON.stringify(cfg);
+  out.preisliste_version = String(liste.version || "");
+  out.preis_browser_brutto = String(fields.preis_brutto_browser || "");
+  if (r.ok) {
+    out.preis_server_brutto = String(r.brutto);
+    out.preis_server_netto = String(r.netto);
+    out.preis_server_text = Preis.euro(r.brutto) + " inkl. " + r.mwstProzent + " % MwSt. (Richtpreis, Liste " + liste.version + ")";
+    out.preis_abweichung = String(fields.preis_brutto_browser || "") === String(r.brutto) ? "nein" : "JA – Browserpreis weicht ab";
+    out.positionen = r.positionen.map((p) => p.name + ": " + Preis.euro(p.betrag)).join(" | ");
+  } else {
+    out.preis_server_brutto = "";
+    out.preis_server_text = "Preis auf Anfrage (" + r.fehler.join(", ") + ")";
+    out.preis_abweichung = "n/a";
+  }
+  return { ok: true, felder: out };
+}
+const INTERNAL_FIELDS = ["ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name", "preis_brutto_browser"];
 const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
 function json(statusCode, body) {
@@ -79,12 +115,22 @@ exports.handler = async (event) => {
   }
 
   /* 4) Pflichtfelder grob prüfen (echte Validierung macht der Browser; hier nur Schutz vor leeren Bot-Posts). */
-  const required = formName === "bewertung" ? ["name", "ort", "text", "kunde", "datenschutz"] : ["name", "telefon", "plz", "datenschutz"];
+  const required = formName === "bewertung" ? ["name", "ort", "text", "kunde", "datenschutz"]
+    : formName === "angebot-konfigurator" ? ["name", "telefon", "email", "plz", "datenschutz", "konfiguration"]
+    : ["name", "telefon", "plz", "datenschutz"];
   for (const k of required) if (!String(fields[k] || "").trim()) return json(200, { ok: false, reason: "felder", feld: k });
+
+  /* 4b) Konfigurator: Preis serverseitig neu berechnen und mitspeichern. */
+  let weiter = fields;
+  if (formName === "angebot-konfigurator") {
+    const k = konfiguratorNachrechnen(fields);
+    if (!k.ok) return json(200, { ok: false, reason: k.reason });
+    weiter = Object.assign({}, fields, k.felder);
+  }
 
   /* 5) An Netlify Forms weiterreichen. */
   try {
-    await forwardToNetlifyForms(formName, fields, event);
+    await forwardToNetlifyForms(formName, weiter, event);
   } catch (e) {
     return json(502, { ok: false, reason: "weiterleitung" });
   }
