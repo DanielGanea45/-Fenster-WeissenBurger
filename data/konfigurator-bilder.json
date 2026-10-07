@@ -600,6 +600,33 @@
    "hoehe": 1206,
    "alt": "Fenster zweiflügelig (Stulp) in Weiß, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
   },
+  "fenster-2fl-zweifarbig-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
   "fenster-2fl-zweifarbig-keine-aufsatz": {
    "groessen": [
     400,
@@ -627,6 +654,321 @@
    "hoehe": 1206,
    "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
   },
+  "fenster-2fl-zweifarbig-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-2fl-zweifarbig-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster zweiflügelig (Stulp) in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-anthrazit-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Anthrazit, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-goldenoak-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Golden Oak, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-weiss-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in Weiß, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
   "fenster-balkon-zweifarbig-keine-vorsatz": {
    "groessen": [
     400,
@@ -636,6 +978,123 @@
    "hoehe": 1206,
    "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
   },
+  "fenster-balkon-zweifarbig-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-balkon-zweifarbig-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Balkontür in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-anthrazit-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Anthrazit, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
   "fenster-fest-goldenoak-innen-kein": {
    "groessen": [
     400,
@@ -644,6 +1103,231 @@
    "breite": 900,
    "hoehe": 1206,
    "alt": "Fenster Festverglasung in Golden Oak, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-goldenoak-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Golden Oak, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-weiss-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in Weiß, mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-innen-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-innen-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-innen-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), mit innenliegenden Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-keine-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-keine-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), ohne Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-keine-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), ohne Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-wiener-aufsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Aufsatzrollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-wiener-kein": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, ohne Rollladen – Abbildung beispielhaft"
+  },
+  "fenster-fest-zweifarbig-wiener-vorsatz": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Fenster Festverglasung in zweifarbig (außen farbig, innen weiß), mit Wiener Sprossen, mit Vorsatzrollladen – Abbildung beispielhaft"
   },
   "glas-2fach": {
    "groessen": [

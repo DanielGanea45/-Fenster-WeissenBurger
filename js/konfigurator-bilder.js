@@ -22,7 +22,7 @@
     glas: [[/3[\s-]?fach|dreifach|0,6|0\.6/, "glas-3fach"], [/schall/, "glas-schallschutz"], [/vsg|esg|sicherheit|einbruch|p4a/, "glas-vsg"], [/2[\s-]?fach|zweifach|1,1|1\.1|standard/, "glas-2fach"]],
     glasTuer: [[/ornament|struktur|katedral|klassisch/, "tuer-klassisch-weiss"], [/vsg|esg|sicherheit|einbruch/, "glas-vsg"], [/satin|standard|klar|streifen/, "tuer-glasstreifen-weiss"]],
     zusatz: [[/demontage|entsorg|ausbau|altfenster/, "zusatz-demontage"], [/montage|einbau|lieferung/, "zusatz-montage"], [/fensterbank.*(innen|marmor|werzalit)|innenfensterbank/, "zusatz-fensterbank-innen"], [/fensterbank|aussenbank|alu/, "zusatz-fensterbank-aussen"], [/insekt|fliegen|muecken|gitter/, "zusatz-insektenschutz"], [/motor|elektr|antrieb|gurt|funk|smart/, "zusatz-rollladenmotor"], [/rc2|rc 2|einbruch|sicher|pilzkopf|abschliess|verriegel/, "zusatz-rc2"]],
-    zusatzTuer: [[/oberlicht|lichtausschnitt|seitenteil/, "tuer-glasstreifen-weiss"], [/rc2|rc 2|einbruch|sicher|finger|automatik|schloss|verriegel|motor|smart|zutritt/, "zusatz-rc2"], [/montage|einbau/, "zusatz-montage"], [/demontage|entsorg/, "zusatz-demontage"]],
+    zusatzTuer: [[/oberlicht|lichtausschnitt/, "tuer-glasstreifen-weiss"], [/finger|biometr/, "tuer-voll-anthrazit"], [/automatik|schloss|verriegel|motor|smart|zutritt|funk/, "tuer-glasstreifen-anthrazit"], [/rc2|rc 2|einbruch|sicher|pilzkopf/, "zusatz-rc2"], [/montage|einbau/, "zusatz-montage"], [/demontage|entsorg/, "zusatz-demontage"]],
   };
   /* Exakte Schlüssel der Repo-Preisliste (schnellster Weg, bleibt stabil) */
   const FEST = {
@@ -34,7 +34,7 @@
     glas: { "2-fach": "glas-2fach", "3-fach": "glas-3fach", schallschutz: "glas-schallschutz", sicherheit: "glas-vsg" },
     glasTuer: { standard: "tuer-glasstreifen-weiss", sicherheit: "glas-vsg", ornament: "tuer-klassisch-weiss" },
     zusatz: { rc2: "zusatz-rc2", insektenschutz: "zusatz-insektenschutz", rollladenmotor: "zusatz-rollladenmotor", "fensterbank-innen": "zusatz-fensterbank-innen", "fensterbank-aussen": "zusatz-fensterbank-aussen", montage: "zusatz-montage", demontage: "zusatz-demontage" },
-    zusatzTuer: { rc2: "zusatz-rc2", fingerprint: "zusatz-rc2", automatikschloss: "zusatz-rc2", oberlicht: "tuer-glasstreifen-weiss" },
+    zusatzTuer: { rc2: "zusatz-rc2", fingerprint: "tuer-voll-anthrazit", automatikschloss: "tuer-glasstreifen-anthrazit", oberlicht: "tuer-glasstreifen-weiss" },
   };
   /* Bildteil für einen Optionsschlüssel: fester Schlüssel → Schlagwörter in Schlüssel + Name → unbekannt (undefined) */
   function teil(gruppe, key, name) {
@@ -108,9 +108,9 @@
         else if (gruppe === "zusatz") bild = teil("zusatz", id, name) || null;
       } else {
         if (gruppe === "modell") bild = tuerNaechstes({ modell: id, farbe: state.farbe || "weiss" });
-        else if (gruppe === "farbe") bild = tuerNaechstes({ modell: state.modell || "modern-voll", farbe: id });
+        else if (gruppe === "farbe") bild = t("haustuer", "farbe", id, name) === null ? (hat("farbe-anthrazit") ? "farbe-anthrazit" : tuerNaechstes({ modell: state.modell || "modern-voll", farbe: "anthrazit" })) : tuerNaechstes({ modell: state.modell || "modern-voll", farbe: id });
         else if (gruppe === "glas") bild = teil("glasTuer", id, name) || null;
-        else if (gruppe === "seitenteil") bild = /ohne|kein/.test(norm(id) + " " + norm(name)) ? tuerNaechstes({ modell: state.modell || "modern-voll", farbe: state.farbe || "weiss" }) : tuerNaechstes({ modell: "mit-seitenteil", farbe: state.farbe || "weiss" });
+        else if (gruppe === "seitenteil") { const txt = norm(id) + " " + norm(name); bild = /ohne|kein/.test(txt) ? tuerNaechstes({ modell: t("haustuer", "modell", state.modell || "modern-voll") === "seitenteil" ? "modern-voll" : (state.modell || "modern-voll"), farbe: state.farbe || "weiss" }) : /beid|zwei|2/.test(txt) && hat("haustuer-mit-seitenteil") ? "haustuer-mit-seitenteil" : tuerNaechstes({ modell: "mit-seitenteil", farbe: state.farbe || "weiss" }); }
         else if (gruppe === "zusatz") bild = teil("zusatzTuer", id, name) || teil("zusatz", id, name) || null;
       }
       if (!hat(bild)) bild = alt;
@@ -133,8 +133,12 @@
       const n = produkt === "fenster" ? fensterNaechstes(state) : tuerNaechstes(state);
       return n ? { stufe: "aehnlich", bild: n } : { stufe: "fehlt", bild: null };
     }
+    /* Seitenteil „rechts“: dasselbe Foto spiegelbildlich (es gibt nur eine Aufnahme) */
+    function spiegeln(produkt, gruppe, id, eintrag) { return produkt === "haustuer" && gruppe === "seitenteil" && /rechts/.test(norm(id) + " " + norm(eintrag && eintrag.name)); }
+    /* Großes Bild für den Angebotsschritt: exaktes Foto, sonst nächstliegendes (RAL/Sonderfarben) */
+    function angebotBild(produkt, state) { return vorschau(produkt, state) || (produkt === "fenster" ? fensterNaechstes(state) : tuerNaechstes(state)); }
     function info(name) { return bilder[name] || null; }
-    return { hat, karte, vorschau, nachbarn, abdeckung, info, fensterExakt, fensterNaechstes, tuerExakt, tuerNaechstes, setPreise, teil };
+    return { hat, karte, spiegeln, angebotBild, vorschau, nachbarn, abdeckung, info, fensterExakt, fensterNaechstes, tuerExakt, tuerNaechstes, setPreise, teil };
   }
   return { Bilder, teil, REGELN, FEST };
 });

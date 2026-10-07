@@ -107,7 +107,8 @@
       var badges = opts.badges ? opts.badges(e, id) : "";
       var bildName = B ? B.karte(produkt, key, id, e, state) : e.bild;
       var img = bildName ? pic(bildName, (opts.alt ? opts.alt(e) : e.name) + " – Abbildung beispielhaft", opts.imgCls, idx < 4) : (e.hex ? '<div class="opt__swatch" data-hex="' + esc(e.hex) + '"></div>' : "");
-      return '<label class="opt' + (opts.imgCls === "tuer" ? " opt--tuer" : "") + (sel ? " is-selected" : "") + '"><input type="radio" name="k-' + key + '" value="' + esc(id) + '"' + (sel ? " checked" : "") + ">" + badges + img +
+      var spiegel = B && B.spiegeln(produkt, key, id, e);
+      return '<label class="opt' + (opts.imgCls === "tuer" ? " opt--tuer" : "") + (spiegel ? " opt--spiegel" : "") + (sel ? " is-selected" : "") + '"><input type="radio" name="k-' + key + '" value="' + esc(id) + '"' + (sel ? " checked" : "") + ">" + badges + img +
         '<div class="opt__body"><span class="opt__name">' + esc(e.name) + "</span>" + (sub ? '<span class="opt__sub">' + sub + "</span>" : "") +
         '<span class="opt__price">' + (opts.price ? opts.price(e, id) : deltaText(key, id)) + "</span></div></label>";
     }).join("");
@@ -167,8 +168,9 @@
     } else if (s === "angebot") {
       var r2 = calc();
       html = '<h2>Angebot <em>anfordern.</em></h2><p class="lead lead--sm">Wir prüfen Ihre Konfiguration, nehmen das Aufmaß kostenlos vor Ort und schicken Ihnen ein verbindliches Angebot.</p>' +
+        '<div class="angebot__grid">' + angebotBildHtml() +
         '<div class="angebot__summary summary"><h3>Ihre Konfiguration</h3><dl>' + summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("") + "</dl>" +
-        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.brutto) + "</strong> inkl. " + r2.mwstProzent + " % MwSt. (unverbindlich)</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + "</div>";
+        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.brutto) + "</strong> inkl. " + r2.mwstProzent + " % MwSt. (unverbindlich)</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + "</div></div>";
     }
     html += '<p class="konf__hint">Abbildungen beispielhaft. Alle Preise unverbindliche Richtpreise inkl. 19 % MwSt.; verbindlich wird es mit dem Angebot nach dem Aufmaß.</p>';
     html += '<div class="konf__nav">' + (step > 0 ? '<button type="button" class="btn btn--ghost" data-nav="-1">Zurück</button>' : "<span></span>") + (step < STEPS.length - 1 ? '<button type="button" class="btn btn--primary" data-nav="1">Weiter</button>' : "") + "</div>";
@@ -176,6 +178,15 @@
     Array.prototype.forEach.call(els.panels.querySelectorAll(".opt__swatch[data-hex]"), function (sw) { sw.style.background = sw.getAttribute("data-hex"); }); // CSSOM statt Inline-Style (CSP)
     if (s === "angebot" && els.form) { els.form.hidden = false; } else if (els.form) { els.form.hidden = true; }
     if (s === "masse") { var inp = els.panels.querySelector("input[data-num]"); if (inp && window.matchMedia("(min-width: 900px)").matches) inp.focus(); }
+  }
+  /* Großes Foto der Konfiguration für den Angebotsschritt (exakt; bei RAL/Sonderfarbe nächstliegendes Foto mit Hinweis) */
+  function angebotBildHtml() {
+    if (!B) return "";
+    var exakt = B.vorschau(produkt, state), name = exakt || B.angebotBild(produkt, state);
+    if (!name) return "";
+    var info = B.info(name) || {}; var groessen = info.groessen || [400, 900]; var gross = groessen[groessen.length - 1];
+    var h = info.breite && info.hoehe ? Math.round(gross * info.hoehe / info.breite) : Math.round(gross * 1.34);
+    return '<figure class="angebot__bild"><img src="' + IMG + name + "-" + gross + '.webp" srcset="' + groessen.map(function (g) { return IMG + name + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="(min-width: 900px) 360px, 92vw" width="' + gross + '" height="' + h + '" alt="' + esc(info.alt || "Ihre Konfiguration – Abbildung beispielhaft") + '" decoding="async"><figcaption>' + esc(state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "")) + (exakt ? " · Abbildung beispielhaft" : " · Farbe weicht ab (kein Foto für diese Farbe) · Abbildung beispielhaft") + "</figcaption></figure>";
   }
   function summaryRows() {
     var D = L(); if (!D) return [];
@@ -206,18 +217,26 @@
     if (!name) { img.hidden = true; img.removeAttribute("src"); img.removeAttribute("data-name"); box.classList.remove("hat-foto"); if (els.note) els.note.textContent = "Schematische Darstellung · Abbildung beispielhaft"; return; }
     if (img.getAttribute("data-name") === name) return;
     img.setAttribute("data-name", name);
-    var info = B.info(name) || {}; var g = (info.groessen || [900]).slice(-1)[0];
-    var src = IMG + name + "-" + g + ".webp";
-    img.classList.add("is-wechsel");
-    var pre = new Image();
-    pre.onload = function () {
-      if (img.getAttribute("data-name") !== name) return;
-      img.src = src; img.alt = info.alt || "Vorschau Ihrer Konfiguration – Abbildung beispielhaft"; img.hidden = false; box.classList.add("hat-foto");
-      if (els.note) els.note.textContent = "Foto · Abbildung beispielhaft";
-      requestAnimationFrame(function () { img.classList.remove("is-wechsel"); });
+    var info = B.info(name) || {}; var groessen = (info.groessen || [900]).slice().reverse();
+    var versuch = 0;
+    var lade = function () {
+      var src = IMG + name + "-" + groessen[versuch] + ".webp";
+      var pre = new Image();
+      pre.onload = function () {
+        if (img.getAttribute("data-name") !== name) return;
+        var fertig = function () { img.src = src; img.alt = info.alt || "Vorschau Ihrer Konfiguration – Abbildung beispielhaft"; img.hidden = false; box.classList.add("hat-foto"); if (els.note) els.note.textContent = "Foto · Abbildung beispielhaft"; requestAnimationFrame(function () { img.classList.remove("is-wechsel"); }); };
+        if (img.hidden || !img.getAttribute("src")) fertig();
+        else { img.classList.add("is-wechsel"); setTimeout(fertig, 180); } // kurze Überblendung, altes Foto bleibt bis dahin sichtbar
+      };
+      pre.onerror = function () {
+        if (img.getAttribute("data-name") !== name) return;
+        if (++versuch < groessen.length) { lade(); return; } // kleinere Datei versuchen
+        img.classList.remove("is-wechsel"); // Foto existiert laut Liste, Netz-/Ladefehler: letztes Foto behalten, keine Zeichnung
+        if (!img.getAttribute("src")) { img.removeAttribute("data-name"); box.classList.remove("hat-foto"); img.hidden = true; }
+      };
+      pre.src = src;
     };
-    pre.onerror = function () { if (img.getAttribute("data-name") === name) zeigeFoto(null); };
-    pre.src = src;
+    lade();
   }
   /* Nachbarvarianten (eine Änderung in Farbe/Sprossen/Rollladen/Typ bzw. Modell/Farbe) im Hintergrund vorladen */
   function ladeNachbarn() {
