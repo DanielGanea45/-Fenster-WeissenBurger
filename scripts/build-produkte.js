@@ -49,8 +49,8 @@ function head(p) {
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=5">
-  <link rel="stylesheet" href="/css/uebergang.css?v=1">
-  <script src="/js/uebergang.js?v=1"></script>
+  <link rel="stylesheet" href="/css/uebergang.css?v=2">
+  <script src="/js/uebergang.js?v=2"></script>
   <link rel="stylesheet" href="/css/leistungen.css?v=2">
   <link rel="stylesheet" href="/css/produkte.css?v=1">
 ${p.jsonld.map((o) => `  <script type="application/ld+json">${JSON.stringify(o)}</script>`).join("\n")}
