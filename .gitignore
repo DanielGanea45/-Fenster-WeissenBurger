@@ -45,5 +45,5 @@ bilder-original-2.zip
 package-lock.json
 
 # Hilfsdateien des Kunden für die Bildserie (nicht committen)
-/bilder-2-herunterladen.ps1
+/bilder-*-herunterladen.ps1
 /konfigurator-bilder-2.json

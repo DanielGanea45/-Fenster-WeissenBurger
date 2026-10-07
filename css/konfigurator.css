@@ -147,3 +147,13 @@
 /* Abstände ohne Inline-Styles (CSP) */
 .checks--abstand { margin-top: 14px; }
 .price__note--abstand { margin-top: 10px; }
+
+/* Karten: ganzes Bild sichtbar (kein Beschnitt), weißer Hintergrund; Spiegelung für Seitenteil rechts; Angebotsschritt mit großem Bild */
+.opt img, .opt--tuer img { object-fit: contain; background: #fff; padding: 6px; box-sizing: border-box; }
+.opt--spiegel img { transform: scaleX(-1); }
+.check--bild img { object-fit: contain; background: #fff; padding: 2px; box-sizing: border-box; }
+.angebot__grid { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 20px; align-items: start; }
+.angebot__bild { margin: 0; }
+.angebot__bild img { display: block; width: 100%; height: auto; aspect-ratio: 896 / 1200; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+.angebot__bild figcaption { margin-top: 8px; font-size: 13px; color: var(--ink-2); text-align: center; }
+@media (max-width: 899px) { .angebot__grid { grid-template-columns: 1fr; } .angebot__bild { max-width: 420px; margin: 0 auto; } }
