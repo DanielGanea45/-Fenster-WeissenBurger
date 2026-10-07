@@ -1401,6 +1401,15 @@
    "hoehe": 1072,
    "alt": "Haustür modern voll – Abbildung beispielhaft"
   },
+  "karte-ral": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Farbfächer: RAL-Farbe nach Wunsch – Abbildung beispielhaft"
+  },
   "profil-76-aluclip": {
    "groessen": [
     400,

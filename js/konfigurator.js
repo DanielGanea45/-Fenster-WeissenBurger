@@ -22,7 +22,7 @@
 
   var els = {
     steps: root.querySelector(".konf__steps"), panels: root.querySelector(".konf__panels"), preview: root.querySelector(".preview svg"),
-    previewBox: root.querySelector(".preview"), foto: root.querySelector(".preview__foto"), masse: root.querySelector(".preview__masse"), note: root.querySelector(".preview__note"),
+    previewBox: root.querySelector(".preview"), foto: root.querySelector(".preview__foto"), etikett: root.querySelector(".preview__etikett"), masse: root.querySelector(".preview__masse"), note: root.querySelector(".preview__note"),
     price: root.querySelector(".price"), summary: root.querySelector(".summary dl"), pos: root.querySelector(".posliste tbody"),
     bar: document.querySelector(".konf__bar"), form: root.querySelector("form[data-netlify]"),
   };
@@ -47,7 +47,7 @@
     var info = B && B.info(bild);
     var groessen = (info && info.groessen) || [400, 800];
     var h = info && info.breite && info.hoehe ? Math.round(400 * info.hoehe / info.breite) : (cls === "tuer" ? 536 : 400);
-    var sizes = cls === "klein" ? "56px" : "(min-width: 900px) 220px, 45vw";
+    var sizes = cls === "klein" ? "72px" : cls === "zusatz" ? "(min-width: 900px) 200px, (min-width: 600px) 30vw, 96px" : "(min-width: 900px) 220px, 45vw";
     return '<img src="' + IMG + bild + "-" + groessen[0] + '.webp" srcset="' + groessen.map(function (g) { return IMG + bild + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="' + sizes + '" width="400" height="' + h + '" alt="' + esc(alt) + '" loading="' + (eager ? "eager" : "lazy") + '"' + (eager ? ' fetchpriority="high"' : "") + ' decoding="async">';
   }
   function L() { return liste && (produkt === "fenster" ? liste.fenster : liste.haustuer); }
@@ -115,12 +115,26 @@
     return '<div class="opts' + (opts.four ? " opts--4" : "") + '" data-key="' + key + '">' + html + "</div>";
   }
   function multiCards(key, map) {
-    return '<div class="checks checks--konf" data-multi="' + key + '">' + Object.keys(map).filter(function (id) { return map[id].aktiv !== false; }).map(function (id) {
+    var ohneRollladen = produkt === "fenster" && (!state.rollladen || state.rollladen === "keiner" || (L() && L().rollladen && L().rollladen[state.rollladen] && !Preis.cent(L().rollladen[state.rollladen].zuschlagProM2) && /kein|ohne/i.test(L().rollladen[state.rollladen].name || "")));
+    return '<div class="opts opts--zusatz" data-multi="' + key + '">' + Object.keys(map).filter(function (id) { return map[id].aktiv !== false; }).map(function (id, idx) {
       var e = map[id]; var sel = state[key].indexOf(id) >= 0;
+      var inaktiv = !!(e.nurMitRollladen && ohneRollladen);
       var preisTxt = e.art === "proLfm" ? fmtEuro(Preis.cent(e.zuschlag)) + " je lfm Breite" : "+ " + fmtEuro(Preis.cent(e.zuschlag)) + " je Element";
       var bildName = B ? B.karte(produkt, "zusatz", id, e, state) : null;
-      return '<label class="check' + (bildName ? " check--bild" : "") + (sel ? " is-selected" : "") + '"><input type="checkbox" value="' + esc(id) + '"' + (sel ? " checked" : "") + '>' + (bildName ? pic(bildName, e.name + " – Abbildung beispielhaft", "klein", false) : "") + '<span><strong>' + esc(e.name) + '</strong><span class="sub">' + preisTxt + (e.nurMitRollladen ? " · nur zusammen mit Rollladen" : "") + "</span></span></label>";
+      var alt = esc(e.name) + " – Abbildung beispielhaft";
+      return '<label class="opt opt--check' + (inaktiv ? " opt--inaktiv" : "") + (sel && !inaktiv ? " is-selected" : "") + '"' + (inaktiv ? ' aria-disabled="true"' : "") + '><input type="checkbox" value="' + esc(id) + '"' + (sel && !inaktiv ? " checked" : "") + (inaktiv ? " disabled" : "") + ' aria-label="' + esc(e.name) + '">' +
+        (bildName ? pic(bildName, alt, "zusatz", idx < 3).replace("<img ", '<img data-lightbox="' + esc(bildName) + '" ') : "") +
+        '<div class="opt__body"><span class="opt__name">' + esc(e.name) + "</span>" + (e.nurMitRollladen ? '<span class="opt__sub">Nur zusammen mit Rollladen</span>' : "") + '<span class="opt__price">' + preisTxt + "</span>" + (inaktiv ? '<span class="opt__hinweis">Nur mit Rollladen wählbar</span>' : "") + "</div></label>";
     }).join("") + "</div>";
+  }
+  /* Lightbox: Klick auf ein Kartenbild zeigt es groß; Esc oder Klick schließt */
+  function lightbox(name) {
+    var info = (B && B.info(name)) || {}; var groessen = info.groessen || [400, 900]; var g = groessen[groessen.length - 1];
+    var box = document.querySelector(".lightbox");
+    if (!box) { box = document.createElement("div"); box.className = "lightbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Bild vergrößert"); box.hidden = true; box.innerHTML = '<button type="button" class="lightbox__schliessen" aria-label="Schließen">×</button><figure><img alt=""><figcaption></figcaption></figure>'; document.body.appendChild(box);
+      box.addEventListener("click", function () { box.hidden = true; }); document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !box.hidden) box.hidden = true; }); }
+    var img = box.querySelector("img"); img.src = IMG + name + "-" + g + ".webp"; img.alt = info.alt || ""; box.querySelector("figcaption").textContent = info.alt || "";
+    box.hidden = false; box.querySelector(".lightbox__schliessen").focus();
   }
   function renderPanel() {
     var s = STEPS[step].id, D = L(), html = "";
@@ -184,10 +198,11 @@
     if (!B) return "";
     var exakt = B.vorschau(produkt, state), name = exakt || B.angebotBild(produkt, state);
     if (!name) return "";
+    var et = B.etikett(produkt, state);
     var info = B.info(name) || {}; var groessen = info.groessen || [400, 900]; var gross = groessen[groessen.length - 1];
     var h = info.breite && info.hoehe ? Math.round(gross * info.hoehe / info.breite) : Math.round(gross * 1.34);
     var spiegel = B.angebotSpiegel(produkt, state);
-    return '<figure class="angebot__bild"><img' + (spiegel ? ' class="is-spiegel"' : "") + ' src="' + IMG + name + "-" + gross + '.webp" srcset="' + groessen.map(function (g) { return IMG + name + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="(min-width: 900px) 360px, 92vw" width="' + gross + '" height="' + h + '" alt="' + esc(info.alt || "Ihre Konfiguration – Abbildung beispielhaft") + '" decoding="async"><figcaption>' + esc(state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "")) + (exakt ? " · Abbildung beispielhaft" : " · Farbe weicht ab (kein Foto für diese Farbe) · Abbildung beispielhaft") + "</figcaption></figure>";
+    return '<figure class="angebot__bild"><img' + (spiegel ? ' class="is-spiegel"' : "") + ' src="' + IMG + name + "-" + gross + '.webp" srcset="' + groessen.map(function (g) { return IMG + name + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="(min-width: 900px) 360px, 92vw" width="' + gross + '" height="' + h + '" alt="' + esc(info.alt || "Ihre Konfiguration – Abbildung beispielhaft") + '" decoding="async">' + (et ? '<span class="angebot__etikett">' + esc(et) + "</span>" : "") + '<figcaption>' + esc(state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "")) + (et ? " · Form in Weiß, Farbe nach Wahl · Abbildung beispielhaft" : exakt ? " · Abbildung beispielhaft" : " · Farbe weicht ab · Abbildung beispielhaft") + "</figcaption></figure>";
   }
   function summaryRows() {
     var D = L(); if (!D) return [];
@@ -252,6 +267,7 @@
     if (els.preview) els.preview.innerHTML = produkt === "fenster" ? drawFenster() : drawHaustuer();
     zeigeFoto(B ? B.vorschau(produkt, state) : null);
     if (els.foto) els.foto.classList.toggle("is-spiegel", !!(B && B.vorschauSpiegel(produkt, state)));
+    if (els.etikett) { var et = B ? B.etikett(produkt, state) : null; els.etikett.textContent = et || ""; els.etikett.hidden = !et || !(B && B.vorschau(produkt, state)); }
     ladeNachbarn();
     if (els.masse) els.masse.textContent = state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "");
     var r = calc();
@@ -355,6 +371,7 @@
 
   /* ---------- Ereignisse ---------- */
   root.addEventListener("click", function (e) {
+    var lb = e.target.closest("img[data-lightbox]"); if (lb) { e.preventDefault(); lightbox(lb.getAttribute("data-lightbox")); return; }
     var sb = e.target.closest("[data-step]"); if (sb) { step = +sb.getAttribute("data-step"); render(); scrollTop(); return; }
     var nb = e.target.closest("[data-nav]"); if (nb) { step = Math.max(0, Math.min(STEPS.length - 1, step + (+nb.getAttribute("data-nav")))); render(); scrollTop(); }
   });

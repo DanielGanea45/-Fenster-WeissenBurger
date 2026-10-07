@@ -123,14 +123,14 @@
       if (produkt === "fenster") {
         if (gruppe === "system") bild = alt;
         else if (gruppe === "typ") bild = fensterNaechstes({ typ: id, farbe: state.farbe || "weiss", sprossen: "keine", rollladen: "keiner" });
-        else if (gruppe === "farbe") bild = fensterNaechstes({ typ: state.typ || "1-fluegelig", farbe: id, sprossen: state.sprossen || "keine", rollladen: state.rollladen || "keiner" });
+        else if (gruppe === "farbe") bild = teil("farbe", id, name) === null && hat("karte-ral") ? "karte-ral" : fensterNaechstes({ typ: state.typ || "1-fluegelig", farbe: id, sprossen: state.sprossen || "keine", rollladen: state.rollladen || "keiner" });
         else if (gruppe === "sprossen") bild = fensterNaechstes({ typ: state.typ || "1-fluegelig", farbe: state.farbe || "weiss", sprossen: id, rollladen: state.rollladen || "keiner" });
         else if (gruppe === "rollladen") bild = fensterNaechstes({ typ: state.typ || "1-fluegelig", farbe: state.farbe || "weiss", sprossen: state.sprossen || "keine", rollladen: id });
         else if (gruppe === "glas") bild = teil("glas", id, name) || null;
         else if (gruppe === "zusatz") bild = teil("zusatz", id, name) || null;
       } else {
         if (gruppe === "modell") bild = tuerNaechstes({ modell: id, farbe: state.farbe || "weiss" });
-        else if (gruppe === "farbe") bild = t("haustuer", "farbe", id, name) === null ? (hat("farbe-anthrazit") ? "farbe-anthrazit" : tuerNaechstes({ modell: state.modell || "modern-voll", farbe: "anthrazit" })) : tuerNaechstes({ modell: state.modell || "modern-voll", farbe: id });
+        else if (gruppe === "farbe") bild = t("haustuer", "farbe", id, name) === null ? (hat("karte-ral") ? "karte-ral" : tuerNaechstes({ modell: state.modell || "modern-voll", farbe: "anthrazit" })) : tuerNaechstes({ modell: state.modell || "modern-voll", farbe: id, seitenteil: state.seitenteil });
         else if (gruppe === "glas") bild = teil("glasTuer", id, name) || null;
         else if (gruppe === "seitenteil") {
           const s = teil("seitenteil", id, name) || "kein";
@@ -146,8 +146,15 @@
       if (!hat(bild)) bild = produkt === "fenster" ? (gruppe === "glas" ? "glas-2fach" : gruppe === "zusatz" ? "zusatz-montage" : fensterNaechstes({ typ: "1-fluegelig", farbe: "weiss" })) : (gruppe === "glas" ? "tuer-glasstreifen-weiss" : gruppe === "zusatz" ? "zusatz-rc2" : "tuer-voll-weiss");
       return hat(bild) ? bild : null;
     }
-    /* Foto für die Vorschau (nur exakt) */
-    function vorschau(produkt, state) { return produkt === "fenster" ? fensterExakt(state) : tuerExakt(state); }
+    /* RAL/Wunschfarbe (Farbteil null): dieselbe Form in Weiß zeigen, dazu das Etikett „Farbe nach Wahl (RAL)“ */
+    const istRal = (produkt, state) => t(produkt, "farbe", state.farbe) === null;
+    const inWeiss = (state) => Object.assign({}, state, { farbe: "weiss" });
+    function etikett(produkt, state) { if (!istRal(produkt, state)) return null; const code = String(state.ralCode || state.ral || "").trim(); return code ? "Farbe nach Wahl: " + (/^ral/i.test(code) ? code.toUpperCase() : "RAL " + code) : "Farbe nach Wahl (RAL)"; }
+    /* Foto für die Vorschau: exakt; bei RAL exakt in Weiß */
+    function vorschau(produkt, state) {
+      if (istRal(produkt, state)) return produkt === "fenster" ? fensterExakt(inWeiss(state)) : tuerExakt(inWeiss(state));
+      return produkt === "fenster" ? fensterExakt(state) : tuerExakt(state);
+    }
     /* Nachbarvarianten zum Vorladen */
     function nachbarn(produkt, state, optionen) {
       const out = new Set();
@@ -158,19 +165,21 @@
     }
     /* Abdeckung: exakt | aehnlich | fehlt für eine Kombination */
     function abdeckung(produkt, state) {
-      const exakt = vorschau(produkt, state); if (exakt) return { stufe: "exakt", bild: exakt };
+      const exakt = vorschau(produkt, state);
+      if (exakt && istRal(produkt, state)) return { stufe: "ral", bild: exakt };
+      if (exakt) return { stufe: "exakt", bild: exakt };
       const n = produkt === "fenster" ? fensterNaechstes(state) : tuerNaechstes(state);
       return n ? { stufe: "aehnlich", bild: n } : { stufe: "fehlt", bild: null };
     }
     /* Seitenteil „rechts“: dasselbe Foto spiegelbildlich (es gibt nur eine Aufnahme) */
     function spiegeln(produkt, gruppe, id, eintrag) { return produkt === "haustuer" && gruppe === "seitenteil" && teil("seitenteil", id, eintrag && eintrag.name) === "links"; }
     /* Vorschau-/Angebotsbild spiegelbildlich anzeigen? (Haustür, Seitenteil links) */
-    function vorschauSpiegel(produkt, state) { if (produkt !== "haustuer") return false; const r = tuerFotoExakt(state); return !!(r && r.spiegel); }
-    function angebotSpiegel(produkt, state) { return produkt === "haustuer" && (vorschauSpiegel(produkt, state) || (!tuerExakt(state) && tuerNaechstesSpiegel(state))); }
+    function vorschauSpiegel(produkt, state) { if (produkt !== "haustuer") return false; const r = tuerFotoExakt(istRal(produkt, state) ? inWeiss(state) : state); return !!(r && r.spiegel); }
+    function angebotSpiegel(produkt, state) { return produkt === "haustuer" && (vorschauSpiegel(produkt, state) || (!vorschau(produkt, state) && tuerNaechstesSpiegel(state))); }
     /* Großes Bild für den Angebotsschritt: exaktes Foto, sonst nächstliegendes (RAL/Sonderfarben) */
     function angebotBild(produkt, state) { return vorschau(produkt, state) || (produkt === "fenster" ? fensterNaechstes(state) : tuerNaechstes(state)); }
     function info(name) { return bilder[name] || null; }
-    return { hat, karte, spiegeln, angebotBild, angebotSpiegel, vorschau, vorschauSpiegel, nachbarn, abdeckung, info, fensterExakt, fensterNaechstes, tuerExakt, tuerFotoExakt, tuerNaechstes, setPreise, teil };
+    return { hat, karte, spiegeln, angebotBild, angebotSpiegel, vorschau, vorschauSpiegel, etikett, istRal, nachbarn, abdeckung, info, fensterExakt, fensterNaechstes, tuerExakt, tuerFotoExakt, tuerNaechstes, setPreise, teil };
   }
   return { Bilder, teil, REGELN, FEST };
 });

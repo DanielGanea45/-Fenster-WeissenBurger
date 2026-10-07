@@ -159,3 +159,31 @@
 @media (max-width: 899px) { .angebot__grid { grid-template-columns: 1fr; } .angebot__bild { max-width: 420px; margin: 0 auto; } }
 /* Haustür mit Seitenteil links: Foto „rechts“ spiegelbildlich (Vorschau, Angebotsbild, Karte) */
 .preview__foto.is-spiegel, .angebot__bild img.is-spiegel { transform: scaleX(-1); }
+
+/* ---------- Zusätze als Bildkarten, RAL-Etikett, Lightbox ---------- */
+.opts--zusatz { grid-template-columns: repeat(3, 1fr); }
+.opt--check { cursor: pointer; }
+.opt--check input[type="checkbox"] { position: absolute; top: 10px; left: 10px; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); z-index: 2; }
+.opt--check img { aspect-ratio: 1 / 1; max-height: 180px; object-fit: contain; background: #fff; padding: 10px; cursor: zoom-in; }
+.opt--check .opt__price { font-size: 13px; color: var(--ink); font-weight: 600; }
+.opt--inaktiv { opacity: .55; cursor: not-allowed; }
+.opt--inaktiv img { cursor: not-allowed; filter: grayscale(.6); }
+.opt__hinweis { display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--ink-2); background: var(--bg); border-radius: 6px; padding: 2px 8px; }
+@media (max-width: 599px) {
+  .opts--zusatz { grid-template-columns: 1fr; }
+  .opt--check { flex-direction: row; align-items: center; padding-right: 48px; }
+  .opt--check img { width: 96px; height: 96px; flex: none; padding: 6px; max-height: none; }
+  .opt--check input[type="checkbox"] { top: 50%; left: auto; right: 12px; transform: translateY(-50%); }
+  .opt--check.is-selected::after { right: 44px; }
+}
+.check--bild { grid-template-columns: 22px 72px 1fr; }
+.check--bild img { width: 72px; height: 72px; }
+.preview__etikett, .angebot__etikett { position: absolute; left: 10px; bottom: 10px; background: rgba(27, 36, 48, .86); color: #fff; font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; pointer-events: none; }
+.preview__etikett[hidden] { display: none; }
+.angebot__bild { position: relative; }
+.angebot__bild .angebot__etikett { bottom: 44px; }
+.lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(27, 36, 48, .88); display: flex; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+.lightbox[hidden] { display: none; }
+.lightbox img { max-width: min(96vw, 900px); max-height: 90vh; width: auto; height: auto; border-radius: 12px; background: #fff; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+.lightbox__schliessen { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: var(--ink); font-size: 22px; font-weight: 800; cursor: pointer; }
+.lightbox figcaption { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); color: #fff; font-size: 13px; background: rgba(27, 36, 48, .7); padding: 6px 12px; border-radius: 999px; max-width: 90vw; text-align: center; }

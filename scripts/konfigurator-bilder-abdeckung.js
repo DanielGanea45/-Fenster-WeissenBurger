@@ -13,27 +13,27 @@ function bericht(preisePfad) {
   const preise = JSON.parse(fs.readFileSync(preisePfad || path.join(ROOT, "data/preise.json"), "utf8"));
   const B = Bilder(liste, preise);
   const F = preise.fenster, H = preise.haustuer;
-  const zeilen = [], z = { exakt: 0, aehnlich: 0, fehlt: 0 };
+  const zeilen = [], z = { exakt: 0, ral: 0, aehnlich: 0, fehlt: 0 };
   for (const typ of Object.keys(F.typen)) for (const farbe of Object.keys(F.farben)) for (const sprossen of Object.keys(F.sprossen)) for (const rollladen of Object.keys(F.rollladen)) {
     const a = B.abdeckung("fenster", { typ, farbe, sprossen, rollladen }); z[a.stufe]++;
-    zeilen.push(`| ${F.typen[typ].name} | ${F.farben[farbe].name} | ${F.sprossen[sprossen].name} | ${F.rollladen[rollladen].name} | ${a.stufe === "exakt" ? "✅ exakt" : a.stufe === "aehnlich" ? "🟡 ähnlich" : "❌ fehlt"} | ${a.bild ? "`" + a.bild + "`" : "–"} |`);
+    zeilen.push(`| ${F.typen[typ].name} | ${F.farben[farbe].name} | ${F.sprossen[sprossen].name} | ${F.rollladen[rollladen].name} | ${a.stufe === "exakt" ? "✅ exakt" : a.stufe === "ral" ? "🏷️ Weiß + RAL-Etikett" : a.stufe === "aehnlich" ? "🟡 ähnlich" : "❌ fehlt"} | ${a.bild ? "`" + a.bild + "`" : "–"} |`);
   }
-  const zt = [], zz = { exakt: 0, aehnlich: 0, fehlt: 0 };
+  const zt = [], zz = { exakt: 0, ral: 0, aehnlich: 0, fehlt: 0 };
   for (const modell of Object.keys(H.modelle)) for (const farbe of Object.keys(H.farben)) for (const seitenteil of Object.keys(H.seitenteil)) {
     const st = { modell, farbe, seitenteil };
     const a = B.abdeckung("haustuer", st); zz[a.stufe]++;
-    const sp = a.stufe === "exakt" ? B.vorschauSpiegel("haustuer", st) : B.angebotSpiegel("haustuer", st);
-    zt.push(`| ${H.modelle[modell].name} | ${H.farben[farbe].name} | ${H.seitenteil[seitenteil].name} | ${a.stufe === "exakt" ? "✅ exakt" : a.stufe === "aehnlich" ? "🟡 ähnlich" : "❌ fehlt"} | ${a.bild ? "`" + a.bild + "`" + (sp ? " (gespiegelt)" : "") : "–"} |`);
+    const sp = a.stufe !== "aehnlich" ? B.vorschauSpiegel("haustuer", st) : B.angebotSpiegel("haustuer", st);
+    zt.push(`| ${H.modelle[modell].name} | ${H.farben[farbe].name} | ${H.seitenteil[seitenteil].name} | ${a.stufe === "exakt" ? "✅ exakt" : a.stufe === "ral" ? "🏷️ Weiß + RAL-Etikett" : a.stufe === "aehnlich" ? "🟡 ähnlich" : "❌ fehlt"} | ${a.bild ? "`" + a.bild + "`" + (sp ? " (gespiegelt)" : "") : "–"} |`);
   }
   const gesamt = zeilen.length;
   let md = `## Bildabdeckung Konfigurator (Preisliste ${preise.version})\n\n`;
-  md += `**Fenster:** ${gesamt} Kombinationen – ✅ exakt ${z.exakt}, 🟡 ähnlich ${z.aehnlich}, ❌ fehlt ${z.fehlt}. Die Vorschau zeigt nur ✅-Kombinationen als Foto, sonst die schematische Zeichnung; Karten nutzen bei 🟡 das nächstliegende Foto.\n\n`;
+  md += `**Fenster:** ${gesamt} Kombinationen – ✅ exakt ${z.exakt}, 🏷️ RAL ${z.ral}, 🟡 ähnlich ${z.aehnlich}, ❌ fehlt ${z.fehlt}. ✅ = Foto der Kombination; 🏷️ = Form in Weiß mit Etikett „Farbe nach Wahl (RAL)“; 🟡 = nächstliegendes Foto (nur Karten); ❌ = Zeichnung.\n\n`;
   md += `<details><summary>Alle Fenster-Kombinationen</summary>\n\n| Typ | Farbe | Sprossen | Rollladen | Foto | Datei |\n|---|---|---|---|---|---|\n${zeilen.join("\n")}\n\n</details>\n\n`;
-  md += `**Haustüren (Modell × Farbe × Seitenteil):** ${zt.length} Kombinationen – ✅ exakt ${zz.exakt}, 🟡 ähnlich ${zz.aehnlich}, ❌ fehlt ${zz.fehlt}. „Seitenteil links“ zeigt das Foto „rechts“ spiegelbildlich.\n\n<details><summary>Alle Haustür-Kombinationen</summary>\n\n| Modell | Farbe | Seitenteil | Foto | Datei |\n|---|---|---|---|---|\n${zt.join("\n")}\n\n</details>\n`;
+  md += `**Haustüren (Modell × Farbe × Seitenteil):** ${zt.length} Kombinationen – ✅ exakt ${zz.exakt}, 🏷️ RAL (Form in Weiß + Etikett) ${zz.ral}, 🟡 ähnlich ${zz.aehnlich}, ❌ fehlt ${zz.fehlt}. „Seitenteil links“ zeigt das Foto „rechts“ spiegelbildlich.\n\n<details><summary>Alle Haustür-Kombinationen</summary>\n\n| Modell | Farbe | Seitenteil | Foto | Datei |\n|---|---|---|---|---|\n${zt.join("\n")}\n\n</details>\n`;
   /* Fehlende exakte Fotos je Typ (für die nächste Bildserie) */
   const fehlend = {};
   for (const typ of Object.keys(F.typen)) { fehlend[typ] = 0; for (const farbe of Object.keys(F.farben)) for (const sprossen of Object.keys(F.sprossen)) for (const rollladen of Object.keys(F.rollladen)) if (B.abdeckung("fenster", { typ, farbe, sprossen, rollladen }).stufe !== "exakt") fehlend[typ]++; }
-  md += `\n**Noch ohne exaktes Foto je Typ:** ${Object.entries(fehlend).map(([k, n]) => `${F.typen[k].name}: ${n}`).join(" · ")} (RAL/Wunschfarben haben bewusst kein Foto).\n`;
+  md += `\n**Noch ohne exaktes Foto je Typ:** ${Object.entries(fehlend).map(([k, n]) => `${F.typen[k].name}: ${n}`).join(" · ")} (RAL/Wunschfarben zeigen die Form in Weiß mit Etikett).\n`;
   return { md, z, zz, gesamt };
 }
 
