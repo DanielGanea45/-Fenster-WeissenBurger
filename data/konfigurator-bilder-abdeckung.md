@@ -153,25 +153,77 @@
 
 </details>
 
-**Haustüren:** 16 Kombinationen – ✅ exakt 12, 🟡 ähnlich 4, ❌ fehlt 0.
+**Haustüren (Modell × Farbe × Seitenteil):** 64 Kombinationen – ✅ exakt 48, 🟡 ähnlich 16, ❌ fehlt 0. „Seitenteil links“ zeigt das Foto „rechts“ spiegelbildlich.
 
-| Modell | Farbe | Foto | Datei |
-|---|---|---|---|
-| Modern, vollflächig | Weiß | ✅ exakt | `tuer-voll-weiss` |
-| Modern, vollflächig | Anthrazit | ✅ exakt | `tuer-voll-anthrazit` |
-| Modern, vollflächig | Golden Oak | ✅ exakt | `tuer-voll-goldenoak` |
-| Modern, vollflächig | RAL-Farbe nach Wunsch | 🟡 ähnlich | `tuer-voll-anthrazit` |
-| Modern mit Glasstreifen | Weiß | ✅ exakt | `tuer-glasstreifen-weiss` |
-| Modern mit Glasstreifen | Anthrazit | ✅ exakt | `tuer-glasstreifen-anthrazit` |
-| Modern mit Glasstreifen | Golden Oak | ✅ exakt | `tuer-glasstreifen-goldenoak` |
-| Modern mit Glasstreifen | RAL-Farbe nach Wunsch | 🟡 ähnlich | `tuer-glasstreifen-anthrazit` |
-| Klassisch, Holzoptik | Weiß | ✅ exakt | `tuer-klassisch-weiss` |
-| Klassisch, Holzoptik | Anthrazit | ✅ exakt | `tuer-klassisch-anthrazit` |
-| Klassisch, Holzoptik | Golden Oak | ✅ exakt | `tuer-klassisch-goldenoak` |
-| Klassisch, Holzoptik | RAL-Farbe nach Wunsch | 🟡 ähnlich | `tuer-klassisch-anthrazit` |
-| Modern mit Seitenteil | Weiß | ✅ exakt | `tuer-seitenteil-weiss` |
-| Modern mit Seitenteil | Anthrazit | ✅ exakt | `tuer-seitenteil-anthrazit` |
-| Modern mit Seitenteil | Golden Oak | ✅ exakt | `tuer-seitenteil-goldenoak` |
-| Modern mit Seitenteil | RAL-Farbe nach Wunsch | 🟡 ähnlich | `tuer-seitenteil-anthrazit` |
+<details><summary>Alle Haustür-Kombinationen</summary>
+
+| Modell | Farbe | Seitenteil | Foto | Datei |
+|---|---|---|---|---|
+| Modern, vollflächig | Weiß | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-voll-weiss` |
+| Modern, vollflächig | Weiß | Seitenteil links | ✅ exakt | `tuer-voll-weiss-seitenteil-rechts` (gespiegelt) |
+| Modern, vollflächig | Weiß | Seitenteil rechts | ✅ exakt | `tuer-voll-weiss-seitenteil-rechts` |
+| Modern, vollflächig | Weiß | Seitenteile beidseitig | ✅ exakt | `tuer-voll-weiss-seitenteil-beidseitig` |
+| Modern, vollflächig | Anthrazit | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-voll-anthrazit` |
+| Modern, vollflächig | Anthrazit | Seitenteil links | ✅ exakt | `tuer-voll-anthrazit-seitenteil-rechts` (gespiegelt) |
+| Modern, vollflächig | Anthrazit | Seitenteil rechts | ✅ exakt | `tuer-voll-anthrazit-seitenteil-rechts` |
+| Modern, vollflächig | Anthrazit | Seitenteile beidseitig | ✅ exakt | `tuer-voll-anthrazit-seitenteil-beidseitig` |
+| Modern, vollflächig | Golden Oak | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-voll-goldenoak` |
+| Modern, vollflächig | Golden Oak | Seitenteil links | ✅ exakt | `tuer-voll-goldenoak-seitenteil-rechts` (gespiegelt) |
+| Modern, vollflächig | Golden Oak | Seitenteil rechts | ✅ exakt | `tuer-voll-goldenoak-seitenteil-rechts` |
+| Modern, vollflächig | Golden Oak | Seitenteile beidseitig | ✅ exakt | `tuer-voll-goldenoak-seitenteil-beidseitig` |
+| Modern, vollflächig | RAL-Farbe nach Wunsch | Kein zusätzliches Seitenteil | 🟡 ähnlich | `tuer-voll-anthrazit` |
+| Modern, vollflächig | RAL-Farbe nach Wunsch | Seitenteil links | 🟡 ähnlich | `tuer-voll-anthrazit-seitenteil-rechts` (gespiegelt) |
+| Modern, vollflächig | RAL-Farbe nach Wunsch | Seitenteil rechts | 🟡 ähnlich | `tuer-voll-anthrazit-seitenteil-rechts` |
+| Modern, vollflächig | RAL-Farbe nach Wunsch | Seitenteile beidseitig | 🟡 ähnlich | `tuer-voll-anthrazit-seitenteil-beidseitig` |
+| Modern mit Glasstreifen | Weiß | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-glasstreifen-weiss` |
+| Modern mit Glasstreifen | Weiß | Seitenteil links | ✅ exakt | `tuer-glasstreifen-weiss-seitenteil-rechts` (gespiegelt) |
+| Modern mit Glasstreifen | Weiß | Seitenteil rechts | ✅ exakt | `tuer-glasstreifen-weiss-seitenteil-rechts` |
+| Modern mit Glasstreifen | Weiß | Seitenteile beidseitig | ✅ exakt | `tuer-glasstreifen-weiss-seitenteil-beidseitig` |
+| Modern mit Glasstreifen | Anthrazit | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-glasstreifen-anthrazit` |
+| Modern mit Glasstreifen | Anthrazit | Seitenteil links | ✅ exakt | `tuer-glasstreifen-anthrazit-seitenteil-rechts` (gespiegelt) |
+| Modern mit Glasstreifen | Anthrazit | Seitenteil rechts | ✅ exakt | `tuer-glasstreifen-anthrazit-seitenteil-rechts` |
+| Modern mit Glasstreifen | Anthrazit | Seitenteile beidseitig | ✅ exakt | `tuer-glasstreifen-anthrazit-seitenteil-beidseitig` |
+| Modern mit Glasstreifen | Golden Oak | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-glasstreifen-goldenoak` |
+| Modern mit Glasstreifen | Golden Oak | Seitenteil links | ✅ exakt | `tuer-glasstreifen-goldenoak-seitenteil-rechts` (gespiegelt) |
+| Modern mit Glasstreifen | Golden Oak | Seitenteil rechts | ✅ exakt | `tuer-glasstreifen-goldenoak-seitenteil-rechts` |
+| Modern mit Glasstreifen | Golden Oak | Seitenteile beidseitig | ✅ exakt | `tuer-glasstreifen-goldenoak-seitenteil-beidseitig` |
+| Modern mit Glasstreifen | RAL-Farbe nach Wunsch | Kein zusätzliches Seitenteil | 🟡 ähnlich | `tuer-glasstreifen-anthrazit` |
+| Modern mit Glasstreifen | RAL-Farbe nach Wunsch | Seitenteil links | 🟡 ähnlich | `tuer-glasstreifen-anthrazit-seitenteil-rechts` (gespiegelt) |
+| Modern mit Glasstreifen | RAL-Farbe nach Wunsch | Seitenteil rechts | 🟡 ähnlich | `tuer-glasstreifen-anthrazit-seitenteil-rechts` |
+| Modern mit Glasstreifen | RAL-Farbe nach Wunsch | Seitenteile beidseitig | 🟡 ähnlich | `tuer-glasstreifen-anthrazit-seitenteil-beidseitig` |
+| Klassisch, Holzoptik | Weiß | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-klassisch-weiss` |
+| Klassisch, Holzoptik | Weiß | Seitenteil links | ✅ exakt | `tuer-klassisch-weiss-seitenteil-rechts` (gespiegelt) |
+| Klassisch, Holzoptik | Weiß | Seitenteil rechts | ✅ exakt | `tuer-klassisch-weiss-seitenteil-rechts` |
+| Klassisch, Holzoptik | Weiß | Seitenteile beidseitig | ✅ exakt | `tuer-klassisch-weiss-seitenteil-beidseitig` |
+| Klassisch, Holzoptik | Anthrazit | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-klassisch-anthrazit` |
+| Klassisch, Holzoptik | Anthrazit | Seitenteil links | ✅ exakt | `tuer-klassisch-anthrazit-seitenteil-rechts` (gespiegelt) |
+| Klassisch, Holzoptik | Anthrazit | Seitenteil rechts | ✅ exakt | `tuer-klassisch-anthrazit-seitenteil-rechts` |
+| Klassisch, Holzoptik | Anthrazit | Seitenteile beidseitig | ✅ exakt | `tuer-klassisch-anthrazit-seitenteil-beidseitig` |
+| Klassisch, Holzoptik | Golden Oak | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-klassisch-goldenoak` |
+| Klassisch, Holzoptik | Golden Oak | Seitenteil links | ✅ exakt | `tuer-klassisch-goldenoak-seitenteil-rechts` (gespiegelt) |
+| Klassisch, Holzoptik | Golden Oak | Seitenteil rechts | ✅ exakt | `tuer-klassisch-goldenoak-seitenteil-rechts` |
+| Klassisch, Holzoptik | Golden Oak | Seitenteile beidseitig | ✅ exakt | `tuer-klassisch-goldenoak-seitenteil-beidseitig` |
+| Klassisch, Holzoptik | RAL-Farbe nach Wunsch | Kein zusätzliches Seitenteil | 🟡 ähnlich | `tuer-klassisch-anthrazit` |
+| Klassisch, Holzoptik | RAL-Farbe nach Wunsch | Seitenteil links | 🟡 ähnlich | `tuer-klassisch-anthrazit-seitenteil-rechts` (gespiegelt) |
+| Klassisch, Holzoptik | RAL-Farbe nach Wunsch | Seitenteil rechts | 🟡 ähnlich | `tuer-klassisch-anthrazit-seitenteil-rechts` |
+| Klassisch, Holzoptik | RAL-Farbe nach Wunsch | Seitenteile beidseitig | 🟡 ähnlich | `tuer-klassisch-anthrazit-seitenteil-beidseitig` |
+| Modern mit Seitenteil | Weiß | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-seitenteil-weiss` |
+| Modern mit Seitenteil | Weiß | Seitenteil links | ✅ exakt | `tuer-seitenteil-weiss` (gespiegelt) |
+| Modern mit Seitenteil | Weiß | Seitenteil rechts | ✅ exakt | `tuer-seitenteil-weiss` |
+| Modern mit Seitenteil | Weiß | Seitenteile beidseitig | ✅ exakt | `tuer-voll-weiss-seitenteil-beidseitig` |
+| Modern mit Seitenteil | Anthrazit | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-seitenteil-anthrazit` |
+| Modern mit Seitenteil | Anthrazit | Seitenteil links | ✅ exakt | `tuer-seitenteil-anthrazit` (gespiegelt) |
+| Modern mit Seitenteil | Anthrazit | Seitenteil rechts | ✅ exakt | `tuer-seitenteil-anthrazit` |
+| Modern mit Seitenteil | Anthrazit | Seitenteile beidseitig | ✅ exakt | `tuer-voll-anthrazit-seitenteil-beidseitig` |
+| Modern mit Seitenteil | Golden Oak | Kein zusätzliches Seitenteil | ✅ exakt | `tuer-seitenteil-goldenoak` |
+| Modern mit Seitenteil | Golden Oak | Seitenteil links | ✅ exakt | `tuer-seitenteil-goldenoak` (gespiegelt) |
+| Modern mit Seitenteil | Golden Oak | Seitenteil rechts | ✅ exakt | `tuer-seitenteil-goldenoak` |
+| Modern mit Seitenteil | Golden Oak | Seitenteile beidseitig | ✅ exakt | `tuer-voll-goldenoak-seitenteil-beidseitig` |
+| Modern mit Seitenteil | RAL-Farbe nach Wunsch | Kein zusätzliches Seitenteil | 🟡 ähnlich | `tuer-seitenteil-anthrazit` |
+| Modern mit Seitenteil | RAL-Farbe nach Wunsch | Seitenteil links | 🟡 ähnlich | `tuer-seitenteil-anthrazit` (gespiegelt) |
+| Modern mit Seitenteil | RAL-Farbe nach Wunsch | Seitenteil rechts | 🟡 ähnlich | `tuer-seitenteil-anthrazit` |
+| Modern mit Seitenteil | RAL-Farbe nach Wunsch | Seitenteile beidseitig | 🟡 ähnlich | `tuer-voll-anthrazit-seitenteil-beidseitig` |
+
+</details>
 
 **Noch ohne exaktes Foto je Typ:** Dreh-Kipp, 1-flügelig: 0 · 2-flügelig (Stulp): 0 · Festverglasung: 0 · Balkontür (Dreh-Kipp): 0 (RAL/Wunschfarben haben bewusst kein Foto).

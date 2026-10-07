@@ -30,6 +30,7 @@ const W = {
 function altText(name) {
   let m;
   if ((m = name.match(/^fenster-([^-]+)-([^-]+)-([^-]+)-([^-]+)$/))) return `Fenster ${W.typ[m[1]] || m[1]} in ${W.farbe[m[2]] || m[2]}, ${W.sprossen[m[3]] || m[3]}, ${W.rollladen[m[4]] || m[4]} – Abbildung beispielhaft`;
+  if ((m = name.match(/^tuer-([^-]+)-([^-]+)-seitenteil-(rechts|beidseitig)$/))) return `Haustür ${W.modell[m[1]] || m[1]} in ${W.farbe[m[2]] || m[2]} mit Seitenteil ${m[3] === "rechts" ? "rechts" : "beidseitig"} – Abbildung beispielhaft`;
   if ((m = name.match(/^tuer-([^-]+)-([^-]+)$/))) return `Haustür ${W.modell[m[1]] || m[1]} in ${W.farbe[m[2]] || m[2]} – Abbildung beispielhaft`;
   if ((m = name.match(/^glas-(.+)$/))) return `${W.glas[m[1]] || m[1]} – Abbildung beispielhaft`;
   if ((m = name.match(/^zusatz-(.+)$/))) return `${W.zusatz[m[1]] || m[1]} – Abbildung beispielhaft`;

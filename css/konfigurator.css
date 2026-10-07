@@ -157,3 +157,5 @@
 .angebot__bild img { display: block; width: 100%; height: auto; aspect-ratio: 896 / 1200; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
 .angebot__bild figcaption { margin-top: 8px; font-size: 13px; color: var(--ink-2); text-align: center; }
 @media (max-width: 899px) { .angebot__grid { grid-template-columns: 1fr; } .angebot__bild { max-width: 420px; margin: 0 auto; } }
+/* Haustür mit Seitenteil links: Foto „rechts“ spiegelbildlich (Vorschau, Angebotsbild, Karte) */
+.preview__foto.is-spiegel, .angebot__bild img.is-spiegel { transform: scaleX(-1); }

@@ -29,7 +29,7 @@ test("Bilderliste und Dateien stimmen überein; vollständige Serie 144 Fenster 
   }
   for (const f of fs.readdirSync(ORDNER)) { const m = f.match(/^(.*)-(\d+)\.webp$/); if (m) assert.ok(liste.bilder[m[1]], f + " ohne Eintrag in der Liste"); }
   assert.equal(namen.filter((n) => /^fenster-/.test(n)).length, 144, "144 Fensterfotos");
-  assert.equal(namen.filter((n) => /^tuer-/.test(n)).length, 12, "12 Türfotos");
+  assert.equal(namen.filter((n) => /^tuer-/.test(n)).length, 30, "12 Türfotos + 18 mit Seitenteil");
   assert.equal(namen.filter((n) => /^(glas|zusatz)-/.test(n)).length, 11, "11 Kartenbilder");
   namen.filter((n) => /^(fenster|tuer|glas|zusatz)-/.test(n)).forEach((n) => assert.deepEqual(liste.bilder[n].groessen, [400, 900], n + ": 400 und 900 px"));
 });
@@ -88,13 +88,44 @@ test("Jede Fensterkombination Typ × Farbe × Sprossen × Rollladen zeigt ihr EX
   }
   assert.equal(B.vorschau("fenster", { typ: "1-fluegelig", farbe: "weiss", sprossen: "keine", rollladen: "aufsatz" }), "fenster-1fl-weiss-keine-aufsatz", "der gemeldete Fall");
 });
-test("Haustür: Modell × Farbe exakt, RAL → Zeichnung; Angebotsbild fällt bei RAL auf das nächstliegende Foto zurück", () => {
-  for (const modell of Object.keys(H.modelle)) for (const farbe of Object.keys(H.farben)) {
-    const v = B.vorschau("haustuer", { modell, farbe });
-    if (farbe === "ral") { assert.equal(v, null, modell + "/ral → SVG"); assert.ok(B.angebotBild("haustuer", { modell, farbe }), "Angebotsbild vorhanden"); }
-    else assert.equal(v, `tuer-${teil("modell", modell)}-${teil("farbe", farbe)}`);
+test("Haustür: Modell × Farbe × Seitenteil exakt (links = rechts gespiegelt), RAL → Zeichnung; Angebotsbild fällt bei RAL auf das nächstliegende Foto zurück", () => {
+  let n = 0;
+  for (const modell of Object.keys(H.modelle)) for (const farbe of Object.keys(H.farben)) for (const seitenteil of Object.keys(H.seitenteil)) {
+    const st = { modell, farbe, seitenteil };
+    const v = B.vorschau("haustuer", st), sp = B.vorschauSpiegel("haustuer", st);
+    if (farbe === "ral") { assert.equal(v, null, `${modell}/ral/${seitenteil} → SVG`); assert.ok(B.angebotBild("haustuer", st), "Angebotsbild vorhanden"); continue; }
+    const m = teil("modell", modell), f = teil("farbe", farbe);
+    let erwartet, erwSp = false;
+    if (m === "seitenteil") { if (seitenteil === "beidseitig") erwartet = `tuer-voll-${f}-seitenteil-beidseitig`; else { erwartet = `tuer-seitenteil-${f}`; erwSp = seitenteil === "links"; } }
+    else if (seitenteil === "keines") erwartet = `tuer-${m}-${f}`;
+    else if (seitenteil === "beidseitig") erwartet = `tuer-${m}-${f}-seitenteil-beidseitig`;
+    else { erwartet = `tuer-${m}-${f}-seitenteil-rechts`; erwSp = seitenteil === "links"; }
+    assert.equal(v, erwartet, `${modell}/${farbe}/${seitenteil}`); assert.equal(sp, erwSp, `${modell}/${farbe}/${seitenteil} gespiegelt`); n++;
   }
+  assert.equal(n, 48, "4 Modelle × 3 Farben × 4 Seitenteile");
+  /* Angebotsbild bei RAL: nächstliegendes Foto, Spiegelung bleibt bei „links“ */
+  assert.equal(B.angebotBild("haustuer", { modell: "modern-voll", farbe: "ral", seitenteil: "links" }), "tuer-voll-anthrazit-seitenteil-rechts");
+  assert.equal(B.angebotSpiegel("haustuer", { modell: "modern-voll", farbe: "ral", seitenteil: "links" }), true);
   assert.equal(B.angebotBild("fenster", { typ: "balkontuer", farbe: "zweifarbig", sprossen: "wiener", rollladen: "vorsatz" }), "fenster-balkon-zweifarbig-wiener-vorsatz");
+  /* Schlagwörter für Seitenteil-Optionen aus dem Admin */
+  assert.equal(teil("seitenteil", "st-2", "Zwei Seitenteile"), "beidseitig");
+  assert.equal(teil("seitenteil", "st-l", "Seitenteil links"), "links");
+  assert.equal(teil("seitenteil", "einseitig", "Ein Seitenteil (rechts)"), "rechts");
+  assert.equal(teil("seitenteil", "kein", "Ohne"), "kein");
+});
+test("Karten im Schritt Seitenteil zeigen kein / links (gespiegelt) / rechts / beidseitig im gewählten Modell und in der Farbe", () => {
+  for (const [modell, farbe] of [["modern-voll", "weiss"], ["modern-glasstreifen", "anthrazit"], ["klassisch-golden-oak", "golden-oak"]]) {
+    const st = { modell, farbe }; const m = teil("modell", modell), f = teil("farbe", farbe);
+    assert.equal(B.karte("haustuer", "seitenteil", "keines", H.seitenteil.keines, st), `tuer-${m}-${f}`);
+    assert.equal(B.karte("haustuer", "seitenteil", "links", H.seitenteil.links, st), `tuer-${m}-${f}-seitenteil-rechts`); assert.equal(B.spiegeln("haustuer", "seitenteil", "links", H.seitenteil.links), true);
+    assert.equal(B.karte("haustuer", "seitenteil", "rechts", H.seitenteil.rechts, st), `tuer-${m}-${f}-seitenteil-rechts`); assert.equal(B.spiegeln("haustuer", "seitenteil", "rechts", H.seitenteil.rechts), false);
+    assert.equal(B.karte("haustuer", "seitenteil", "beidseitig", H.seitenteil.beidseitig, st), `tuer-${m}-${f}-seitenteil-beidseitig`);
+  }
+  const st = { modell: "mit-seitenteil", farbe: "weiss" };
+  assert.equal(B.karte("haustuer", "seitenteil", "keines", H.seitenteil.keines, st), "tuer-voll-weiss");
+  assert.equal(B.karte("haustuer", "seitenteil", "rechts", H.seitenteil.rechts, st), "tuer-seitenteil-weiss");
+  assert.equal(B.karte("haustuer", "seitenteil", "beidseitig", H.seitenteil.beidseitig, st), "tuer-voll-weiss-seitenteil-beidseitig");
+  assert.ok(!Object.values(liste.bilder).some((b) => false) && !/haustuer-mit-seitenteil/.test(JSON.stringify(["modern-voll", "mit-seitenteil"].map((mo) => Object.keys(H.seitenteil).map((s) => B.karte("haustuer", "seitenteil", s, H.seitenteil[s], { modell: mo, farbe: "weiss" }))))), "keine alte Aufnahme aus einer anderen Serie mehr");
 });
 
 /* ---------- Karten: jede Option bebildert, keine Doppelungen in einer Gruppe ---------- */
@@ -131,7 +162,7 @@ test("Abdeckungsbericht: 144/144 Fenster exakt, Haustür 12 exakt + 4 RAL ähnli
   const { bericht } = require("../scripts/konfigurator-bilder-abdeckung.js");
   const r = bericht();
   assert.equal(r.gesamt, 144); assert.equal(r.z.exakt, 144); assert.equal(r.z.fehlt, 0);
-  assert.equal(r.zz.exakt, 12); assert.equal(r.zz.aehnlich, 4);
+  assert.equal(r.zz.exakt, 48); assert.equal(r.zz.aehnlich, 16, "RAL-Kombinationen"); assert.equal(r.zz.fehlt, 0);
 });
 
 test("Vorschau-Markup, Angebotsbild und Skripte in den Konfigurator-Seiten", () => {

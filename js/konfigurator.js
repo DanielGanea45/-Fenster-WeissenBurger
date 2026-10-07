@@ -186,7 +186,8 @@
     if (!name) return "";
     var info = B.info(name) || {}; var groessen = info.groessen || [400, 900]; var gross = groessen[groessen.length - 1];
     var h = info.breite && info.hoehe ? Math.round(gross * info.hoehe / info.breite) : Math.round(gross * 1.34);
-    return '<figure class="angebot__bild"><img src="' + IMG + name + "-" + gross + '.webp" srcset="' + groessen.map(function (g) { return IMG + name + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="(min-width: 900px) 360px, 92vw" width="' + gross + '" height="' + h + '" alt="' + esc(info.alt || "Ihre Konfiguration – Abbildung beispielhaft") + '" decoding="async"><figcaption>' + esc(state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "")) + (exakt ? " · Abbildung beispielhaft" : " · Farbe weicht ab (kein Foto für diese Farbe) · Abbildung beispielhaft") + "</figcaption></figure>";
+    var spiegel = B.angebotSpiegel(produkt, state);
+    return '<figure class="angebot__bild"><img' + (spiegel ? ' class="is-spiegel"' : "") + ' src="' + IMG + name + "-" + gross + '.webp" srcset="' + groessen.map(function (g) { return IMG + name + "-" + g + ".webp " + g + "w"; }).join(", ") + '" sizes="(min-width: 900px) 360px, 92vw" width="' + gross + '" height="' + h + '" alt="' + esc(info.alt || "Ihre Konfiguration – Abbildung beispielhaft") + '" decoding="async"><figcaption>' + esc(state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "")) + (exakt ? " · Abbildung beispielhaft" : " · Farbe weicht ab (kein Foto für diese Farbe) · Abbildung beispielhaft") + "</figcaption></figure>";
   }
   function summaryRows() {
     var D = L(); if (!D) return [];
@@ -243,13 +244,14 @@
     if (!B) return; var D = L(); if (!D) return;
     clearTimeout(fotoTimer);
     fotoTimer = setTimeout(function () {
-      var opt = produkt === "fenster" ? { farbe: Object.keys(D.farben), sprossen: Object.keys(D.sprossen), rollladen: Object.keys(D.rollladen), typ: Object.keys(D.typen) } : { farbe: Object.keys(D.farben), modell: Object.keys(D.modelle) };
+      var opt = produkt === "fenster" ? { farbe: Object.keys(D.farben), sprossen: Object.keys(D.sprossen), rollladen: Object.keys(D.rollladen), typ: Object.keys(D.typen) } : { farbe: Object.keys(D.farben), modell: Object.keys(D.modelle), seitenteil: Object.keys(D.seitenteil || {}) };
       B.nachbarn(produkt, state, opt).forEach(function (n) { var info = B.info(n) || {}; var g = (info.groessen || [900]).slice(-1)[0]; var i = new Image(); i.src = IMG + n + "-" + g + ".webp"; });
     }, 400);
   }
   function renderAside() {
     if (els.preview) els.preview.innerHTML = produkt === "fenster" ? drawFenster() : drawHaustuer();
     zeigeFoto(B ? B.vorschau(produkt, state) : null);
+    if (els.foto) els.foto.classList.toggle("is-spiegel", !!(B && B.vorschauSpiegel(produkt, state)));
     ladeNachbarn();
     if (els.masse) els.masse.textContent = state.breiteMm + " × " + state.hoeheMm + " mm" + (state.menge > 1 ? " · " + state.menge + " Elemente" : "");
     var r = calc();

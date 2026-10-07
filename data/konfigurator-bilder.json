@@ -1509,6 +1509,24 @@
    "hoehe": 1206,
    "alt": "Haustür modern mit Glasstreifen in Anthrazit – Abbildung beispielhaft"
   },
+  "tuer-glasstreifen-anthrazit-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür modern mit Glasstreifen in Anthrazit mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-anthrazit-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Glasstreifen in Anthrazit mit Seitenteil rechts – Abbildung beispielhaft"
+  },
   "tuer-glasstreifen-goldenoak": {
    "groessen": [
     400,
@@ -1517,6 +1535,24 @@
    "breite": 900,
    "hoehe": 1206,
    "alt": "Haustür modern mit Glasstreifen in Golden Oak – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-goldenoak-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür modern mit Glasstreifen in Golden Oak mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-goldenoak-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Glasstreifen in Golden Oak mit Seitenteil rechts – Abbildung beispielhaft"
   },
   "tuer-glasstreifen-weiss": {
    "groessen": [
@@ -1527,6 +1563,24 @@
    "hoehe": 1206,
    "alt": "Haustür modern mit Glasstreifen in Weiß – Abbildung beispielhaft"
   },
+  "tuer-glasstreifen-weiss-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür modern mit Glasstreifen in Weiß mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-glasstreifen-weiss-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern mit Glasstreifen in Weiß mit Seitenteil rechts – Abbildung beispielhaft"
+  },
   "tuer-klassisch-anthrazit": {
    "groessen": [
     400,
@@ -1535,6 +1589,24 @@
    "breite": 900,
    "hoehe": 1206,
    "alt": "Haustür klassisch in Holzoptik in Anthrazit – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-anthrazit-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür klassisch in Holzoptik in Anthrazit mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-anthrazit-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür klassisch in Holzoptik in Anthrazit mit Seitenteil rechts – Abbildung beispielhaft"
   },
   "tuer-klassisch-goldenoak": {
    "groessen": [
@@ -1545,6 +1617,24 @@
    "hoehe": 1206,
    "alt": "Haustür klassisch in Holzoptik in Golden Oak – Abbildung beispielhaft"
   },
+  "tuer-klassisch-goldenoak-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür klassisch in Holzoptik in Golden Oak mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-goldenoak-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür klassisch in Holzoptik in Golden Oak mit Seitenteil rechts – Abbildung beispielhaft"
+  },
   "tuer-klassisch-weiss": {
    "groessen": [
     400,
@@ -1553,6 +1643,24 @@
    "breite": 900,
    "hoehe": 1206,
    "alt": "Haustür klassisch in Holzoptik in Weiß – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-weiss-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür klassisch in Holzoptik in Weiß mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-klassisch-weiss-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür klassisch in Holzoptik in Weiß mit Seitenteil rechts – Abbildung beispielhaft"
   },
   "tuer-seitenteil-anthrazit": {
    "groessen": [
@@ -1590,6 +1698,24 @@
    "hoehe": 1206,
    "alt": "Haustür modern, vollflächig in Anthrazit – Abbildung beispielhaft"
   },
+  "tuer-voll-anthrazit-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür modern, vollflächig in Anthrazit mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-voll-anthrazit-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern, vollflächig in Anthrazit mit Seitenteil rechts – Abbildung beispielhaft"
+  },
   "tuer-voll-goldenoak": {
    "groessen": [
     400,
@@ -1599,6 +1725,24 @@
    "hoehe": 1206,
    "alt": "Haustür modern, vollflächig in Golden Oak – Abbildung beispielhaft"
   },
+  "tuer-voll-goldenoak-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür modern, vollflächig in Golden Oak mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-voll-goldenoak-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern, vollflächig in Golden Oak mit Seitenteil rechts – Abbildung beispielhaft"
+  },
   "tuer-voll-weiss": {
    "groessen": [
     400,
@@ -1607,6 +1751,24 @@
    "breite": 900,
    "hoehe": 1206,
    "alt": "Haustür modern, vollflächig in Weiß – Abbildung beispielhaft"
+  },
+  "tuer-voll-weiss-seitenteil-beidseitig": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 900,
+   "alt": "Haustür modern, vollflächig in Weiß mit Seitenteil beidseitig – Abbildung beispielhaft"
+  },
+  "tuer-voll-weiss-seitenteil-rechts": {
+   "groessen": [
+    400,
+    900
+   ],
+   "breite": 900,
+   "hoehe": 1206,
+   "alt": "Haustür modern, vollflächig in Weiß mit Seitenteil rechts – Abbildung beispielhaft"
   },
   "typ-1-fluegelig": {
    "groessen": [
