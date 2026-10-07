@@ -183,7 +183,7 @@ function pageKonf(key) {
         </div>
 
         <aside class="konf__aside" aria-label="Ihre Konfiguration">
-          <div class="preview"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><img class="preview__foto" alt="" width="896" height="1200" decoding="async" hidden></div><p class="preview__masse"></p><p class="preview__note">Schematische Darstellung · Abbildung beispielhaft</p></div>
+          <div class="preview"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><img class="preview__foto" alt="" width="896" height="1200" decoding="async" hidden><span class="preview__etikett" hidden></span></div><p class="preview__masse"></p><p class="preview__note">Schematische Darstellung · Abbildung beispielhaft</p></div>
           <div class="price"><h3>Ihre Konfiguration</h3><p class="price__na">Preis wird berechnet …</p></div>
           <div class="summary"><h3>Zusammenfassung</h3><dl></dl><details class="posliste" hidden><summary>Positionen</summary><table><tbody></tbody></table></details></div>
         </aside>

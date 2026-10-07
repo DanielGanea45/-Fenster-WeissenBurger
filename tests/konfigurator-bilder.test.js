@@ -30,8 +30,9 @@ test("Bilderliste und Dateien stimmen überein; vollständige Serie 144 Fenster 
   for (const f of fs.readdirSync(ORDNER)) { const m = f.match(/^(.*)-(\d+)\.webp$/); if (m) assert.ok(liste.bilder[m[1]], f + " ohne Eintrag in der Liste"); }
   assert.equal(namen.filter((n) => /^fenster-/.test(n)).length, 144, "144 Fensterfotos");
   assert.equal(namen.filter((n) => /^tuer-/.test(n)).length, 30, "12 Türfotos + 18 mit Seitenteil");
-  assert.equal(namen.filter((n) => /^(glas|zusatz)-/.test(n)).length, 11, "11 Kartenbilder");
-  namen.filter((n) => /^(fenster|tuer|glas|zusatz)-/.test(n)).forEach((n) => assert.deepEqual(liste.bilder[n].groessen, [400, 900], n + ": 400 und 900 px"));
+  assert.equal(namen.filter((n) => /^(glas|zusatz|karte)-/.test(n)).length, 12, "11 Kartenbilder + RAL-Farbfächer");
+  assert.equal(liste.bilder["karte-ral"].alt, "Farbfächer: RAL-Farbe nach Wunsch – Abbildung beispielhaft");
+  namen.filter((n) => /^(fenster|tuer|glas|zusatz|karte)-/.test(n)).forEach((n) => assert.deepEqual(liste.bilder[n].groessen, [400, 900], n + ": 400 und 900 px"));
 });
 
 test("Alt-Texte: deutsch und sprechend", () => {
@@ -93,7 +94,16 @@ test("Haustür: Modell × Farbe × Seitenteil exakt (links = rechts gespiegelt),
   for (const modell of Object.keys(H.modelle)) for (const farbe of Object.keys(H.farben)) for (const seitenteil of Object.keys(H.seitenteil)) {
     const st = { modell, farbe, seitenteil };
     const v = B.vorschau("haustuer", st), sp = B.vorschauSpiegel("haustuer", st);
-    if (farbe === "ral") { assert.equal(v, null, `${modell}/ral/${seitenteil} → SVG`); assert.ok(B.angebotBild("haustuer", st), "Angebotsbild vorhanden"); continue; }
+    if (farbe === "ral") {
+      /* RAL: dieselbe Form in Weiß + Etikett statt Zeichnung */
+      assert.equal(v, B.vorschau("haustuer", Object.assign({}, st, { farbe: "weiss" })), `${modell}/ral/${seitenteil} → Foto in Weiß`);
+      assert.equal(sp, B.vorschauSpiegel("haustuer", Object.assign({}, st, { farbe: "weiss" })));
+      assert.equal(B.etikett("haustuer", st), "Farbe nach Wahl (RAL)");
+      assert.equal(B.etikett("haustuer", Object.assign({}, st, { ralCode: "3004" })), "Farbe nach Wahl: RAL 3004");
+      assert.equal(B.abdeckung("haustuer", st).stufe, "ral");
+      continue;
+    }
+    assert.equal(B.etikett("haustuer", st), null);
     const m = teil("modell", modell), f = teil("farbe", farbe);
     let erwartet, erwSp = false;
     if (m === "seitenteil") { if (seitenteil === "beidseitig") erwartet = `tuer-voll-${f}-seitenteil-beidseitig`; else { erwartet = `tuer-seitenteil-${f}`; erwSp = seitenteil === "links"; } }
@@ -103,9 +113,15 @@ test("Haustür: Modell × Farbe × Seitenteil exakt (links = rechts gespiegelt),
     assert.equal(v, erwartet, `${modell}/${farbe}/${seitenteil}`); assert.equal(sp, erwSp, `${modell}/${farbe}/${seitenteil} gespiegelt`); n++;
   }
   assert.equal(n, 48, "4 Modelle × 3 Farben × 4 Seitenteile");
-  /* Angebotsbild bei RAL: nächstliegendes Foto, Spiegelung bleibt bei „links“ */
-  assert.equal(B.angebotBild("haustuer", { modell: "modern-voll", farbe: "ral", seitenteil: "links" }), "tuer-voll-anthrazit-seitenteil-rechts");
+  /* Angebotsbild bei RAL: Form in Weiß, Spiegelung bleibt bei „links“ */
+  assert.equal(B.angebotBild("haustuer", { modell: "modern-voll", farbe: "ral", seitenteil: "links" }), "tuer-voll-weiss-seitenteil-rechts");
   assert.equal(B.angebotSpiegel("haustuer", { modell: "modern-voll", farbe: "ral", seitenteil: "links" }), true);
+  /* RAL-Karte zeigt den Farbfächer, nicht ein Tür-/Profilfoto; Fenster-RAL (im Admin angelegt) ebenso + Vorschau in Weiß */
+  assert.equal(B.karte("haustuer", "farbe", "ral", H.farben.ral, { modell: "modern-voll" }), "karte-ral");
+  assert.equal(B.karte("fenster", "farbe", "ral-wunsch", { name: "RAL-Farbe nach Wunsch" }, { typ: "1-fluegelig" }), "karte-ral");
+  assert.equal(B.vorschau("fenster", { typ: "2-fluegelig", farbe: "ral-wunsch", sprossen: "wiener", rollladen: "aufsatz" }), "fenster-2fl-weiss-wiener-aufsatz");
+  assert.equal(B.etikett("fenster", { typ: "2-fluegelig", farbe: "ral-wunsch" }), "Farbe nach Wahl (RAL)");
+  assert.equal(B.etikett("fenster", { typ: "2-fluegelig", farbe: "weiss" }), null);
   assert.equal(B.angebotBild("fenster", { typ: "balkontuer", farbe: "zweifarbig", sprossen: "wiener", rollladen: "vorsatz" }), "fenster-balkon-zweifarbig-wiener-vorsatz");
   /* Schlagwörter für Seitenteil-Optionen aus dem Admin */
   assert.equal(teil("seitenteil", "st-2", "Zwei Seitenteile"), "beidseitig");
@@ -162,7 +178,7 @@ test("Abdeckungsbericht: 144/144 Fenster exakt, Haustür 12 exakt + 4 RAL ähnli
   const { bericht } = require("../scripts/konfigurator-bilder-abdeckung.js");
   const r = bericht();
   assert.equal(r.gesamt, 144); assert.equal(r.z.exakt, 144); assert.equal(r.z.fehlt, 0);
-  assert.equal(r.zz.exakt, 48); assert.equal(r.zz.aehnlich, 16, "RAL-Kombinationen"); assert.equal(r.zz.fehlt, 0);
+  assert.equal(r.zz.exakt, 48); assert.equal(r.zz.ral, 16, "RAL-Kombinationen: Form in Weiß + Etikett"); assert.equal(r.zz.aehnlich, 0); assert.equal(r.zz.fehlt, 0);
 });
 
 test("Vorschau-Markup, Angebotsbild und Skripte in den Konfigurator-Seiten", () => {

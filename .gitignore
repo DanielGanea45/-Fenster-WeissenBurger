@@ -47,3 +47,4 @@ package-lock.json
 # Hilfsdateien des Kunden für die Bildserie (nicht committen)
 /bilder-*.ps1
 /konfigurator-bilder-2.json
+/*.png
