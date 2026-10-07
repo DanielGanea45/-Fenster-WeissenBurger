@@ -6,10 +6,13 @@ const API = "https://api.brevo.com/v3/smtp/email";
 function sender(absenderName) {
   return { name: absenderName || process.env.MAIL_FROM_NAME || "Fenster-WeissenBurger Website", email: process.env.MAIL_FROM || "info@fenster-weissenburger.de" };
 }
-async function send({ to, subject, text, html, absenderName }) {
+async function send({ to, subject, text, html, absenderName, cc, replyTo, anhaenge }) {
   const key = process.env.BREVO_API_KEY;
-  if (!key) { console.log("[mail skipped] an:", to, "Betreff:", subject); return { ok: false, skipped: true }; }
+  if (!key) { console.log("[mail skipped] an:", to, "Betreff:", subject, anhaenge ? "Anhänge: " + anhaenge.map((a) => a.name).join(", ") : ""); return { ok: false, skipped: true }; }
   const body = { sender: sender(absenderName), to: [{ email: to }], subject, textContent: text, htmlContent: html || `<pre style="font:15px/1.5 Manrope,Arial,sans-serif;white-space:pre-wrap">${escapeHtml(text)}</pre>` };
+  if (cc) body.cc = [{ email: cc }];
+  if (replyTo) body.replyTo = { email: replyTo };
+  if (anhaenge && anhaenge.length) body.attachment = anhaenge.map((a) => ({ name: a.name, content: Buffer.isBuffer(a.inhalt) ? a.inhalt.toString("base64") : String(a.inhalt) }));
   const r = await fetch(API, { method: "POST", headers: { "api-key": key, "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body) });
   if (!r.ok) { const t = await r.text().catch(() => ""); return { ok: false, error: `Brevo ${r.status}: ${t.slice(0, 200)}` }; }
   return { ok: true };
