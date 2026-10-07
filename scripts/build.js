@@ -21,6 +21,7 @@ const validate = require(path.join(LIB, "validate"));
 const mail = require(path.join(LIB, "mail"));
 
 const DEFAULT_SCHRITTE = [
+  { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
   { name: "Tests (Preisrechner, Admin)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
   { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" },

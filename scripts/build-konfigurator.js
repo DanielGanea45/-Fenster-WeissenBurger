@@ -19,7 +19,7 @@ const indexHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const ls = indexHtml.indexOf('      <span class="brand__box">');
 const le = indexHtml.indexOf("</span>\n    </a>", ls) + "</span>".length;
 const LOGO = indexHtml.slice(ls, le).trim();
-const v = (name) => { const m = indexHtml.match(new RegExp(name.replace(".", "\\.") + "\\?v=(\\d+)")); return m ? m[1] : "1"; };
+const v = (name) => { const m = indexHtml.match(new RegExp(name.replace(".", "\\.") + "\\?v=([\\w.-]+)")); return m ? m[1] : "1"; }; // Versionen sind Inhalts-Hashes (scripts/assets-version.js)
 const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js"), config: v("config.js") };
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const linkHidden = status === "online" ? "" : " hidden";
