@@ -46,8 +46,39 @@ const checks = [
   ["Akzent (Buttonfläche) gegen Karte (UI, 3:1)", PAL.accent, PAL.surface, 3.0],
   ["Dunkles Akzentblau (reiner Akzenttext) auf Dunkel – bewusst NICHT verwendet", PAL.accent, PAL.dark, 0],
 ];
+/* ---------- Admin „Command Center“ (css/admin.css) ---------- */
+const ADM = { bg0: "#121a24", bg1: "#1b2430", panel: "#1f2a38", panel2: "#26334a", panel3: "#2d3b52", line: "#2c3a4d", ink: "#eef3f8", ink2: "#a9b7c6", ink3: "#8593a4", accent: "#3d8bff", accentHover: "#5a9dff", accentInk: "#0b1420", accentText: "#8ab8ff", okText: "#7fe0a8", okSoft: "#163d2a", warnText: "#ffc978", warnSoft: "#44361a", errText: "#ff9b9b", errSoft: "#4a2229", err: "#ff8080", ok: "#3ddc84" };
+const adminChecks = [
+  ["Admin: Text auf Seitenhintergrund (oben)", ADM.ink, ADM.bg0, 4.5],
+  ["Admin: Text auf Seitenhintergrund (unten)", ADM.ink, ADM.bg1, 4.5],
+  ["Admin: Text auf Panel", ADM.ink, ADM.panel, 4.5],
+  ["Admin: Text auf Panel 2 (Eingabefelder, Tabellenkopf)", ADM.ink, ADM.panel2, 4.5],
+  ["Admin: Text auf Panel 3 (Hover/aktiv)", ADM.ink, ADM.panel3, 4.5],
+  ["Admin: Text sekundär auf Seitenhintergrund", ADM.ink2, ADM.bg1, 4.5],
+  ["Admin: Text sekundär auf Panel", ADM.ink2, ADM.panel, 4.5],
+  ["Admin: Text sekundär auf Panel 2", ADM.ink2, ADM.panel2, 4.5],
+  ["Admin: Text tertiär (nur Icons/Hinweise ≥ 18 px) auf Seitenhintergrund", ADM.ink3, ADM.bg1, 3.0],
+  ["Admin: Akzent-Text/Werte auf Seitenhintergrund", ADM.accentText, ADM.bg1, 4.5],
+  ["Admin: Akzent-Text/Werte auf Panel", ADM.accentText, ADM.panel, 4.5],
+  ["Admin: Akzent-Text/Werte auf Panel 2", ADM.accentText, ADM.panel2, 4.5],
+  ["Admin: Button-Text (dunkel) auf Akzentfläche", ADM.accentInk, ADM.accent, 4.5],
+  ["Admin: Button-Text (dunkel) auf Akzentfläche (Hover)", ADM.accentInk, ADM.accentHover, 4.5],
+  ["Admin: Akzentfläche gegen Panel (UI, 3:1)", ADM.accent, ADM.panel, 3.0],
+  ["Admin: Akzentfläche gegen Seitenhintergrund (UI, 3:1)", ADM.accent, ADM.bg1, 3.0],
+  ["Admin: Akzent #3d8bff als Fließtext auf Panel – bewusst NICHT verwendet (nur Flächen/große Zahlen)", ADM.accent, ADM.panel, 0],
+  ["Admin: OK-Text auf Panel", ADM.okText, ADM.panel, 4.5],
+  ["Admin: OK-Text auf OK-Fläche (Badge/Pill)", ADM.okText, ADM.okSoft, 4.5],
+  ["Admin: Warn-Text auf Panel", ADM.warnText, ADM.panel, 4.5],
+  ["Admin: Warn-Text auf Warn-Fläche", ADM.warnText, ADM.warnSoft, 4.5],
+  ["Admin: Fehler-Text auf Panel", ADM.errText, ADM.panel, 4.5],
+  ["Admin: Fehler-Text auf Fehler-Fläche", ADM.errText, ADM.errSoft, 4.5],
+  ["Admin: Fehler-Rahmen gegen Panel 2 (UI, 3:1)", ADM.err, ADM.panel2, 3.0],
+  ["Admin: Schalter EIN (grün) gegen Panel (UI, 3:1)", ADM.ok, ADM.panel, 3.0],
+  ["Admin: Rahmenlinie gegen Panel (dezent, nur Info)", ADM.line, ADM.panel, 0],
+  ["Admin: Toast-Text auf Panel 3", ADM.ink, ADM.panel3, 4.5],
+];
 let fail = 0;
-const rows = checks.map(([name, fg, bg, min]) => {
+const rows = checks.concat(adminChecks).map(([name, fg, bg, min]) => {
   const r = ratio(fg, bg);
   const ok = min === 0 ? "– (Info)" : r >= min ? "✅" : "❌";
   if (min > 0 && r < min) fail++;
