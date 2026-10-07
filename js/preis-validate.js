@@ -2,9 +2,9 @@
    (Netlify Functions, Build). Liefert je Fehler { feld, meldung } mit deutschem Text.
    Baut auf FWPreis.validiereListe() auf (harte Schema-Prüfung des Rechners). */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory(require("./preis.js"));
-  else root.FWPreisValidate = factory(root.FWPreis);
-})(typeof self !== "undefined" ? self : this, function (Preis) {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("./preis.js"), require("./steuer.js"));
+  else root.FWPreisValidate = factory(root.FWPreis, root.FWSteuer);
+})(typeof self !== "undefined" ? self : this, function (Preis, Steuer) {
   "use strict";
   var num = function (x) { return typeof x === "number" && isFinite(x); };
   var geld = function (x) { return num(x) && x >= 0 && Math.abs(x * 100 - Math.round(x * 100)) < 1e-6; };
@@ -15,7 +15,6 @@
     var add = function (feld, meldung) { f.push({ feld: feld, meldung: meldung }); };
     if (!p || typeof p !== "object") { add("", "Preisliste fehlt."); return f; }
     if (!p.version || typeof p.version !== "string" || !p.version.trim()) add("version", "Bitte eine Versionsbezeichnung angeben (z. B. 2026-11-01).");
-    if (!num(p.mwstProzent) || p.mwstProzent < 0 || p.mwstProzent > 30) add("mwstProzent", "MwSt. muss zwischen 0 und 30 % liegen.");
     if (!num(p.onlineRabattProzent) || p.onlineRabattProzent < 0 || p.onlineRabattProzent > 50) add("onlineRabattProzent", "Online-Rabatt muss zwischen 0 und 50 % liegen.");
     if (p.anfahrt) {
       if (!(num(p.anfahrt.freiBisKm) && p.anfahrt.freiBisKm >= 0 && p.anfahrt.freiBisKm <= 1000)) add("anfahrt.freiBisKm", "Anfahrt frei bis: 0 bis 1.000 km.");
@@ -74,6 +73,7 @@
     var f = [];
     if (!e || typeof e !== "object" || !e.konfigurator) f.push({ feld: "konfigurator", meldung: "Einstellungen unvollständig." });
     else if (STATUS.indexOf(e.konfigurator.status) < 0) f.push({ feld: "konfigurator.status", meldung: "Status muss aus, vorschau oder online sein." });
+    if (e && e.steuer !== undefined && !(e.steuer && Steuer && Steuer.gueltig(e.steuer.satzProzent))) f.push({ feld: "steuer.satzProzent", meldung: "Steuersatz muss " + (Steuer ? Steuer.SAETZE.join(" oder ") : "0 oder 19") + " sein." });
     return f;
   }
 

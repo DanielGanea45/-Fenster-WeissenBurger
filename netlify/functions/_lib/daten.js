@@ -9,6 +9,8 @@ const crypto = require("crypto");
 const store = require("./store");
 
 const ROOT = path.join(__dirname, "..", "..", "..");
+/* Bekannte Felder der Preisliste; unbekannte Felder aus älteren gespeicherten Versionen werden beim Laden verworfen */
+const PREISE_FELDER = new Set(["version", "hinweis", "waehrung", "onlineRabattProzent", "rundung", "anfahrt", "fenster", "haustuer", "schiebetuer"]);
 const BEREICHE = {
   preise: { datei: "data/preise.json", titel: "Preise & Konfigurator" },
   einstellungen: { datei: "data/einstellungen.json", titel: "Einstellungen" },
@@ -41,7 +43,9 @@ async function lade(bereich) {
     for (const [id, b] of Object.entries(ue)) if (!out.bilder[id] && b && b.neu) out.bilder[id] = b; // hochgeladene Zusatzbilder
     return out;
   }
-  return gespeichert === null ? repoDatei(bereich) : gespeichert;
+  const out = gespeichert === null ? repoDatei(bereich) : gespeichert;
+  if (bereich === "preise" && out && typeof out === "object") for (const k of Object.keys(out)) if (!PREISE_FELDER.has(k)) delete out[k]; // Altbestand (z. B. früherer Steuersatz in der Liste) verwerfen – der Steuersatz steht in den Einstellungen
+  return out;
 }
 /* Nur die gespeicherten Änderungen (so, wie sie im Store liegen) */
 async function ladeRoh(bereich) { return store.getJSON("daten/" + bereich, null); }

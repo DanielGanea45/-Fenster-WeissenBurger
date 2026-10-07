@@ -2,9 +2,8 @@
   "version": "2026-10-07-beispiel",
   "hinweis": "BEISPIELWERTE zur Abnahme des Konfigurators – vor Veröffentlichung durch die echten Preise ersetzen. Alle Beträge in Euro (max. 2 Nachkommastellen), Prozentwerte als Zahl (15 = 15 %). Der Rechner (js/preis.js) wandelt alles in ganze Cent um.",
   "waehrung": "EUR",
-  "mwstProzent": 19,
   "onlineRabattProzent": 5,
-  "rundung": "Kaufmännisch auf ganze Cent nach jedem Schritt, in fester Reihenfolge: Basis → Zuschläge (einzeln) → Elementpreis × Menge → Online-Rabatt → Montage/Demontage → Netto → MwSt → Brutto.",
+  "rundung": "Kaufmännisch auf ganze Cent nach jedem Schritt, in fester Reihenfolge: Basis → Zuschläge (einzeln) → Elementpreis × Menge → Online-Rabatt → Montage/Demontage → Summe → Steuer (Satz aus data/einstellungen.json) → Endpreis.",
   "fenster": {
     "grenzen": { "breiteMinMm": 400, "breiteMaxMm": 2500, "hoeheMinMm": 400, "hoeheMaxMm": 2500, "mindestflaecheM2": 0.5, "mengeMax": 50 },
     "systeme": {

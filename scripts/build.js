@@ -17,21 +17,22 @@ const LIB = path.join(__dirname, "..", "netlify", "functions", "_lib");
 const env = require(path.join(LIB, "env")); // trimmt Umgebungsvariablen vor allem anderen
 const store = require(path.join(LIB, "store"));
 const daten = require(path.join(LIB, "daten"));
+const Steuer = require(path.join(__dirname, "..", "js", "steuer.js"));
 const validate = require(path.join(LIB, "validate"));
 const mail = require(path.join(LIB, "mail"));
 
 const DEFAULT_SCHRITTE = [
+  { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" }, // zuerst: die Tests prüfen die fertigen Seiten (Steuertexte), Asset-Hashes danach
   { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
-  { name: "Tests (Preisrechner, Admin)", cmd: "node --test tests/*.test.js" },
+  { name: "Tests (Preisrechner, Admin, Steuer-Audit)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
-  { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" },
 ];
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 function hash(buf) { return require("crypto").createHash("sha1").update(buf).digest("hex").slice(0, 8); }
 
 /* ---------- Texte einsetzen ---------- */
-function texteEinsetzen(root, texte) {
+function texteEinsetzen(root, texte, satz) {
   let n = 0;
   const proSeite = {};
   for (const [id, b] of Object.entries(texte.bloecke || {})) if (b.geaendert) (proSeite[b.seite] = proSeite[b.seite] || []).push([id, b]);
@@ -41,7 +42,7 @@ function texteEinsetzen(root, texte) {
     let html = fs.readFileSync(f, "utf8");
     for (const [id, b] of liste) {
       const re = new RegExp(`(<(h1|h2|h3|p)\\b[^>]*data-text="${id}"[^>]*>)([\\s\\S]*?)(</\\2>)`);
-      if (re.test(html)) { html = html.replace(re, (m, a, t, inner, z) => a + validate.sanitizeHtml(b.html) + z); n++; }
+      if (re.test(html)) { html = html.replace(re, (m, a, t, inner, z) => a + Steuer.ersetzePlatzhalter(validate.sanitizeHtml(b.html), satz) + z); n++; }
     }
     fs.writeFileSync(f, html);
   }
@@ -192,9 +193,10 @@ async function lauf(opt = {}) {
       const bew = await daten.lade("bewertungen");
       const repoEinst = daten.repoDatei("einstellungen");
       repoEinst.konfigurator.status = einst.konfigurator.status;
+      repoEinst.steuer = Object.assign({}, repoEinst.steuer, { satzProzent: Steuer.satz(einst) }); // Steuersatz aus dem Admin → alle Seiten, Rechner, E-Mails
       fs.writeFileSync(path.join(root, "data", "preise.json"), JSON.stringify(preise, null, 2) + "\n");
       fs.writeFileSync(path.join(root, "data", "einstellungen.json"), JSON.stringify(repoEinst, null, 2) + "\n");
-      const nT = texteEinsetzen(root, texte);
+      const nT = texteEinsetzen(root, texte, Steuer.satz(einst));
       const nB = await bilderEinsetzen(root, bilder, texte);
       const nBew = bewertungenSchreiben(root, bew);
       redirectsSchreiben(root, einst.konfigurator.status);

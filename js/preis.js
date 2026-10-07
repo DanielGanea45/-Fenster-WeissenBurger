@@ -11,9 +11,10 @@
        3. Elementpreis = Basis + Zuschläge;  Produkt = Elementpreis × Menge
        4. Online-Rabatt = Produkt × Rabatt %   (nur auf das Produkt, nicht auf Montage)
        5. Montage      = (Montage + ggf. Demontage/Entsorgung) × Menge
-       6. Netto        = Produkt − Rabatt + Montage
-       7. MwSt         = Netto × MwSt %;  Brutto = Netto + MwSt
-     „Preis ohne Online-Rabatt“ = (Produkt + Montage) brutto, gleich gerundet.
+       6. Summe        = Produkt − Rabatt + Montage
+       7. Steuer       = Summe × Steuersatz;  Endpreis = Summe + Steuer
+          (Steuersatz 0 oder 19 aus data/einstellungen.json, Texte dazu nur in js/steuer.js)
+     „Preis ohne Online-Rabatt“ = (Produkt + Montage) mit Steuer, gleich gerundet.
    - Ist die Preisliste ungültig (Schema) oder die Konfiguration außerhalb der Grenzen, gibt es keinen Preis
      (ok: false, fehler[]), die Seite zeigt dann „Preis auf Anfrage“. */
 (function (root, factory) {
@@ -35,7 +36,6 @@
     need(p && typeof p === "object", "Preisliste fehlt");
     if (!p || typeof p !== "object") return { ok: false, fehler: f };
     need(typeof p.version === "string" && p.version.length > 0, "version fehlt");
-    need(istProzent(p.mwstProzent) && p.mwstProzent >= 0 && p.mwstProzent <= 30, "mwstProzent ungültig");
     need(istProzent(p.onlineRabattProzent) && p.onlineRabattProzent >= 0 && p.onlineRabattProzent <= 50, "onlineRabattProzent ungültig");
     function mapOk(obj, name, check) {
       need(obj && typeof obj === "object" && Object.keys(obj).length > 0, name + " fehlt oder leer");
@@ -90,7 +90,7 @@
   function ganzzahl(x) { return typeof x === "number" && isFinite(x) && Math.floor(x) === x; }
   function pos(name, betrag, detail) { return { name: name, betrag: betrag, detail: detail || "" }; }
 
-  function abschluss(p, positionen, elementCent, menge, montageProElement, demontageProElement, cfg) {
+  function abschluss(p, positionen, elementCent, menge, montageProElement, demontageProElement, cfg, satz) {
     var produkt = elementCent * menge;
     var rabatt = rund(produkt * p.onlineRabattProzent / 100);
     var montage = 0;
@@ -98,11 +98,11 @@
       montage += montageProElement * menge;
       if (cfg.demontage) montage += demontageProElement * menge;
     }
-    var netto = produkt - rabatt + montage;
-    var mwst = rund(netto * p.mwstProzent / 100);
-    var brutto = netto + mwst;
-    var ohneRabattNetto = produkt + montage;
-    var ohneRabattBrutto = ohneRabattNetto + rund(ohneRabattNetto * p.mwstProzent / 100);
+    var summe = produkt - rabatt + montage;
+    var steuer = rund(summe * satz / 100);
+    var endpreis = summe + steuer;
+    var ohneRabattSumme = produkt + montage;
+    var ohneRabatt = ohneRabattSumme + rund(ohneRabattSumme * satz / 100);
     return {
       ok: true,
       version: p.version,
@@ -114,17 +114,17 @@
       rabattProzent: p.onlineRabattProzent,
       rabatt: rabatt,
       montage: montage,
-      netto: netto,
-      mwstProzent: p.mwstProzent,
-      mwst: mwst,
-      brutto: brutto,
-      ohneRabattBrutto: ohneRabattBrutto,
-      ersparnisBrutto: ohneRabattBrutto - brutto,
+      summe: summe,
+      steuerProzent: satz,
+      steuer: steuer,
+      endpreis: endpreis,
+      ohneRabatt: ohneRabatt,
+      ersparnis: ohneRabatt - endpreis,
     };
   }
 
   /* ---------- Fenster ---------- */
-  function berechneFenster(cfg, p) {
+  function berechneFenster(cfg, p, satz) {
     var v = validiereListe(p);
     if (!v.ok) return { ok: false, fehler: ["preisliste"].concat(v.fehler) };
     var F = p.fenster, f = [];
@@ -166,11 +166,11 @@
       if (e.art === "proLfm") add(e.name, rund(b * cent(e.zuschlag) / 1000), (b / 1000).toFixed(2).replace(".", ",") + " lfm");
       else add(e.name, cent(e.zuschlag));
     });
-    return abschluss(p, P, summe, menge, cent(F.montage.montageProElement), cent(F.montage.demontageEntsorgungProElement), cfg);
+    return abschluss(p, P, summe, menge, cent(F.montage.montageProElement), cent(F.montage.demontageEntsorgungProElement), cfg, steuersatz(satz));
   }
 
   /* ---------- Haustür ---------- */
-  function berechneHaustuer(cfg, p) {
+  function berechneHaustuer(cfg, p, satz) {
     var v = validiereListe(p);
     if (!v.ok) return { ok: false, fehler: ["preisliste"].concat(v.fehler) };
     var H = p.haustuer, f = [];
@@ -199,13 +199,15 @@
     add("Glas: " + glas.name, cent(glas.zuschlagProElement));
     add(st.name, cent(st.zuschlagProElement));
     zus.forEach(function (z) { add(H.zusaetze[z].name, cent(H.zusaetze[z].zuschlag)); });
-    return abschluss(p, P, summe, menge, cent(H.montage.montageProElement), cent(H.montage.demontageEntsorgungProElement), cfg);
+    return abschluss(p, P, summe, menge, cent(H.montage.montageProElement), cent(H.montage.demontageEntsorgungProElement), cfg, steuersatz(satz));
   }
 
-  function berechne(cfg, p) {
+  /* Steuersatz in % (0 = Kleinunternehmer § 19 UStG, Standard). Kommt aus den Einstellungen (js/steuer.js), nie aus der Preisliste. */
+  function steuersatz(s) { return istZahl(s) && s >= 0 && s <= 100 ? s : 0; }
+  function berechne(cfg, p, satz) {
     if (!cfg || typeof cfg !== "object") return { ok: false, fehler: ["konfiguration"] };
-    if (cfg.produkt === "haustuer") return berechneHaustuer(cfg, p);
-    if (cfg.produkt === "fenster") return berechneFenster(cfg, p);
+    if (cfg.produkt === "haustuer") return berechneHaustuer(cfg, p, satz);
+    if (cfg.produkt === "fenster") return berechneFenster(cfg, p, satz);
     return { ok: false, fehler: ["produkt"] };
   }
 
