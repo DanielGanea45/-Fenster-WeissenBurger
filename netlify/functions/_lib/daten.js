@@ -17,6 +17,7 @@ const BEREICHE = {
   texte: { datei: "data/texte.json", titel: "Texte" },
   bilder: { datei: "data/bilder.json", titel: "Bilder" },
   bewertungen: { datei: "data/bewertungen.json", titel: "Bewertungen" },
+  produkte: { datei: "data/produkte.json", titel: "Produkte" },
 };
 
 /* Tiefe Zusammenführung: Werte aus b überschreiben a; Objekte werden zusammengeführt, Arrays ersetzt */

@@ -6,6 +6,7 @@ const path = require("path");
 const PV = require(path.join(__dirname, "..", "..", "..", "js", "preis-validate.js"));
 const validierePreise = PV.validierePreise;
 const validiereEinstellungen = PV.validiereEinstellungen;
+const validiereProdukte = PV.validiereProdukte;
 const STATUS = PV.STATUS;
 
 /* Texte: nur einfache Auszeichnung erlauben */
@@ -43,4 +44,4 @@ function validiereBild(meta) {
   return f;
 }
 
-module.exports = { validierePreise, validiereEinstellungen, validiereTexte, validiereBild, sanitizeHtml, STATUS };
+module.exports = { validierePreise, validiereEinstellungen, validiereProdukte, validiereTexte, validiereBild, sanitizeHtml, STATUS };

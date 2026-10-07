@@ -1,0 +1,60 @@
+{
+  "hinweis": "Produktkarten für Startseite und /produkte/ (Admin → Produkte). Reihenfolge = Reihenfolge der Liste. Bild: vorhandenes Website-Bild (src/srcset) oder im Admin hochgeladenes Bild (blob). abPreis optional in Euro – ohne Preis erscheint keine Preiszeile; der Steuerhinweis kommt aus js/steuer.js. startseite: auf der Startseite zeigen; sichtbar: überhaupt zeigen.",
+  "karten": [
+    {
+      "id": "kunststofffenster",
+      "titel": "Kunststofffenster",
+      "untertitel": "Kömmerling 70 · 76 AD/MD · 88",
+      "kurz": "Pflegeleicht, sehr gute Dämmwerte, große Auswahl an Dekoren – die wirtschaftliche Lösung für Neubau und Sanierung.",
+      "bild": { "src": "assets/img/kunststofffenster-464.webp", "srcset": "assets/img/kunststofffenster-464.webp 464w, assets/img/kunststofffenster-928.webp 928w", "breite": 928, "hoehe": 1152, "alt": "Kunststofffenster: Profilschnitt in Anthrazit mit Dreifachverglasung" },
+      "abPreis": null,
+      "link": "/produkte/kunststofffenster-koemmerling/",
+      "sichtbar": true,
+      "startseite": true
+    },
+    {
+      "id": "aluminiumfenster",
+      "titel": "Aluminiumfenster",
+      "untertitel": "Cortizo 60 · 70",
+      "kurz": "Schmale Ansichten, große Glasflächen, langlebig und formstabil – für moderne Architektur.",
+      "bild": { "src": "assets/img/aluminiumfenster-464.webp", "srcset": "assets/img/aluminiumfenster-464.webp 464w, assets/img/aluminiumfenster-928.webp 928w", "breite": 928, "hoehe": 1152, "alt": "Aluminiumfenster mit schmalem schwarzem Rahmen" },
+      "abPreis": null,
+      "link": "/produkte/aluminiumfenster-cortizo/",
+      "sichtbar": true,
+      "startseite": true
+    },
+    {
+      "id": "kunststoff-aluminium",
+      "titel": "Kunststoff-Aluminium-Fenster",
+      "untertitel": "Kömmerling 76 AluClip · 76 AluClip Pro · 88 AluClip Pro",
+      "kurz": "Kunststoff innen, Aluminium-Deckschale außen (AluClip): wärmedämmend wie Kunststoff, wetterfest und farbig wie Aluminium.",
+      "bild": { "src": "assets/konfigurator/profil-76-aluclip-400.webp", "srcset": "assets/konfigurator/profil-76-aluclip-400.webp 400w, assets/konfigurator/profil-76-aluclip-800.webp 800w", "breite": 800, "hoehe": 800, "alt": "Profilschnitt Kunststoff-Aluminium-Fenster Kömmerling 76 AluClip mit Aluminium-Deckschale außen" },
+      "abPreis": null,
+      "link": "/produkte/kunststoff-aluminium-fenster/",
+      "sichtbar": true,
+      "startseite": true
+    },
+    {
+      "id": "haustueren",
+      "titel": "Haustüren",
+      "untertitel": "Kunststoff · Kunststoff-Aluminium · Aluminium",
+      "kurz": "Aluminium- oder Kunststoff-Haustüren mit Seitenteil, Mehrfachverriegelung und Wärmedämmung.",
+      "bild": { "src": "assets/img/haustuer-464.webp", "srcset": "assets/img/haustuer-464.webp 464w, assets/img/haustuer-928.webp 928w", "breite": 928, "hoehe": 1152, "alt": "Moderne Haustür in Anthrazit mit Seitenteil" },
+      "abPreis": null,
+      "link": "/produkte/haustueren/",
+      "sichtbar": true,
+      "startseite": true
+    },
+    {
+      "id": "schiebetueren",
+      "titel": "Hebe-Schiebetüren",
+      "untertitel": "Versatil 70 · Robust 76 · Robust 76 Premium · Visuell 60 / 116 / 160",
+      "kurz": "Großzügige Öffnungen zur Terrasse aus Kunststoff oder Aluminium – barrierearm, mit Dreifachglas, bis 6,5 m Breite.",
+      "bild": { "src": "assets/img/leistungen/kunststofftueren-doppelt-einbau-640.webp", "srcset": "assets/img/leistungen/kunststofftueren-doppelt-einbau-640.webp 640w, assets/img/leistungen/kunststofftueren-doppelt-einbau-1200.webp 1200w", "breite": 787, "hoehe": 866, "alt": "Zweiflügelige Kunststofftür in Eichenoptik zur Terrasse, von uns eingebaut" },
+      "abPreis": null,
+      "link": "/produkte/schiebetueren/",
+      "sichtbar": true,
+      "startseite": false
+    }
+  ]
+}

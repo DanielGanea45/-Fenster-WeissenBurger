@@ -20,12 +20,14 @@ const daten = require(path.join(LIB, "daten"));
 const Steuer = require(path.join(__dirname, "..", "js", "steuer.js"));
 const firmaLib = require(path.join(LIB, "firma"));
 const firmaEinsetzen = require(path.join(__dirname, "firma-einsetzen.js"));
+const produkteLib = require(path.join(LIB, "produkte"));
 const validate = require(path.join(LIB, "validate"));
 const mail = require(path.join(LIB, "mail"));
 
 const DEFAULT_SCHRITTE = [
   { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" }, // zuerst: die Tests prüfen die fertigen Seiten (Steuertexte), Asset-Hashes danach
   { name: "Einsatzgebiet-Seiten", cmd: "node scripts/build-orte.js" },
+  { name: "Produktseiten", cmd: "node scripts/build-produkte.js" },
   { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
   { name: "Tests (Preisrechner, Admin, Steuer-Audit)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
@@ -50,6 +52,21 @@ function texteEinsetzen(root, texte, satz) {
     fs.writeFileSync(f, html);
   }
   return n;
+}
+
+/* ---------- Produktkarten: im Admin hochgeladene Bilder als Dateien schreiben ---------- */
+async function produkteBilderSchreiben(root, produkte) {
+  const outDir = path.join(root, "assets", "bilder", "admin");
+  for (const k of (produkte && produkte.karten) || []) {
+    const b = k.bild; if (!b || !b.blob) continue;
+    const dateien = [];
+    for (const g of b.groessen || [800]) {
+      const buf = await store.getBinary(`bilder/${b.blob}/${g}`); if (!buf) continue;
+      fs.mkdirSync(outDir, { recursive: true });
+      const name = `${b.blob}-${hash(buf)}-${g}.webp`; fs.writeFileSync(path.join(outDir, name), buf); dateien.push([g, "assets/bilder/admin/" + name]);
+    }
+    if (dateien.length) { k.bild = { src: dateien[0][1], srcset: dateien.map(([g, u]) => u + " " + g + "w").join(", "), breite: b.breite, hoehe: b.hoehe, alt: b.alt || k.titel, blob: b.blob, groessen: b.groessen }; }
+  }
 }
 
 /* ---------- Bilder einsetzen ---------- */
@@ -196,6 +213,11 @@ async function lauf(opt = {}) {
       const texte = await daten.lade("texte");
       const bilder = await daten.lade("bilder");
       const bew = await daten.lade("bewertungen");
+      const produkte = await daten.lade("produkte");
+      const fpk = validate.validiereProdukte(produkte);
+      if (fpk.length) return await fehlerMelden("Produktkarten ungültig: " + fpk.map((x) => (x.feld ? x.feld + ": " : "") + x.meldung).join(" · "));
+      await produkteBilderSchreiben(root, produkte);
+      fs.writeFileSync(path.join(root, "data", "produkte.json"), JSON.stringify(produkte, null, 2) + "\n");
       const repoEinst = daten.tief(daten.repoDatei("einstellungen"), einst); // alle Zweige aus dem Admin → Seiten, Rechner, Functions, Generatoren
       fs.writeFileSync(path.join(root, "data", "preise.json"), JSON.stringify(preise, null, 2) + "\n");
       fs.writeFileSync(path.join(root, "data", "einstellungen.json"), JSON.stringify(repoEinst, null, 2) + "\n");
@@ -204,6 +226,7 @@ async function lauf(opt = {}) {
       const nBew = bewertungenSchreiben(root, bew);
       redirectsSchreiben(root, repoEinst);
       const nF = firmaEinsetzen.lauf(root, repoEinst);
+      { const f = path.join(root, "index.html"); const r = produkteLib.einsetzen(fs.readFileSync(f, "utf8"), produkte, repoEinst, ""); if (r.n) { fs.writeFileSync(f, r.html); log(`Produktkarten auf der Startseite eingesetzt (${produkteLib.karten(produkte, "startseite").length} Karten).`); } }
       log(`Firmendaten eingesetzt: ${nF.marker} Marker in ${nF.dateien} Datei(en) aktualisiert${nF.banner ? ", Ankündigungsbanner in " + nF.banner + " Datei(en)" : ""}.`);
       log(`Admin-Daten übernommen: Preisliste ${preise.version}, Konfigurator ${einst.konfigurator.status}, ${nT} Texte, ${nB} Bilder, ${nBew} Bewertungen.`);
     }

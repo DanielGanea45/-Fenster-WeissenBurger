@@ -164,6 +164,31 @@
     }
     return f;
   }
+  /* Produktkarten (Admin → Produkte) */
+  function validiereProdukte(p) {
+    var f = [];
+    var add = function (feld, meldung) { f.push({ feld: feld, meldung: meldung }); };
+    var str = function (x) { return typeof x === "string" ? x.trim() : ""; };
+    if (!p || typeof p !== "object" || !Array.isArray(p.karten)) { add("karten", "Produktkarten fehlen."); return f; }
+    if (!p.karten.length) add("karten", "Mindestens eine Karte.");
+    var ids = {};
+    p.karten.forEach(function (k, i) {
+      var n = "karten." + i + ".";
+      if (!k || typeof k !== "object") { add(n + "titel", "Karte unvollständig."); return; }
+      if (!/^[a-z0-9][a-z0-9-]{0,40}$/.test(String(k.id || ""))) add(n + "id", "Kennung fehlt oder ungültig.");
+      if (ids[k.id]) add(n + "id", "Kennung doppelt."); ids[k.id] = true;
+      if (!str(k.titel)) add(n + "titel", "Titel fehlt."); else if (str(k.titel).length > 60) add(n + "titel", "Titel: höchstens 60 Zeichen.");
+      if (str(k.untertitel).length > 120) add(n + "untertitel", "Untertitel: höchstens 120 Zeichen.");
+      if (!str(k.kurz)) add(n + "kurz", "Kurztext fehlt."); else if (str(k.kurz).length > 240) add(n + "kurz", "Kurztext: höchstens 240 Zeichen.");
+      if (!k.bild || typeof k.bild !== "object" || !(str(k.bild.src) || str(k.bild.blob))) add(n + "bild", "Bitte ein Bild wählen.");
+      else if (str(k.bild.src) && !/^\/?(assets\/[\w\/.-]+\.(webp|png|jpg|jpeg|svg))$/i.test(str(k.bild.src))) add(n + "bild", "Bildpfad muss auf assets/… zeigen.");
+      if (k.abPreis !== null && k.abPreis !== undefined && k.abPreis !== "") { if (!(typeof k.abPreis === "number" && isFinite(k.abPreis) && k.abPreis > 0 && k.abPreis < 100000 && Math.abs(k.abPreis * 100 - Math.round(k.abPreis * 100)) < 1e-6)) add(n + "abPreis", "Preis: positive Zahl in Euro, höchstens 2 Nachkommastellen."); }
+      if (!/^(\/[\w\/.-]*|https:\/\/[^\s]+)$/.test(str(k.link))) add(n + "link", "Link-Ziel: Pfad wie /produkte/… oder https://…");
+      if (k.sichtbar !== undefined && typeof k.sichtbar !== "boolean") add(n + "sichtbar", "Schalter an/aus.");
+      if (k.startseite !== undefined && typeof k.startseite !== "boolean") add(n + "startseite", "Schalter an/aus.");
+    });
+    return f;
+  }
   /* Tage bis zu einem Ablaufdatum (JJJJ-MM-TT); null ohne Datum */
   function tageBis(datum, heute) {
     if (!DATUM.test(String(datum || ""))) return null;
@@ -173,5 +198,5 @@
   /* Zweige, deren Änderung die Website verändert (→ automatische Veröffentlichung) */
   var ZWEIGE_WEBSITE = ["konfigurator", "steuer", "firma", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website"];
 
-  return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, ibanGueltig: ibanGueltig, tageBis: tageBis, STATUS: STATUS, ZWEIGE_WEBSITE: ZWEIGE_WEBSITE };
+  return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, ibanGueltig: ibanGueltig, tageBis: tageBis, validiereProdukte: validiereProdukte, STATUS: STATUS, ZWEIGE_WEBSITE: ZWEIGE_WEBSITE };
 });

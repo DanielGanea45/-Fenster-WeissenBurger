@@ -18,7 +18,6 @@ declare -A SCENES=(
 declare -A PRODUCTS=(
   [kunststofffenster]=m9ixkz8rl21buwkmmskb
   [aluminiumfenster]=by3p1femv01lpzwlrqhp
-  [holzfenster]=fggabatetawgdkqqwifs
   [haustuer]=x62bjygb1hjpqfiyzmo6
 )
 

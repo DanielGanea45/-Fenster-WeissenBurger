@@ -122,6 +122,12 @@ function einsetzen(html, e, site) {
     if (BAUSTEINE[art]) { n++; return `<${tag}${attrs}>${BAUSTEINE[art](e)}</${tag}>`; }
     return m;
   });
+  // Google-Bewertungslink (Einstellungen → Bewertungen & Google): Button nur mit Link sichtbar
+  html = html.replace(/<a\b([^>]*?)\sdata-firma="google-review"([^>]*)>/g, (m, vor, nach) => {
+    const link = (e && e.bewertungen && e.bewertungen.googleBewertungLink) || "";
+    let attrs = (vor + nach).replace(/\shref="[^"]*"/, "").replace(/\shidden\b/, "");
+    n++; return `<a href="${link ? esc(link) : "#"}"${attrs} data-firma="google-review"${link ? "" : " hidden"}>`;
+  });
   // JSON-LD
   html = html.replace(/(<script type="application\/ld\+json"[^>]*data-firma="jsonld"[^>]*>)([\s\S]*?)(<\/script>)/g, (m, a, body, z) => { n++; return a + jsonLdAktualisieren(body, e, site) + z; });
   return { html, n };

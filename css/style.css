@@ -490,3 +490,16 @@ ul, ol { padding: 0; list-style: none; }
 .ankuendigung__zu:hover { background: rgba(255, 255, 255, .15); }
 .wartung { max-width: 640px; margin: 0 auto; padding: calc(var(--header-h) + 40px) var(--gutter) 60px; display: grid; gap: 16px; }
 .wartung .contact__card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; font-style: normal; line-height: 1.6; }
+
+/* ---------- Produktkarten: ganze Karte ist ein Link (Startseite) ---------- */
+.product { padding: 0; overflow: hidden; transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .2s ease; }
+.product__link { display: flex; flex-direction: column; height: 100%; padding: 10px 12px 14px; color: inherit; text-decoration: none; border-radius: inherit; }
+.product__link:hover, .product__link:focus-visible { color: inherit; }
+.product:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(27, 36, 48, .14); border-color: var(--accent); }
+.product:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.product__link:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.product__link img { transition: transform .4s var(--ease); }
+.product:hover .product__link img { transform: scale(1.03); }
+.product .product__more { margin-top: auto; padding-top: 8px; }
+.product .price small { display: block; font-size: 11.5px; font-weight: 600; color: var(--ink-3); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { .product, .product__link img { transition: none; } .product:hover { transform: none; } .product:hover .product__link img { transform: none; } }

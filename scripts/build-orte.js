@@ -95,14 +95,14 @@ const GEBAEUDE = [
   (c) => `<p>Reihenhaus, freistehendes Einfamilienhaus, Mehrfamilienhaus oder Gewerbe: In ${c.name} ist jede Aufgabe anders. Wir prüfen beim Termin, ob Laibungen und Rollladenkästen für Dreifachglas geeignet sind, und planen die Montage passend zum Gebäude.</p>`,
   (c) => `<p>Ältere Fenster in ${c.name} haben oft nur Zweifachglas und undichte Rahmen. Moderne Profile mit Dreifachverglasung senken den Wärmeverlust deutlich – welche Bautiefe sinnvoll ist, hängt vom Haus ab und wird beim Aufmaß festgelegt.</p>`,
   (c) => `<p>Wie überall in der Region treffen wir in ${c.name} auf sehr unterschiedliche Häuser: Einfamilienhäuser aus den Nachkriegsjahrzehnten mit ersten Isolierglasfenstern, Siedlungshäuser der 1970er- bis 1990er-Jahre, Mehrfamilienhäuser und Neubaugebiete. Für jeden Fall gibt es das passende Profil – vom wirtschaftlichen Fenstertausch bis zum Passivhaus-Niveau.</p>`,
-  (c) => `<p>Ob Altbau mit alten Holz- oder Kunststofffenstern, Doppelhaushälfte aus den 80ern oder Neubau: Welche Lösung in ${c.name} sinnvoll ist, hängt vom Haus, der Fassade und Ihren Zielen ab. Genau deshalb beraten wir vor Ort und nicht am Telefon.</p>`,
+  (c) => `<p>Ob Altbau mit alten Fenstern, Doppelhaushälfte aus den 80ern oder Neubau: Welche Lösung in ${c.name} sinnvoll ist, hängt vom Haus, der Fassade und Ihren Zielen ab. Genau deshalb beraten wir vor Ort und nicht am Telefon.</p>`,
   (c) => `<p>Jedes Gebäude ist anders – Bestand und Neubau, verputzte Fassade oder Klinker, Standardmaße oder Sonderformen. Beim Termin in ${c.name} sehen wir uns Laibungen, Fensterbänke und Rollladenkästen an und sagen Ihnen, was beim Einbau zu beachten ist.</p>`,
 ];
 
 /* Themen-Abschnitte: je 3–4 Textvarianten; Links zu Produkt-/Leistungsseiten */
 const TOPICS = [
   { key: "kaufen", h: ["Fenster kaufen in {ort}", "Neue Fenster für {ort}", "Fenster in {ort} kaufen – mit Beratung"], href: "/produkte/", link: "Alle Produkte", t: [
-    (c) => `Bei uns kaufen Sie Fenster nicht von der Stange: Jedes Element wird nach Aufmaß gefertigt – aus Kunststoff, Kunststoff-Aluminium, Aluminium oder Holz. Die Beratung findet bei Ihnen in ${c.name} statt, mit Mustern zum Anfassen.`,
+    (c) => `Bei uns kaufen Sie Fenster nicht von der Stange: Jedes Element wird nach Aufmaß gefertigt – aus Kunststoff, Kunststoff-Aluminium oder Aluminium. Die Beratung findet bei Ihnen in ${c.name} statt, mit Mustern zum Anfassen.`,
     (c) => `Fenster kaufen heißt bei uns: Beratung zu Hause in ${c.name}, Aufmaß, schriftliches Angebot, Fertigung nach Maß und Montage aus einer Hand. Preise richten sich nach Größe, Verglasung und Ausstattung – wir rechnen sie transparent im Angebot vor.`,
     (c) => `Sie möchten in ${c.name} neue Fenster kaufen? Wir zeigen Ihnen die Unterschiede zwischen den Werkstoffen, erklären Uf- und Uw-Werte und empfehlen, was zu Haus und Budget passt – unverbindlich.`,
     (c) => `Von der ersten Idee bis zum eingebauten Fenster: In ${c.name} begleiten wir Sie durch Auswahl, Aufmaß und Montage. Gefertigt wird von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.`,
@@ -150,19 +150,12 @@ const TOPICS = [
     (c) => `Eine Hebe-Schiebetür ist die großzügigste Verbindung zwischen Wohnraum und Garten. Wir prüfen in ${c.name} Sturz, Bodenaufbau und Schwelle und sagen Ihnen, welche Linie – Kunststoff oder Aluminium – zu Ihrem Haus passt.`,
     (c) => `Schiebetüren laufen auf Edelstahlschienen, schließen dicht und lassen sich auch mit schweren Dreifachglas-Flügeln leicht bewegen. In ${c.name} montieren wir sie inklusive Anschluss an Boden und Fassade.`,
   ] },
-  { key: "holz", h: ["Holzfenster in {ort}", "Holzfenster & Holzarbeiten für {ort}", "Holz und mehr in {ort}"], href: "/produkte/holzfenster/", link: "Holzfenster & mehr", t: [
-    (c) => `Für Altbau, Denkmalschutz oder einfach die Liebe zum Werkstoff: Holzfenster und Holztüren nach Maß, auf Wunsch als Holz-Aluminium mit wetterfester Außenschale – auch in ${c.name}.`,
-    (c) => `Holz schafft ein natürliches Raumklima und lässt sich in jeder Form fertigen. Fenster, Haustüren, Innentüren und ergänzende Holzarbeiten planen wir mit Ihnen in ${c.name}.`,
-    (c) => `Charaktervolle Häuser in ${c.name} verdienen Holzfenster, die zum Bestand passen – mit Sprossen, Bögen oder Sonderformen. Wir beraten zu Holzart, Bautiefe und Pflege.`,
-    (c) => `Kiefer, Lärche, Meranti oder Eiche, lasiert oder deckend lackiert: Holzfenster für ${c.name} werden nach Maß gefertigt und von uns montiert – auf Wunsch mit Aluminiumschale außen, damit das Streichen entfällt.`,
-    (c) => `Neben Fenstern aus Holz übernehmen wir in ${c.name} auch Holzhaustüren, Innentüren und ergänzende Schreinerarbeiten rund um den Einbau – ein Ansprechpartner für alles.`,
-  ] },
 ];
 const ORDERS = [
-  ["kaufen", "tausch", "montage", "kunststoff", "alu", "haustuer", "schiebe", "holz"],
-  ["tausch", "montage", "kaufen", "kunststoff", "haustuer", "alu", "holz", "schiebe"],
-  ["kunststoff", "alu", "holz", "haustuer", "schiebe", "kaufen", "tausch", "montage"],
-  ["montage", "tausch", "kunststoff", "haustuer", "schiebe", "alu", "holz", "kaufen"],
+  ["kaufen", "tausch", "montage", "kunststoff", "alu", "haustuer", "schiebe"],
+  ["tausch", "montage", "kaufen", "kunststoff", "haustuer", "alu", "schiebe"],
+  ["kunststoff", "alu", "haustuer", "schiebe", "kaufen", "tausch", "montage"],
+  ["montage", "tausch", "kunststoff", "haustuer", "schiebe", "alu", "kaufen"],
 ];
 
 const FAQ = [
@@ -215,10 +208,10 @@ function header() {
         <div class="nav__drop" aria-label="Produkte">
           <a href="/produkte/">Alle Produkte</a>
           <a href="/produkte/kunststofffenster-koemmerling/">Kunststofffenster (Kömmerling)</a>
+          <a href="/produkte/kunststoff-aluminium-fenster/">Kunststoff-Aluminium-Fenster</a>
           <a href="/produkte/aluminiumfenster-cortizo/">Aluminiumfenster (Cortizo)</a>
           <a href="/produkte/schiebetueren/">Hebe-Schiebetüren</a>
           <a href="/produkte/haustueren/">Haustüren</a>
-          <a href="/produkte/holzfenster/">Holzfenster &amp; mehr</a>
         </div>
       </div>
       <a href="/leistungen/">Leistungen</a>
@@ -331,7 +324,6 @@ function form(o) {
               <option>Fenster für Neubau</option>
               <option>Haustür</option>
               <option>Hebe-Schiebetür / Terrassentür</option>
-              <option>Holzfenster / Holzarbeiten</option>
               <option>Beratung – noch unentschieden</option>
             </select>
           </div>
@@ -370,7 +362,7 @@ function buildOrt(o, seed) {
   ], s, "title");
   const descVar = pick([
     `Neue Fenster und Haustüren in ${o.name}: Beratung vor Ort, kostenloses Aufmaß, Montage mit Entsorgung der alten Fenster. ${c.hq ? "Rund " + c.km + " km von Ingolstadt." : "Auch im Raum Karlsruhe für Sie im Einsatz."}`,
-    `Fenstertausch, Kunststoff-, Alu- und Holzfenster, Haustüren und Schiebetüren in ${o.name} (${c.lk}). ${c.hq ? "Etwa " + c.min + " Minuten von unserem Sitz in Ingolstadt." : "Wir sind auch im Raum Karlsruhe für Sie da."} Jetzt Aufmaß anfragen.`,
+    `Fenstertausch, Kunststoff-, Kunststoff-Aluminium- und Aluminiumfenster, Haustüren und Schiebetüren in ${o.name} (${c.lk}). ${c.hq ? "Etwa " + c.min + " Minuten von unserem Sitz in Ingolstadt." : "Wir sind auch im Raum Karlsruhe für Sie da."} Jetzt Aufmaß anfragen.`,
     `Fenster-WeissenBurger in ${o.name}: Kömmerling-Kunststofffenster, Cortizo-Alufenster, Haustüren – Beratung, Aufmaß und Montage aus einer Hand.`,
   ], s, "desc");
   const meta = { title: titleVar, description: descVar, url, noindex: !published(o), jsonld: [] };
@@ -528,7 +520,7 @@ ${groups.map(([lk, os]) => `          <div class="lk">
 
 /* ---------- Sitemaps ---------- */
 function sitemaps() {
-  const seiten = ["/", "/leistungen/", "/referenzen/", "/produkte/", "/produkte/kunststofffenster-koemmerling/", "/produkte/aluminiumfenster-cortizo/", "/produkte/schiebetueren/", "/produkte/haustueren/", "/produkte/holzfenster/", "/einsatzgebiet/", "/impressum.html", "/datenschutz.html"];
+  const seiten = ["/", "/leistungen/", "/referenzen/", "/produkte/", "/produkte/kunststofffenster-koemmerling/", "/produkte/aluminiumfenster-cortizo/", "/produkte/schiebetueren/", "/produkte/haustueren/", "/produkte/kunststoff-aluminium-fenster/", "/einsatzgebiet/", "/impressum.html", "/datenschutz.html"];
   const u = (loc, prio, freq) => `  <url><loc>${SITE}${loc}</loc><lastmod>${TODAY}</lastmod><changefreq>${freq}</changefreq><priority>${prio}</priority></url>`;
   const xmlHead = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   const seitenXml = xmlHead + seiten.map((l) => u(l, l === "/" ? "1.0" : /impressum|datenschutz/.test(l) ? "0.2" : "0.8", /impressum|datenschutz/.test(l) ? "yearly" : "monthly")).join("\n") + "\n</urlset>\n";

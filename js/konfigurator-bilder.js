@@ -15,10 +15,10 @@
   /* Schlagwort-Regeln je Gruppe: erste Regel, die auf „schlüssel name“ passt, gewinnt. null = bewusst kein Foto (RAL). */
   const REGELN = {
     typ: [[/2[\s-]?fl|zweifl|stulp|doppelfl|zweiteilig/, "2fl"], [/fest|fix/, "fest"], [/balkon|terrasse|tuer\b|-tuer|tür/, "balkon"], [/1[\s-]?fl|einfl|dreh|kipp|standard/, "1fl"]],
-    farbe: [[/ral|wunsch|sonderfarbe|nach wahl/, null], [/zweifarb|zwei farb|aussen farbig|innen weiss|bicolor/, "zweifarbig"], [/anthrazit|7016|grau|schwarz|basalt/, "anthrazit"], [/golden|oak|eiche|holz|nuss|mahagoni|dekor/, "goldenoak"], [/weiss|white|standard/, "weiss"]],
+    farbe: [[/ral|wunsch|sonderfarbe|nach wahl/, null], [/zweifarb|zwei farb|aussen farbig|innen weiss|bicolor/, "zweifarbig"], [/anthrazit|7016|grau|schwarz|basalt/, "anthrazit"], [/golden|oak|eiche|nuss|mahagoni|dekor/, "goldenoak"], [/weiss|white|standard/, "weiss"]],
     sprossen: [[/ohne|kein|standard/, "keine"], [/wiener|aufgesetzt|glasteilend|aussen/, "wiener"], [/innen|zwischen|scheibenzwischen|sprosse/, "innen"]],
     rollladen: [[/ohne|kein|standard/, "kein"], [/vorsatz|vorbau|aufgesetzt aussen/, "vorsatz"], [/aufsatz|aufbau|rollladen|roll|gurt|elektr|motor|funk|kasten/, "aufsatz"]],
-    modell: [[/seitenteil/, "seitenteil"], [/glasstreifen|streifen|lichtausschnitt/, "glasstreifen"], [/klassisch|kassette|holz|landhaus|ornament/, "klassisch"], [/voll|modern|flaechenbuendig|glatt/, "voll"]],
+    modell: [[/seitenteil/, "seitenteil"], [/glasstreifen|streifen|lichtausschnitt/, "glasstreifen"], [/klassisch|kassette|eiche|landhaus|ornament/, "klassisch"], [/voll|modern|flaechenbuendig|glatt/, "voll"]],
     glas: [[/3[\s-]?fach|dreifach|0,6|0\.6/, "glas-3fach"], [/schall/, "glas-schallschutz"], [/vsg|esg|sicherheit|einbruch|p4a/, "glas-vsg"], [/2[\s-]?fach|zweifach|1,1|1\.1|standard/, "glas-2fach"]],
     glasTuer: [[/ornament|struktur|katedral|klassisch/, "tuer-klassisch-weiss"], [/vsg|esg|sicherheit|einbruch/, "glas-vsg"], [/satin|standard|klar|streifen/, "tuer-glasstreifen-weiss"]],
     zusatz: [[/demontage|entsorg|ausbau|altfenster/, "zusatz-demontage"], [/montage|einbau|lieferung/, "zusatz-montage"], [/fensterbank.*(innen|marmor|werzalit)|innenfensterbank/, "zusatz-fensterbank-innen"], [/fensterbank|aussenbank|alu/, "zusatz-fensterbank-aussen"], [/insekt|fliegen|muecken|gitter/, "zusatz-insektenschutz"], [/motor|elektr|antrieb|gurt|funk|smart/, "zusatz-rollladenmotor"], [/rc2|rc 2|einbruch|sicher|pilzkopf|abschliess|verriegel/, "zusatz-rc2"]],

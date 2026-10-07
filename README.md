@@ -124,6 +124,10 @@ Solange `ADMIN_SETUP_TOKEN` auf Produktion **nicht** gesetzt ist, antworten `/ad
 
 **Anfragen** (Menü *Anfragen*): Alle Anfragen aus Formularen und Konfigurator mit allen Feldern; bei Konfigurator-Anfragen zusätzlich die Konfiguration, der **vom Server nachgerechnete Preis** und eine rote Warnung, falls der im Browser gezeigte Preis abweicht.
 
+### Produkte (Admin → Produkte)
+
+Die Produktkarten auf der Startseite („Drei Werkstoffe. Ein Anspruch.“) und auf `/produkte/` kommen aus `data/produkte.json` (Admin → Inhalte → Produkte): Titel, Untertitel, Kurztext, Bild (Website-Bild oder Upload), optional „ab Preis“ (Steuerhinweis automatisch aus `js/steuer.js`; ohne Preis keine Preiszeile), Link-Ziel, Sichtbar, Startseite, Reihenfolge per Drag & Drop. Speichern ist versioniert und veröffentlicht automatisch. Die ganze Karte ist ein Link (ein Link je Karte, Fokus sichtbar). Technisch: `netlify/functions/_lib/produkte.js` rendert die Karten; der Build setzt sie zwischen `<!--produkte-karten-->`-Markern in `index.html` ein und erzeugt die Produktseiten (`scripts/build-produkte.js` läuft im Build). Es gibt **keine Produkte aus Holz**: `tests/inhalt-audit.test.js` lässt den Build scheitern, sobald „Holz“ oder ein Platzhalter wie `[PREIS]` in veröffentlichten Dateien oder Dateinamen auftaucht. Golden Oak bleibt als Dekorfolie („Eichenoptik“).
+
 ### Einstellungen (Admin → Einstellungen)
 
 Zentrale Schalter und Stammdaten der Website, links nach Bereichen gegliedert. Jede Speicherung wird versioniert (Änderungsprotokoll) und veröffentlicht die Website automatisch neu, wenn der Bereich sie verändert.
