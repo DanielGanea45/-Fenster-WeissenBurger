@@ -1,6 +1,12 @@
 [build]
   publish = "."
 
+# Sitemap-Index ersetzt die alte sitemap.xml
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+
 # 301-Weiterleitungen von der bisherigen WordPress-Seite
 [[redirects]]
   from = "/aluplast/"

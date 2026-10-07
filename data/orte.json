@@ -8,7 +8,8 @@
    "lat": 48.7651,
    "lon": 11.4237,
    "radiusKm": 70,
-   "status": "veroeffentlicht"
+   "status": "veröffentlicht (Welle 1)",
+   "veroeffentlicht": true
   },
   {
    "key": "karlsruhe",
@@ -16,7 +17,8 @@
    "lat": 49.0069,
    "lon": 8.4037,
    "radiusKm": 30,
-   "status": "vom Kunden bestätigt – Stufe 1 wird veröffentlicht; Firmensitz bleibt Ingolstadt (keine lokale Adresse)"
+   "status": "vom Kunden bestätigt; Seiten gebaut, noch nicht veröffentlicht (Welle 2) – Schalter: veroeffentlicht",
+   "veroeffentlicht": false
   }
  ],
  "orte": [
