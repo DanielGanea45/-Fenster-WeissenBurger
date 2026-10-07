@@ -105,7 +105,7 @@ test("Prüfwörter: verbotene Wörter werden gefunden, Modultexte sind erlaubt",
 /* ---------- Generator: Umschalten ändert die Seiten ---------- */
 function kopie(satz, status) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "fw-steuer-"));
-  for (const f of ["index.html", "data/preise.json", "data/einstellungen.json", "js/preis.js", "js/steuer.js"]) {
+  for (const f of ["index.html", "data/preise.json", "data/einstellungen.json", "js/preis.js", "js/steuer.js", "netlify/functions/_lib/firma.js"]) {
     fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true });
     fs.copyFileSync(path.join(ROOT, f), path.join(tmp, f));
   }

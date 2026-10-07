@@ -79,8 +79,8 @@ test("Vorschau: „Veröffentlichen“ nutzt NIE den Produktions-Hook – ohne V
     const r = await apiFn.handler(ev("POST", { aktion: "veroeffentlichen", grund: "Test" }, { host: "deploy-preview-14--fensterweissenburger.netlify.app" }));
     assert.equal(r.statusCode, 409);
     assert.equal(parse(r).uebersprungen, true);
-    assert.match(parse(r).error, /kein Build ausgelöst/);
-    assert.match(parse(r).error, /NETLIFY_BUILD_HOOK_PREVIEW/);
+    assert.match(parse(r).error, /nicht veröffentlicht/);
+    assert.match(parse(r).error, /Live-Website wird von hier aus nie verändert/);
     assert.deepEqual(aufrufe, [], "kein Hook aufgerufen");
     assert.equal((await daten.publishStatus()).status, "gespeichert");
     /* mit Vorschau-Hook: genau dieser wird aufgerufen */

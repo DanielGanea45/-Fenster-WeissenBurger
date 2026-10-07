@@ -8,7 +8,7 @@
   <meta name="referrer" content="same-origin">
   <meta name="theme-color" content="#121a24">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/admin.css?v=97934fa8">
+  <link rel="stylesheet" href="/css/admin.css?v=bea4f48f">
 </head>
 <body>
   <noscript><p class="loading">Für die Verwaltung muss JavaScript aktiviert sein.</p></noscript>
@@ -31,6 +31,7 @@
   <div id="app" class="app" hidden>
     <aside class="rail" aria-label="Navigation">
       <a class="rail__logo" href="#uebersicht" aria-label="Übersicht"><svg width="26" height="30" viewBox="0 0 48 56" aria-hidden="true"><polygon points="16,7 44,1 44,43 16,47" fill="#3d8bff"></polygon><polygon points="5,9 31,15 31,53 5,49" fill="none" stroke="#ffffff" stroke-width="2.6"></polygon></svg></a>
+      <button type="button" class="rail__schliessen" id="rail-schliessen" aria-label="Menü schließen">×</button>
       <nav class="nav" aria-label="Admin-Menü" id="nav-side"></nav>
       <div class="rail__foot">
         <a href="/" target="_blank" rel="noopener" title="Website ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg><span class="lbl">Website</span></a>
@@ -40,8 +41,9 @@
     </aside>
 
     <header class="top">
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menü" aria-expanded="false" aria-controls="nav-side"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       <div class="top__crumb"><span>Fenster-WeissenBurger</span><span class="sep">|</span><span class="dim">Command Center</span><span class="sep">›</span><span id="top-title">Übersicht</span></div>
-      <div class="top__meta"><span class="datum" id="top-datum"></span><span class="top__user"><span class="top__avatar" id="top-avatar">A</span><span class="name" id="top-name">Admin</span><span class="dot">Online</span></span></div>
+      <div class="top__meta"><span class="top__pub" id="top-pub"></span><span class="datum" id="top-datum"></span><span class="top__user"><span class="top__avatar" id="top-avatar">A</span><span class="name" id="top-name">Admin</span><span class="dot">Online</span></span></div>
     </header>
 
     <main class="main" id="main" tabindex="-1"></main>
@@ -52,7 +54,8 @@
 
   <script src="/js/preis.js?v=81686bca"></script>
   <script src="/js/steuer.js?v=08a51e4f"></script>
-  <script src="/js/preis-validate.js?v=5309f5d4"></script>
-  <script src="/js/admin.js?v=352b82e6"></script>
+  <script src="/js/preis-validate.js?v=6d469236"></script>
+  <script src="/js/admin.js?v=0d7a492a"></script>
+  <script src="/js/admin-einstellungen.js?v=09f43c27"></script>
 </body>
 </html>

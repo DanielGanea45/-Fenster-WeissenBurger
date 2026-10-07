@@ -474,3 +474,19 @@ ul, ol { padding: 0; list-style: none; }
   .nav__drop--konf a:first-child { color: var(--ink-2); border-bottom: 0; border-radius: 8px; margin-bottom: 0; }
   .nav__drop--konf a:hover, .nav__drop--konf a:focus, .nav__drop--konf a[aria-current="page"] { color: var(--accent); }
 }
+
+/* ---------- Ankündigungsbanner (Admin → Einstellungen → Website) und Wartungsseite ---------- */
+.ankuendigung {
+  position: fixed; left: 0; right: 0; top: calc(var(--header-h) + env(safe-area-inset-top)); z-index: 29;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 10px var(--gutter); background: var(--accent); color: var(--accent-ink);
+  font-size: 14px; font-weight: 600; line-height: 1.4; box-shadow: 0 6px 18px rgba(27, 36, 48, .18);
+}
+.ankuendigung p { margin: 0; min-width: 0; }
+.ankuendigung__zu {
+  flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .5);
+  background: transparent; color: inherit; font: inherit; font-size: 18px; line-height: 1; cursor: pointer;
+}
+.ankuendigung__zu:hover { background: rgba(255, 255, 255, .15); }
+.wartung { max-width: 640px; margin: 0 auto; padding: calc(var(--header-h) + 40px) var(--gutter) 60px; display: grid; gap: 16px; }
+.wartung .contact__card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; font-style: normal; line-height: 1.6; }

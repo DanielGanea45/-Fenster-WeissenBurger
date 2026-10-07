@@ -135,11 +135,13 @@ async function schreiben(body, s, event) {
         fehler = validate.validierePreise(neu);
       } else if (bereich === "einstellungen") {
         const alt = await daten.lade("einstellungen");
-        const d = body.daten || {};
-        neu = {
-          konfigurator: { status: d.konfigurator && d.konfigurator.status !== undefined ? d.konfigurator.status : alt.konfigurator.status },
-          steuer: { satzProzent: d.steuer && d.steuer.satzProzent !== undefined ? d.steuer.satzProzent : Steuer.satz(alt) },
-        };
+        const d = body.daten && typeof body.daten === "object" ? body.daten : {};
+        const ZWEIGE = ["konfigurator", "steuer", "firma", "bank", "dokumente", "email", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website"];
+        const unbekannt = Object.keys(d).filter((k) => !ZWEIGE.includes(k));
+        if (unbekannt.length) return http.json(400, { ok: false, error: "Unbekannter Einstellungsbereich: " + unbekannt.join(", ") });
+        neu = daten.tief(alt, d);
+        for (const k of Object.keys(neu)) if (k.startsWith("hinweis") || (neu[k] && typeof neu[k] === "object" && "hinweis" in neu[k])) { if (k === "hinweis") delete neu[k]; else delete neu[k].hinweis; }
+        if (neu.konfigurator) delete neu.konfigurator.statusWerte;
         fehler = validate.validiereEinstellungen(neu);
         if (!fehler.length && neu.steuer.satzProzent !== Steuer.satz(alt) && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: Steuer.texte(neu.steuer.satzProzent).bestaetigung });
         if (!fehler.length && neu.konfigurator.status === "online" && alt.konfigurator.status !== "online" && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: "Der Konfigurator wird damit öffentlich sichtbar (Menü, Sitemap, Suchmaschinen). Bitte bestätigen." });
@@ -267,8 +269,8 @@ async function schreiben(body, s, event) {
       const link = `${http.siteUrl(event)}/admin/?email=${t}`;
       const v = mail.vorlagen.emailBestaetigen(link);
       const m = await mail.send({ to: email, subject: v.subject, text: v.text });
-      await log("email-aenderung", `Bestätigung an ${email} ${m.ok ? "gesendet" : "NICHT gesendet (" + (m.skipped ? "kein BREVO_API_KEY" : m.error) + ")"}`);
-      if (!m.ok && http.isProduction()) return http.json(502, { ok: false, error: "E-Mail konnte nicht gesendet werden (BREVO_API_KEY prüfen)." });
+      await log("email-aenderung", `Bestätigung an ${email} ${m.ok ? "gesendet" : "NICHT gesendet (" + (m.skipped ? "E-Mail-Versand nicht eingerichtet" : m.error) + ")"}`);
+      if (!m.ok && http.isProduction()) return http.json(502, { ok: false, error: "E-Mail konnte nicht gesendet werden – der E-Mail-Versand ist nicht eingerichtet oder gestört." });
       return http.json(200, { ok: true, hinweis: m.ok ? `Bestätigungslink an ${email} gesendet (30 Minuten gültig). Erst nach Klick ist die neue Adresse aktiv.` : "E-Mail-Versand nicht konfiguriert – Link nur in dieser Vorschau:", link: m.ok ? undefined : link });
     }
     case "passwort-aendern": {
@@ -331,11 +333,11 @@ async function veroeffentlichen(s, event, grund) {
   if (!hook) {
     const vorschau = store.kontext() !== "production";
     const text = vorschau
-      ? `Vorschau-Umgebung (${store.kontextLabel()}): Änderungen gespeichert, aber kein Build ausgelöst – der Produktions-Hook wird hier nie verwendet. Für Test-Veröffentlichungen einen Branch-Build-Hook als ${variable} hinterlegen.`
-      : "NETLIFY_BUILD_HOOK ist nicht gesetzt – Änderungen sind gespeichert, aber nicht veröffentlicht.";
+      ? `Testumgebung (${store.kontextLabel()}): Änderungen gespeichert, aber nicht veröffentlicht – die Live-Website wird von hier aus nie verändert.`
+      : "Die automatische Veröffentlichung ist noch nicht eingerichtet – Änderungen sind gespeichert, aber noch nicht auf der Website.";
     await daten.setPublishStatus({ status: vorschau ? "gespeichert" : "fehler", fehler: vorschau ? "" : text, hinweis: vorschau ? text : "", ende: Date.now() });
-    await http.protokoll(event, vorschau ? "veroeffentlichung-uebersprungen" : "veroeffentlichung-fehler", variable + " fehlt", wer);
-    return { ok: false, uebersprungen: vorschau, error: vorschau ? text : "Nicht veröffentlicht – Fehler: Die Umgebungsvariable NETLIFY_BUILD_HOOK fehlt. Die Änderungen sind gespeichert." };
+    await http.protokoll(event, vorschau ? "veroeffentlichung-uebersprungen" : "veroeffentlichung-fehler", vorschau ? "Testumgebung – Live-Website nicht verändert" : "Automatische Veröffentlichung nicht eingerichtet", wer);
+    return { ok: false, uebersprungen: vorschau, error: vorschau ? text : "Nicht veröffentlicht: Die automatische Veröffentlichung ist noch nicht eingerichtet. Die Änderungen sind gespeichert." };
   }
   const aktuell = await statusAktuell(await daten.publishStatus());
   if (aktuell.status === "laeuft" && aktuell.start && Date.now() - aktuell.start < LAUF_TIMEOUT_MS) return { ok: false, error: "Es läuft bereits eine Veröffentlichung. Bitte warten, bis sie abgeschlossen ist (oder den Status zurücksetzen).", veroeffentlichung: aktuell };

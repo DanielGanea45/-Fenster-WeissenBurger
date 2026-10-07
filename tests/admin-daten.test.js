@@ -153,7 +153,7 @@ test("Wiederherstellen setzt den Stand einer früheren Version als neue Version"
 test("Veröffentlichen ohne NETLIFY_BUILD_HOOK: klare Fehlermeldung, Status „fehler“", async () => {
   const r = await apiFn.handler(ev("POST", { aktion: "veroeffentlichen" }));
   assert.equal(r.statusCode, 409);
-  assert.match(parse(r).error, /NETLIFY_BUILD_HOOK/);
+  assert.match(parse(r).error, /noch nicht eingerichtet/);
   assert.equal((await daten.publishStatus()).status, "fehler");
 });
 test("Veröffentlichen mit Build Hook: Status „läuft“, Hook wird mit Titel aufgerufen", async () => {

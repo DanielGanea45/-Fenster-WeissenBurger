@@ -124,6 +124,22 @@ Solange `ADMIN_SETUP_TOKEN` auf Produktion **nicht** gesetzt ist, antworten `/ad
 
 **Anfragen** (Menü *Anfragen*): Alle Anfragen aus Formularen und Konfigurator mit allen Feldern; bei Konfigurator-Anfragen zusätzlich die Konfiguration, der **vom Server nachgerechnete Preis** und eine rote Warnung, falls der im Browser gezeigte Preis abweicht.
 
+### Einstellungen (Admin → Einstellungen)
+
+Zentrale Schalter und Stammdaten der Website, links nach Bereichen gegliedert. Jede Speicherung wird versioniert (Änderungsprotokoll) und veröffentlicht die Website automatisch neu, wenn der Bereich sie verändert.
+
+- **Firma & Kontakt** – Firmenname, Rechtsform, Anschrift, Telefon, E-Mail, Handelsregister, Geschäftsführer, Umsatzsteuer-ID. Eine Quelle für Impressum, Datenschutzerklärung, Fußzeile, Kontaktkarten, Telefon-Buttons, Wartungsseite und die Suchmaschinen-Daten (JSON-LD). Technisch: `data/einstellungen.json` → `firma`; die Seiten tragen `data-firma`-Marker, die `scripts/firma-einsetzen.js` (im Build automatisch) aus den Einstellungen füllt; die Generatoren lesen die Einstellungen direkt. Firmenblöcke sind deshalb bewusst **nicht** im Texte-Editor.
+- **Steuer** – 0 % (§ 19 UStG) oder 19 %, siehe oben.
+- **Bank & Zahlung** – Bank, Kontoinhaber, IBAN (Prüfsumme), BIC, Zahlungsziel, Anzahlung, Skonto. Fehlen Bankdaten oder Startnummern, werden Belege als „MUSTER“ gekennzeichnet (`firma.dokumenteMuster`).
+- **Dokumente** – Startnummern (Format `AN-2026-0001`, `AB-…`, `RE-…`), Angebotsgültigkeit, Standardtexte je Belegart. Die Rechnungsnummer kann nach der ersten festgeschriebenen Rechnung nicht mehr herabgesetzt werden.
+- **E-Mail & Benachrichtigungen** – Zieladressen für Anfragen und Bewertungen (Rückfall: Konto), Absendername.
+- **Bewertungen & Google** – Links „Google-Bewertung schreiben“ und Unternehmensprofil.
+- **Öffnungszeiten & Einsatzgebiet** – Zeiten je Wochentag (`09:00-17:00` oder leer); erscheinen als Text („Mo–Fr 9–17 Uhr“) und als `openingHoursSpecification`. Regionen-Schalter Ingolstadt/Karlsruhe steuern Sitemap und `noindex` der Einsatzgebiet-Seiten (`scripts/build-orte.js` läuft im Build).
+- **Konfigurator** – Aus/Vorschau/Online (dieselbe Einstellung wie unter Preise).
+- **Website** – Wartungsmodus (`_redirects` leitet alle Besucher auf `wartung.html`, der Admin bleibt erreichbar) und Ankündigungsbanner mit Zeitraum (wird in alle Seiten eingesetzt, `js/main.js` zeigt es nur im Zeitraum).
+
+Der Admin-Speicher enthält nur geänderte Werte; beim Laden werden sie tief mit den Standardwerten aus `data/einstellungen.json` zusammengeführt (`daten.lade("einstellungen")`). Validierung aller Bereiche: `js/preis-validate.js` → `validiereEinstellungen` (Browser und Server identisch).
+
 ### So ändern Sie Preise und schalten den Konfigurator online
 
 Menü *Preise & Konfigurator*:

@@ -17,6 +17,7 @@ const path = require("path");
 const fs = require("fs");
 const Preis = require("../../js/preis.js");
 const Steuer = require("../../js/steuer.js");
+const daten = require("./_lib/daten");
 const store = require("./_lib/store");
 const mail = require("./_lib/mail");
 const crypto = require("crypto");
@@ -104,12 +105,15 @@ async function fuerAdminAblegen(formName, fields, event) {
   const sauber = {};
   for (const [k, v] of Object.entries(fields)) if (!["bot-field", "ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name"].includes(k)) sauber[k] = Array.isArray(v) ? v.join(", ") : String(v == null ? "" : v).slice(0, 5000);
   const konto = await store.getJSON("konto", null);
+  const einst = await daten.lade("einstellungen").catch(() => ({}));
+  const ziel = (art) => (einst.email && einst.email[art]) || (konto && konto.notify && konto.notify[art] && konto.notify.email) || "";
+  const absender = (einst.email && einst.email.absenderName) || undefined;
   const adminUrl = (process.env.URL || "") + "/admin/";
   if (formName === "bewertung") {
     const liste = await store.getJSON("daten/bewertungen", null) || [];
     liste.unshift({ id, status: "offen", eingegangen: Date.now(), name: sauber.name, ort: sauber.ort, projekt: sauber.projekt || "", sterne: Number(sauber.sterne) || 0, text: sauber.text, email: sauber.email || "", kunde: sauber.kunde || "", datum: new Date().toISOString().slice(0, 7) });
     await store.setJSON("daten/bewertungen", liste);
-    if (konto && konto.notify && konto.notify.bewertungen && konto.notify.email) { const v = mail.vorlagen.neueBewertung(sauber, adminUrl); await mail.send({ to: konto.notify.email, subject: v.subject, text: v.text }); }
+    if (ziel("bewertungen")) { const v = mail.vorlagen.neueBewertung(sauber, adminUrl); await mail.send({ to: ziel("bewertungen"), subject: v.subject, text: v.text, absenderName: absender }); }
     return;
   }
   const eintrag = { id, formular: formName, eingegangen: Date.now(), felder: sauber };
@@ -122,7 +126,7 @@ async function fuerAdminAblegen(formName, fields, event) {
     eintrag.preislisteVersion = sauber.preisliste_version || "";
   }
   await store.setJSON("anfragen/" + id, eintrag);
-  if (konto && konto.notify && konto.notify.anfragen && konto.notify.email) { const v = mail.vorlagen.neueAnfrage(sauber, adminUrl); await mail.send({ to: konto.notify.email, subject: v.subject, text: v.text }); }
+  if (ziel("anfragen")) { const v = mail.vorlagen.neueAnfrage(sauber, adminUrl); await mail.send({ to: ziel("anfragen"), subject: v.subject, text: v.text, absenderName: absender }); }
 }
 
 exports.handler = async (event) => {
