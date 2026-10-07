@@ -16,6 +16,9 @@ const ALLOWED_FORMS = ["kontakt", "anfrage-leistungen", "anfrage-produkte", "anf
 const path = require("path");
 const fs = require("fs");
 const Preis = require("../../js/preis.js");
+const store = require("./_lib/store");
+const mail = require("./_lib/mail");
+const crypto = require("crypto");
 let PREISLISTE = null;
 function preisliste() {
   if (PREISLISTE) return PREISLISTE;
@@ -89,6 +92,32 @@ async function forwardToNetlifyForms(formName, fields, event) {
   if (r.status >= 400) throw new Error("Netlify Forms antwortete mit " + r.status);
 }
 
+/* Anfrage/Bewertung zusätzlich im Store speichern; Bewertungen warten dort auf Freigabe im Admin. */
+async function fuerAdminAblegen(formName, fields, event) {
+  const id = Date.now() + "-" + crypto.randomBytes(3).toString("hex");
+  const sauber = {};
+  for (const [k, v] of Object.entries(fields)) if (!["bot-field", "ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name"].includes(k)) sauber[k] = Array.isArray(v) ? v.join(", ") : String(v == null ? "" : v).slice(0, 5000);
+  const konto = await store.getJSON("konto", null);
+  const adminUrl = (process.env.URL || "") + "/admin/";
+  if (formName === "bewertung") {
+    const liste = await store.getJSON("daten/bewertungen", null) || [];
+    liste.unshift({ id, status: "offen", eingegangen: Date.now(), name: sauber.name, ort: sauber.ort, projekt: sauber.projekt || "", sterne: Number(sauber.sterne) || 0, text: sauber.text, email: sauber.email || "", kunde: sauber.kunde || "", datum: new Date().toISOString().slice(0, 7) });
+    await store.setJSON("daten/bewertungen", liste);
+    if (konto && konto.notify && konto.notify.bewertungen && konto.notify.email) { const v = mail.vorlagen.neueBewertung(sauber, adminUrl); await mail.send({ to: konto.notify.email, subject: v.subject, text: v.text }); }
+    return;
+  }
+  const eintrag = { id, formular: formName, eingegangen: Date.now(), felder: sauber };
+  if (formName === "angebot-konfigurator") {
+    try { eintrag.konfiguration = JSON.parse(sauber.konfiguration || "{}"); } catch (e) { eintrag.konfiguration = null; }
+    eintrag.preisServerBrutto = Number(sauber.preis_server_brutto) || null;
+    eintrag.preisBrowserBrutto = Number(sauber.preis_browser_brutto) || null;
+    eintrag.abweichung = sauber.preis_abweichung || "";
+    eintrag.preislisteVersion = sauber.preisliste_version || "";
+  }
+  await store.setJSON("anfragen/" + id, eintrag);
+  if (konto && konto.notify && konto.notify.anfragen && konto.notify.email) { const v = mail.vorlagen.neueAnfrage(sauber, adminUrl); await mail.send({ to: konto.notify.email, subject: v.subject, text: v.text }); }
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { ok: false, reason: "method" });
   let payload;
@@ -127,6 +156,9 @@ exports.handler = async (event) => {
     if (!k.ok) return json(200, { ok: false, reason: k.reason });
     weiter = Object.assign({}, fields, k.felder);
   }
+
+  /* 4c) Kopie für den Admin-Bereich ablegen (Anfragen-Liste bzw. Bewertungen zur Freigabe) und benachrichtigen. */
+  try { await fuerAdminAblegen(formName, weiter, event); } catch (e) { console.log("Admin-Ablage fehlgeschlagen:", e.message); }
 
   /* 5) An Netlify Forms weiterreichen. */
   try {

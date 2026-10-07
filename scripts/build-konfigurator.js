@@ -197,6 +197,8 @@ for (const key of Object.keys(PAGES)) {
   const dir = path.join(root, "konfigurator", key);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "index.html"), status === "aus" ? pageSoon(key) : pageKonf(key));
+  /* Für den Vorschau-Modus (netlify/functions/konfigurator-vorschau.js): Platzhalterseite immer bereithalten */
+  fs.writeFileSync(path.join(dir, "demnaechst.html"), pageSoon(key));
 }
 
 /* ---------- Links in allen Seiten ein-/ausblenden ---------- */
