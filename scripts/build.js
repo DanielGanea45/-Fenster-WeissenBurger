@@ -37,6 +37,8 @@ const DEFAULT_SCHRITTE = [
   { name: "CSS/JS minimieren", cmd: "node scripts/minify.js" },
   { name: "Asset-Versionen für minimierte Dateien", cmd: "node scripts/assets-version.js" },
   { name: "Bilder: AVIF-Quellen (<picture>, WebP als Rückfall)", cmd: "node scripts/bilder-picture.js" },
+  /* Zum Schluss: jede Admin-Seite im echten Browser laden (Konsole, Netzwerk, Fehlermeldungen) – nur im Netlify-Build */
+  { name: "Admin-Smoke-Test (jede Admin-Seite in Chrome)", cmd: "node scripts/admin-smoke.js" },
 ];
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }

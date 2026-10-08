@@ -20,7 +20,9 @@
     "wawoff2": "^2.0.1"
   },
   "devDependencies": {
+    "@sparticuz/chromium": "^153.0.0",
     "esbuild": "^0.28.2",
-    "pdfjs-dist": "^4.10.38"
+    "pdfjs-dist": "^4.10.38",
+    "puppeteer-core": "^25.12.0"
   }
 }
