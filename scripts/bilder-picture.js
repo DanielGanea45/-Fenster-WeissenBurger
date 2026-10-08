@@ -38,6 +38,7 @@ function verarbeite(root, html, htmlDatei) {
   const out = html.replace(/<img\b[^>]*>/g, (tag, offset) => {
     const vorher = html.slice(Math.max(0, offset - 400), offset);
     if (/<picture\b[^>]*>\s*(<source\b[^>]*>\s*)*$/.test(vorher)) return tag;
+    if (/\bdata-name="/.test(tag)) return tag; // vom Skript gesteuerte Bilder (Konfigurator-Vorschau): eine <source> würde spätere src-Wechsel überstimmen
     const srcset = (tag.match(/\bsrcset="([^"]*)"/) || [])[1];
     const src = (tag.match(/\bsrc="([^"]*)"/) || [])[1];
     const sizes = (tag.match(/\bsizes="([^"]*)"/) || [])[1];

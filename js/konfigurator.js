@@ -287,10 +287,10 @@
       if (!r.ok) {
         els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">auf Anfrage</strong></div>' + cta + "</div>" +
           '<p class="price__note">' + (r.fehler[0] === "preisliste" ? "Die Preisliste ist derzeit nicht verfügbar. Wir erstellen Ihnen gern ein individuelles Angebot." : "Bitte prüfen Sie die Maße – außerhalb des konfigurierbaren Bereichs erstellen wir ein individuelles Angebot.") + "</p>" +
-          '<details class="posliste"' + (offen ? " open" : "") + "><summary>Einzelpositionen anzeigen</summary>" + zusammen + "</details>";
+          '<details class="posliste"' + (offen ? " open" : "") + "><summary><span>Einzelpositionen<span class=posliste__mehr> anzeigen</span></span></summary>" + zusammen + "</details>";
       } else {
         els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">' + fmtEuro(r.endpreis) + "<small>" + esc(ST.kurz) + "</small></strong></div>" + cta + "</div>" + '<p class="preishinweis">' + esc(HW.kurz) + "</p>" +
-          '<details class="posliste"' + (offen ? " open" : "") + '><summary>Einzelpositionen anzeigen</summary><div class="price__rows">' +
+          '<details class="posliste"' + (offen ? " open" : "") + '><summary><span>Einzelpositionen<span class=posliste__mehr> anzeigen</span></span></summary><div class="price__rows">' +
           "<div><span>Preis ohne Online-Rabatt</span><span>" + fmtEuro(r.ohneRabatt) + "</span></div>" +
           "<div><span>Online-Rabatt −" + r.rabattProzent + " %</span><span>− " + fmtEuro(r.ersparnis) + "</span></div>" +
           (r.montage ? "<div><span>darin Montage" + (state.demontage ? " &amp; Entsorgung" : "") + "</span><span>" + fmtEuro(r.montage + Preis.rund(r.montage * r.steuerProzent / 100)) + "</span></div>" : "") +

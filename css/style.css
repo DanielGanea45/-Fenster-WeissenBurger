@@ -181,6 +181,7 @@ ul, ol { padding: 0; list-style: none; }
 .scene .services li { border-color: var(--on-dark-line); }
 .scene .inline-link { color: #fff; border-color: var(--accent-on-dark); }
 .scene .contact__card strong, .scene .contact__card a, .scene .contact__card .mail--ready { color: #fff; border-color: var(--accent-on-dark); }
+.scene .contact__card .muted { color: var(--on-dark-2); font-weight: inherit; } /* Öffnungszeiten wie Adresse/Telefon lesbar (AA auf dem dunklen Hintergrund) */
 
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
