@@ -92,6 +92,7 @@ function hauptText(html) {
   const body = /<body\b[^>]*>([\s\S]*?)<\/body>/i.exec(s);
   if (body) s = body[1];
   s = s.replace(/<!--produkte-karten-->[\s\S]*?<!--\/produkte-karten-->/g, " ");
+  s = s.replace(/<!--ankuendigung-->[\s\S]*?<!--\/ankuendigung-->/g, " "); // Ankündigungsbanner (Admin → Website) steht bewusst auf jeder Seite
   /* Kundenstimmen stehen bewusst wortgleich auf Start- und Referenzenseite (Admin → Bewertungen) */
   s = s.replace(/<!--bewertungen-(badge|karten)(?::[^>]*)?-->[\s\S]*?<!--\/bewertungen-\1-->/g, " ");
   s = s.replace(/<!--[\s\S]*?-->/g, " ");

@@ -65,7 +65,7 @@
     { id: "website", titel: "Website", desc: "Wartungsmodus, Ankündigungsbanner und WhatsApp-Nummer für alle Besucher.", bereiche: ["website"], website: true, karten: [
       { titel: "WhatsApp", felder: [{ p: "website.whatsapp", l: "WhatsApp-Nummer", d: "Für „Lieber per WhatsApp?“ beim digitalen Assistenten, mit Ländervorwahl ohne +, z. B. 4917681338935; leer = kein WhatsApp-Link", t: "tel" }] },
       { titel: "Wartungsmodus", felder: [{ p: "website.wartung", l: "Wartungsmodus", d: "Besucher sehen „Wir sind gleich wieder da“; der Admin bleibt erreichbar", t: "toggle" }, { p: "website.wartungText", l: "Text auf der Wartungsseite", t: "textarea" }] },
-      { titel: "Ankündigung", felder: [{ p: "website.banner.aktiv", l: "Banner anzeigen", d: "Schmale Leiste unter dem Menü auf allen Seiten", t: "toggle" }, { p: "website.banner.text", l: "Text", d: "Kurz halten – ein Satz", t: "textarea" }, { p: "website.banner.von", l: "Anzeigen ab", d: "Leer = sofort", t: "date" }, { p: "website.banner.bis", l: "Anzeigen bis", d: "Leer = bis zum Ausschalten", t: "date" }] },
+      { titel: "Ankündigung", aktion: { id: "urlaub", label: "Urlaubstext einsetzen", hinweis: "Setzt „Wir sind vom … bis … im Urlaub. Anfragen beantworten wir danach umgehend.“ mit den gewählten Daten ein und schaltet das Banner an." }, felder: [{ p: "website.banner.aktiv", l: "Banner anzeigen", d: "Schmale Leiste unter dem Menü auf allen Seiten", t: "toggle" }, { p: "website.banner.text", l: "Text", d: "Kurz halten – ein Satz", t: "textarea" }, { p: "website.banner.von", l: "Anzeigen ab", d: "Leer = sofort", t: "date" }, { p: "website.banner.bis", l: "Anzeigen bis", d: "Leer = bis zum Ausschalten", t: "date" }] },
     ] },
   ];
 
@@ -83,7 +83,7 @@
     const ok = f.t === "iban" && v && !err && PV.ibanGueltig(String(v)) ? '<span class="iban-ok" data-iban-ok>✓ gültig</span>' : f.t === "iban" ? '<span class="iban-ok" data-iban-ok hidden>✓ gültig</span>' : "";
     return `<div class="set-row ${block ? "set-row--block" : ""} ${err ? "field--fehler" : ""}"><div class="set-row__text"><label class="set-row__titel" for="${id}">${h(f.l)}</label>${f.d ? `<span class="set-row__desc">${h(f.d)}</span>` : ""}</div><div class="set-row__ctl">${ctl}${ok}<span class="fehler-text">${h(err || "")}</span></div></div>`;
   }
-  function karte(k) { return `<section class="card set-card"><h2>${h(k.titel)}</h2>${k.felder.map(feld).join("")}</section>`; }
+  function karte(k) { return `<section class="card set-card"><h2>${h(k.titel)}</h2>${k.felder.map(feld).join("")}${k.aktion ? `<div class="row set-aktion"><button type="button" class="btn btn--sm" data-aktion="${h(k.aktion.id)}">${h(k.aktion.label)}</button><span class="small muted">${h(k.aktion.hinweis)}</span></div>` : ""}</section>`; }
 
   function zweigHtml(z) {
     const kopf = `<div class="page-head"><div><h1>${h(z.titel)}</h1><span class="muted">${h(z.desc)}</span></div><a class="btn btn--sm einst__zurueck" href="#einstellungen">← Alle Einstellungen</a></div>`;
@@ -193,6 +193,17 @@
     main.oninput = (e) => { if (!e.target.closest(".einst__inhalt")) return; lies(main); setDirty(istDirty(z)); const ft2 = $("#set-footer", main); if (ft2) ft2.innerHTML = footerHtml(z); const zt = $("#zeiten-text", main); if (zt) zt.textContent = zeitenText(E.oeffnungszeiten); if (e.target.dataset.pfad === "bank.iban") { const ok = !e.target.value.trim() || PV.ibanGueltig(e.target.value); e.target.closest(".set-row").classList.toggle("field--fehler", !ok); $(".fehler-text", e.target.closest(".set-row")).textContent = ok ? "" : "IBAN ist ungültig (Prüfsumme)."; const io = $("[data-iban-ok]", e.target.closest(".set-row")); if (io) io.hidden = !(ok && e.target.value.trim()); } };
     main.onchange = (e) => { const zu = e.target.closest("[data-zu]"); if (zu) { const k = zu.dataset.zu; $$(`[data-zeit="${k}"]`, main).forEach((i) => { i.disabled = zu.checked; }); lies(main); setDirty(istDirty(z)); const ft2 = $("#set-footer", main); if (ft2) ft2.innerHTML = footerHtml(z); const zt = $("#zeiten-text", main); if (zt) zt.textContent = zeitenText(E.oeffnungszeiten); } };
     main.onclick = async (e) => {
+      const ak = e.target.closest("[data-aktion=urlaub]");
+      if (ak) {
+        const von = $("#e-website-banner-von", main), bis = $("#e-website-banner-bis", main), text = $("#e-website-banner-text", main), an = $("#e-website-banner-aktiv", main);
+        const d = (v) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ""); return m ? `${m[3]}.${m[2]}.${m[1]}` : ""; };
+        if (!von.value || !bis.value) { toast("Bitte zuerst „Anzeigen ab“ und „Anzeigen bis“ wählen – daraus entsteht der Urlaubstext.", "err"); (von.value ? bis : von).focus(); return; }
+        text.value = `Wir sind vom ${d(von.value)} bis ${d(bis.value)} im Urlaub. Anfragen beantworten wir danach umgehend.`;
+        if (an && !an.checked) an.checked = true;
+        text.dispatchEvent(new Event("input", { bubbles: true }));
+        toast("Urlaubstext eingesetzt – bitte „Speichern & veröffentlichen“.", "ok");
+        return;
+      }
       const b = e.target.closest("[data-e]");
       if (b) { if (b.dataset.e === "verwerfen") { z.bereiche.forEach((x) => { E[x] = klon(O[x]); }); fehler = {}; setDirty(false); zeichne(z.id); } else await speichern(z); return; }
       const st = e.target.closest("#steuer-satz [data-satz]");

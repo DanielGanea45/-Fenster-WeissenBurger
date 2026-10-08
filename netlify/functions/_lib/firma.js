@@ -134,15 +134,24 @@ function einsetzen(html, e, site) {
 }
 
 /* ---------- Ankündigungsbanner ---------- */
+/* Zeitraum: leer = bis zum Ausschalten; mit „bis“ in der Vergangenheit wird das Banner schon im Build weggelassen (der Browser
+   prüft zusätzlich jeden Tag, damit es im Zeitraum von selbst erscheint und danach verschwindet) */
+function bannerAktiv(b, heute) {
+  if (!b || !b.aktiv || !String(b.text || "").trim()) return false;
+  const h = heute || new Date().toISOString().slice(0, 10);
+  if (b.bis && /^\d{4}-\d{2}-\d{2}$/.test(b.bis) && b.bis < h) return false;
+  return true;
+}
 function bannerHtml(e) {
   const b = (e && e.website && e.website.banner) || {};
-  if (!b.aktiv || !String(b.text || "").trim()) return "";
+  if (!bannerAktiv(b)) return "";
   return `<div class="ankuendigung" data-von="${esc(b.von || "")}" data-bis="${esc(b.bis || "")}" role="status" hidden><p>${esc(b.text)}</p><button type="button" class="ankuendigung__zu" aria-label="Hinweis schließen">×</button></div>`;
 }
 function bannerBlock(e) { const neu = bannerHtml(e); return neu ? `<!--ankuendigung-->${neu}<!--/ankuendigung-->` : ""; }
 function bannerEinsetzen(html, e) {
   const block = bannerBlock(e);
-  if (/<!--ankuendigung-->[\s\S]*?<!--\/ankuendigung-->/.test(html)) return html.replace(/\n?<!--ankuendigung-->[\s\S]*?<!--\/ankuendigung-->/, block ? "\n" + block : "");
+  /* vorhandenen Block ersetzen – Zeilenumbruch davor so lassen, wie er ist (Generatoren setzen den Block direkt nach <body>; idempotent) */
+  if (/<!--ankuendigung-->[\s\S]*?<!--\/ankuendigung-->/.test(html)) return html.replace(/(\n?)<!--ankuendigung-->[\s\S]*?<!--\/ankuendigung-->/, (m, nl) => (block ? nl + block : ""));
   if (!block) return html;
   return html.replace(/(<body\b[^>]*>)/, "$1\n" + block);
 }
@@ -182,4 +191,4 @@ function dokumenteMuster(e) {
   return { muster: fehlt.length > 0, fehlt };
 }
 
-module.exports = { TAGE, TAG_KURZ, esc, firma, vollerName, strassenName, adresseZeilen, adresseHtml, telHref, telInternational, mailSpan, zeitOk, zeitenGruppen, zeitenText, zeitenSpec, jsonLdFirma, jsonLdAktualisieren, kontaktKarteHtml, BAUSTEINE, einsetzen, bannerHtml, bannerBlock, bannerEinsetzen, wartungRedirects, ibanGueltig, ibanFormat, bicGueltig, nummerGueltig, dokumenteMuster };
+module.exports = { bannerAktiv, TAGE, TAG_KURZ, esc, firma, vollerName, strassenName, adresseZeilen, adresseHtml, telHref, telInternational, mailSpan, zeitOk, zeitenGruppen, zeitenText, zeitenSpec, jsonLdFirma, jsonLdAktualisieren, kontaktKarteHtml, BAUSTEINE, einsetzen, bannerHtml, bannerBlock, bannerEinsetzen, wartungRedirects, ibanGueltig, ibanFormat, bicGueltig, nummerGueltig, dokumenteMuster };

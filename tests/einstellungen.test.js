@@ -173,7 +173,9 @@ test("Öffnungszeiten-Text, Telefon-Link, Wartungs-Weiterleitungen, Banner, MUST
   assert.equal(firma.zeitenText({ mo: "09:00-12:30", di: "", mi: "09:00-12:30", do: "", fr: "", sa: "", so: "" }), "Mo 9–12:30 Uhr, Mi 9–12:30 Uhr");
   assert.equal(firma.zeitenText({}), "Termine nach Vereinbarung");
   assert.equal(firma.telHref("0176 81338935"), "tel:+4917681338935"); assert.equal(firma.telHref("+49 (0)841 / 12 34"), "tel:+49084112 34".replace(/\s/g, ""));
-  assert.equal(firma.wartungRedirects(repoEinst()), "");
+  /* Aus-Zustand ausdrücklich bauen – data/einstellungen.json trägt im Netlify-Build die Admin-Werte (Wartung kann dort an sein) */
+  const aus = Object.assign(repoEinst(), { website: { wartung: false, wartungText: "", banner: { aktiv: false, text: "", von: "", bis: "" } } });
+  assert.equal(firma.wartungRedirects(aus), "");
   const w = Object.assign(repoEinst(), { website: { wartung: true, wartungText: "x", banner: { aktiv: false, text: "", von: "", bis: "" } } });
   const red = firma.wartungRedirects(w);
   assert.ok(red.includes("/admin/*  /.netlify/functions/admin-seite  200!") && red.indexOf("/admin/*") < red.indexOf("/*  /wartung.html  200!"), "Admin-Regel vor der Wartungsregel");
@@ -182,8 +184,9 @@ test("Öffnungszeiten-Text, Telefon-Link, Wartungs-Weiterleitungen, Banner, MUST
   const mit = firma.bannerEinsetzen(html, b);
   assert.ok(mit.includes('class="ankuendigung" data-von="2026-12-20" data-bis="2027-01-02"') && mit.includes("Betriebsferien &lt;bis&gt; 2.1.") && mit.indexOf("ankuendigung") < mit.indexOf("<main>"));
   assert.equal(firma.bannerEinsetzen(mit, b), mit, "idempotent");
-  assert.equal(firma.bannerEinsetzen(mit, repoEinst()), html, "ausschalten entfernt das Banner wieder");
-  const m = firma.dokumenteMuster(repoEinst());
+  assert.equal(firma.bannerEinsetzen(mit, aus), html, "ausschalten entfernt das Banner wieder");
+  const ohneBank = Object.assign(repoEinst(), { bank: { iban: "", kontoinhaber: "", bic: "", bank: "" } });
+  const m = firma.dokumenteMuster(ohneBank);
   assert.equal(m.muster, true); assert.ok(m.fehlt.includes("IBAN") && m.fehlt.includes("Kontoinhaber"));
   assert.ok(firma.ibanGueltig("DE89 3704 0044 0532 0130 00") && !firma.ibanGueltig("DE89370400440532013001") && firma.bicGueltig("BYLADEM1ING") && !firma.bicGueltig("BYLA"));
 });
