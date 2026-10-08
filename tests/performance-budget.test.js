@@ -71,7 +71,8 @@ test("Build-Schritte: <picture> mit AVIF-Quelle wird korrekt und idempotent eing
   const esbuild = require("esbuild");
   const quelle = fs.readFileSync(path.join(ROOT, "js/steuer.js"), "utf8");
   const min = (await esbuild.transform(quelle, { loader: "js", minify: true, charset: "utf8", target: ["es2017"] })).code;
-  assert.ok(min.length < quelle.length * 0.7, "deutlich kleiner");
+  if (!/minimiert im Build/.test(quelle)) assert.ok(min.length < quelle.length * 0.7, "deutlich kleiner"); // im Netlify-Build ist die Quelle bereits minimiert
+  else assert.ok(min.length <= quelle.length);
   const m = { exports: {} }; new Function("module", min)(m); const Steuer = m.exports;
   assert.equal(Steuer.texte(0).kurz, require("../js/steuer.js").texte(0).kurz, "minimiertes Modul liefert dieselben Texte");
 });
