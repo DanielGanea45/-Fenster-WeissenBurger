@@ -35,6 +35,7 @@ const checks = [
   ["Fußzeile Link (Hover, Akzent) auf Fußzeile", PAL.accent, PAL.footerBg, 4.5],
   ["Weißer Text auf Video-Overlay (hellster Videoton)", PAL.onDark, overlayWorst, 4.5],
   ["Weißer Text 84 % auf Video-Overlay (hellster Videoton)", PAL.onDark2, overlayWorst, 4.5],
+  ["Kontaktkarte: Adresse, Telefon und Öffnungszeiten (Weiß 84 %) auf Video-Overlay", PAL.onDark2, overlayWorst, 4.5],
   ["Akzent-Tint auf Video-Overlay in der Textzone (Overlay + Verlauf, hellster Videoton)", PAL.accentOnDark, overlayText, 4.5],
   ["Akzent-Tint auf Video-Overlay ohne Verlauf (nur Info, kommt hinter Text nicht vor)", PAL.accentOnDark, overlayWorst, 0],
   ["Akzent-Tint auf Dunkel (#1b2430)", PAL.accentOnDark, PAL.dark, 4.5],

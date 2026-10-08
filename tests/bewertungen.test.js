@@ -111,12 +111,13 @@ test("Repo-Vorgaben (Git-Stand): fünf übernommene Bewertungen – 4× Google, 
 test("Seiten: Start- und Referenzenseite tragen Abzeichen und Karten passend zu den Daten (Prüflauf ändert nichts)", () => {
   const r = einsetzen.lauf(ROOT, null, null, true);
   assert.equal(r.geaendert, 0, "node scripts/bewertungen-einsetzen.js ausführen");
-  assert.ok(r.marker >= 5);
+  assert.equal(r.marker, 4, "Hero-Abzeichen, Karten Start, Abzeichen + Karten Referenzen");
   const pub = B.oeffentlich(repoListe()), e = repoEinst();
   const badge = B.badgeHtml(e) ? 1 : 0;
   const start = lies("index.html"), ref = lies("referenzen/index.html");
   const karten = (h) => (h.match(/<li class="stimme">/g) || []).length;
-  assert.equal((start.match(/<div class="badge-bew"/g) || []).length, 2 * badge, "Startseite: Abzeichen im Hero und bei Kontakt");
+  assert.equal((start.match(/<div class="badge-bew"/g) || []).length, badge, "Startseite: Abzeichen nur im Hero (bei Kontakt bewusst keines)");
+  assert.ok(!/<address[\s\S]*?<\/address>\s*<!--bewertungen-badge-->/.test(start), "Kontakt ohne Abzeichen");
   assert.ok(start.includes("Das sagen unsere Kunden"));
   assert.equal(karten(start), Math.min(3, pub.length), "Startseite: die drei neuesten");
   assert.equal((ref.match(/<div class="badge-bew"/g) || []).length, badge);
