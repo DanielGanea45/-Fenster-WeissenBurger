@@ -66,9 +66,9 @@ async function handler(event) {
         const link = `${site}/admin/?reset=${t}`;
         const v = mail.vorlagen.reset(link);
         const m = await mail.send({ to: a.email, subject: v.subject, text: v.text });
-        await http.protokoll(event, "passwort-vergessen", m.ok ? "Link per E-Mail gesendet" : "Link erzeugt, Versand: " + (m.skipped ? "kein BREVO_API_KEY" : m.error), a.email);
+        await http.protokoll(event, "passwort-vergessen", m.ok ? "Link per E-Mail gesendet" : "Link erzeugt, Versand: " + (m.skipped ? "E-Mail-Versand noch nicht eingerichtet" : m.error), a.email);
         /* Ohne Mailversand (lokal/Vorschau ohne Schlüssel) wird der Link direkt zurückgegeben – nur außerhalb der Produktion */
-        if (!m.ok && !http.isProduction()) return http.json(200, { ok: true, hinweis: "E-Mail-Versand nicht konfiguriert (BREVO_API_KEY). Link nur in dieser Vorschau sichtbar:", link });
+        if (!m.ok && !http.isProduction()) return http.json(200, { ok: true, hinweis: "Der E-Mail-Versand ist noch nicht eingerichtet. Der Link ist nur in dieser Vorschau sichtbar:", link });
       } else await http.protokoll(event, "passwort-vergessen", "unbekannte Adresse " + email.slice(0, 60));
       return http.json(200, { ok: true, hinweis: "Wenn die Adresse zu einem Konto gehört, wurde ein Link gesendet (30 Minuten gültig)." });
     }

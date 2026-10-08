@@ -21,5 +21,16 @@ exports.handler = async (event) => {
   if (!/^\/admin(\/|$)/.test(p) && !/admin-seite/.test(p)) return http.notFound();
   let html;
   try { html = seite(); } catch (e) { return http.html(500, "<h1>Admin-Oberfläche nicht gefunden</h1>"); }
-  return http.html(200, html, { "X-Frame-Options": "DENY" });
+  return http.html(200, html, SICHERHEIT);
+};
+
+/* Netlify setzt die [[headers]] aus netlify.toml nicht auf Function-Antworten – deshalb hier dieselben Schutz-Header
+   wie für die öffentliche Website. Der Admin lädt nur eigene Skripte/Styles; Bildvorschauen nutzen blob:/data:-URLs,
+   die HEIC-Umwandlung einen Worker aus blob:. */
+const SICHERHEIT = {
+  "X-Frame-Options": "DENY",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+  "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self' blob:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'",
 };
