@@ -68,2366 +68,3380 @@
    "tag": "p",
    "html": "<span>01</span> Fenster &amp; Haustüren · Ingolstadt",
    "label": "01 Fenster &amp; Haustüren · Ingolstadt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "home",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "startseite-2": {
    "seite": "startseite",
    "tag": "h1",
    "html": "Neue Fenster.<br>Fachgerecht <em>montiert.</em>",
    "label": "Neue Fenster.Fachgerecht montiert.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "home",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "startseite-3": {
    "seite": "startseite",
    "tag": "p",
    "html": "Kunststoff, Kunststoff-Aluminium oder Aluminium – wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster und Haustüren sauber und termingerecht.",
    "label": "Kunststoff, Kunststoff-Aluminium oder Aluminium – wir beraten Sie zu H",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "home",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "startseite-4": {
    "seite": "startseite",
    "tag": "p",
    "html": "<span>02</span> Produkte",
    "label": "02 Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "produkte",
+   "abschnittTitel": "Produkte",
+   "rolle": "eyebrow"
   },
   "startseite-5": {
    "seite": "startseite",
    "tag": "h2",
    "html": "Drei Werkstoffe. <em>Ein Anspruch.</em>",
    "label": "Drei Werkstoffe. Ein Anspruch.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "produkte",
+   "abschnittTitel": "Produkte",
+   "rolle": "h2"
   },
   "startseite-6": {
    "seite": "startseite",
    "tag": "p",
    "html": "Alle Fenster mit Wärmeschutzverglasung, nach Maß gefertigt und von uns montiert. Preise verstehen sich pro Element, abhängig von Größe und Ausstattung. <a class=\"inline-link\" href=\"produkte/\">Alle Produkte</a> · <a class=\"inline-link\" href=\"produkte/schiebetueren/\">Hebe-Schiebetüren</a> <a class=\"inline-link konf-link\" href=\"konfigurator/fenster/\" hidden>· Online konfigurieren</a>",
    "label": "Alle Fenster mit Wärmeschutzverglasung, nach Maß gefertigt und von uns",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "produkte",
+   "abschnittTitel": "Produkte",
+   "rolle": "lead"
   },
   "startseite-19": {
    "seite": "startseite",
    "tag": "p",
    "html": "<span>03</span> Leistungen",
    "label": "03 Leistungen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "eyebrow"
   },
   "startseite-20": {
    "seite": "startseite",
    "tag": "h2",
    "html": "Von der Beratung <em>bis zum letzten Handgriff.</em>",
    "label": "Von der Beratung bis zum letzten Handgriff.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h2"
   },
   "startseite-21": {
    "seite": "startseite",
    "tag": "h3",
    "html": "Beratung vor Ort",
    "label": "Beratung vor Ort",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "startseite-22": {
    "seite": "startseite",
    "tag": "p",
    "html": "Wir kommen zu Ihnen, sehen uns die Situation an und besprechen Werkstoff, Öffnungsarten, Verglasung und Farben.",
    "label": "Wir kommen zu Ihnen, sehen uns die Situation an und besprechen Werksto",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "startseite-23": {
    "seite": "startseite",
    "tag": "h3",
    "html": "Kostenloses Aufmaß",
    "label": "Kostenloses Aufmaß",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "startseite-24": {
    "seite": "startseite",
    "tag": "p",
    "html": "Exaktes Aufmaß jedes Elements durch unsere Monteure – damit alles passt, bevor produziert wird.",
    "label": "Exaktes Aufmaß jedes Elements durch unsere Monteure – damit alles pass",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "startseite-25": {
    "seite": "startseite",
    "tag": "h3",
    "html": "Montage &amp; Entsorgung",
    "label": "Montage &amp; Entsorgung",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "startseite-26": {
    "seite": "startseite",
    "tag": "p",
    "html": "Ausbau der alten Fenster, fachgerechter Einbau nach RAL-Montagerichtlinien, Abdichtung, Entsorgung der Altelemente.",
    "label": "Ausbau der alten Fenster, fachgerechter Einbau nach RAL-Montagerichtli",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "startseite-27": {
    "seite": "startseite",
    "tag": "h3",
    "html": "Hinweise zu Fördermöglichkeiten",
    "label": "Hinweise zu Fördermöglichkeiten",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "startseite-28": {
    "seite": "startseite",
    "tag": "p",
    "html": "Wir informieren Sie über aktuelle Förderprogramme für energetische Sanierung (z. B. BAFA, KfW) und welche Unterlagen Sie dafür benötigen.",
    "label": "Wir informieren Sie über aktuelle Förderprogramme für energetische San",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "startseite-29": {
    "seite": "startseite",
    "tag": "p",
    "html": "<span>04</span> Über uns",
    "label": "04 Über uns",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "eyebrow"
   },
   "startseite-30": {
    "seite": "startseite",
    "tag": "h2",
    "html": "Fensterbau aus Ingolstadt – <em>persönlich und verbindlich.</em>",
    "label": "Fensterbau aus Ingolstadt – persönlich und verbindlich.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "h2"
   },
   "startseite-31": {
    "seite": "startseite",
    "tag": "p",
    "html": "<strong>Fenster-WeissenBurger – seit 2022 Ihr Partner für Fenster und Türen in Ingolstadt.</strong>",
    "label": "Fenster-WeissenBurger – seit 2022 Ihr Partner für Fenster und Türen in",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "lead"
   },
   "startseite-32": {
    "seite": "startseite",
    "tag": "p",
    "html": "Wir sind ein junges, engagiertes Team aus Ingolstadt und begleiten Sie vom ersten Gespräch bis zum fertigen Einbau: persönliche Beratung vor Ort, kostenloses Aufmaß, ein klares Angebot und eine saubere Montage – inklusive Ausbau und Entsorgung Ihrer alten Fenster.",
    "label": "Wir sind ein junges, engagiertes Team aus Ingolstadt und begleiten Sie",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "lead"
   },
   "startseite-33": {
    "seite": "startseite",
    "tag": "p",
    "html": "Wir setzen auf geprüfte Qualität: Unsere Fenster und Türen fertigt unser Partner Helios mit Profilen von Kömmerling und Cortizo. Dazu kommen individuelle Lösungen nach Maß – vom Sonderformat bis zur Hebe-Schiebetür.",
    "label": "Wir setzen auf geprüfte Qualität: Unsere Fenster und Türen fertigt uns",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "lead"
   },
   "startseite-34": {
    "seite": "startseite",
    "tag": "p",
    "html": "Bei uns gibt es keine „dummen Fragen“: Wir nehmen uns Zeit, hören zu und finden gemeinsam die Lösung, die zu Ihrem Zuhause passt.",
    "label": "Bei uns gibt es keine „dummen Fragen“: Wir nehmen uns Zeit, hören zu u",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "lead"
   },
   "startseite-35": {
    "seite": "startseite",
    "tag": "p",
    "html": "<a class=\"btn btn--ghost\" href=\"referenzen/\">Referenzen &amp; Kundenstimmen</a>",
    "label": "Referenzen &amp; Kundenstimmen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ueber-uns",
+   "abschnittTitel": "Über uns",
+   "rolle": "button"
   },
   "startseite-36": {
    "seite": "startseite",
    "tag": "p",
    "html": "<span>05</span> Kontakt",
    "label": "05 Kontakt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kontakt",
+   "abschnittTitel": "Kontakt",
+   "rolle": "eyebrow"
   },
   "startseite-37": {
    "seite": "startseite",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kontakt",
+   "abschnittTitel": "Kontakt",
+   "rolle": "h2"
   },
   "startseite-38": {
    "seite": "startseite",
    "tag": "p",
    "html": "Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Termin bei Ihnen vor Ort.",
    "label": "Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Term",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kontakt",
+   "abschnittTitel": "Kontakt",
+   "rolle": "lead"
   },
   "leistungen-1": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>Leistungen</span> Ingolstadt &amp; Umgebung",
    "label": "Leistungen Ingolstadt &amp; Umgebung",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "leistungen-2": {
    "seite": "leistungen",
    "tag": "h1",
    "html": "Fenster- und Türenmontage <em>in Ingolstadt.</em>",
    "label": "Fenster- und Türenmontage in Ingolstadt.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "leistungen-3": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Alles rund um Fenster, Türen und Zubehör – professionell, sauber und zuverlässig umgesetzt. Von der persönlichen Beratung über das kostenlose Aufmaß bis zur fachgerechten Montage und Entsorgung der alten Elemente.",
    "label": "Alles rund um Fenster, Türen und Zubehör – professionell, sauber und z",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "leistungen-4": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>01</span> Leistungen",
    "label": "01 Leistungen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "eyebrow"
   },
   "leistungen-5": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "Alles aus einer Hand – <em>von der Beratung bis zur Entsorgung.</em>",
    "label": "Alles aus einer Hand – von der Beratung bis zur Entsorgung.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h2"
   },
   "leistungen-6": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Beratung &amp; Planung vor Ort",
    "label": "Beratung &amp; Planung vor Ort",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "leistungen-7": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Wir beraten Sie persönlich und kostenlos direkt bei Ihnen zu Hause: Werkstoff, Öffnungsarten, Verglasung, Farben und Sicherheitsausstattung – abgestimmt auf Ihr Bauprojekt.",
    "label": "Wir beraten Sie persönlich und kostenlos direkt bei Ihnen zu Hause: We",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "leistungen-8": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Kostenloses Aufmaß",
    "label": "Kostenloses Aufmaß",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "leistungen-9": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Unsere Monteure messen jedes Element exakt auf – damit Fenster und Türen passgenau gefertigt werden und am Montagetag alles sitzt.",
    "label": "Unsere Monteure messen jedes Element exakt auf – damit Fenster und Tür",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "leistungen-10": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Professionelle Montage",
    "label": "Professionelle Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "leistungen-11": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Fachgerechte Fenster- und Türenmontage durch erfahrene Monteure: präzise ausgerichtet, sauber abgedichtet, inklusive Anschluss- und Abdichtungsarbeiten.",
    "label": "Fachgerechte Fenster- und Türenmontage durch erfahrene Monteure: präzi",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "leistungen-12": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Demontage &amp; Entsorgung",
    "label": "Demontage &amp; Entsorgung",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "h3"
   },
   "leistungen-13": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Beim Fenstertausch bauen wir die alten Fenster und Türen aus und entsorgen sie fachgerecht. Sie müssen sich um nichts kümmern.",
    "label": "Beim Fenstertausch bauen wir die alten Fenster und Türen aus und entso",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "leistungen",
+   "abschnittTitel": "Leistungen",
+   "rolle": "p"
   },
   "leistungen-14": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>02</span> So läuft es ab",
    "label": "02 So läuft es ab",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "eyebrow"
   },
   "leistungen-15": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "In vier Schritten <em>zu neuen Fenstern.</em>",
    "label": "In vier Schritten zu neuen Fenstern.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "h2"
   },
   "leistungen-16": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Beratung",
    "label": "Beratung",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "h3"
   },
   "leistungen-17": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Sie rufen an oder schreiben uns. Wir kommen zu Ihnen, sehen uns die Situation an und besprechen Ihre Wünsche.",
    "label": "Sie rufen an oder schreiben uns. Wir kommen zu Ihnen, sehen uns die Si",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "p"
   },
   "leistungen-18": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Aufmaß",
    "label": "Aufmaß",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "h3"
   },
   "leistungen-19": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Wir messen alle Elemente kostenlos und exakt auf – Grundlage für Angebot und Fertigung.",
    "label": "Wir messen alle Elemente kostenlos und exakt auf – Grundlage für Angeb",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "p"
   },
   "leistungen-20": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Angebot",
    "label": "Angebot",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "h3"
   },
   "leistungen-21": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Sie erhalten ein schriftliches Angebot mit allen Positionen. Erst wenn Sie zufrieden sind, geht es weiter.",
    "label": "Sie erhalten ein schriftliches Angebot mit allen Positionen. Erst wenn",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "p"
   },
   "leistungen-22": {
    "seite": "leistungen",
    "tag": "h3",
    "html": "Montage",
    "label": "Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "h3"
   },
   "leistungen-23": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Zum vereinbarten Termin montieren wir Ihre Fenster und Türen, entsorgen die alten Elemente und übergeben besenrein.",
    "label": "Zum vereinbarten Termin montieren wir Ihre Fenster und Türen, entsorge",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "ablauf",
+   "abschnittTitel": "So läuft es ab",
+   "rolle": "p"
   },
   "leistungen-24": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>03</span> Warum wir?",
    "label": "03 Warum wir?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "warum",
+   "abschnittTitel": "Warum wir?",
+   "rolle": "eyebrow"
   },
   "leistungen-25": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "Erfahrung, Maßarbeit, <em>saubere Ausführung.</em>",
    "label": "Erfahrung, Maßarbeit, saubere Ausführung.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "warum",
+   "abschnittTitel": "Warum wir?",
+   "rolle": "h2"
   },
   "leistungen-26": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>04</span> Ergänzende Arbeiten",
    "label": "04 Ergänzende Arbeiten",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "warum",
+   "abschnittTitel": "Warum wir?",
+   "rolle": "eyebrow"
   },
   "leistungen-27": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "Was wir rund um <em>den Einbau erledigen.</em>",
    "label": "Was wir rund um den Einbau erledigen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "warum",
+   "abschnittTitel": "Warum wir?",
+   "rolle": "h2"
   },
   "leistungen-28": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>05</span> Referenzen",
    "label": "05 Referenzen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "referenzen",
+   "abschnittTitel": "Referenzen",
+   "rolle": "eyebrow"
   },
   "leistungen-29": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "Unsere aktuellen <em>Renovierungsprojekte.</em>",
    "label": "Unsere aktuellen Renovierungsprojekte.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "referenzen",
+   "abschnittTitel": "Referenzen",
+   "rolle": "h2"
   },
   "leistungen-30": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Einige Eindrücke von unseren Fassaden- und Innenarbeiten – von präzisem Einbau bis zum letzten Pinselstrich, alles aus einer Hand.",
    "label": "Einige Eindrücke von unseren Fassaden- und Innenarbeiten – von präzise",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "referenzen",
+   "abschnittTitel": "Referenzen",
+   "rolle": "lead"
   },
   "leistungen-31": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Tippen oder klicken Sie auf ein Bild, um es größer zu sehen. Mehr Fotos und Kundenstimmen: <a href=\"/referenzen/\">Referenzen</a>.",
    "label": "Tippen oder klicken Sie auf ein Bild, um es größer zu sehen. Mehr Foto",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "referenzen",
+   "abschnittTitel": "Referenzen",
+   "rolle": "p"
   },
   "leistungen-32": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>06</span> Häufige Fragen",
    "label": "06 Häufige Fragen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "eyebrow"
   },
   "leistungen-33": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "Fragen zur <em>Montage.</em>",
    "label": "Fragen zur Montage.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "h2"
   },
   "leistungen-34": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Wir kommen zu Ihnen, sehen uns Fenster und Türen an, besprechen Ihre Wünsche und nehmen bei Bedarf gleich das Aufmaß. Beratung und Aufmaß sind kostenlos und unverbindlich.",
    "label": "Wir kommen zu Ihnen, sehen uns Fenster und Türen an, besprechen Ihre W",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "leistungen-35": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Das hängt von der Anzahl der Elemente und der Bausituation ab. Bei einem typischen Einfamilienhaus sind es meist ein bis wenige Arbeitstage. Den konkreten Zeitrahmen nennen wir Ihnen mit dem Angebot.",
    "label": "Das hängt von der Anzahl der Elemente und der Bausituation ab. Bei ein",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "leistungen-36": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Wir bauen die alten Fenster und Türen aus und entsorgen sie fachgerecht. Das ist Teil unseres Rundum-Service.",
    "label": "Wir bauen die alten Fenster und Türen aus und entsorgen sie fachgerech",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "leistungen-37": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Zu Beginn und zur Abnahme ja. Dazwischen reicht es, wenn wir Zugang zu den Räumen haben. Wir decken Böden und Möbel ab und übergeben besenrein.",
    "label": "Zu Beginn und zur Abnahme ja. Dazwischen reicht es, wenn wir Zugang zu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "leistungen-38": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Ja. Abdichtungs- und Anschlussarbeiten, innere und äußere Fensterbänke sowie kleinere Mauer-, Putz- und Ausbesserungsarbeiten führen wir im Zuge der Montage mit aus.",
    "label": "Ja. Abdichtungs- und Anschlussarbeiten, innere und äußere Fensterbänke",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "leistungen-39": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Für energetische Sanierungen gibt es staatliche Förderprogramme (z. B. BAFA, KfW). Wir informieren Sie über die aktuellen Möglichkeiten und welche Unterlagen Sie dafür benötigen; die Antragstellung erfolgt durch Sie bzw. einen Energieberater.",
    "label": "Für energetische Sanierungen gibt es staatliche Förderprogramme (z. B.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "faq",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "leistungen-40": {
    "seite": "leistungen",
    "tag": "p",
    "html": "<span>07</span> Anfrage",
    "label": "07 Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "leistungen-41": {
    "seite": "leistungen",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "leistungen-42": {
    "seite": "leistungen",
    "tag": "p",
    "html": "Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Termin bei Ihnen vor Ort.",
    "label": "Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Term",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "referenzen-1": {
    "seite": "referenzen",
    "tag": "p",
    "html": "<span>Referenzen</span> Ingolstadt &amp; Umgebung",
    "label": "Referenzen Ingolstadt &amp; Umgebung",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "referenzen-2": {
    "seite": "referenzen",
    "tag": "h1",
    "html": "Unsere Arbeit – <em>Bild für Bild.</em>",
    "label": "Unsere Arbeit – Bild für Bild.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "referenzen-3": {
    "seite": "referenzen",
    "tag": "p",
    "html": "Fenstertausch, Neubau, Haustüren und Innenausbau: Hier sehen Sie Fotos von Projekten, die wir ausgeführt haben, und lesen, was Kundinnen und Kunden über die Zusammenarbeit sagen.",
    "label": "Fenstertausch, Neubau, Haustüren und Innenausbau: Hier sehen Sie Fotos",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "referenzen-4": {
    "seite": "referenzen",
    "tag": "p",
    "html": "<span>01</span> Projekte",
    "label": "01 Projekte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "projekte",
+   "abschnittTitel": "Projekte",
+   "rolle": "eyebrow"
   },
   "referenzen-5": {
    "seite": "referenzen",
    "tag": "h2",
    "html": "Fassaden, Fenster, Türen, <em>Innenausbau.</em>",
    "label": "Fassaden, Fenster, Türen, Innenausbau.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "projekte",
+   "abschnittTitel": "Projekte",
+   "rolle": "h2"
   },
   "referenzen-6": {
    "seite": "referenzen",
    "tag": "p",
    "html": "Alle Fotos stammen von unseren eigenen Baustellen. Tippen oder klicken Sie auf ein Bild, um es größer zu sehen.",
    "label": "Alle Fotos stammen von unseren eigenen Baustellen. Tippen oder klicken",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "projekte",
+   "abschnittTitel": "Projekte",
+   "rolle": "lead"
   },
   "referenzen-7": {
    "seite": "referenzen",
    "tag": "p",
    "html": "<span>02</span> Kundenstimmen",
    "label": "02 Kundenstimmen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kundenstimmen",
+   "abschnittTitel": "Kundenstimmen",
+   "rolle": "eyebrow"
   },
   "referenzen-8": {
    "seite": "referenzen",
    "tag": "h2",
    "html": "Das sagen <em>unsere Kunden.</em>",
    "label": "Das sagen unsere Kunden.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kundenstimmen",
+   "abschnittTitel": "Kundenstimmen",
+   "rolle": "h2"
   },
   "referenzen-9": {
    "seite": "referenzen",
    "tag": "h3",
    "html": "So prüfen wir Bewertungen",
    "label": "So prüfen wir Bewertungen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kundenstimmen",
+   "abschnittTitel": "Kundenstimmen",
+   "rolle": "h3"
   },
   "referenzen-10": {
    "seite": "referenzen",
    "tag": "p",
    "html": "Wir veröffentlichen nur Bewertungen von Kundinnen und Kunden, für die wir einen Auftrag ausgeführt haben. Jede Bewertung wird vor der Veröffentlichung von uns geprüft. Wir veröffentlichen positive wie negative Bewertungen und verändern keine Inhalte.",
    "label": "Wir veröffentlichen nur Bewertungen von Kundinnen und Kunden, für die ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "kundenstimmen",
+   "abschnittTitel": "Kundenstimmen",
+   "rolle": "p"
   },
   "referenzen-11": {
    "seite": "referenzen",
    "tag": "p",
    "html": "<span>03</span> Bewertung abgeben",
    "label": "03 Bewertung abgeben",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "bewertung-abgeben",
+   "abschnittTitel": "Bewertung abgeben",
+   "rolle": "eyebrow"
   },
   "referenzen-12": {
    "seite": "referenzen",
    "tag": "h2",
    "html": "Wie war die Zusammenarbeit <em>mit uns?</em>",
    "label": "Wie war die Zusammenarbeit mit uns?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "bewertung-abgeben",
+   "abschnittTitel": "Bewertung abgeben",
+   "rolle": "h2"
   },
   "referenzen-13": {
    "seite": "referenzen",
    "tag": "p",
    "html": "Ihre Meinung hilft anderen bei der Entscheidung und uns, besser zu werden. Bewertungen können nur Kundinnen und Kunden abgeben, für die wir einen Auftrag ausgeführt haben. Nach einer Prüfung veröffentlichen wir Ihre Bewertung mit Namen oder Initialen, Ort und Art des Projekts.",
    "label": "Ihre Meinung hilft anderen bei der Entscheidung und uns, besser zu wer",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "bewertung-abgeben",
+   "abschnittTitel": "Bewertung abgeben",
+   "rolle": "lead"
   },
   "referenzen-14": {
    "seite": "referenzen",
    "tag": "p",
    "html": "Sie können Ihre Bewertung jederzeit ändern oder löschen lassen – eine E-Mail an <span class=\"mail\" data-u=\"info\" data-d=\"fenster-weissenburger.de\">info [at] fenster-weissenburger.de</span> genügt.",
    "label": "Sie können Ihre Bewertung jederzeit ändern oder löschen lassen – eine ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "bewertung-abgeben",
+   "abschnittTitel": "Bewertung abgeben",
+   "rolle": "lead"
   },
   "produkte-1": {
    "seite": "produkte",
    "tag": "p",
    "html": "<span>Produkte</span> Fenster · Türen · Schiebetüren",
    "label": "Produkte Fenster · Türen · Schiebetüren",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "produkte-2": {
    "seite": "produkte",
    "tag": "h1",
    "html": "Fenster und Türen – <em>nach Maß für Ihr Zuhause.</em>",
    "label": "Fenster und Türen – nach Maß für Ihr Zuhause.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "produkte-3": {
    "seite": "produkte",
    "tag": "p",
    "html": "Kunststoff, Kunststoff-Aluminium oder Aluminium: Wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster, Haustüren und Schiebetüren in Ingolstadt und der Region.",
    "label": "Kunststoff, Kunststoff-Aluminium oder Aluminium: Wir beraten Sie zu Ha",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "produkte-4": {
    "seite": "produkte",
    "tag": "p",
    "html": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
    "label": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und C",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "produkte-5": {
    "seite": "produkte",
    "tag": "p",
    "html": "<span>01</span> Kategorien",
    "label": "01 Kategorien",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Kategorien",
+   "rolle": "eyebrow"
   },
   "produkte-6": {
    "seite": "produkte",
    "tag": "h2",
    "html": "Unsere <em>Produktgruppen.</em>",
    "label": "Unsere Produktgruppen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Kategorien",
+   "rolle": "h2"
   },
   "produkte-7": {
    "seite": "produkte",
    "tag": "p",
    "html": "<span>02</span> aluplast",
    "label": "02 aluplast",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "aluplast",
+   "abschnittTitel": "aluplast",
+   "rolle": "eyebrow"
   },
   "produkte-8": {
    "seite": "produkte",
    "tag": "h2",
    "html": "Kunststoff-Fenstersysteme <em>von aluplast.</em>",
    "label": "Kunststoff-Fenstersysteme von aluplast.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "aluplast",
+   "abschnittTitel": "aluplast",
+   "rolle": "h2"
   },
   "produkte-9": {
    "seite": "produkte",
    "tag": "p",
    "html": "Neben den Kömmerling-Profilen bieten wir Fenster mit Systemen des deutschen Herstellers aluplast an. Die Serien unterscheiden sich in Bautiefe, Kammerzahl und Ausstattung:",
    "label": "Neben den Kömmerling-Profilen bieten wir Fenster mit Systemen des deut",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "aluplast",
+   "abschnittTitel": "aluplast",
+   "rolle": "lead"
   },
   "produkte-10": {
    "seite": "produkte",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "aluplast",
+   "abschnittTitel": "aluplast",
+   "rolle": "p"
   },
   "produkte-11": {
    "seite": "produkte",
    "tag": "p",
    "html": "<span>03</span> Gemeinsam für alle Produkte",
    "label": "03 Gemeinsam für alle Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Gemeinsam für alle Produkte",
+   "rolle": "eyebrow"
   },
   "produkte-12": {
    "seite": "produkte",
    "tag": "h2",
    "html": "Was immer <em>dazugehört.</em>",
    "label": "Was immer dazugehört.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Gemeinsam für alle Produkte",
+   "rolle": "h2"
   },
   "produkte-13": {
    "seite": "produkte",
    "tag": "p",
    "html": "<a href=\"/leistungen/\">Alle Leistungen im Detail →</a>",
    "label": "Alle Leistungen im Detail →",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Gemeinsam für alle Produkte",
+   "rolle": "lead"
   },
   "produkte-14": {
    "seite": "produkte",
    "tag": "p",
    "html": "<span>?</span> Ratgeber",
    "label": "? Ratgeber",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Gemeinsam für alle Produkte",
+   "rolle": "eyebrow"
   },
   "produkte-15": {
    "seite": "produkte",
    "tag": "h2",
    "html": "Fachbegriffe kurz erklärt",
    "label": "Fachbegriffe kurz erklärt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Gemeinsam für alle Produkte",
+   "rolle": "h2"
   },
   "produkte-16": {
    "seite": "produkte",
    "tag": "p",
    "html": "<span>→</span> Anfrage",
    "label": "→ Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "produkte-17": {
    "seite": "produkte",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "produkte-18": {
    "seite": "produkte",
    "tag": "p",
    "html": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.",
    "label": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schri",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "produkte-19": {
    "seite": "produkte",
    "tag": "p",
    "html": "<a href=\"/produkte/\">Alle Produkte</a> · <a href=\"/leistungen/\">Unsere Leistungen: Beratung, Aufmaß, Montage</a>",
    "label": "Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "p"
   },
   "kunststofffenster-1": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>01</span> Kunststofffenster",
    "label": "01 Kunststofffenster",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-2": {
    "seite": "kunststofffenster",
    "tag": "h1",
    "html": "Kunststofffenster mit <em>Kömmerling-Profilen</em> – gefertigt von Helios",
    "label": "Kunststofffenster mit Kömmerling-Profilen – gefertigt von Helios",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "kunststofffenster-3": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Kömmerling steht seit 1897 für Kunststoff-Fenstersysteme aus Deutschland. Unsere Fenster werden mit Kömmerling-Profilen in vier Bautiefen gefertigt – von der wirtschaftlichen Lösung für den Fenstertausch bis zum Passivhaus-Niveau für den Neubau.",
    "label": "Kömmerling steht seit 1897 für Kunststoff-Fenstersysteme aus Deutschla",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "kunststofffenster-4": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
    "label": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und C",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "kunststofffenster-5": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>02</span> Vorteile",
    "label": "02 Vorteile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-6": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Warum Kunststofffenster <em>von Kömmerling?</em>",
    "label": "Warum Kunststofffenster von Kömmerling?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "kunststofffenster-7": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>03</span> AD oder MD?",
    "label": "03 AD oder MD?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-8": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Zwei Dichtungssysteme, <em>ein Unterschied.</em>",
    "label": "Zwei Dichtungssysteme, ein Unterschied.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "kunststofffenster-9": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<strong>AD – Anschlagdichtung:</strong> zwei Dichtungsebenen außen und innen. Bewährt, wirtschaftlich, die Standardlösung für Sanierung und Fenstertausch.",
    "label": "AD – Anschlagdichtung: zwei Dichtungsebenen außen und innen. Bewährt, ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "kunststofffenster-10": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<strong>MD – Mitteldichtung:</strong> eine dritte Dichtung in der Profilmitte trennt den Beschlagraum vom Außenklima. Ergebnis: bessere Wärmedämmung, höhere Schlagregendichtheit. Unsere Empfehlung für Neubau und Energiesparhaus.",
    "label": "MD – Mitteldichtung: eine dritte Dichtung in der Profilmitte trennt de",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "kunststofffenster-11": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>04</span> Profile",
    "label": "04 Profile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-12": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Unsere Kömmerling-Systeme <em>im Überblick.</em>",
    "label": "Unsere Kömmerling-Systeme im Überblick.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "h2"
   },
   "kunststofffenster-13": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Die Helios-Produktlinien und die zugrunde liegenden Kömmerling-Profile. Alle Werte sind Herstellerangaben.",
    "label": "Die Helios-Produktlinien und die zugrunde liegenden Kömmerling-Profile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "lead"
   },
   "kunststofffenster-14": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "p"
   },
   "kunststofffenster-15": {
    "seite": "kunststofffenster",
    "tag": "h3",
    "html": "Kunststoff-Aluminium: außen Aluminium, innen Kunststoff",
    "label": "Kunststoff-Aluminium: außen Aluminium, innen Kunststoff",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "h3"
   },
   "kunststofffenster-16": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Die AluClip-Varianten tragen außen eine Aluminium-Vorsatzschale: witterungsbeständig, in jeder RAL-Farbe lackierbar, bei den Pro-Varianten flächenbündig – Rahmen und Flügel liegen außen in einer Ebene.",
    "label": "Die AluClip-Varianten tragen außen eine Aluminium-Vorsatzschale: witte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "lead"
   },
   "kunststofffenster-17": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "p"
   },
   "kunststofffenster-18": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>05</span> Für wen geeignet?",
    "label": "05 Für wen geeignet?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-19": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Das passende Profil <em>für Ihr Projekt.</em>",
    "label": "Das passende Profil für Ihr Projekt.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "kunststofffenster-20": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>?</span> Ratgeber",
    "label": "? Ratgeber",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-21": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Fachbegriffe kurz erklärt",
    "label": "Fachbegriffe kurz erklärt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "kunststofffenster-22": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>06</span> Häufige Fragen",
    "label": "06 Häufige Fragen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-23": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Fragen zu <em>Kunststofffenstern.</em>",
    "label": "Fragen zu Kunststofffenstern.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "h2"
   },
   "kunststofffenster-24": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Uf ist der Wärmedurchgang des Rahmens, Uw der des gesamten Fensters inklusive Glas. Beide werden in W/(m²K) angegeben – je kleiner, desto besser dämmt das Fenster. Für Ihr Angebot berechnen wir den Uw-Wert aus Profil, Verglasung und Größe.",
    "label": "Uf ist der Wärmedurchgang des Rahmens, Uw der des gesamten Fensters in",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststofffenster-25": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Bei der Anschlagdichtung (AD) dichten zwei Dichtungsebenen – bewährt und wirtschaftlich, ideal für Sanierung und Fenstertausch. Die Mitteldichtung (MD) ergänzt eine dritte Dichtung in der Profilmitte und verbessert Wärmedämmung und Schlagregendichtheit. Für Neubau und Energiesparhäuser empfehlen wir MD.",
    "label": "Bei der Anschlagdichtung (AD) dichten zwei Dichtungsebenen – bewährt u",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststofffenster-26": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Ja. Neben Weiß sind Dekore (z. B. Golden Oak in Eichenoptik, Anthrazit, Mahagoni), Grautöne und zweifarbige Ausführungen möglich – innen weiß, außen farbig. Bei den AluClip-Varianten ist die Außenseite aus Aluminium in RAL-Farben.",
    "label": "Ja. Neben Weiß sind Dekore (z. B. Golden Oak in Eichenoptik, Anthrazit",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststofffenster-27": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Sicherheitsbeschläge mit Pilzkopfzapfen, abschließbare Griffe und Sicherheitsglas lassen sich bei neuen Fenstern direkt mitbestellen; bei vielen bestehenden Fenstern ist eine Nachrüstung der Beschläge möglich. Wir beraten Sie vor Ort, welche Widerstandsklasse (RC1/RC2) für Ihr Haus sinnvoll ist.",
    "label": "Sicherheitsbeschläge mit Pilzkopfzapfen, abschließbare Griffe und Sich",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststofffenster-28": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>→</span> Anfrage",
    "label": "→ Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-29": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "kunststofffenster-30": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.",
    "label": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schri",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "kunststofffenster-31": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<a href=\"/produkte/\">Alle Produkte</a> · <a href=\"/leistungen/\">Unsere Leistungen: Beratung, Aufmaß, Montage</a>",
    "label": "Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "p"
   },
   "kunststofffenster-32": {
    "seite": "kunststofffenster",
    "tag": "p",
    "html": "<span>+</span> Weitere Produkte",
    "label": "+ Weitere Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "eyebrow"
   },
   "kunststofffenster-33": {
    "seite": "kunststofffenster",
    "tag": "h2",
    "html": "Das passt <em>dazu.</em>",
    "label": "Das passt dazu.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "h2"
   },
   "aluminiumfenster-1": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>01</span> Aluminiumfenster",
    "label": "01 Aluminiumfenster",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-2": {
    "seite": "aluminiumfenster",
    "tag": "h1",
    "html": "Aluminiumfenster mit <em>Cortizo-Systemen</em>",
    "label": "Aluminiumfenster mit Cortizo-Systemen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "aluminiumfenster-3": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Cortizo ist einer der großen europäischen Hersteller von Aluminium-Systemen für Fenster, Türen und Fassaden. Aluminium ist formstabil und langlebig und erlaubt schmale Profile mit großen Glasflächen – die richtige Wahl für moderne Architektur, Terrassentüren und Wintergärten.",
    "label": "Cortizo ist einer der großen europäischen Hersteller von Aluminium-Sys",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "aluminiumfenster-4": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
    "label": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und C",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "aluminiumfenster-5": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>02</span> Vorteile",
    "label": "02 Vorteile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-6": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Warum Aluminiumfenster <em>von Cortizo?</em>",
    "label": "Warum Aluminiumfenster von Cortizo?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "aluminiumfenster-7": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>03</span> Thermische Trennung",
    "label": "03 Thermische Trennung",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-8": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "So dämmt <em>Aluminium.</em>",
    "label": "So dämmt Aluminium.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "aluminiumfenster-9": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Aluminium leitet Wärme gut – deshalb bestehen moderne Fensterprofile aus zwei Aluminiumschalen, die durch Stege aus glasfaserverstärktem Kunststoff verbunden sind. Je breiter diese thermische Trennung, desto besser der Uf-Wert. Dazu kommen Dichtungen auf drei Ebenen und Dreifachverglasung.",
    "label": "Aluminium leitet Wärme gut – deshalb bestehen moderne Fensterprofile a",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "aluminiumfenster-10": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>04</span> Systeme",
    "label": "04 Systeme",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Systeme",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-11": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Unsere Cortizo-Systeme <em>im Überblick.</em>",
    "label": "Unsere Cortizo-Systeme im Überblick.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Systeme",
+   "rolle": "h2"
   },
   "aluminiumfenster-12": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Systeme",
+   "rolle": "p"
   },
   "aluminiumfenster-13": {
    "seite": "aluminiumfenster",
    "tag": "h3",
    "html": "Auf Anfrage: hochwärmegedämmte Cortizo-Systeme",
    "label": "Auf Anfrage: hochwärmegedämmte Cortizo-Systeme",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Systeme",
+   "rolle": "h3"
   },
   "aluminiumfenster-14": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Für besondere Anforderungen – sehr große Glasflächen, verdeckte Flügel oder Passivhaus-Standard – bieten wir auf Anfrage weitere Cortizo-Systeme an, etwa die Cor-70- und Cor-80-Industrial-Reihe mit Uf-Werten ab 0,94 W/(m²K) oder Schiebesysteme der Cor-Vision-Reihe. Sprechen Sie uns an, wir prüfen Machbarkeit und Lieferzeit für Ihr Projekt.",
    "label": "Für besondere Anforderungen – sehr große Glasflächen, verdeckte Flügel",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Systeme",
+   "rolle": "lead"
   },
   "aluminiumfenster-15": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>05</span> Für wen geeignet?",
    "label": "05 Für wen geeignet?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-16": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Aluminium ist richtig, <em>wenn …</em>",
    "label": "Aluminium ist richtig, wenn …",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "aluminiumfenster-17": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Sie möchten die Dämmwerte von Kunststoff mit der Optik von Aluminium? Dann sind unsere <a href=\"/produkte/kunststofffenster-koemmerling/#aluclip-title\">Kunststoff-Aluminium-Fenster (AluClip)</a> eine Alternative.",
    "label": "Sie möchten die Dämmwerte von Kunststoff mit der Optik von Aluminium? ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "lead"
   },
   "aluminiumfenster-18": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>?</span> Ratgeber",
    "label": "? Ratgeber",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-19": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Fachbegriffe kurz erklärt",
    "label": "Fachbegriffe kurz erklärt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "aluminiumfenster-20": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>06</span> Häufige Fragen",
    "label": "06 Häufige Fragen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-21": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Fragen zu <em>Aluminiumfenstern.</em>",
    "label": "Fragen zu Aluminiumfenstern.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "h2"
   },
   "aluminiumfenster-22": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Moderne Aluminiumprofile sind thermisch getrennt: Ein Kunststoffsteg zwischen Außen- und Innenschale unterbricht den Wärmefluss. Bei Cortizo 70 ist diese thermische Trennung 35 mm breit, dazu kommt Dreifachverglasung bis 48 mm. So erreichen Aluminiumfenster Dämmwerte, die für Neubau und Sanierung geeignet sind.",
    "label": "Moderne Aluminiumprofile sind thermisch getrennt: Ein Kunststoffsteg z",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "aluminiumfenster-23": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Aluminium ist steifer und erlaubt größere Elemente mit schmaleren Rahmen – ideal für große Glasflächen und moderne Architektur. Kunststoff dämmt bei gleicher Bautiefe etwas besser und ist günstiger. Ein guter Kompromiss sind Kunststoff-Aluminium-Fenster (AluClip): innen Kunststoff, außen Aluminium.",
    "label": "Aluminium ist steifer und erlaubt größere Elemente mit schmaleren Rahm",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "aluminiumfenster-24": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Aluminiumprofile werden pulverbeschichtet und sind in praktisch allen RAL-Farben erhältlich, matt, glänzend oder strukturiert, außerdem in Dekoren mit Eichenoptik und zweifarbig innen/außen.",
    "label": "Aluminiumprofile werden pulverbeschichtet und sind in praktisch allen ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "aluminiumfenster-25": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Beim verdeckten Flügel ist der Flügelrahmen von außen nicht sichtbar – man sieht nur Glas und den schmalen Blendrahmen. Das ergibt eine besonders ruhige Fassade. Solche Systeme bieten wir auf Anfrage an.",
    "label": "Beim verdeckten Flügel ist der Flügelrahmen von außen nicht sichtbar –",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "aluminiumfenster-26": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>→</span> Anfrage",
    "label": "→ Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-27": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "aluminiumfenster-28": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.",
    "label": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schri",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "aluminiumfenster-29": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<a href=\"/produkte/\">Alle Produkte</a> · <a href=\"/leistungen/\">Unsere Leistungen: Beratung, Aufmaß, Montage</a>",
    "label": "Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "p"
   },
   "aluminiumfenster-30": {
    "seite": "aluminiumfenster",
    "tag": "p",
    "html": "<span>+</span> Weitere Produkte",
    "label": "+ Weitere Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "eyebrow"
   },
   "aluminiumfenster-31": {
    "seite": "aluminiumfenster",
    "tag": "h2",
    "html": "Das passt <em>dazu.</em>",
    "label": "Das passt dazu.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "h2"
   },
   "schiebetueren-1": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>01</span> Schiebetüren",
    "label": "01 Schiebetüren",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "schiebetueren-2": {
    "seite": "schiebetueren",
    "tag": "h1",
    "html": "Hebe-Schiebetüren – <em>großzügig zur Terrasse.</em>",
    "label": "Hebe-Schiebetüren – großzügig zur Terrasse.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "schiebetueren-3": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Schiebetüren öffnen Wohnräume zum Garten, ohne dass ein Flügel in den Raum schwenkt. Wir liefern Hebe-Schiebe- und Schiebesysteme aus Kunststoff und Aluminium – von der zweiflügeligen Terrassentür bis zur sechsflügeligen Glasfront.",
    "label": "Schiebetüren öffnen Wohnräume zum Garten, ohne dass ein Flügel in den ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "schiebetueren-4": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
    "label": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und C",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "schiebetueren-5": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>02</span> Vorteile",
    "label": "02 Vorteile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "schiebetueren-6": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Mehr Licht, mehr Raum, <em>mehr Garten.</em>",
    "label": "Mehr Licht, mehr Raum, mehr Garten.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "schiebetueren-7": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>03</span> Bauarten",
    "label": "03 Bauarten",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "schiebetueren-8": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Hebe-Schiebe <em>oder Schiebe?</em>",
    "label": "Hebe-Schiebe oder Schiebe?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "schiebetueren-9": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<strong>Hebe-Schiebetür (HST):</strong> Der Flügel wird per Griffdrehung einige Millimeter angehoben und gleitet dann fast ohne Widerstand. Sehr dicht im geschlossenen Zustand, geeignet für große, schwere Flügel.",
    "label": "Hebe-Schiebetür (HST): Der Flügel wird per Griffdrehung einige Millime",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "schiebetueren-10": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<strong>Schiebetür mit Bürstendichtung:</strong> leichtere, wirtschaftliche Bauart (z. B. Versatil 70, Visuell 60) für Terrassen, Balkone und Nebenräume.",
    "label": "Schiebetür mit Bürstendichtung: leichtere, wirtschaftliche Bauart (z. ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "schiebetueren-11": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>04</span> Linien",
    "label": "04 Linien",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "eyebrow"
   },
   "schiebetueren-12": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Unsere Schiebetür-Linien <em>im Überblick.</em>",
    "label": "Unsere Schiebetür-Linien im Überblick.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "h2"
   },
   "schiebetueren-13": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "p"
   },
   "schiebetueren-14": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>05</span> Für wen geeignet?",
    "label": "05 Für wen geeignet?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "schiebetueren-15": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Die passende Linie <em>für Ihre Öffnung.</em>",
    "label": "Die passende Linie für Ihre Öffnung.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "schiebetueren-16": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>?</span> Ratgeber",
    "label": "? Ratgeber",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "schiebetueren-17": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Fachbegriffe kurz erklärt",
    "label": "Fachbegriffe kurz erklärt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "schiebetueren-18": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>06</span> Häufige Fragen",
    "label": "06 Häufige Fragen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "eyebrow"
   },
   "schiebetueren-19": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Fragen zu <em>Schiebetüren.</em>",
    "label": "Fragen zu Schiebetüren.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "h2"
   },
   "schiebetueren-20": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Bei der Hebe-Schiebetür wird der Flügel über den Griff leicht angehoben und gleitet dann auf Laufrollen – das erlaubt sehr große und schwere Flügel und eine barrierearme Schwelle. Parallel-Schiebe-Kipp-Türen sind leichter und günstiger, lassen sich zusätzlich kippen, sind aber auf kleinere Flügel begrenzt. Wir empfehlen je nach Öffnungsbreite und Nutzung.",
    "label": "Bei der Hebe-Schiebetür wird der Flügel über den Griff leicht angehobe",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "schiebetueren-21": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Das hängt vom System ab: Versatil 70 bis 3500 × 2400 mm, Robust 76 und Robust 76 Premium bis 6500 × 2600 mm, die Aluminium-Linie Visuell 160 bis 6400 × 3000 mm – jeweils als zweiflügelige Tür. Drei- bis sechsflügelige Anlagen sind möglich.",
    "label": "Das hängt vom System ab: Versatil 70 bis 3500 × 2400 mm, Robust 76 und",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "schiebetueren-22": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Hebe-Schiebetüren lassen sich mit flacher Bodenschwelle planen, die mit Rollstuhl oder Kinderwagen überfahrbar ist. Wir klären die Details beim Aufmaß, da Bodenaufbau und Abdichtung dafür vorbereitet sein müssen.",
    "label": "Hebe-Schiebetüren lassen sich mit flacher Bodenschwelle planen, die mi",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "schiebetueren-23": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Ja. Aufsatz- und Vorsatzrollläden sowie Raffstores sind für alle Linien möglich und können gleich mit der Tür geplant und montiert werden.",
    "label": "Ja. Aufsatz- und Vorsatzrollläden sowie Raffstores sind für alle Linie",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "schiebetueren-24": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>→</span> Anfrage",
    "label": "→ Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "schiebetueren-25": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "schiebetueren-26": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.",
    "label": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schri",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "schiebetueren-27": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<a href=\"/produkte/\">Alle Produkte</a> · <a href=\"/leistungen/\">Unsere Leistungen: Beratung, Aufmaß, Montage</a>",
    "label": "Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "p"
   },
   "schiebetueren-28": {
    "seite": "schiebetueren",
    "tag": "p",
    "html": "<span>+</span> Weitere Produkte",
    "label": "+ Weitere Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "eyebrow"
   },
   "schiebetueren-29": {
    "seite": "schiebetueren",
    "tag": "h2",
    "html": "Das passt <em>dazu.</em>",
    "label": "Das passt dazu.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "h2"
   },
   "haustueren-1": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>01</span> Haustüren",
    "label": "01 Haustüren",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "haustueren-2": {
    "seite": "haustueren",
    "tag": "h1",
    "html": "Haustüren aus <em>Kunststoff, Kunststoff-Aluminium und Aluminium</em>",
    "label": "Haustüren aus Kunststoff, Kunststoff-Aluminium und Aluminium",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "haustueren-3": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Die Haustür ist Visitenkarte und Schutz zugleich. Wir planen sie mit Ihnen: Werkstoff, Füllung, Glas, Seitenteile, Griff und Sicherheitsausstattung – und montieren sie fachgerecht, inklusive Ausbau der alten Tür.",
    "label": "Die Haustür ist Visitenkarte und Schutz zugleich. Wir planen sie mit I",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "haustueren-4": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
    "label": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und C",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "haustueren-5": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>02</span> Vorteile",
    "label": "02 Vorteile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "haustueren-6": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Was unsere Haustüren <em>auszeichnet.</em>",
    "label": "Was unsere Haustüren auszeichnet.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "haustueren-7": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>03</span> Füllungsarten",
    "label": "03 Füllungsarten",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "haustueren-8": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Eingesetzt oder <em>flügelüberdeckend?</em>",
    "label": "Eingesetzt oder flügelüberdeckend?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "haustueren-9": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<strong>Eingesetzte Füllung:</strong> Die Füllung sitzt im Türflügel, der Flügelrahmen bleibt rundum sichtbar – klassisch und preiswert.",
    "label": "Eingesetzte Füllung: Die Füllung sitzt im Türflügel, der Flügelrahmen ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "haustueren-10": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<strong>Einseitig flügelüberdeckend:</strong> Außen überdeckt die Füllung den Flügelrahmen – flächenbündige, moderne Optik von der Straße aus.",
    "label": "Einseitig flügelüberdeckend: Außen überdeckt die Füllung den Flügelrah",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "haustueren-11": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<strong>Beidseitig flügelüberdeckend:</strong> Außen und innen glatt, kein sichtbarer Flügelrahmen – Premium-Optik und meist die beste Wärmedämmung.",
    "label": "Beidseitig flügelüberdeckend: Außen und innen glatt, kein sichtbarer F",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "haustueren-12": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>04</span> Linien",
    "label": "04 Linien",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "eyebrow"
   },
   "haustueren-13": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Unsere Haustür-Linien <em>im Überblick.</em>",
    "label": "Unsere Haustür-Linien im Überblick.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "h2"
   },
   "haustueren-14": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "p"
   },
   "haustueren-15": {
    "seite": "haustueren",
    "tag": "h3",
    "html": "Türfüllungen und Griffe",
    "label": "Türfüllungen und Griffe",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "h3"
   },
   "haustueren-16": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Zur Auswahl stehen Füllungen aus Kunststoff (Designs D 1, D 2, D 3, D 6, D 7, D 9, D 1420, Celia, Ella, Marta, Rebeca) und aus Aluminium (D 1404, D 1411, D 1413, D 1415, D 1420, D 1422, D 1434, D 1436), jeweils mit oder ohne Glasausschnitt und in den Farben der Tür. Griffe: Stoßgriffe in mehreren Längen, Griffleisten, Drücker und Schutzbeschläge in Edelstahl, Schwarz, Weiß, Bronze oder Aluminium. Muster zeigen wir Ihnen beim Beratungstermin.",
    "label": "Zur Auswahl stehen Füllungen aus Kunststoff (Designs D 1, D 2, D 3, D ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Linien",
+   "rolle": "lead"
   },
   "haustueren-17": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>05</span> Für wen geeignet?",
    "label": "05 Für wen geeignet?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "haustueren-18": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Die passende Tür <em>für Ihr Haus.</em>",
    "label": "Die passende Tür für Ihr Haus.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "haustueren-19": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>?</span> Ratgeber",
    "label": "? Ratgeber",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "haustueren-20": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Fachbegriffe kurz erklärt",
    "label": "Fachbegriffe kurz erklärt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "haustueren-21": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>06</span> Häufige Fragen",
    "label": "06 Häufige Fragen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "eyebrow"
   },
   "haustueren-22": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Fragen zu <em>Haustüren.</em>",
    "label": "Fragen zu Haustüren.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "h2"
   },
   "haustueren-23": {
    "seite": "haustueren",
    "tag": "p",
    "html": "RC2 ist eine Widerstandsklasse nach DIN EN 1627. Eine RC2-Tür hält dem Versuch stand, sie mit einfachen Werkzeugen wie Schraubendreher oder Zange aufzuhebeln. Dafür greifen Mehrfachverriegelung, Sicherheitsglas, Bandseitensicherung und ein geprüfter Schließzylinder ineinander. RC2 ist der empfohlene Standard für Wohnhäuser.",
    "label": "RC2 ist eine Widerstandsklasse nach DIN EN 1627. Eine RC2-Tür hält dem",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "haustueren-24": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Der Ud-Wert beschreibt den Wärmedurchgang der gesamten Tür in W/(m²K) – Rahmen, Flügel, Füllung und Glas zusammen. Je kleiner, desto weniger Wärme geht verloren. Hochgedämmte Haustüren mit flügelüberdeckender Füllung erreichen je nach Modell und Glasanteil Werte unter 1,0 W/(m²K).",
    "label": "Der Ud-Wert beschreibt den Wärmedurchgang der gesamten Tür in W/(m²K) ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "haustueren-25": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Für klassische Fassaden und knappe Budgets die eingesetzte Füllung; für eine moderne, flächenbündige Außenansicht die einseitig flügelüberdeckende; wenn innen und außen glatt sein sollen und die beste Dämmung zählt, die beidseitig flügelüberdeckende Füllung. Wir zeigen Ihnen die Varianten gern vor Ort.",
    "label": "Für klassische Fassaden und knappe Budgets die eingesetzte Füllung; fü",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "haustueren-26": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Bei einer neuen Tür planen wir RC2 direkt ein. Bestehende Türen lassen sich oft mit Mehrfachverriegelung, Sicherheitsbeschlag und Zylinder nachrüsten – ob das sinnvoll ist, beurteilen wir beim Termin vor Ort.",
    "label": "Bei einer neuen Tür planen wir RC2 direkt ein. Bestehende Türen lassen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "haustueren-27": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>→</span> Anfrage",
    "label": "→ Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "haustueren-28": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "haustueren-29": {
    "seite": "haustueren",
    "tag": "p",
    "html": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.",
    "label": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schri",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "haustueren-30": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<a href=\"/produkte/\">Alle Produkte</a> · <a href=\"/leistungen/\">Unsere Leistungen: Beratung, Aufmaß, Montage</a>",
    "label": "Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "p"
   },
   "haustueren-31": {
    "seite": "haustueren",
    "tag": "p",
    "html": "<span>+</span> Weitere Produkte",
    "label": "+ Weitere Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "eyebrow"
   },
   "haustueren-32": {
    "seite": "haustueren",
    "tag": "h2",
    "html": "Das passt <em>dazu.</em>",
    "label": "Das passt dazu.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-1": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>01</span> Kunststoff-Aluminium",
    "label": "01 Kunststoff-Aluminium",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-2": {
    "seite": "kunststoff-aluminium",
    "tag": "h1",
    "html": "Kunststoff-Aluminium-Fenster – <em>innen Kunststoff, außen Aluminium.</em>",
    "label": "Kunststoff-Aluminium-Fenster – innen Kunststoff, außen Aluminium.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "kunststoff-aluminium-3": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Die AluClip-Systeme von Kömmerling verbinden zwei Werkstoffe: Innen der wärmedämmende, pflegeleichte Kunststoffrahmen, außen eine Aluminium-Deckschale, die Wind und Wetter trotzt und sich in jeder RAL-Farbe lackieren lässt. Gefertigt von unserem Partner Helios, montiert von uns in Ingolstadt und der Region.",
    "label": "Die AluClip-Systeme von Kömmerling verbinden zwei Werkstoffe: Innen de",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "kunststoff-aluminium-4": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
    "label": "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und C",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "kunststoff-aluminium-5": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>02</span> Vorteile",
    "label": "02 Vorteile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-6": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Das Beste aus <em>zwei Werkstoffen.</em>",
    "label": "Das Beste aus zwei Werkstoffen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-7": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>03</span> So funktioniert es",
    "label": "03 So funktioniert es",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-8": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Kunststoffprofil plus <em>Aluminium-Deckschale.</em>",
    "label": "Kunststoffprofil plus Aluminium-Deckschale.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-9": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<strong>Innen:</strong> Kömmerling-Mehrkammerprofil aus Kunststoff – Wärmedämmung, Schallschutz, pflegeleichte Oberfläche.",
    "label": "Innen: Kömmerling-Mehrkammerprofil aus Kunststoff – Wärmedämmung, Scha",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "kunststoff-aluminium-10": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<strong>Außen:</strong> eine aufgeklipste Aluminiumschale – stabil, witterungsbeständig, pulverbeschichtet in der gewünschten Farbe. Sie schützt das Profil und bestimmt die Ansicht von der Straße.",
    "label": "Außen: eine aufgeklipste Aluminiumschale – stabil, witterungsbeständig",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vorteile",
+   "rolle": "p"
   },
   "kunststoff-aluminium-11": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>04</span> Profile",
    "label": "04 Profile",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-12": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Die AluClip-Systeme <em>im Überblick.</em>",
    "label": "Die AluClip-Systeme im Überblick.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-13": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Alle Werte sind Herstellerangaben für die von Helios verwendeten Ausführungen.",
    "label": "Alle Werte sind Herstellerangaben für die von Helios verwendeten Ausfü",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "lead"
   },
   "kunststoff-aluminium-14": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
    "label": "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasu",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Profile",
+   "rolle": "p"
   },
   "kunststoff-aluminium-15": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>05</span> Für wen geeignet?",
    "label": "05 Für wen geeignet?",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-16": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Wann sich Kunststoff-Aluminium <em>lohnt.</em>",
    "label": "Wann sich Kunststoff-Aluminium lohnt.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-17": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>?</span> Ratgeber",
    "label": "? Ratgeber",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-18": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Fachbegriffe kurz erklärt",
    "label": "Fachbegriffe kurz erklärt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Für wen geeignet?",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-19": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>06</span> Häufige Fragen",
    "label": "06 Häufige Fragen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-20": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Fragen zu <em>Kunststoff-Aluminium-Fenstern.</em>",
    "label": "Fragen zu Kunststoff-Aluminium-Fenstern.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-21": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Ein Kunststofffenster mit einer außen aufgesetzten Aluminium-Deckschale (AluClip). Innen bleibt der wärmedämmende, pflegeleichte Kunststoff; außen schützt und gestaltet Aluminium – wetterfest, farbstabil und in jeder RAL-Farbe lackierbar.",
    "label": "Ein Kunststofffenster mit einer außen aufgesetzten Aluminium-Deckschal",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststoff-aluminium-22": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Es dämmt wie ein Kunststofffenster (Uf bis 0,95 W/(m²K)) und ist günstiger als ein thermisch getrenntes Aluminiumfenster. Reines Aluminium erlaubt dafür noch größere Elemente mit schmaleren Ansichten.",
    "label": "Es dämmt wie ein Kunststofffenster (Uf bis 0,95 W/(m²K)) und ist günst",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststoff-aluminium-23": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Praktisch alle RAL-Farben, matt, glänzend oder strukturiert, außerdem Dekore in Eichenoptik. Innen bleibt das Fenster in der Regel Weiß – auf Wunsch auch farbig.",
    "label": "Praktisch alle RAL-Farben, matt, glänzend oder strukturiert, außerdem ",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststoff-aluminium-24": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Bei den Pro-Varianten liegen Rahmen und Flügel außen in einer Ebene. Das ergibt eine ruhige, moderne Fassadenansicht ohne vorstehende Flügel.",
    "label": "Bei den Pro-Varianten liegen Rahmen und Flügel außen in einer Ebene. D",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Häufige Fragen",
+   "rolle": "p"
   },
   "kunststoff-aluminium-25": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>→</span> Anfrage",
    "label": "→ Anfrage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-26": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Kostenloses Aufmaß <em>anfragen.</em>",
    "label": "Kostenloses Aufmaß anfragen.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "h2"
   },
   "kunststoff-aluminium-27": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.",
    "label": "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schri",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "lead"
   },
   "kunststoff-aluminium-28": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<a href=\"/produkte/\">Alle Produkte</a> · <a href=\"/leistungen/\">Unsere Leistungen: Beratung, Aufmaß, Montage</a>",
    "label": "Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "anfrage",
+   "abschnittTitel": "Anfrage",
+   "rolle": "p"
   },
   "kunststoff-aluminium-29": {
    "seite": "kunststoff-aluminium",
    "tag": "p",
    "html": "<span>+</span> Weitere Produkte",
    "label": "+ Weitere Produkte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "eyebrow"
   },
   "kunststoff-aluminium-30": {
    "seite": "kunststoff-aluminium",
    "tag": "h2",
    "html": "Das passt <em>dazu.</em>",
    "label": "Das passt dazu.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Weitere Produkte",
+   "rolle": "h2"
   },
   "einsatzgebiet-1": {
    "seite": "einsatzgebiet",
    "tag": "p",
    "html": "<span>Einsatzgebiet</span> Beratung · Aufmaß · Montage",
    "label": "Einsatzgebiet Beratung · Aufmaß · Montage",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "eyebrow"
   },
   "einsatzgebiet-2": {
    "seite": "einsatzgebiet",
    "tag": "h1",
    "html": "Wo wir <em>für Sie im Einsatz sind.</em>",
    "label": "Wo wir für Sie im Einsatz sind.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "einsatzgebiet-3": {
    "seite": "einsatzgebiet",
    "tag": "p",
    "html": "Von unserem Firmensitz in Ingolstadt aus beraten, vermessen und montieren wir in der ganzen Region. Wählen Sie Ihren Ort: Dort finden Sie Entfernung, Ablauf und das Anfrageformular mit vorausgefülltem Ort.",
    "label": "Von unserem Firmensitz in Ingolstadt aus beraten, vermessen und montie",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "lead"
   },
   "einsatzgebiet-4": {
    "seite": "einsatzgebiet",
    "tag": "p",
    "html": "<span>01</span> Raum Ingolstadt",
    "label": "01 Raum Ingolstadt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "eyebrow"
   },
   "einsatzgebiet-5": {
    "seite": "einsatzgebiet",
    "tag": "h2",
    "html": "Rund um unseren Sitz <em>in Ingolstadt.</em>",
    "label": "Rund um unseren Sitz in Ingolstadt.",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h2"
   },
   "einsatzgebiet-6": {
    "seite": "einsatzgebiet",
    "tag": "p",
    "html": "102 Orte bis 70 km Luftlinie um Ingolstadt. Entfernungen und Fahrzeiten sind Richtwerte vom Firmensitz.",
    "label": "102 Orte bis 70 km Luftlinie um Ingolstadt. Entfernungen und Fahrzeite",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "lead"
   },
   "einsatzgebiet-7": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Kreisfreie Städte",
    "label": "Kreisfreie Städte",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-8": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Eichstätt",
    "label": "Landkreis Eichstätt",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-9": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Pfaffenhofen an der Ilm",
    "label": "Landkreis Pfaffenhofen an der Ilm",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-10": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Neuburg-Schrobenhausen",
    "label": "Landkreis Neuburg-Schrobenhausen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-11": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Kelheim",
    "label": "Landkreis Kelheim",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-12": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Aichach-Friedberg",
    "label": "Landkreis Aichach-Friedberg",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-13": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Neumarkt in der Oberpfalz",
    "label": "Landkreis Neumarkt in der Oberpfalz",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-14": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Roth",
    "label": "Landkreis Roth",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-15": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Freising",
    "label": "Landkreis Freising",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-16": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Donau-Ries",
    "label": "Landkreis Donau-Ries",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-17": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Weißenburg-Gunzenhausen",
    "label": "Landkreis Weißenburg-Gunzenhausen",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-18": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Dachau",
    "label": "Landkreis Dachau",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-19": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis München",
    "label": "Landkreis München",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-20": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Augsburg",
    "label": "Landkreis Augsburg",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-21": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Erding",
    "label": "Landkreis Erding",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "einsatzgebiet-22": {
    "seite": "einsatzgebiet",
    "tag": "h3",
    "html": "Landkreis Fürstenfeldbruck",
    "label": "Landkreis Fürstenfeldbruck",
-   "geschuetzt": false
+   "geschuetzt": false,
+   "abschnitt": "raum-ingolstadt",
+   "abschnittTitel": "Raum Ingolstadt",
+   "rolle": "h3"
   },
   "impressum-1": {
    "seite": "impressum",
    "tag": "h1",
    "html": "Impressum",
    "label": "Impressum",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "oben",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "impressum-2": {
    "seite": "impressum",
    "tag": "p",
    "html": "Angaben gemäß § 5 DDG",
    "label": "Angaben gemäß § 5 DDG",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "oben",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "impressum-3": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Anbieter",
    "label": "Anbieter",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Anbieter",
+   "rolle": "h2"
   },
   "impressum-5": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Vertreten durch",
    "label": "Vertreten durch",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Vertreten durch",
+   "rolle": "h2"
   },
   "impressum-7": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Kontakt",
    "label": "Kontakt",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Kontakt",
+   "rolle": "h2"
   },
   "impressum-9": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Registereintrag",
    "label": "Registereintrag",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Registereintrag",
+   "rolle": "h2"
   },
   "impressum-11": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Umsatzsteuer-ID",
    "label": "Umsatzsteuer-ID",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Umsatzsteuer-ID",
+   "rolle": "h2"
   },
   "impressum-13": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
    "label": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
+   "rolle": "h2"
   },
   "impressum-15": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Verbraucherstreitbeilegung",
    "label": "Verbraucherstreitbeilegung",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Verbraucherstreitbeilegung",
+   "rolle": "h2"
   },
   "impressum-16": {
    "seite": "impressum",
    "tag": "p",
    "html": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.",
    "label": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren ",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "Verbraucherstreitbeilegung",
+   "rolle": "p"
   },
   "impressum-17": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Haftung für Inhalte",
    "label": "Haftung für Inhalte",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-8",
+   "abschnittTitel": "Haftung für Inhalte",
+   "rolle": "h2"
   },
   "impressum-18": {
    "seite": "impressum",
    "tag": "p",
    "html": "Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.",
    "label": "Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte a",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-8",
+   "abschnittTitel": "Haftung für Inhalte",
+   "rolle": "p"
   },
   "impressum-19": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Haftung für Links",
    "label": "Haftung für Links",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-9",
+   "abschnittTitel": "Haftung für Links",
+   "rolle": "h2"
   },
   "impressum-20": {
    "seite": "impressum",
    "tag": "p",
    "html": "Unser Angebot enthält gegebenenfalls Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.",
    "label": "Unser Angebot enthält gegebenenfalls Links zu externen Websites Dritte",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-9",
+   "abschnittTitel": "Haftung für Links",
+   "rolle": "p"
   },
   "impressum-21": {
    "seite": "impressum",
    "tag": "h2",
    "html": "Urheberrecht",
    "label": "Urheberrecht",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "Urheberrecht",
+   "rolle": "h2"
   },
   "impressum-22": {
    "seite": "impressum",
    "tag": "p",
    "html": "Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet.",
    "label": "Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen ",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "Urheberrecht",
+   "rolle": "p"
   },
   "datenschutz-1": {
    "seite": "datenschutz",
    "tag": "h1",
    "html": "Datenschutzerklärung",
    "label": "Datenschutzerklärung",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "oben",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
   },
   "datenschutz-2": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Stand: Oktober 2026",
    "label": "Stand: Oktober 2026",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "oben",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
   },
   "datenschutz-3": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "1. Verantwortlicher",
    "label": "1. Verantwortlicher",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "1. Verantwortlicher",
+   "rolle": "h2"
   },
   "datenschutz-4": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
    "label": "Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "1. Verantwortlicher",
+   "rolle": "p"
   },
   "datenschutz-6": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Ein Datenschutzbeauftragter ist nicht bestellt, da die gesetzlichen Voraussetzungen hierfür nicht vorliegen.",
    "label": "Ein Datenschutzbeauftragter ist nicht bestellt, da die gesetzlichen Vo",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "1. Verantwortlicher",
+   "rolle": "p"
   },
   "datenschutz-7": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "2. Überblick: Was diese Website tut – und was nicht",
    "label": "2. Überblick: Was diese Website tut – und was nicht",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "2. Überblick: Was diese Website tut – und was nicht",
+   "rolle": "h2"
   },
   "datenschutz-8": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "3. Allgemeine Hinweise zur Datenverarbeitung",
    "label": "3. Allgemeine Hinweise zur Datenverarbeitung",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "3. Allgemeine Hinweise zur Datenverarbeitung",
+   "rolle": "h2"
   },
   "datenschutz-9": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung einer funktionsfähigen Website sowie unserer Inhalte und Leistungen erforderlich ist. Rechtsgrundlagen sind, je nach Fall, Art. 6 Abs. 1 lit. a DSGVO (Einwilligung), Art. 6 Abs. 1 lit. b DSGVO (Vertrag bzw. vorvertragliche Maßnahmen) und Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Daten werden gelöscht, sobald der Zweck der Speicherung entfällt und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.",
    "label": "Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstel",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "3. Allgemeine Hinweise zur Datenverarbeitung",
+   "rolle": "p"
   },
   "datenschutz-10": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "4. Hosting und Server-Logfiles",
    "label": "4. Hosting und Server-Logfiles",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "4. Hosting und Server-Logfiles",
+   "rolle": "h2"
   },
   "datenschutz-11": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Diese Website wird bei Netlify, Inc., 512 2nd Street, Suite 200, San Francisco, CA 94107, USA, gehostet. Beim Aufruf der Website verarbeitet Netlify automatisch Informationen, die Ihr Browser übermittelt, insbesondere:",
    "label": "Diese Website wird bei Netlify, Inc., 512 2nd Street, Suite 200, San F",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "4. Hosting und Server-Logfiles",
+   "rolle": "p"
   },
   "datenschutz-12": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der sicheren, stabilen und performanten Bereitstellung der Website sowie in der Abwehr von Angriffen. Netlify speichert Server-Logfiles nach eigenen Angaben für maximal 30 Tage. Eine Zusammenführung mit anderen Datenquellen findet nicht statt.",
    "label": "Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "4. Hosting und Server-Logfiles",
+   "rolle": "p"
   },
   "datenschutz-13": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Mit Netlify haben wir einen Auftragsverarbeitungsvertrag gemäß Art. 28 DSGVO geschlossen. Netlify ist unter dem EU-US Data Privacy Framework zertifiziert; ergänzend gelten die Standardvertragsklauseln der EU-Kommission (Art. 46 Abs. 2 lit. c DSGVO), sodass ein angemessenes Datenschutzniveau für die Datenübermittlung in die USA sichergestellt ist. Weitere Informationen: <a href=\"https://www.netlify.com/privacy/\" rel=\"noopener noreferrer\" target=\"_blank\">netlify.com/privacy</a>.",
    "label": "Mit Netlify haben wir einen Auftragsverarbeitungsvertrag gemäß Art. 28",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "4. Hosting und Server-Logfiles",
+   "rolle": "p"
   },
   "datenschutz-44": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "4a. E-Mail-Versand",
    "label": "4a. E-Mail-Versand",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "4a. E-Mail-Versand",
+   "rolle": "h2"
   },
   "datenschutz-45": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Für den Versand von E-Mails an Sie – etwa Angebote, Auftragsbestätigungen und Rechnungen als PDF – sowie für interne Benachrichtigungen über neue Anfragen nutzen wir den Dienst Brevo der Sendinblue GmbH, Köpenicker Straße 126, 10179 Berlin. Dabei werden Empfängeradresse, Betreff, Inhalt und Anhänge der E-Mail über die Server von Brevo (Standort EU) übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung und Durchführung eines Vertrags). Mit Brevo besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.",
    "label": "Für den Versand von E-Mails an Sie – etwa Angebote, Auftragsbestätigun",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "4a. E-Mail-Versand",
+   "rolle": "p"
   },
   "datenschutz-14": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "5. Kontaktformular",
    "label": "5. Kontaktformular",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "5. Kontaktformular",
+   "rolle": "h2"
   },
   "datenschutz-15": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten wir die von Ihnen eingegebenen Angaben (Name, Telefonnummer, Postleitzahl, Anzahl der Fenster, Nachricht) sowie den Zeitpunkt der Absendung, um Ihre Anfrage zu bearbeiten und einen Termin für Beratung oder Aufmaß zu vereinbaren.",
    "label": "Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "5. Kontaktformular",
+   "rolle": "p"
   },
   "datenschutz-16": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher Maßnahmen auf Ihre Anfrage hin) sowie, hinsichtlich der von Ihnen im Formular erteilten Einwilligung, Art. 6 Abs. 1 lit. a DSGVO. Sie können die Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, z. B. per E-Mail an <span class=\"mail\" data-u=\"info\" data-d=\"fenster-weissenburger.de\">info [at] fenster-weissenburger.de</span>.",
    "label": "Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertra",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "5. Kontaktformular",
+   "rolle": "p"
   },
   "datenschutz-17": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Die Formulardaten werden technisch über die Funktion „Netlify Forms“ unseres Hosting-Dienstleisters entgegengenommen, auf dessen Servern gespeichert und an uns per E-Mail weitergeleitet (Auftragsverarbeitung, siehe Abschnitt 4). Zum Schutz vor automatisierten Spam-Eingaben wird ein unsichtbares Prüffeld („Honeypot“) verwendet; hierfür werden keine zusätzlichen personenbezogenen Daten erhoben.",
    "label": "Die Formulardaten werden technisch über die Funktion „Netlify Forms“ u",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "5. Kontaktformular",
+   "rolle": "p"
   },
   "datenschutz-18": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Wir löschen Ihre Anfrage, sobald sie abschließend bearbeitet ist und kein Vertrag zustande kommt, spätestens jedoch nach 12 Monaten. Kommt ein Vertrag zustande, bewahren wir die Daten im Rahmen der handels- und steuerrechtlichen Aufbewahrungsfristen (6 bzw. 10 Jahre) auf. Die bei Netlify gespeicherten Formulareinsendungen löschen wir regelmäßig, spätestens nach 3 Monaten.",
    "label": "Wir löschen Ihre Anfrage, sobald sie abschließend bearbeitet ist und k",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "5. Kontaktformular",
+   "rolle": "p"
   },
   "datenschutz-19": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "6. Bewertungsformular (Kundenstimmen)",
    "label": "6. Bewertungsformular (Kundenstimmen)",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "6. Bewertungsformular (Kundenstimmen)",
+   "rolle": "h2"
   },
   "datenschutz-20": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Auf der Seite „Referenzen“ können Kundinnen und Kunden, für die wir einen Auftrag ausgeführt haben, eine Bewertung abgeben. Dabei verarbeiten wir die von Ihnen eingegebenen Angaben: Name oder Initialen, Ort, Art des Projekts, Sternebewertung, Bewertungstext, optional Ihre E-Mail-Adresse (nur für Rückfragen) sowie den Zeitpunkt der Absendung. Die Daten werden wie beim Kontaktformular technisch über „Netlify Forms“ entgegengenommen und an uns per E-Mail weitergeleitet (siehe Abschnitte 4 und 5).",
    "label": "Auf der Seite „Referenzen“ können Kundinnen und Kunden, für die wir ei",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "6. Bewertungsformular (Kundenstimmen)",
+   "rolle": "p"
   },
   "datenschutz-21": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Zweck der Verarbeitung ist die Prüfung und – nur nach Ihrer Einwilligung – die Veröffentlichung Ihrer Bewertung auf dieser Website mit Name/Initialen, Ort, Projektart, Sternen, Text und Monat/Jahr. Rechtsgrundlage ist Ihre Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO; die Prüfung, ob tatsächlich ein Auftrag ausgeführt wurde, stützen wir auf Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an echten, überprüften Bewertungen gemäß § 5b Abs. 3 UWG). Ihre E-Mail-Adresse wird nicht veröffentlicht.",
    "label": "Zweck der Verarbeitung ist die Prüfung und – nur nach Ihrer Einwilligu",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "6. Bewertungsformular (Kundenstimmen)",
+   "rolle": "p"
   },
   "datenschutz-22": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Jede Bewertung wird vor der Veröffentlichung von uns geprüft. Nicht veröffentlichte Bewertungen löschen wir spätestens drei Monate nach Eingang. Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen und die Änderung oder Löschung Ihrer veröffentlichten Bewertung verlangen – eine E-Mail an <span class=\"mail\" data-u=\"info\" data-d=\"fenster-weissenburger.de\">info [at] fenster-weissenburger.de</span> genügt. Wir entfernen die Bewertung dann unverzüglich von der Website und löschen die zugehörigen Daten.",
    "label": "Jede Bewertung wird vor der Veröffentlichung von uns geprüft. Nicht ve",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "6. Bewertungsformular (Kundenstimmen)",
+   "rolle": "p"
   },
   "datenschutz-23": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Zum Schutz vor automatisierten Spam-Eingaben prüfen wir bei jedem Formular zusätzlich, ob ein unsichtbares Prüffeld leer geblieben ist und ob zwischen dem Aufruf der Seite und dem Absenden eine Mindestzeit vergangen ist. Dafür wird der Zeitpunkt des Seitenaufrufs mitgesendet; es werden keine Cookies gesetzt und keine Daten an Dritte übermittelt.",
    "label": "Zum Schutz vor automatisierten Spam-Eingaben prüfen wir bei jedem Form",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-7",
+   "abschnittTitel": "6. Bewertungsformular (Kundenstimmen)",
+   "rolle": "p"
   },
   "datenschutz-24": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "6a. Spam-Schutz mit Friendly Captcha",
    "label": "6a. Spam-Schutz mit Friendly Captcha",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-8",
+   "abschnittTitel": "6a. Spam-Schutz mit Friendly Captcha",
+   "rolle": "h2"
   },
   "datenschutz-25": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Zum Schutz unserer Formulare vor Missbrauch durch automatisierte Programme setzen wir den Dienst Friendly Captcha der Friendly Captcha GmbH, Am Anger 3–5, 82237 Wörthsee, Deutschland, ein. Friendly Captcha stellt dem Browser eine Rechenaufgabe („Proof of Work“), die im Hintergrund gelöst wird. Es werden keine Cookies gesetzt und kein Nutzerverhalten analysiert.",
    "label": "Zum Schutz unserer Formulare vor Missbrauch durch automatisierte Progr",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-8",
+   "abschnittTitel": "6a. Spam-Schutz mit Friendly Captcha",
+   "rolle": "p"
   },
   "datenschutz-26": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Dabei werden an die Server von Friendly Captcha (Standort EU) übermittelt: die vom Browser gesendeten HTTP-Header (insbesondere User-Agent und Referrer), eine anonymisierte Zählung der Anfragen pro IP-Adresse (die IP-Adresse wird nur gehasht und nicht gespeichert), Informationen zur verwendeten Browser- und Betriebssystemversion sowie die Lösung der Rechenaufgabe. Weitere Informationen: <a href=\"https://friendlycaptcha.com/de/legal/privacy-end-users/\" rel=\"noopener noreferrer\" target=\"_blank\">friendlycaptcha.com/de/legal/privacy-end-users</a>.",
    "label": "Dabei werden an die Server von Friendly Captcha (Standort EU) übermitt",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-8",
+   "abschnittTitel": "6a. Spam-Schutz mit Friendly Captcha",
+   "rolle": "p"
   },
   "datenschutz-27": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt im Schutz unserer Website und unserer Formulare vor Spam und automatisiertem Missbrauch. Mit der Friendly Captcha GmbH haben wir einen Auftragsverarbeitungsvertrag nach Art. 28 DSGVO geschlossen.",
    "label": "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Int",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-8",
+   "abschnittTitel": "6a. Spam-Schutz mit Friendly Captcha",
+   "rolle": "p"
   },
   "datenschutz-28": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "7. Kontaktaufnahme per Telefon oder E-Mail",
    "label": "7. Kontaktaufnahme per Telefon oder E-Mail",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-9",
+   "abschnittTitel": "7. Kontaktaufnahme per Telefon oder E-Mail",
+   "rolle": "h2"
   },
   "datenschutz-29": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Wenn Sie uns anrufen oder eine E-Mail schreiben, verarbeiten wir die dabei mitgeteilten Daten (z. B. Name, Rufnummer, E-Mail-Adresse, Inhalt der Anfrage) zur Bearbeitung Ihres Anliegens. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit die Anfrage auf einen Vertrag gerichtet ist, im Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Die Löschung erfolgt wie in Abschnitt 5 beschrieben.",
    "label": "Wenn Sie uns anrufen oder eine E-Mail schreiben, verarbeiten wir die d",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-9",
+   "abschnittTitel": "7. Kontaktaufnahme per Telefon oder E-Mail",
+   "rolle": "p"
   },
   "datenschutz-30": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
    "label": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
+   "rolle": "h2"
   },
   "datenschutz-31": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Diese Website setzt keine Cookies und verwendet keine Web-Analyse- oder Tracking-Dienste. Die verwendete Schriftart (Manrope) sowie alle Bilder und Videos werden lokal von unserem Webspace ausgeliefert; es werden keine Verbindungen zu Servern von Google oder anderen Drittanbietern aufgebaut. Ein Cookie-Banner ist daher nicht erforderlich.",
    "label": "Diese Website setzt keine Cookies und verwendet keine Web-Analyse- ode",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
+   "rolle": "p"
   },
   "datenschutz-32": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "9. Empfänger und Weitergabe",
    "label": "9. Empfänger und Weitergabe",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "9. Empfänger und Weitergabe",
+   "rolle": "h2"
   },
   "datenschutz-33": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Eine Weitergabe Ihrer Daten an Dritte erfolgt nur, soweit dies zur Vertragserfüllung erforderlich ist (z. B. an Lieferanten für die Fertigung Ihrer Fenster nach Auftragserteilung), wir gesetzlich dazu verpflichtet sind oder Sie eingewilligt haben. Unser Hosting-Dienstleister Netlify handelt als Auftragsverarbeiter nach unseren Weisungen.",
    "label": "Eine Weitergabe Ihrer Daten an Dritte erfolgt nur, soweit dies zur Ver",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "9. Empfänger und Weitergabe",
+   "rolle": "p"
   },
   "datenschutz-34": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "10. Ihre Rechte",
    "label": "10. Ihre Rechte",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-12",
+   "abschnittTitel": "10. Ihre Rechte",
+   "rolle": "h2"
   },
   "datenschutz-35": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Sie haben gegenüber uns hinsichtlich der Sie betreffenden personenbezogenen Daten folgende Rechte:",
    "label": "Sie haben gegenüber uns hinsichtlich der Sie betreffenden personenbezo",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-12",
+   "abschnittTitel": "10. Ihre Rechte",
+   "rolle": "p"
   },
   "datenschutz-36": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Zur Ausübung Ihrer Rechte genügt eine formlose Mitteilung an die oben genannten Kontaktdaten.",
    "label": "Zur Ausübung Ihrer Rechte genügt eine formlose Mitteilung an die oben ",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-12",
+   "abschnittTitel": "10. Ihre Rechte",
+   "rolle": "p"
   },
   "datenschutz-37": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "11. Beschwerderecht bei der Aufsichtsbehörde",
    "label": "11. Beschwerderecht bei der Aufsichtsbehörde",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-13",
+   "abschnittTitel": "11. Beschwerderecht bei der Aufsichtsbehörde",
+   "rolle": "h2"
   },
   "datenschutz-38": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO). Die für uns zuständige Aufsichtsbehörde ist:",
    "label": "Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu be",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-13",
+   "abschnittTitel": "11. Beschwerderecht bei der Aufsichtsbehörde",
+   "rolle": "p"
   },
   "datenschutz-39": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Bayerisches Landesamt für Datenschutzaufsicht (BayLDA)<br>\n      Promenade 18<br>\n      91522 Ansbach<br>\n      Telefon: 0981 180093-0<br>\n      E-Mail: poststelle@lda.bayern.de<br>\n      <a href=\"https://www.lda.bayern.de/\" rel=\"noopener noreferrer\" target=\"_blank\">www.lda.bayern.de</a>",
    "label": "Bayerisches Landesamt für Datenschutzaufsicht (BayLDA) Promenade 18 91",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-13",
+   "abschnittTitel": "11. Beschwerderecht bei der Aufsichtsbehörde",
+   "rolle": "p"
   },
   "datenschutz-40": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "12. Datensicherheit",
    "label": "12. Datensicherheit",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-14",
+   "abschnittTitel": "12. Datensicherheit",
+   "rolle": "h2"
   },
   "datenschutz-41": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Die Übertragung aller Daten zwischen Ihrem Browser und unserer Website erfolgt verschlüsselt über HTTPS (TLS). Wir treffen angemessene technische und organisatorische Maßnahmen, um Ihre Daten gegen Verlust, Missbrauch und unbefugten Zugriff zu schützen.",
    "label": "Die Übertragung aller Daten zwischen Ihrem Browser und unserer Website",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-14",
+   "abschnittTitel": "12. Datensicherheit",
+   "rolle": "p"
   },
   "datenschutz-42": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "13. Änderungen dieser Datenschutzerklärung",
    "label": "13. Änderungen dieser Datenschutzerklärung",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-15",
+   "abschnittTitel": "13. Änderungen dieser Datenschutzerklärung",
+   "rolle": "h2"
   },
   "datenschutz-43": {
    "seite": "datenschutz",
    "tag": "p",
    "html": "Wir passen diese Datenschutzerklärung an, wenn sich die Rechtslage oder die auf dieser Website eingesetzten Funktionen ändern. Es gilt die jeweils hier veröffentlichte Fassung.",
    "label": "Wir passen diese Datenschutzerklärung an, wenn sich die Rechtslage ode",
-   "geschuetzt": true
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-15",
+   "abschnittTitel": "13. Änderungen dieser Datenschutzerklärung",
+   "rolle": "p"
   }
  }
 }

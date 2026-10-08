@@ -39,8 +39,43 @@ function gesperrteBereiche(html) {
 const inRange = (ranges, i) => ranges.some(([a, b]) => i >= a && i < b);
 function textOf(html) { return html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim(); }
 
+/* Abschnitte einer Seite für den Texte-Editor: je <section> ein Abschnitt, benannt nach der kleinen Zeile über der
+   Überschrift („01 Produkte“ → „Produkte“) bzw. der Überschrift; der erste Abschnitt heißt „Oben auf der Seite“.
+   Seiten ohne <section> (Impressum, Datenschutz) werden nach ihren Überschriften (h2) gegliedert. */
+function abschnitteVon(html) {
+  const liste = [];
+  const sec = /<section\b[^>]*>/gi; let m;
+  while ((m = sec.exec(html))) liste.push({ start: m.index, ende: html.indexOf("</section>", m.index), attrs: m[0] });
+  if (!liste.length) { const h2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi; while ((m = h2.exec(html))) liste.push({ start: m.index, ende: html.length, titel: textOf(m[1]).slice(0, 60), ohneSection: true }); }
+  liste.forEach((a, i) => {
+    if (a.ohneSection) { a.key = "abschnitt-" + (i + 1); if (i + 1 < liste.length) a.ende = liste[i + 1].start; return; }
+    const inner = html.slice(a.start, a.ende < 0 ? html.length : a.ende);
+    const eyebrow = /<p\b[^>]*class="[^"]*\beyebrow\b[^"]*"[^>]*>([\s\S]*?)<\/p>/i.exec(inner);
+    const kopf = /<h[12]\b[^>]*>([\s\S]*?)<\/h[12]>/i.exec(inner);
+    const id = (a.attrs.match(/\sid="([^"]+)"/) || [])[1] || "";
+    const hero = i === 0 || /\b(hero|phero)\b/.test(a.attrs) || id === "home";
+    let titel = eyebrow ? textOf(eyebrow[1].replace(/^\s*<span[^>]*>[\s\S]*?<\/span>/i, "")) : kopf ? textOf(kopf[1]) : "";
+    a.key = id || "abschnitt-" + (i + 1);
+    a.titel = hero ? "Oben auf der Seite" : (titel || "Weitere Texte").slice(0, 60);
+  });
+  return liste;
+}
+function abschnittFuer(abschnitte, offset) {
+  for (let i = abschnitte.length - 1; i >= 0; i--) { const a = abschnitte[i]; if (offset >= a.start && (a.ende < 0 || offset < a.ende)) return { key: a.key, titel: a.titel }; }
+  if (!abschnitte.length || offset < abschnitte[0].start) return { key: "oben", titel: "Oben auf der Seite" };
+  return { key: "weitere", titel: "Weitere Texte" };
+}
+const ROLLE = (tag, attrs, inner) => {
+  if (/class="[^"]*\beyebrow\b/.test(attrs)) return "eyebrow";
+  if (tag === "h1" || tag === "h2" || tag === "h3") return tag;
+  if (/class="[^"]*\blead\b/.test(attrs)) return "lead";
+  if (/^\s*<a\s[^>]*class="[^"]*\bbtn\b[^"]*"[^>]*>[\s\S]*<\/a>\s*$/.test(inner)) return "button";
+  return "p";
+};
+
 function verarbeiteTexte(seite, html, registry) {
   const gesperrt = gesperrteBereiche(html);
+  const abschnitte = abschnitteVon(html);
   const used = new Set();
   const reId = new RegExp(`data-text="${seite.slug}-(\\d+)"`, "g");
   let m, max = 0; while ((m = reId.exec(html))) { max = Math.max(max, Number(m[1])); used.add(Number(m[1])); }
@@ -59,7 +94,8 @@ function verarbeiteTexte(seite, html, registry) {
     if (have) id = have[1];
     else { id = `${seite.slug}-${next++}`; attrs += ` data-text="${id}"`; }
     count++;
-    registry.bloecke[id] = { seite: seite.slug, tag: tag.toLowerCase(), html: inner.trim(), label: textOf(inner).slice(0, 70), geschuetzt: !!seite.geschuetzt };
+    const ab = abschnittFuer(abschnitte, offset);
+    registry.bloecke[id] = { seite: seite.slug, tag: tag.toLowerCase(), html: inner.trim(), label: textOf(inner).slice(0, 70), geschuetzt: !!seite.geschuetzt, abschnitt: ab.key, abschnittTitel: ab.titel, rolle: ROLLE(tag.toLowerCase(), attrs, inner) };
     return `<${tag}${attrs}>${inner}</${tag}>`;
   });
   return { html: out, count };

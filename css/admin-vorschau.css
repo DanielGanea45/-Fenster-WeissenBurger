@@ -1,0 +1,7 @@
+/* Wird vom Admin (Texte-Editor) in die Seitenvorschau eingebunden: bearbeitbare Texte bekommen eine zarte
+   Markierung, der gewählte Text einen Messingrahmen. Hat auf der veröffentlichten Website keine Wirkung. */
+[data-text] { cursor: pointer; outline: 1px dashed rgba(181, 128, 63, .45); outline-offset: 3px; border-radius: 2px; transition: outline-color .15s, box-shadow .15s; }
+[data-text]:hover { outline: 2px solid rgba(181, 128, 63, .85); }
+[data-text].is-text-aktiv { outline: 3px solid #b5803f; outline-offset: 4px; box-shadow: 0 0 0 8px rgba(181, 128, 63, .18); }
+html { scroll-behavior: auto !important; }
+.fw { display: none !important; }

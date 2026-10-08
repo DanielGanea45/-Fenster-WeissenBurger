@@ -24,6 +24,9 @@ function sanitizeHtml(html) {
   s = s.replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "");
   return s.trim();
 }
+const Texte = require(path.join(__dirname, "..", "..", "..", "js", "texte-modell.js"));
+/* Texte aus dem visuellen Editor: nur em/strong/a/br sowie die gesperrten Bausteine des Originals (Strukturspans,
+   Platzhalter, vorhandene Link-Attribute). Liefert je Baustein die normalisierte Form oder eine einfache Meldung. */
 function validiereTexte(t, schema) {
   const f = [];
   if (!t || typeof t !== "object") return [{ feld: "", meldung: "Texte fehlen." }];
@@ -31,10 +34,12 @@ function validiereTexte(t, schema) {
     if (schema && !schema[k]) { f.push({ feld: k, meldung: "Unbekannter Textbaustein." }); continue; }
     if (typeof v !== "string") f.push({ feld: k, meldung: "Text muss eine Zeichenkette sein." });
     else if (v.length > 20000) f.push({ feld: k, meldung: "Text zu lang (max. 20.000 Zeichen)." });
-    else if (!v.trim() && schema && schema[k] && schema[k].pflicht) f.push({ feld: k, meldung: "Dieser Text darf nicht leer sein." });
+    else if (!Texte.nurText(Texte.parse(v)).trim() && !/\{[a-z]+\}/.test(v)) f.push({ feld: k, meldung: "Dieser Text darf nicht leer sein." });
+    else if (schema && schema[k]) { const p = Texte.pruefe(v, schema[k].html); if (!p.ok) f.push({ feld: k, meldung: p.fehler }); }
   }
   return f;
 }
+function textNormalisieren(html, original) { const p = Texte.pruefe(html, original); return p.ok ? p.html : sanitizeHtml(html); }
 function validiereBild(meta) {
   const f = [];
   if (!meta || typeof meta !== "object") return [{ feld: "", meldung: "Bilddaten fehlen." }];
@@ -44,4 +49,4 @@ function validiereBild(meta) {
   return f;
 }
 
-module.exports = { validierePreise, validiereEinstellungen, validiereProdukte, validiereTexte, validiereBild, sanitizeHtml, STATUS };
+module.exports = { validierePreise, validiereEinstellungen, validiereProdukte, validiereTexte, validiereBild, sanitizeHtml, textNormalisieren, STATUS };

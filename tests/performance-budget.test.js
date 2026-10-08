@@ -80,7 +80,7 @@ test("Admin: Startbündel schlank, große Bereiche als nachladbare Module, Zwisc
   const html = fs.readFileSync(path.join(ROOT, "admin/index.html"), "utf8");
   const eager = [...html.matchAll(/<script(?![^>]*type="fw\/modul")[^>]*\ssrc="([^"]+)"/g)].map((m) => m[1].split("?")[0]);
   const lazy = [...html.matchAll(/<script[^>]*type="fw\/modul"[^>]*data-modul="([^"]+)"[^>]*src="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(lazy.sort(), ["belege", "einstellungen", "produkte"]);
+  assert.deepEqual(lazy.sort(), ["belege", "einstellungen", "produkte", "texte"]);
   const bytes = eager.reduce((a, f) => a + groesse(path.join(ROOT, f)), 0);
   assert.ok(bytes <= 170 * 1024, `Admin-Startbündel ${Math.round(bytes / 1024)} kB > 170 kB`);
   assert.ok(!eager.some((f) => /admin-(belege|einstellungen|produkte)/.test(f)), "Module nicht eager");
