@@ -118,20 +118,29 @@ async function lesen(q, s, event) {
     }
     case "kpis": {
       const alle = await alleKurz(); const jetzt = new Date(); const jahr = jetzt.toISOString().slice(0, 4), monat = jetzt.toISOString().slice(0, 7);
-      let offen = 0, ueberfaellig = 0, umsatzMonat = 0, umsatzJahr = 0, entwuerfe = 0, angeboteOffen = 0;
+      let offen = 0, ueberfaellig = 0, ueberfaelligAnzahl = 0, offenAnzahl = 0, umsatzMonat = 0, umsatzJahr = 0, entwuerfe = 0, angeboteOffen = 0;
+      /* Monatsreihe des laufenden Jahres für die Übersicht: Umsatz (Rechnungen abzüglich Storno) und Angebotsvolumen */
+      const vormonatDatum = new Date(jetzt.getFullYear(), jetzt.getMonth() - 1, 1); const vormonat = `${vormonatDatum.getFullYear()}-${String(vormonatDatum.getMonth() + 1).padStart(2, "0")}`;
+      const monate = []; for (let m = 1; m <= 12; m++) monate.push({ monat: `${jahr}-${String(m).padStart(2, "0")}`, umsatz: 0, angebote: 0 });
+      let umsatzVormonat = 0;
+      const monatsEintrag = (datum) => monate.find((x) => datum.startsWith(x.monat));
       for (const b of alle) {
         const s = b;
         if (b.status === "entwurf") entwuerfe++;
         if (b.art === "angebot" && b.status === "gesendet") angeboteOffen++;
+        if (b.art === "angebot" && b.nummer) { const me = monatsEintrag(b.datum || ""); if (me) me.angebote += s.gesamt; }
         if (b.art === "rechnung" && b.festgeschrieben) {
           const st = b.status; const rest = s.zahlbetrag - b.gezahlt;
-          if (["offen", "teilweise", "ueberfaellig"].includes(st)) { offen += rest; if (st === "ueberfaellig") ueberfaellig += rest; }
+          if (["offen", "teilweise", "ueberfaellig"].includes(st)) { offen += rest; offenAnzahl++; if (st === "ueberfaellig") { ueberfaellig += rest; ueberfaelligAnzahl++; } }
           // Umsatz: Rechnung zählt positiv, die Stornorechnung (unten) negativ – stornierte Vorgänge heben sich so auf
           if (b.datum.startsWith(monat)) umsatzMonat += s.summe; if (b.datum.startsWith(jahr)) umsatzJahr += s.summe;
+          if (b.datum.startsWith(vormonat)) umsatzVormonat += s.summe;
+          const me = monatsEintrag(b.datum); if (me) me.umsatz += s.summe;
         }
-        if (b.art === "storno" && b.datum.startsWith(jahr)) { umsatzJahr += s.summe; if (b.datum.startsWith(monat)) umsatzMonat += s.summe; }
+        if (b.art === "storno" && b.datum.startsWith(jahr)) { umsatzJahr += s.summe; if (b.datum.startsWith(monat)) umsatzMonat += s.summe; const me = monatsEintrag(b.datum); if (me) me.umsatz += s.summe; }
+        if (b.art === "storno" && b.datum.startsWith(vormonat)) umsatzVormonat += s.summe;
       }
-      return http.json(200, { ok: true, kpis: { offen, ueberfaellig, umsatzMonat, umsatzJahr, entwuerfe, angeboteOffen, gesamt: alle.length } });
+      return http.json(200, { ok: true, kpis: { offen, offenAnzahl, ueberfaellig, ueberfaelligAnzahl, umsatzMonat, umsatzVormonat, umsatzJahr, entwuerfe, angeboteOffen, gesamt: alle.length, jahr, monate } });
     }
     case "kunden": {
       const keys = await store.list("kunden/"); const liste = [];
