@@ -15,24 +15,28 @@ Bewertungen erscheinen **nicht automatisch**. Das Formular „Bewertung abgeben�
 ```json
 [
   {
-    "name": "M. K.",
-    "ort": "Ingolstadt",
-    "projekt": "Fenstertausch",
+    "id": "google-2025-10-serkan-g",
+    "status": "freigegeben",
+    "quelle": "Google",
+    "name": "Serkan G.",
+    "ort": "",
+    "projekt": "Fenster und Türen",
     "sterne": 5,
     "text": "Wortlaut der Bewertung, unverändert.",
-    "datum": "2026-10"
+    "datum": "2025-10"
   }
 ]
 ```
 
-- `name`: Name oder Initialen, wie von der Kundin/dem Kunden angegeben
-- `ort`: Ort
-- `projekt`: Art des Projekts (wie im Formular gewählt)
+- `status`: `freigegeben` (erscheint), `offen` oder `abgelehnt`
+- `quelle`: `Google`, `MyHammer` oder `Website` (Formular) – bestimmt das kleine Logo an der Karte
+- `name`: Name oder Initialen, wie öffentlich angezeigt (z. B. „Serkan G.“, „Kunde über MyHammer“)
+- `ort`, `projekt`: optional
 - `sterne`: 1–5
 - `text`: Bewertungstext unverändert (auch negative Bewertungen werden veröffentlicht)
-- `datum`: Jahr-Monat (`JJJJ-MM`); die Seite zeigt Monat und Jahr und sortiert absteigend
+- `datum`: Jahr-Monat (`JJJJ-MM`); die Seite zeigt „ca. Monat Jahr“ und sortiert absteigend
 
-Die Datei muss gültiges JSON bleiben (Kommas zwischen den Einträgen, keine Kommas nach dem letzten). Solange die Liste leer ist (`[]`), zeigt die Seite „Noch keine Bewertungen – seien Sie die/der Erste!“. Löschwünsche: Eintrag entfernen und neu deployen.
+Die Datei muss gültiges JSON bleiben. Nach einer Änderung `node scripts/bewertungen-einsetzen.js` ausführen (setzt Abzeichen und Karten in Start- und Referenzenseite ein; der Build macht dasselbe mit den Admin-Daten). Solange keine freigegebene Bewertung vorliegt, zeigen die Seiten „Noch keine Bewertungen – seien Sie die/der Erste!“. Löschen: im Admin unter *Bewertungen* → **Löschen**, danach **Veröffentlichen**.
 
 Google-Bewertungslink: in `referenzen/index.html` beim Link `id="google-review"` die URL eintragen und das Attribut `hidden` entfernen.
 
@@ -120,7 +124,7 @@ Solange `ADMIN_SETUP_TOKEN` auf Produktion **nicht** gesetzt ist, antworten `/ad
 
 **Texte** (Menü *Texte*): Oben die Seite wählen. Links erscheint die echte Seite als Vorschau – ein Klick auf einen Text wählt das passende Feld; rechts stehen die Felder je Abschnitt der Seite („Oben auf der Seite“, „Produkte“, „Kontakt“ …) mit einfachen Namen (Kleine Zeile über der Überschrift, Große Überschrift, Überschrift, Zwischenüberschrift, Einleitung, Absatz, Button-Text). Es wird nie Code angezeigt: **Fett**, **Hervorheben** (blau, wie auf der Website), **Link** (Seiten dieser Website oder sichere https-Adressen) und **Neue Zeile** gibt es als Schaltflächen; feste Bausteine (z. B. die Nummer „01“ vor einer Überschrift) und automatische Hinweise (Steuerhinweis) erscheinen als gesperrte Etiketten und können weder gelöscht noch verändert werden. Jedes Feld zeigt die Zeichenzahl mit empfohlener Länge und „geändert“ mit **Zurücksetzen** auf den Originaltext; **Rückgängig/Wiederholen**, **Änderungen verwerfen**, **Speichern** und **Speichern & veröffentlichen** stehen in der Werkzeugleiste. Beim Speichern prüft der Server mit denselben Regeln (nur Fett, Hervorhebung, Links, neue Zeile; feste Bausteine nur unverändert) – anderes wird mit „Dieser Text enthält Zeichen, die nicht erlaubt sind.“ abgelehnt. Gespeichert wird weiterhin das bisherige HTML-Format (keine Migration). **Impressum und Datenschutzerklärung** sind geschützt: Änderungen werden erst nach einer zusätzlichen Bestätigung gespeichert. Jede Speicherung ist eine Version; „Vorher / Nachher“ zeigt die Unterschiede lesbar, unter *Änderungsprotokoll* lässt sich jeder Stand **wiederherstellen** (wird sofort mit allen Tests veröffentlicht). Technisch: `js/texte-modell.js` (Browser, Functions, Tests) liest und schreibt die Bausteine verlustfrei; `scripts/inhalte-registry.js` liefert Abschnitt und Rolle je Baustein; die Vorschau bindet die Seite per iframe ein (dafür `X-Frame-Options: SAMEORIGIN` / `frame-ancestors 'self'` auf den öffentlichen Seiten) und lädt `css/admin-vorschau.css` zur Markierung.
 
-**Bewertungen** (Menü *Bewertungen*): Neue Bewertungen aus dem Formular auf `/referenzen/` warten hier auf Freigabe. **Freigeben** oder **Ablehnen**, danach **Veröffentlichen** – nur freigegebene Bewertungen erscheinen auf der Website. (Das manuelle Bearbeiten von `data/bewertungen.json` entfällt.)
+**Bewertungen** (Menü *Bewertungen*): Neue Bewertungen aus dem Formular auf `/referenzen/` warten hier auf Freigabe. **Freigeben** oder **Ablehnen**, danach **Veröffentlichen** – nur freigegebene Bewertungen erscheinen auf der Website. Bewertungen von **Google oder MyHammer** werden ohne Schnittstelle übernommen: **Bewertung hinzufügen** (Name, Sterne, Quelle Google/MyHammer/Website, Monat der Bewertung, Projekt, Text – bitte wortgleich); jede Bewertung lässt sich **bearbeiten** und **löschen**. Die freigegebenen Bewertungen erscheinen als Karten „Das sagen unsere Kunden“ (Sterne, gekürzter Text mit „Mehr lesen“, Name, Quelle mit Logo, „ca. Monat Jahr“; auf dem Telefon als Schieber) auf der Startseite (Abschnitt Über uns, neueste fünf) und auf `/referenzen/` (alle). Das **Abzeichen** „Google 5,0 ★★★★★ · 4 Bewertungen · MyHammer 5/5“ mit „Alle Bewertungen auf Google ansehen“ steht im Hero der Startseite, bei Kontakt und auf den Referenzen; Note, Anzahl und Links pflegen Sie unter *Einstellungen → Bewertungen & Google* (Knopf „Jetzt bewerten“ nur mit Google-Bewertungslink). Technisch: `netlify/functions/_lib/bewertungen.js` erzeugt die Bausteine, `scripts/bewertungen-einsetzen.js` füllt die Markierungen `<!--bewertungen-badge-->` / `<!--bewertungen-karten-->` im Build (lokal nach Änderungen an `data/bewertungen.json` ausführen; `--pruefen` im Test). Es werden bewusst **keine** `aggregateRating`/`Review`-Strukturdaten ausgegeben (Google lässt Bewertungs-Markup für die eigene Firma nicht zu). (Das manuelle Bearbeiten von `data/bewertungen.json` entfällt.)
 
 **Anfragen** (Menü *Anfragen*): Alle Anfragen aus Formularen und Konfigurator mit allen Feldern; bei Konfigurator-Anfragen zusätzlich die Konfiguration, der **vom Server nachgerechnete Preis** und eine rote Warnung, falls der im Browser gezeigte Preis abweicht.
 
@@ -166,7 +170,7 @@ Zentrale Schalter und Stammdaten der Website, links nach Bereichen gegliedert. J
 - **Bank & Zahlung** – Bank, Kontoinhaber, IBAN (Prüfsumme), BIC, Zahlungsziel, Anzahlung, Skonto. Fehlen Bankdaten oder Startnummern, werden Belege als „MUSTER“ gekennzeichnet (`firma.dokumenteMuster`).
 - **Dokumente** – Startnummern (Format `AN-2026-0001`, `AB-…`, `RE-…`), Angebotsgültigkeit, Standardtexte je Belegart. Die Rechnungsnummer kann nach der ersten festgeschriebenen Rechnung nicht mehr herabgesetzt werden.
 - **E-Mail & Benachrichtigungen** – Zieladressen für Anfragen und Bewertungen (Rückfall: Konto), Absendername.
-- **Bewertungen & Google** – Links „Google-Bewertung schreiben“ und Unternehmensprofil.
+- **Bewertungen & Google** – Google-Note und Anzahl für das Abzeichen, Link „Alle Bewertungen auf Google“ (Vorgabe: Maps-Suche nach der Firma), Link „Google-Bewertung schreiben“ (Knopf „Jetzt bewerten“; leer = kein Knopf), MyHammer-Bewertung (z. B. „5/5“) und optional MyHammer-Profil.
 - **Öffnungszeiten & Einsatzgebiet** – Zeiten je Wochentag (`09:00-17:00` oder leer); erscheinen als Text („Mo–Fr 9–17 Uhr“) und als `openingHoursSpecification`. Regionen-Schalter Ingolstadt/Karlsruhe steuern Sitemap und `noindex` der Einsatzgebiet-Seiten (`scripts/build-orte.js` läuft im Build).
 - **Konfigurator** – Aus/Vorschau/Online (dieselbe Einstellung wie unter Preise).
 - **Konten & Zugänge** – Übergabeliste für den Inhaber: Netlify (Hosting, Deploys, Umgebungsvariablen), GitHub, Brevo, Domain/E-Mail-Postfach (Registrar editierbar; MX-Einträge nie ändern), Google Search Console/Unternehmensprofil, Ansprechpartner Technik. Je Dienst Konto (E-Mail) und Status „verbunden ✓ / fehlt ✗“ aus `aktion=dienste` (nur ja/nein, nie Werte). Ablaufdatum des Blobs-Zugriffsschlüssels (`konten.blobsTokenAblauf`, Standard 2027-10-01) – Warnung in der Übersicht 30 Tage vorher. Keine Passwörter im Admin.

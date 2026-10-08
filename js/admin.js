@@ -826,17 +826,55 @@
     const liste = Array.isArray(d.daten) ? d.daten : [];
     const offen = liste.filter((b) => b.status === "offen"), rest = liste.filter((b) => b.status !== "offen");
     S.bewertungenBadge = offen.length; renderNav();
+    const QUELLEN = ["Website", "Google", "MyHammer"];
+    const MON = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    const datumText = (x) => { const m = /^(\d{4})-(\d{2})/.exec(x || ""); return m ? MON[Number(m[2]) - 1] + " " + m[1] : ""; };
     const sterne = (n) => `<span class="stars" aria-label="${n} Sterne">${"★".repeat(n)}${"☆".repeat(Math.max(0, 5 - n))}</span>`;
-    const karte = (b) => `<div class="card anfrage"><div class="row row--between"><div><b>${h(b.name)}</b> · ${h(b.ort)}${b.projekt ? " · " + h(b.projekt) : ""} ${sterne(Number(b.sterne) || 0)}</div><span class="badge ${b.status === "freigegeben" ? "badge--ok" : b.status === "abgelehnt" ? "badge--err" : "badge--warn"}">${{ offen: "offen", freigegeben: "freigegeben", abgelehnt: "abgelehnt" }[b.status] || b.status}</span></div>
+    const karte = (b) => `<div class="card anfrage"><div class="row row--between"><div><b>${h(b.name)}</b>${b.ort ? " · " + h(b.ort) : ""}${b.projekt ? " · " + h(b.projekt) : ""} ${sterne(Number(b.sterne) || 0)} <span class="badge">${h(b.quelle || "Website")}</span>${b.datum ? ` <span class="muted small">${h(datumText(b.datum))}</span>` : ""}</div><span class="badge ${b.status === "freigegeben" ? "badge--ok" : b.status === "abgelehnt" ? "badge--err" : "badge--warn"}">${{ offen: "offen", freigegeben: "freigegeben", abgelehnt: "abgelehnt" }[b.status] || b.status}</span></div>
       <p class="quote">„${h(b.text)}“</p>
-      <p class="small muted">Eingegangen ${fmtDT(b.eingegangen)}${b.email ? " · " + h(b.email) : ""}${b.kunde ? " · Kunde: " + h(b.kunde) : ""}${b.entschieden ? " · entschieden " + fmtDT(b.entschieden) + " von " + h(b.von || "") : ""}</p>
-      <div class="row">${b.status !== "freigegeben" ? `<button type="button" class="btn btn--sm btn--primary" data-bw="freigegeben" data-id="${h(b.id)}">Freigeben</button>` : ""}${b.status !== "abgelehnt" ? `<button type="button" class="btn btn--sm btn--danger" data-bw="abgelehnt" data-id="${h(b.id)}">Ablehnen</button>` : ""}${b.status !== "offen" ? `<button type="button" class="btn btn--sm" data-bw="offen" data-id="${h(b.id)}">Zurück auf „offen“</button>` : ""}</div></div>`;
-    main.innerHTML = `<div class="page-head"><div><h1>Bewertungen</h1><span class="muted">Nur freigegebene Bewertungen erscheinen auf der Website (/referenzen/). Bitte vor der Freigabe prüfen, ob der Auftrag tatsächlich ausgeführt wurde.</span></div><button type="button" class="btn btn--primary" data-bw="pub">Veröffentlichen</button></div>${pubBar()}
+      <p class="small muted">${b.importiert ? "Übernommen" : "Eingegangen"} ${fmtDT(b.eingegangen)}${b.email ? " · " + h(b.email) : ""}${b.kunde && !b.importiert ? " · Kunde: " + h(b.kunde) : ""}${b.entschieden ? " · entschieden " + fmtDT(b.entschieden) + " von " + h(b.von || "") : ""}</p>
+      <div class="row">${b.status !== "freigegeben" ? `<button type="button" class="btn btn--sm btn--primary" data-bw="freigegeben" data-id="${h(b.id)}">Freigeben</button>` : ""}${b.status !== "abgelehnt" ? `<button type="button" class="btn btn--sm" data-bw="abgelehnt" data-id="${h(b.id)}">Ablehnen</button>` : ""}${b.status !== "offen" ? `<button type="button" class="btn btn--sm" data-bw="offen" data-id="${h(b.id)}">Zurück auf „offen“</button>` : ""}<button type="button" class="btn btn--sm" data-bw="bearbeiten" data-id="${h(b.id)}">Bearbeiten</button><button type="button" class="btn btn--sm btn--danger" data-bw="loeschen" data-id="${h(b.id)}">Löschen</button></div></div>`;
+    main.innerHTML = `<div class="page-head"><div><h1>Bewertungen</h1><span class="muted">Nur freigegebene Bewertungen erscheinen auf der Website (Startseite, Referenzen). Bewertungen von Google oder MyHammer übernehmen Sie mit „Bewertung hinzufügen“ – bitte wortgleich und mit Quelle. Noten und Links für das Abzeichen: Einstellungen → Bewertungen &amp; Google.</span></div><div class="row"><button type="button" class="btn" data-bw="neu">Bewertung hinzufügen</button><button type="button" class="btn btn--primary" data-bw="pub">Veröffentlichen</button></div></div>${pubBar()}
       <h2>Zu prüfen (${offen.length})</h2>${offen.map(karte).join("") || '<p class="muted">Keine offenen Bewertungen.</p>'}
       <h2>Entschieden (${rest.length})</h2>${rest.map(karte).join("") || '<p class="muted">Noch keine.</p>'}`;
+    /* Formular zum Anlegen/Bearbeiten – Werte werden vor dem Schließen des Dialogs eingesammelt */
+    const bearbeiten = async (b) => {
+      b = b || { name: "", ort: "", projekt: "", sterne: 5, text: "", quelle: "Google", datum: "" };
+      const opt = (arr, v, f) => arr.map((x) => `<option value="${h(x)}"${String(x) === String(v) ? " selected" : ""}>${h(f ? f(x) : x)}</option>`).join("");
+      const html = `<div class="grid grid--2">
+        <label class="field">Name<input type="text" id="bw-name" class="input" maxlength="80" value="${h(b.name)}" placeholder="z. B. Serkan G."></label>
+        <label class="field">Ort (optional)<input type="text" id="bw-ort" class="input" maxlength="80" value="${h(b.ort || "")}"></label>
+        <label class="field">Sterne<select id="bw-sterne" class="input">${opt([5, 4, 3, 2, 1], b.sterne || 5, (n) => n + " " + (n === 1 ? "Stern" : "Sterne"))}</select></label>
+        <label class="field">Quelle<select id="bw-quelle" class="input">${opt(QUELLEN, b.quelle || "Website")}</select></label>
+        <label class="field">Projekt (optional)<input type="text" id="bw-projekt" class="input" maxlength="120" value="${h(b.projekt || "")}" placeholder="z. B. Fenstertausch Einfamilienhaus"></label>
+        <label class="field">Monat der Bewertung<input type="month" id="bw-datum" class="input" value="${h(String(b.datum || "").slice(0, 7))}"><span class="hint">Wird als „ca. Monat Jahr“ angezeigt</span></label>
+        </div>
+        <label class="field">Bewertungstext<textarea id="bw-text" class="input" rows="6" maxlength="2000">${h(b.text || "")}</textarea><span class="hint">Bitte wortgleich übernehmen, ohne Änderungen.</span></label>`;
+      let werte = null;
+      const m = $("#modal");
+      const sammeln = () => { if ($("#bw-name")) werte = { name: $("#bw-name").value, ort: $("#bw-ort").value, projekt: $("#bw-projekt").value, sterne: $("#bw-sterne").value, quelle: $("#bw-quelle").value, datum: $("#bw-datum").value, text: $("#bw-text").value }; };
+      m.addEventListener("click", sammeln, true);
+      const ok = await modal({ titel: b.id ? "Bewertung bearbeiten" : "Bewertung hinzufügen", html, ok: "Speichern" });
+      m.removeEventListener("click", sammeln, true);
+      if (!ok || !werte) return;
+      const r = await api.post("bewertung-bearbeiten", { id: b.id, daten: werte });
+      if (!r.ok) return toast(r.fehler && r.fehler[0] ? r.fehler[0].meldung : r.error, "err");
+      toast("Gespeichert – bitte „Veröffentlichen“, damit die Website aktualisiert wird.", "ok");
+      render();
+    };
     main.addEventListener("click", async (e) => {
       const b = e.target.closest("[data-bw]"); if (!b) return;
       if (b.dataset.bw === "pub") return veroeffentlichen("Bewertungen");
+      if (b.dataset.bw === "neu") return bearbeiten(null);
+      const eintrag = liste.find((x) => x.id === b.dataset.id);
+      if (b.dataset.bw === "bearbeiten") return bearbeiten(eintrag);
+      if (b.dataset.bw === "loeschen") {
+        if (!(await bestaetigen("Bewertung löschen?", `Die Bewertung von ${eintrag ? eintrag.name : "…"} wird endgültig entfernt. Nach „Veröffentlichen“ verschwindet sie von der Website.`, "Löschen", true))) return;
+        const r = await api.post("bewertung-loeschen", { id: b.dataset.id });
+        if (!r.ok) return toast(r.error, "err");
+        toast("Gelöscht – bitte „Veröffentlichen“.", "ok");
+        return render();
+      }
       const r = await api.post("bewertung", { id: b.dataset.id, status: b.dataset.bw });
       if (!r.ok) return toast(r.error, "err");
       toast(b.dataset.bw === "freigegeben" ? "Freigegeben – bitte „Veröffentlichen“, damit sie auf der Website erscheint." : "Gespeichert.", "ok");

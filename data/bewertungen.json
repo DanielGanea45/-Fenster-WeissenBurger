@@ -1,1 +1,72 @@
-[]
+[
+  {
+    "id": "google-2026-03-abel-d",
+    "status": "freigegeben",
+    "quelle": "Google",
+    "name": "Abel D.",
+    "ort": "",
+    "projekt": "Fenster im Obergeschoss",
+    "sterne": 5,
+    "text": "Wir haben letztes Jahr im Erdgeschoss bereits neue Fenster von einer anderen Firma einbauen lassen. Dieses Jahr haben wir die Fenster im Obergeschoss von Fenster-WeissenBurger einbauen lassen.",
+    "datum": "2026-03",
+    "eingegangen": 1772323200000,
+    "kunde": "ja",
+    "importiert": true
+  },
+  {
+    "id": "google-2026-02-larissa-r",
+    "status": "freigegeben",
+    "quelle": "Google",
+    "name": "Larissa R.",
+    "ort": "",
+    "projekt": "",
+    "sterne": 5,
+    "text": "Absolut perfekter Ablauf. Zuverlässig und günstig. Was will man mehr.",
+    "datum": "2026-02",
+    "eingegangen": 1769904000000,
+    "kunde": "ja",
+    "importiert": true
+  },
+  {
+    "id": "myhammer-2026-07-balkontuer",
+    "status": "freigegeben",
+    "quelle": "MyHammer",
+    "name": "Kunde über MyHammer",
+    "ort": "",
+    "projekt": "Balkontür",
+    "sterne": 5,
+    "text": "Fenster-WeissenBurger hat uns eine Balkontür eingebaut, nachdem der vorherige Handwerker totalen Murks gemacht hat. Jetzt ist die Maueröffnung richtig gemacht.",
+    "datum": "2026-07",
+    "eingegangen": 1782864000000,
+    "kunde": "ja",
+    "importiert": true
+  },
+  {
+    "id": "google-2025-10-serkan-g",
+    "status": "freigegeben",
+    "quelle": "Google",
+    "name": "Serkan G.",
+    "ort": "",
+    "projekt": "20 Fenster",
+    "sterne": 5,
+    "text": "Beratung war top – ehrlich, kompetent und ohne Verkaufsdruck. Nach 4 Wochen kamen die Fenster, zwei Tage später waren alle 20 Stück sauber und professionell eingebaut – absolut empfehlenswert!",
+    "datum": "2025-10",
+    "eingegangen": 1759276800000,
+    "kunde": "ja",
+    "importiert": true
+  },
+  {
+    "id": "google-2025-10-jenny-s",
+    "status": "freigegeben",
+    "quelle": "Google",
+    "name": "Jenny S.",
+    "ort": "",
+    "projekt": "",
+    "sterne": 5,
+    "text": "Perfekter Service und hochwertige Fenster!",
+    "datum": "2025-10",
+    "eingegangen": 1759190400000,
+    "kunde": "ja",
+    "importiert": true
+  }
+]

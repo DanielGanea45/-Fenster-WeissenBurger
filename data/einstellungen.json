@@ -60,7 +60,11 @@
   },
   "bewertungen": {
     "googleBewertungLink": "",
-    "googleProfilLink": ""
+    "googleProfilLink": "https://www.google.com/maps/search/?api=1&query=Fenster-WeissenBurger+UG+Ingolstadt",
+    "googleNote": "5,0",
+    "googleAnzahl": 4,
+    "myhammerNote": "5/5",
+    "myhammerLink": ""
   },
   "oeffnungszeiten": {
     "mo": "09:00-17:00",

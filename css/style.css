@@ -377,10 +377,10 @@ ul, ol { padding: 0; list-style: none; }
   }
   .scene__inner {
     padding: calc(var(--header-h) + 16px) var(--gutter) 40px;
-    justify-content: center;
+    justify-content: flex-start; /* Zentrierung über auto-Ränder: ist der Inhalt höher als die Szene, bleibt er scrollbar statt oben abgeschnitten */
   }
-  .scene__content { margin-top: 0; max-width: 620px; }
-  .scene__content--wide { max-width: 1240px; width: 100%; margin: 0 auto; }
+  .scene__content { margin: auto 0; max-width: 620px; }
+  .scene__content--wide { max-width: 1240px; width: 100%; margin: auto; }
   .title { font-size: clamp(48px, 5.6vw, 84px); }
   .title--sm { font-size: clamp(36px, 4vw, 56px); }
   .lead { font-size: 18px; margin-top: 20px; }
@@ -533,3 +533,43 @@ ul, ol { padding: 0; list-style: none; }
 /* Sehr schmale Telefone (≤ 359 px): Logo etwas kleiner, damit Kopfzeile und Anruf-Knopf nicht überlaufen */
 @media (max-width: 359px) { .brand__box, .brand__svg { width: 176px; height: 38px; } .btn--call { padding: 10px 12px; } }
 @media (max-width: 419px) { .page main > h1 { font-size: clamp(26px, 9.5vw, 36px); hyphens: auto; overflow-wrap: anywhere; } }
+
+/* ---------- Kundenbewertungen: Badge (Google / MyHammer) und Karten „Das sagen unsere Kunden“ ---------- */
+.badge-bew { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 18px; font-size: 14px; }
+.badge-bew__eintrag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border-radius: 999px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); text-decoration: none; box-shadow: var(--shadow); min-height: 40px; }
+a.badge-bew__eintrag:hover { border-color: var(--accent); color: var(--ink); }
+.badge-bew__text { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 5px; line-height: 1.3; }
+.badge-bew__note { font-weight: 800; }
+.badge-bew__anzahl { color: var(--ink-2); font-weight: 500; }
+.badge-bew__alle { font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); min-height: 32px; display: inline-flex; align-items: center; }
+.scene .badge-bew__alle { color: var(--accent-on-dark); border-color: var(--accent-on-dark); }
+.scene .badge-bew__alle:hover { color: #fff; border-color: #fff; }
+.sterne { color: #f5a623; letter-spacing: 1px; font-size: 15px; line-height: 1; white-space: nowrap; }
+.quelle-logo { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 13px; font-weight: 800; color: #fff; flex: none; font-family: Arial, Helvetica, sans-serif; }
+.quelle-logo--google { background: #4285f4; }
+.quelle-logo--myhammer { background: #e8541e; }
+.quelle-logo--website { background: var(--accent); }
+.stimmen { margin-top: 18px; }
+.stimmen__liste { list-style: none; margin: 0 calc(-1 * var(--gutter)); padding: 4px var(--gutter) 8px; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.stimmen__liste::-webkit-scrollbar { display: none; }
+.stimme { flex: 0 0 78vw; max-width: 300px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); box-shadow: var(--shadow); text-shadow: none; }
+.stimme__kopf { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.stimme__quelle { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--ink-2); }
+.stimme__text { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.stimme__text::before { content: "„"; } .stimme__text::after { content: "“"; }
+.stimme__text.is-lang { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.stimme__text.is-lang.is-offen { display: block; -webkit-line-clamp: none; }
+.stimme__mehr { align-self: flex-start; min-height: 32px; padding: 0 2px; border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.stimme__wer { margin: auto 0 0; font-size: 13px; color: var(--ink); }
+.stimme__wer span { color: var(--ink-3); font-weight: 500; }
+.stimmen__aktionen { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.stimmen__leer { padding: 18px; border: 1px dashed var(--line); border-radius: 14px; text-align: center; color: var(--ink-2); font-weight: 600; }
+.scene .stimmen__leer { color: var(--on-dark-2); border-color: var(--on-dark-line); }
+.stimmen-titel { margin-top: 26px; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.scene .stimmen-titel { color: #fff; }
+@media (min-width: 900px) {
+  .stimmen__liste { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; overflow: visible; }
+  .stimme { flex: none; max-width: none; }
+  .badge-bew { font-size: 14.5px; }
+  #ueber-uns .stimmen, #ueber-uns .stimmen-titel { max-width: 1040px; }
+}

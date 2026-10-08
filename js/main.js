@@ -284,7 +284,17 @@
     if (zu) zu.addEventListener("click", function () { b.hidden = true; try { sessionStorage.setItem("fw-banner-zu", "1"); } catch (e) { /* egal */ } });
   }
 
+  /* Kundenstimmen: „Mehr lesen“ klappt den gekürzten Text auf */
+  function initStimmen() {
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest(".stimme__mehr"); if (!b) return;
+      var t = document.getElementById(b.getAttribute("aria-controls")); if (!t) return;
+      var offen = !t.classList.contains("is-offen");
+      t.classList.toggle("is-offen", offen); b.setAttribute("aria-expanded", String(offen)); b.textContent = offen ? "Weniger anzeigen" : "Mehr lesen";
+    });
+  }
   function initPage() {
+    initStimmen();
     initHeader();
     initNav();
     initBanner();

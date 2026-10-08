@@ -131,6 +131,10 @@
       var bw = e.bewertungen || {};
       if (str(bw.googleBewertungLink) && !URL_HTTPS.test(str(bw.googleBewertungLink))) add("bewertungen.googleBewertungLink", "Link muss mit https:// beginnen.");
       if (str(bw.googleProfilLink) && !URL_HTTPS.test(str(bw.googleProfilLink))) add("bewertungen.googleProfilLink", "Link muss mit https:// beginnen.");
+      if (str(bw.myhammerLink) && !URL_HTTPS.test(str(bw.myhammerLink))) add("bewertungen.myhammerLink", "Link muss mit https:// beginnen.");
+      if (str(bw.googleNote) && !/^[1-5](,\d)?$/.test(str(bw.googleNote))) add("bewertungen.googleNote", "Bitte eine Note von 1 bis 5 angeben, z. B. 4,8.");
+      if (str(bw.googleAnzahl) && !/^\d{1,5}$/.test(str(bw.googleAnzahl))) add("bewertungen.googleAnzahl", "Bitte eine ganze Zahl angeben.");
+      if (str(bw.myhammerNote) && !/^[1-5](,\d)?(\s?\/\s?5)?$/.test(str(bw.myhammerNote))) add("bewertungen.myhammerNote", "Bitte eine Note angeben, z. B. 5/5 oder 4,9.");
     }
     if (e.oeffnungszeiten !== undefined) {
       var oz = e.oeffnungszeiten || {};
