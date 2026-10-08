@@ -165,6 +165,8 @@
       if (str(bn.von) && !DATUM.test(str(bn.von))) add("website.banner.von", "Datum im Format JJJJ-MM-TT.");
       if (str(bn.bis) && !DATUM.test(str(bn.bis))) add("website.banner.bis", "Datum im Format JJJJ-MM-TT.");
       if (str(bn.von) && str(bn.bis) && str(bn.bis) < str(bn.von)) add("website.banner.bis", "Ende liegt vor dem Beginn.");
+      if (w.liveChat !== undefined && typeof w.liveChat !== "boolean") add("website.liveChat", "Schalter an/aus.");
+      if (str(w.whatsapp) && !/^\+?[\d\s()\/-]{8,24}$/.test(str(w.whatsapp))) add("website.whatsapp", "WhatsApp-Nummer prüfen (Ziffern, z. B. +49 176 81338935).");
     }
     return f;
   }

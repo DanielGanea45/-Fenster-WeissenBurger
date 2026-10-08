@@ -359,6 +359,7 @@ function footer() {
   </div>
   <script src="/js/config.js?v=1" defer></script>
   <script src="/js/main.js?v=3" defer></script>
+  <script src="/js/chat.js?v=3" defer></script>
 </body>
 </html>
 `;

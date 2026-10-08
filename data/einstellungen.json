@@ -87,7 +87,9 @@
       "text": "",
       "von": "",
       "bis": ""
-    }
+    },
+    "liveChat": false,
+    "whatsapp": "4917681338935"
   },
   "konten": {
     "netlify": {

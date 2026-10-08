@@ -133,7 +133,9 @@
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'sha256-iI6R5uwJVQojgZLUEcPZSFv4d5Dx3yu48qFGa6t/lhU='; script-src 'self'; connect-src 'self' https://eu.frcapi.com https://global.frcapi.com; worker-src 'self' blob:; font-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'"
+    # Die Content-Security-Policy steht NICHT hier, sondern in der vom Build erzeugten Datei _headers (scripts/headers.js):
+    # streng ohne Chat; mit Live-Chat (Crisp) kommen dessen Domänen dazu. Beide Quellen zugleich würden sich gegenseitig
+    # einschränken (zwei CSP-Kopfzeilen gelten gemeinsam).
 
 [[headers]]
   for = "/admin/*"

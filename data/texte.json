@@ -3337,7 +3337,7 @@
   "datenschutz-31": {
    "seite": "datenschutz",
    "tag": "p",
-   "html": "Die öffentliche Website setzt keine Cookies und verwendet keine Web-Analyse- oder Tracking-Dienste. Die verwendete Schriftart (Manrope) sowie alle Bilder und Videos werden lokal von unserem Webspace ausgeliefert; es werden keine Verbindungen zu Servern von Google oder anderen Drittanbietern aufgebaut. Ein Cookie-Banner ist daher nicht erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG).",
+   "html": "Die öffentliche Website setzt keine Cookies und verwendet keine Web-Analyse- oder Tracking-Dienste. Die verwendete Schriftart (Manrope) sowie alle Bilder und Videos werden lokal von unserem Webspace ausgeliefert; es werden keine Verbindungen zu Servern von Google oder anderen Drittanbietern aufgebaut. Ein Cookie-Banner ist daher nicht erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Der Live-Chat (Abschnitt 8a) wird erst nach Ihrem ausdrücklichen Start geladen – auch dafür ist kein Banner nötig.",
    "label": "Die öffentliche Website setzt keine Cookies und verwendet keine Web-An",
    "geschuetzt": true,
    "abschnitt": "abschnitt-10",
@@ -3374,13 +3374,73 @@
    "abschnittTitel": "8. Cookies, lokale Speicherung, Analyse und Google Search Co",
    "rolle": "p"
   },
+  "datenschutz-49": {
+   "seite": "datenschutz",
+   "tag": "h2",
+   "html": "8a. Live-Chat (Crisp) und WhatsApp",
+   "label": "8a. Live-Chat (Crisp) und WhatsApp",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "8a. Live-Chat (Crisp) und WhatsApp",
+   "rolle": "h2"
+  },
+  "datenschutz-50": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "Auf unserer Website bieten wir einen Live-Chat an. Dafür nutzen wir den Dienst <strong>Crisp</strong> der Crisp IM SAS, 2 Boulevard de Launay, 44100 Nantes, Frankreich („Crisp“). Der Chat wird <strong>nicht automatisch geladen</strong>: Sie sehen zunächst nur unseren Knopf „Chat starten“. Erst wenn Sie im anschließenden Hinweis auf „Chat laden“ klicken, wird das Chat-Programm von Crisp geladen und eine Verbindung zu den Servern von Crisp aufgebaut. Wenn Sie den Chat nicht starten, werden keine Daten an Crisp übertragen und keine Cookies von Crisp gesetzt.",
+   "label": "Auf unserer Website bieten wir einen Live-Chat an. Dafür nutzen wir de",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "8a. Live-Chat (Crisp) und WhatsApp",
+   "rolle": "p"
+  },
+  "datenschutz-51": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "<strong>Verarbeitete Daten:</strong> Nach dem Start des Chats verarbeitet Crisp die von Ihnen eingegebenen Nachrichten und freiwilligen Angaben (z. B. Name, E-Mail-Adresse), technische Angaben Ihres Browsers (IP-Adresse, Browsertyp, Betriebssystem, Spracheinstellung, besuchte Seite, Zeitpunkt) sowie eine zufällige Sitzungskennung, die Crisp in Cookies speichert, damit Ihr Chatverlauf beim Seitenwechsel erhalten bleibt (siehe <a href=\"cookies.html\">Cookie-Richtlinie</a>). Die Cookies von Crisp laufen auf dieser Website nach spätestens 7 Tagen ab.",
+   "label": "Verarbeitete Daten: Nach dem Start des Chats verarbeitet Crisp die von",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "8a. Live-Chat (Crisp) und WhatsApp",
+   "rolle": "p"
+  },
+  "datenschutz-52": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "<strong>Zweck und Rechtsgrundlage:</strong> Zweck ist die schnelle Beantwortung Ihrer Fragen zu unseren Leistungen. Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG), die Sie mit dem Klick auf „Chat laden“ erteilen. Ihre Entscheidung gilt nur für den aktuellen Browser-Tab (Merker „fw-chat-ok“ im Sitzungsspeicher) – beim nächsten Besuch fragen wir erneut. Sie können die Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, indem Sie den Browser-Tab schließen oder die Cookies von Crisp löschen; die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung bleibt unberührt.",
+   "label": "Zweck und Rechtsgrundlage: Zweck ist die schnelle Beantwortung Ihrer F",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "8a. Live-Chat (Crisp) und WhatsApp",
+   "rolle": "p"
+  },
+  "datenschutz-53": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "<strong>Auftragsverarbeitung und Speicherort:</strong> Crisp verarbeitet die Daten in unserem Auftrag auf Grundlage eines Auftragsverarbeitungsvertrags nach Art. 28 DSGVO; die Daten werden nach Angaben von Crisp auf Servern in der Europäischen Union gespeichert. Chatverläufe löschen wir, sobald Ihr Anliegen abgeschlossen ist und keine Aufbewahrungspflichten entgegenstehen, spätestens jedoch nach zwölf Monaten. Weitere Informationen finden Sie in der Datenschutzerklärung von Crisp: <a href=\"https://crisp.chat/de/privacy/\" target=\"_blank\" rel=\"noopener noreferrer\">crisp.chat/de/privacy</a>.",
+   "label": "Auftragsverarbeitung und Speicherort: Crisp verarbeitet die Daten in u",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "8a. Live-Chat (Crisp) und WhatsApp",
+   "rolle": "p"
+  },
+  "datenschutz-54": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "<strong>WhatsApp:</strong> Im Chat-Hinweis bieten wir zusätzlich einen Link „Lieber per WhatsApp?“ an. Er öffnet WhatsApp auf Ihrem Gerät mit unserer Nummer; auf unserer Website selbst wird dadurch nichts geladen und keine Daten übertragen. Wenn Sie uns über WhatsApp schreiben, verarbeitet die WhatsApp Ireland Limited, 4 Grand Canal Square, Dublin 2, Irland, Ihre Daten nach ihren eigenen Datenschutzbestimmungen (<a href=\"https://www.whatsapp.com/legal/privacy-policy-eea\" target=\"_blank\" rel=\"noopener noreferrer\">whatsapp.com/legal/privacy-policy-eea</a>). Wir verarbeiten Ihre Nachrichten und Ihre Telefonnummer zur Beantwortung Ihrer Anfrage (Art. 6 Abs. 1 lit. b DSGVO, bei allgemeinen Fragen Art. 6 Abs. 1 lit. f DSGVO) und nutzen WhatsApp nicht zur Werbung. Sie können uns jederzeit auch per Telefon oder E-Mail erreichen.",
+   "label": "WhatsApp: Im Chat-Hinweis bieten wir zusätzlich einen Link „Lieber per",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-11",
+   "abschnittTitel": "8a. Live-Chat (Crisp) und WhatsApp",
+   "rolle": "p"
+  },
   "datenschutz-32": {
    "seite": "datenschutz",
    "tag": "h2",
    "html": "9. Empfänger und Weitergabe",
    "label": "9. Empfänger und Weitergabe",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-11",
+   "abschnitt": "abschnitt-12",
    "abschnittTitel": "9. Empfänger und Weitergabe",
    "rolle": "h2"
   },
@@ -3390,7 +3450,7 @@
    "html": "Eine Weitergabe Ihrer Daten an Dritte erfolgt nur, soweit dies zur Vertragserfüllung erforderlich ist (z. B. an Lieferanten für die Fertigung Ihrer Fenster nach Auftragserteilung), wir gesetzlich dazu verpflichtet sind oder Sie eingewilligt haben. Unser Hosting-Dienstleister Netlify handelt als Auftragsverarbeiter nach unseren Weisungen.",
    "label": "Eine Weitergabe Ihrer Daten an Dritte erfolgt nur, soweit dies zur Ver",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-11",
+   "abschnitt": "abschnitt-12",
    "abschnittTitel": "9. Empfänger und Weitergabe",
    "rolle": "p"
   },
@@ -3400,7 +3460,7 @@
    "html": "10. Ihre Rechte",
    "label": "10. Ihre Rechte",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-12",
+   "abschnitt": "abschnitt-13",
    "abschnittTitel": "10. Ihre Rechte",
    "rolle": "h2"
   },
@@ -3410,7 +3470,7 @@
    "html": "Sie haben gegenüber uns hinsichtlich der Sie betreffenden personenbezogenen Daten folgende Rechte:",
    "label": "Sie haben gegenüber uns hinsichtlich der Sie betreffenden personenbezo",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-12",
+   "abschnitt": "abschnitt-13",
    "abschnittTitel": "10. Ihre Rechte",
    "rolle": "p"
   },
@@ -3420,7 +3480,7 @@
    "html": "Zur Ausübung Ihrer Rechte genügt eine formlose Mitteilung an die oben genannten Kontaktdaten.",
    "label": "Zur Ausübung Ihrer Rechte genügt eine formlose Mitteilung an die oben ",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-12",
+   "abschnitt": "abschnitt-13",
    "abschnittTitel": "10. Ihre Rechte",
    "rolle": "p"
   },
@@ -3430,7 +3490,7 @@
    "html": "11. Beschwerderecht bei der Aufsichtsbehörde",
    "label": "11. Beschwerderecht bei der Aufsichtsbehörde",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-13",
+   "abschnitt": "abschnitt-14",
    "abschnittTitel": "11. Beschwerderecht bei der Aufsichtsbehörde",
    "rolle": "h2"
   },
@@ -3440,7 +3500,7 @@
    "html": "Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO). Die für uns zuständige Aufsichtsbehörde ist:",
    "label": "Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu be",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-13",
+   "abschnitt": "abschnitt-14",
    "abschnittTitel": "11. Beschwerderecht bei der Aufsichtsbehörde",
    "rolle": "p"
   },
@@ -3450,7 +3510,7 @@
    "html": "Bayerisches Landesamt für Datenschutzaufsicht (BayLDA)<br>\n      Promenade 18<br>\n      91522 Ansbach<br>\n      Telefon: 0981 180093-0<br>\n      E-Mail: poststelle@lda.bayern.de<br>\n      <a href=\"https://www.lda.bayern.de/\" rel=\"noopener noreferrer\" target=\"_blank\">www.lda.bayern.de</a>",
    "label": "Bayerisches Landesamt für Datenschutzaufsicht (BayLDA) Promenade 18 91",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-13",
+   "abschnitt": "abschnitt-14",
    "abschnittTitel": "11. Beschwerderecht bei der Aufsichtsbehörde",
    "rolle": "p"
   },
@@ -3460,7 +3520,7 @@
    "html": "12. Datensicherheit",
    "label": "12. Datensicherheit",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-14",
+   "abschnitt": "abschnitt-15",
    "abschnittTitel": "12. Datensicherheit",
    "rolle": "h2"
   },
@@ -3470,7 +3530,7 @@
    "html": "Die Übertragung aller Daten zwischen Ihrem Browser und unserer Website erfolgt verschlüsselt über HTTPS (TLS). Wir treffen angemessene technische und organisatorische Maßnahmen, um Ihre Daten gegen Verlust, Missbrauch und unbefugten Zugriff zu schützen.",
    "label": "Die Übertragung aller Daten zwischen Ihrem Browser und unserer Website",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-14",
+   "abschnitt": "abschnitt-15",
    "abschnittTitel": "12. Datensicherheit",
    "rolle": "p"
   },
@@ -3480,7 +3540,7 @@
    "html": "13. Änderungen dieser Datenschutzerklärung",
    "label": "13. Änderungen dieser Datenschutzerklärung",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-15",
+   "abschnitt": "abschnitt-16",
    "abschnittTitel": "13. Änderungen dieser Datenschutzerklärung",
    "rolle": "h2"
   },
@@ -3490,7 +3550,7 @@
    "html": "Wir passen diese Datenschutzerklärung an, wenn sich die Rechtslage oder die auf dieser Website eingesetzten Funktionen ändern. Es gilt die jeweils hier veröffentlichte Fassung.",
    "label": "Wir passen diese Datenschutzerklärung an, wenn sich die Rechtslage ode",
    "geschuetzt": true,
-   "abschnitt": "abschnitt-15",
+   "abschnitt": "abschnitt-16",
    "abschnittTitel": "13. Änderungen dieser Datenschutzerklärung",
    "rolle": "p"
   },
@@ -3527,7 +3587,7 @@
   "cookies-4": {
    "seite": "cookies",
    "tag": "p",
-   "html": "Diese Website setzt <strong>keine Cookies</strong>, die eine Einwilligung erfordern: keine Analyse-, Tracking-, Werbe- oder Social-Media-Cookies und keine Inhalte von Drittanbietern. Deshalb gibt es auch kein Cookie-Banner. Nur der Verwaltungsbereich, den ausschließlich wir als Betreiber nach Anmeldung nutzen, setzt ein technisch notwendiges Sitzungs-Cookie.",
+   "html": "Diese Website setzt <strong>keine Cookies</strong>, die eine Einwilligung erfordern: keine Analyse-, Tracking-, Werbe- oder Social-Media-Cookies und keine Inhalte von Drittanbietern. Deshalb gibt es auch kein Cookie-Banner. Einzige Ausnahme ist der Live-Chat (Crisp), den Sie selbst mit „Chat laden“ starten – erst dann setzt Crisp Cookies, vorher nicht. Nur der Verwaltungsbereich, den ausschließlich wir als Betreiber nach Anmeldung nutzen, setzt ein technisch notwendiges Sitzungs-Cookie.",
    "label": "Diese Website setzt keine Cookies, die eine Einwilligung erfordern: ke",
    "geschuetzt": true,
    "abschnitt": "oben",
@@ -3594,11 +3654,31 @@
    "abschnittTitel": "Weitere Texte",
    "rolle": "h3"
   },
+  "cookies-18": {
+   "seite": "cookies",
+   "tag": "h3",
+   "html": "fw-chat-ok",
+   "label": "fw-chat-ok",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Weitere Texte",
+   "rolle": "h3"
+  },
+  "cookies-19": {
+   "seite": "cookies",
+   "tag": "h3",
+   "html": "crisp-client/…",
+   "label": "crisp-client/…",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Weitere Texte",
+   "rolle": "h3"
+  },
   "cookies-8": {
    "seite": "cookies",
    "tag": "p",
-   "html": "Alle drei Einträge enthalten keine personenbezogenen Daten über Sie, werden nicht zur Wiedererkennung oder Profilbildung genutzt und nicht an Dritte weitergegeben. Für unbedingt erforderliche Speichervorgänge ist nach § 25 Abs. 2 Nr. 2 TDDDG keine Einwilligung nötig.",
-   "label": "Alle drei Einträge enthalten keine personenbezogenen Daten über Sie, w",
+   "html": "Die technischen Merker und das Admin-Cookie enthalten keine personenbezogenen Daten über Sie, werden nicht zur Wiedererkennung oder Profilbildung genutzt und nicht an Dritte weitergegeben; für sie ist nach § 25 Abs. 2 Nr. 2 TDDDG keine Einwilligung nötig. Die Cookies von Crisp entstehen ausschließlich nach Ihrer Einwilligung im Chat-Hinweis; Einzelheiten stehen in der <a href=\"datenschutz.html#live-chat\">Datenschutzerklärung, Abschnitt 8a</a>.",
+   "label": "Die technischen Merker und das Admin-Cookie enthalten keine personenbe",
    "geschuetzt": true,
    "abschnitt": "weitere",
    "abschnittTitel": "Weitere Texte",
@@ -3617,7 +3697,7 @@
   "cookies-10": {
    "seite": "cookies",
    "tag": "p",
-   "html": "Wir setzen keine Werbe-, Analyse- oder Statistik-Dienste ein (kein Google Analytics, keine Pixel, keine Social-Media-Plugins) und binden keine Schriften, Karten oder Videos von fremden Servern ein. Die Kontakt- und Anfrageformulare arbeiten ebenfalls ohne Cookies. Die Google Search Console, mit der wir die Darstellung in der Google-Suche beobachten, läuft außerhalb der Website und setzt hier nichts.",
+   "html": "Wir setzen keine Werbe-, Analyse- oder Statistik-Dienste ein (kein Google Analytics, keine Pixel, keine Social-Media-Plugins) und binden keine Schriften, Karten oder Videos von fremden Servern ein. Die Kontakt- und Anfrageformulare arbeiten ebenfalls ohne Cookies. Der Live-Chat ist der einzige Dienst eines Drittanbieters – und er bleibt aus, bis Sie ihn selbst starten. Die Google Search Console, mit der wir die Darstellung in der Google-Suche beobachten, läuft außerhalb der Website und setzt hier nichts.",
    "label": "Wir setzen keine Werbe-, Analyse- oder Statistik-Dienste ein (kein Goo",
    "geschuetzt": true,
    "abschnitt": "weitere",
