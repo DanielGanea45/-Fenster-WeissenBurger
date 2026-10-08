@@ -11,7 +11,9 @@ function dateien(root) {
   const out = [];
   for (const [ordner, re] of [["css", /\.css$/], ["js", /\.js$/]]) {
     const d = path.join(root, ordner); if (!fs.existsSync(d)) continue;
-    for (const f of fs.readdirSync(d)) if (re.test(f) && !/\.min\./.test(f)) out.push(path.join(d, f));
+    /* js/chat.js bleibt unverändert (≈5 kB): seine Markierung /*CHAT*\/…/*\/CHAT*\/ trägt die Konfiguration und wird vom
+       Admin-Smoke-Test für die Prüfung mit/ohne Chat gebraucht – die Minimierung würde den Kommentar entfernen */
+    for (const f of fs.readdirSync(d)) if (re.test(f) && !/\.min\./.test(f) && f !== "chat.js") out.push(path.join(d, f));
   }
   return out;
 }

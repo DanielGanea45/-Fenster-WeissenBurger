@@ -120,7 +120,9 @@ test("Einstellungen → Website: Schalter und WhatsApp-Nummer vorhanden, geprüf
   const block = ui.slice(ui.indexOf('titel: "Live-Chat"'), ui.indexOf("]", ui.indexOf('titel: "Live-Chat"')));
   assert.ok(!/CRISP_WEBSITE_ID|\.env|netlify\.toml|_headers/.test(block), "keine technischen Begriffe im Admin-Text");
 });
-test("Smoke-Test enthält die Chat-Prüfung (Zwei-Klick, Kopfzeilen, keine Fremdanfrage vor dem Klick)", () => {
+test("Smoke-Test enthält die Chat-Prüfung (Zwei-Klick, Kopfzeilen, keine Fremdanfrage vor dem Klick); Minimierung lässt js/chat.js (Markierung) aus", () => {
   const s = lies("scripts/admin-smoke.js");
   assert.ok(s.includes("async function chatPruefung") && s.includes("Fremdanfragen VOR dem Klick") && s.includes("HeadersLib.csp("));
+  /* Die Markierung /*CHAT*\/ muss den Build überleben: der Smoke-Test setzt darüber seine Testkonfiguration ein */
+  assert.ok(lies("scripts/minify.js").includes('"chat.js"'), "minify.js: chat.js ausnehmen");
 });
