@@ -231,11 +231,18 @@ function kopfdaten(html) {
   const text = (x) => (x ? entitiesDekodieren(x.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim() : "");
   return { titel: text(t && t[1]), beschreibung: text(d && d[1]), h1: text(h && h[1]) };
 }
+/* Gesetzlich festgelegte Steuertexte (js/steuer.js) müssen auf jeder Seite mit Preisen wörtlich gleich stehen –
+   sie zählen deshalb nicht als Dublette. */
+let steuerSaetze = null;
+function istSteuerText(satz) {
+  if (!steuerSaetze) { const Steuer = require(path.join(__dirname, "..", "js", "steuer.js")); steuerSaetze = new Set(); for (const s of Steuer.SAETZE) for (const t of Steuer.erlaubteTexte(s)) steuerSaetze.add(normalisieren(t)); }
+  return steuerSaetze.has(normalisieren(satz));
+}
 function seiteAnalysieren(html) {
   const bloecke = hauptText(html);
   const alle = [];
   for (const b of bloecke) alle.push(...saetze(b));
-  return Object.assign(kopfdaten(html), { bloecke, saetze: alle, lang: alle.filter((s) => woerter(normalisieren(s)).length >= MIN_WOERTER) });
+  return Object.assign(kopfdaten(html), { bloecke, saetze: alle, lang: alle.filter((s) => woerter(normalisieren(s)).length >= MIN_WOERTER && !istSteuerText(s)) });
 }
 
 /* ---------- Gesamtprüfung ---------- */
