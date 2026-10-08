@@ -11,12 +11,21 @@
   var videos = scenes.map(function (s) { return s.querySelector(".scene__video"); });
   var links = Array.prototype.slice.call(document.querySelectorAll("[data-go]"));
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Kein Video bei Datensparmodus, prefers-reduced-data oder reduzierter Bewegung – das Poster bleibt stehen */
+  var sparsam = reduced || (navigator.connection && navigator.connection.saveData) || window.matchMedia("(prefers-reduced-data: reduce)").matches;
   var current = 0;
   var stopTimer = null;
 
+  /* Videos erst nach dem load-Ereignis anfassen: bis dahin konkurrieren sie mit Schrift, CSS und Text (LCP) */
+  var geladen = document.readyState === "complete", ausstehend = null;
   function playVideo(v) {
-    if (!v) return;
-    if (v.preload === "none") { v.preload = "auto"; v.load(); }
+    if (!v || sparsam) return;
+    if (!geladen) { ausstehend = v; return; }
+    if (v.preload === "none") {
+      var klein = v.getAttribute("data-klein");
+      if (klein && window.matchMedia("(max-width: 700px)").matches) { while (v.firstChild) v.removeChild(v.firstChild); var s = document.createElement("source"); s.src = klein; s.type = "video/mp4"; v.appendChild(s); }
+      v.preload = "auto"; v.load();
+    }
     var p = v.play();
     if (p && typeof p.catch === "function") { p.catch(function () { /* Autoplay blockiert -> Poster bleibt */ }); }
   }
@@ -89,6 +98,9 @@
 
   initForm();
   initPage();
+  /* Hintergrundvideo der aktuellen Szene erst nach dem Laden starten (siehe playVideo) */
+  var heroStart = function () { geladen = true; setTimeout(function () { var v = ausstehend || videos[current]; ausstehend = null; playVideo(v); }, 300); };
+  if (geladen) heroStart(); else window.addEventListener("load", heroStart);
 
   /* ---------- Formulare: Prüfung, Spam-Schutz, Versand über Netlify Function ---------- */
   function initForm() {
@@ -280,6 +292,25 @@
     var y = document.getElementById("year");
     if (y) y.textContent = String(new Date().getFullYear());
     initLogo();
+    initPrefetch();
+  }
+
+  /* Unterseiten beim Zeigen/Berühren eines Links vorab laden (nur gleiche Herkunft, nicht bei Datensparmodus) */
+  function initPrefetch() {
+    if (navigator.connection && navigator.connection.saveData) return;
+    var fertig = {};
+    function vorladen(a) {
+      var href = a.getAttribute("href");
+      if (!href || /^(#|mailto:|tel:|https?:)/i.test(href) || a.target) return;
+      var url; try { url = new URL(href, location.href); } catch (e) { return; }
+      if (url.origin !== location.origin || url.pathname === location.pathname || /\/(admin|\.netlify)\//.test(url.pathname) || /\.(pdf|zip|xml)$/i.test(url.pathname) || fertig[url.pathname]) return;
+      fertig[url.pathname] = true;
+      var l = document.createElement("link"); l.rel = "prefetch"; l.href = url.pathname; l.as = "document"; document.head.appendChild(l);
+    }
+    var handler = function (e) { var a = e.target && e.target.closest ? e.target.closest("a[href]") : null; if (a) vorladen(a); };
+    document.addEventListener("mouseover", handler);
+    document.addEventListener("touchstart", handler, { passive: true });
+    document.addEventListener("focusin", handler);
   }
 
   /* Logo: Animation läuft einmal beim Laden (CSS im SVG), bei Hover erneut */

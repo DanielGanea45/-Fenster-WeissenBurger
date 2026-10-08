@@ -29,8 +29,14 @@ const DEFAULT_SCHRITTE = [
   { name: "Einsatzgebiet-Seiten", cmd: "node scripts/build-orte.js" },
   { name: "Produktseiten", cmd: "node scripts/build-produkte.js" },
   { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
-  { name: "Tests (Preisrechner, Admin, Steuer-Audit)", cmd: "node --test tests/*.test.js" },
+  { name: "Tests (Preisrechner, Admin, Steuer-Audit, Performance-Budget)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
+  /* Erst NACH den Tests (die prüfen Quelltexte und vergleichen erzeugte Seiten mit den Dateien), nur im Netlify-Build:
+     minimieren, Hashes für den minimierten Inhalt neu schreiben, <img> mit AVIF-Quelle hüllen.
+     Die Schritte selbst sind in tests/performance-budget.test.js abgesichert. */
+  { name: "CSS/JS minimieren", cmd: "node scripts/minify.js" },
+  { name: "Asset-Versionen für minimierte Dateien", cmd: "node scripts/assets-version.js" },
+  { name: "Bilder: AVIF-Quellen (<picture>, WebP als Rückfall)", cmd: "node scripts/bilder-picture.js" },
 ];
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
@@ -149,7 +155,7 @@ async function neueBilderAnhaengen(root, bilder, seiten) {
     const klein = dateien[0][1], gross = dateien[dateien.length - 1][1];
     let li = vorlageM[0];
     li = li.replace(/<a href="[^"]*">/, `<a href="${gross}">`);
-    li = li.replace(/<img[^>]*>/, `<img src="${klein}" srcset="${dateien.map(([g, p]) => p + " " + g + "w").join(", ")}" width="${b.breite || 800}" height="${b.hoehe || 600}" alt="${esc(b.alt || b.titel || "")}" loading="lazy" decoding="async">`);
+    li = li.replace(/<img\b[^>]*>/, `<img src="${klein}" srcset="${dateien.map(([g, p]) => p + " " + g + "w").join(", ")}" width="${b.breite || 800}" height="${b.hoehe || 600}" alt="${esc(b.alt || b.titel || "")}" loading="lazy" decoding="async">`);
     li = li.replace(/<figcaption>[\s\S]*?<\/figcaption>/, `<figcaption><strong>${esc(b.titel || "")}</strong>${b.alt ? " – " + esc(b.alt) : ""}</figcaption>`);
     eingefuegt += "\n          " + li; n++;
   }

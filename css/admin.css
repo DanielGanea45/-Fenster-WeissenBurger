@@ -720,3 +720,12 @@ h3 { font-size: 14px; }
   .bel-kette__pfeil { display: none; }
   .bel-export__btns { margin-left: 0; }
 }
+
+/* Lade-Platzhalter (Skelett) und Nachladen */
+.skelett { display: flex; flex-direction: column; gap: 12px; }
+.skelett__kopf { height: 26px; width: min(320px, 60%); border-radius: 8px; background: var(--panel-2); animation: pulse 1.2s infinite; }
+.skelett__block { min-height: 220px; animation: pulse 1.2s infinite; }
+.kpi.skeleton { min-height: 84px; animation: pulse 1.2s infinite; }
+.kpi.skeleton .value, .kpi.skeleton .kpi__head { background: var(--panel-2); border-radius: 6px; min-width: 60px; }
+.skelett-zeile { height: 40px; border-radius: 8px; background: var(--panel-2); animation: pulse 1.2s infinite; }
+.mehr-laden { align-self: center; }
