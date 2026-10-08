@@ -1,3 +1,3 @@
-# Automatisch erzeugt von scripts/headers.js – nicht von Hand bearbeiten. Variante: streng (ohne Chat)
+# Automatisch erzeugt von scripts/headers.js – nicht von Hand bearbeiten.
 /*
   Content-Security-Policy: default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'sha256-iI6R5uwJVQojgZLUEcPZSFv4d5Dx3yu48qFGa6t/lhU='; script-src 'self'; connect-src 'self' https://eu.frcapi.com https://global.frcapi.com; worker-src 'self' blob:; font-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'

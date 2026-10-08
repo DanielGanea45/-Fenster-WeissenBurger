@@ -10,7 +10,9 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 
 /* bilder = sofort geladene Bilder (ohne loading="lazy") + Poster; bilderGesamt = kleinste Variante aller Bilder der Seite */
-const BUDGET = { js: 110 * 1024, css: 80 * 1024, bilder: 450 * 1024, bilderGesamt: 1024 * 1024, html: 120 * 1024 };
+/* js: Quelltextgröße vor der Minimierung. 125 kB = Konfigurator-Seiten (Rechner, Bildwahl, Konfigurator, Hauptskript, Übergang)
+   plus der KI-Assistent, der auf jeder Seite liegt (≈16 kB Quelle, ≈6 kB minimiert und komprimiert; sein Stylesheet lädt er nur bei Bedarf). */
+const BUDGET = { js: 125 * 1024, css: 80 * 1024, bilder: 450 * 1024, bilderGesamt: 1024 * 1024, html: 120 * 1024 };
 const SEITEN = ["index.html", "produkte/index.html", "leistungen/index.html", "referenzen/index.html", "impressum.html", "datenschutz.html", "konfigurator/fenster/index.html", "konfigurator/haustuer/index.html"]
   .concat(fs.readdirSync(path.join(ROOT, "produkte"), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => `produkte/${e.name}/index.html`))
   .concat(fs.readdirSync(path.join(ROOT, "einsatzgebiet"), { withFileTypes: true }).filter((e) => e.isDirectory()).slice(0, 3).map((e) => `einsatzgebiet/${e.name}/index.html`))
@@ -80,7 +82,7 @@ test("Admin: Startbündel schlank, große Bereiche als nachladbare Module, Zwisc
   const html = fs.readFileSync(path.join(ROOT, "admin/index.html"), "utf8");
   const eager = [...html.matchAll(/<script(?![^>]*type="fw\/modul")[^>]*\ssrc="([^"]+)"/g)].map((m) => m[1].split("?")[0]);
   const lazy = [...html.matchAll(/<script[^>]*type="fw\/modul"[^>]*data-modul="([^"]+)"[^>]*src="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(lazy.sort(), ["belege", "einstellungen", "produkte", "texte"]);
+  assert.deepEqual(lazy.sort(), ["assistent", "belege", "einstellungen", "produkte", "texte"]);
   const bytes = eager.reduce((a, f) => a + groesse(path.join(ROOT, f)), 0);
   assert.ok(bytes <= 170 * 1024, `Admin-Startbündel ${Math.round(bytes / 1024)} kB > 170 kB`);
   assert.ok(!eager.some((f) => /admin-(belege|einstellungen|produkte)/.test(f)), "Module nicht eager");

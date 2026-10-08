@@ -48,7 +48,8 @@ const ls = indexHtml.indexOf('      <span class="brand__box">');
 const le = indexHtml.indexOf("</span>\n    </a>", ls) + "</span>".length;
 const LOGO = indexHtml.slice(ls, le).trim();
 const v = (name) => { const m = indexHtml.match(new RegExp(name.replace(".", "\\.") + "\\?v=([\\w.-]+)")); return m ? m[1] : "1"; }; // Versionen sind Inhalts-Hashes (scripts/assets-version.js)
-const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js"), chat: v("chat.js"), config: v("config.js") };
+const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js"), assistent: v("assistent.js"), assistentCss: v("assistent.css"), config: v("config.js") };
+const ASSISTENT_TAG = require(path.join(__dirname, "assistent-tag.js")).tag(einst, "/", V.assistent, V.assistentCss);
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "<").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const linkHidden = status === "online" ? "" : " hidden";
 
@@ -135,7 +136,7 @@ function footer(barHtml) {
   ${barHtml || ""}
   <script src="/js/config.js?v=${V.config}" defer></script>
   <script src="/js/main.js?v=${V.main}" defer></script>
-  <script src="/js/chat.js?v=${V.chat}" defer></script>
+  ${ASSISTENT_TAG}
 </body>
 </html>
 `;
@@ -157,7 +158,7 @@ function pageSoon(key) {
         <p class="lead">Unser Online-Konfigurator für Fenster ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>`
           : `<h1 class="title" id="h1">Haustür-Konfigurator <em>in Vorbereitung.</em></h1>
         <p class="lead">Den Online-Konfigurator für Haustüren bereiten wir gerade vor. Ihr Angebot erstellen wir Ihnen bis dahin persönlich: ein Anruf oder eine Nachricht über das Kontaktformular genügt.</p>`}
-        <div class="actions" style="justify-content:center">
+        <div class="actions actions--mitte">
           <a class="btn btn--primary" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel">${firmaLib.esc(einst.firma.telefon)}</a>
           <a class="btn btn--ghost" href="/#kontakt">Kostenloses Aufmaß anfragen</a>
         </div>

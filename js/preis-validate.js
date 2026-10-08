@@ -165,8 +165,14 @@
       if (str(bn.von) && !DATUM.test(str(bn.von))) add("website.banner.von", "Datum im Format JJJJ-MM-TT.");
       if (str(bn.bis) && !DATUM.test(str(bn.bis))) add("website.banner.bis", "Datum im Format JJJJ-MM-TT.");
       if (str(bn.von) && str(bn.bis) && str(bn.bis) < str(bn.von)) add("website.banner.bis", "Ende liegt vor dem Beginn.");
-      if (w.liveChat !== undefined && typeof w.liveChat !== "boolean") add("website.liveChat", "Schalter an/aus.");
       if (str(w.whatsapp) && !/^\+?[\d\s()\/-]{8,24}$/.test(str(w.whatsapp))) add("website.whatsapp", "WhatsApp-Nummer prüfen (Ziffern, z. B. +49 176 81338935).");
+    }
+    if (e.assistent !== undefined) {
+      var as = e.assistent || {};
+      if (as.aktiv !== undefined && typeof as.aktiv !== "boolean") add("assistent.aktiv", "Schalter an/aus.");
+      if (as.monatslimitEuro !== undefined && !(typeof as.monatslimitEuro === "number" && isFinite(as.monatslimitEuro) && as.monatslimitEuro >= 0 && as.monatslimitEuro <= 10000)) add("assistent.monatslimitEuro", "Bitte einen Betrag von 0 bis 10.000 € angeben.");
+      if (as.tageslimit !== undefined && !ganz(as.tageslimit, 0, 100000)) add("assistent.tageslimit", "Bitte eine ganze Zahl angeben (Nachrichten pro Tag).");
+      if (str(as.alarmEmail) && !EMAIL.test(str(as.alarmEmail))) add("assistent.alarmEmail", "E-Mail-Adresse prüfen.");
     }
     return f;
   }
@@ -202,7 +208,7 @@
     return Math.round((a - b) / 86400000);
   }
   /* Zweige, deren Änderung die Website verändert (→ automatische Veröffentlichung) */
-  var ZWEIGE_WEBSITE = ["konfigurator", "steuer", "firma", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website"];
+  var ZWEIGE_WEBSITE = ["konfigurator", "steuer", "firma", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website", "assistent"];
 
   return { validierePreise: validierePreise, validiereEinstellungen: validiereEinstellungen, ibanGueltig: ibanGueltig, tageBis: tageBis, validiereProdukte: validiereProdukte, STATUS: STATUS, ZWEIGE_WEBSITE: ZWEIGE_WEBSITE };
 });

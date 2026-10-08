@@ -9,6 +9,7 @@ const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
 const produkteLib = require(path.join(root, "netlify/functions/_lib/produkte"));
 const produkte = JSON.parse(fs.readFileSync(path.join(root, "data/produkte.json"), "utf8"));
 const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
+const ASSISTENT_TAG = require(path.join(__dirname, "assistent-tag.js")).tag(einst, "/", 3, 1);
 const SITE = "https://fenster-weissenburger.de";
 /* Partner- und Tabellenhinweis je Seite mit eigener Formulierung (Text-Duplikate zwischen Seiten vermeiden, scripts/text-duplikate.js) */
 const PARTNER = {
@@ -359,7 +360,7 @@ function footer() {
   </div>
   <script src="/js/config.js?v=1" defer></script>
   <script src="/js/main.js?v=3" defer></script>
-  <script src="/js/chat.js?v=3" defer></script>
+  ${ASSISTENT_TAG}
 </body>
 </html>
 `;

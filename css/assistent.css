@@ -1,0 +1,65 @@
+/* KI-Assistent „Daniel“ – wird von js/assistent.js nur geladen, wenn der Assistent aktiv ist (Markierung CSSV = Versionskennung aus scripts/assets-version.js). */
+:root { --ki-unten: 0px; }
+.ki-fab { position: fixed; right: 16px; bottom: calc(var(--ki-unten) + 14px + env(safe-area-inset-bottom)); z-index: 32; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px 0 14px; border: 0; border-radius: 999px; background: var(--accent); color: #fff; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(11, 94, 215, .35), 0 2px 6px rgba(0, 0, 0, .15); }
+.ki-fab:hover, .ki-fab:focus-visible { background: var(--accent-hover); }
+.ki-fab:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.ki-fab__kurz { display: none; }
+.ki-badge { display: inline-grid; place-items: center; min-width: 26px; height: 20px; padding: 0 6px; border-radius: 6px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .06em; vertical-align: middle; }
+.ki-panel, .ki-dialog { position: fixed; right: 16px; z-index: 33; background: var(--surface); color: var(--ink); border: 1px solid var(--line); text-shadow: none; }
+.ki-panel { bottom: calc(var(--ki-unten) + 72px + env(safe-area-inset-bottom)); width: min(380px, calc(100vw - 32px)); padding: 16px 18px 18px; border-radius: 16px; box-shadow: 0 18px 48px rgba(27, 36, 48, .22); }
+.ki-panel__kopf, .ki-dialog__kopf { display: flex; justify-content: space-between; gap: 8px; }
+.ki-panel__kopf { align-items: center; }
+.ki-panel__titel { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.ki-panel__zu, .ki-dialog__zu { width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--ink-2); font-size: 26px; line-height: 1; cursor: pointer; flex: none; }
+.ki-panel__zu:hover, .ki-panel__zu:focus-visible { background: var(--accent-soft); color: var(--accent); }
+.ki-panel__text { margin: 10px 0 0; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+.ki-panel__text a, .ki-panel__alt a, .ki-dialog__fuss a { color: var(--accent); font-weight: 600; }
+.ki-panel__aktionen { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.ki-panel__aktionen .btn, .ki-dialog__senden, .ki-dialog__eingabe { min-height: 44px; }
+.ki-panel .btn--ghost, .ki-dialog .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.ki-panel__alt { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--ink-2); }
+.ki-dialog { z-index: 34; bottom: calc(var(--ki-unten) + 14px + env(safe-area-inset-bottom)); width: min(420px, calc(100vw - 32px)); height: min(640px, calc(100vh - var(--ki-unten) - 40px - env(safe-area-inset-bottom))); display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; box-shadow: 0 24px 64px rgba(27, 36, 48, .28); }
+.ki-dialog[hidden] { display: none; }
+.ki-dialog__kopf { align-items: flex-start; padding: 14px 14px 12px 18px; background: var(--accent); color: #fff; }
+.ki-dialog__kopf .ki-dialog__zu { color: #fff; }
+.ki-dialog__kopf .ki-dialog__zu:hover, .ki-dialog__kopf .ki-dialog__zu:focus-visible { background: rgba(255, 255, 255, .18); }
+.ki-dialog__titelzeile { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ki-dialog__titel { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; }
+.ki-dialog__kopf .ki-badge { background: rgba(255, 255, 255, .22); }
+.ki-dialog__sub { margin: 2px 0 0; font-size: 12px; opacity: .9; }
+.ki-dialog__verlauf, .ki-dialog__chips, .ki-dialog__status { background: var(--bg); }
+.ki-dialog__verlauf { flex: 1 1 auto; overflow-y: auto; padding: 14px 14px 6px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+.ki-msg { max-width: 92%; display: flex; flex-direction: column; gap: 4px; align-self: flex-start; }
+.ki-msg--nutzer { align-self: flex-end; align-items: flex-end; }
+.ki-msg__wer { font-size: 11px; font-weight: 700; color: var(--ink-3); letter-spacing: .02em; }
+.ki-msg__text { padding: 9px 12px; border-radius: 14px; font-size: 14.5px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--surface); border: 1px solid var(--line); }
+.ki-msg--nutzer .ki-msg__text { background: var(--accent); color: #fff; border-color: var(--accent); }
+.ki-msg__links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.ki-msg__links .btn { min-height: 38px; padding: 0 12px; font-size: 13.5px; }
+.ki-punkte { display: inline-flex; gap: 4px; align-items: center; height: 18px; }
+.ki-punkte i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); animation: ki-punkt 1s infinite ease-in-out; }
+.ki-punkte i:nth-child(2) { animation-delay: .15s; }
+.ki-punkte i:nth-child(3) { animation-delay: .3s; }
+@keyframes ki-punkt { 0%, 80%, 100% { opacity: .3; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+.ki-dialog__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px 0; }
+.ki-dialog__chips:empty { display: none; }
+.ki-chip { border: 1px solid var(--accent); background: var(--surface); color: var(--accent); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; min-height: 34px; }
+.ki-chip:hover, .ki-chip:focus-visible { background: var(--accent); color: #fff; }
+.ki-dialog__status { margin: 0; padding: 6px 16px 0; font-size: 12.5px; color: var(--ink-2); }
+.ki-dialog__form { display: flex; gap: 8px; align-items: flex-end; padding: 10px 12px; border-top: 1px solid var(--line); background: var(--surface); position: relative; }
+.ki-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.ki-dialog__eingabe { flex: 1 1 auto; max-height: 120px; resize: none; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 12px; font: inherit; font-size: 15px; line-height: 1.4; color: var(--ink); background: #fff; }
+.ki-dialog__eingabe:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ki-dialog__senden { flex: none; }
+.ki-dialog__fuss { margin: 0; padding: 0 14px 10px; font-size: 11.5px; line-height: 1.4; color: var(--ink-3); background: var(--surface); }
+@media (max-width: 899px) { .ki-fab { padding: 0 16px 0 12px; } .ki-fab__lang { display: none; } .ki-fab__kurz { display: inline; } }
+@media (max-width: 599px) {
+  .ki-dialog { inset: 0; width: auto; height: auto; border-radius: 0; border: 0; }
+  html.ki-offen, html.ki-offen body { overflow: hidden; }
+  .ki-dialog__kopf { padding-top: calc(12px + env(safe-area-inset-top)); }
+  .ki-dialog__form { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: no-preference) { .ki-panel, .ki-dialog { animation: ki-auf .18s ease-out; } @keyframes ki-auf { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } } }
+.ki-dialog__kopf, .ki-dialog__chips, .ki-dialog__status, .ki-dialog__form, .ki-dialog__fuss { flex: none; } /* nur der Verlauf wächst/schrumpft */
+@media (max-width: 599px) { .ki-dialog__titel { font-size: 15px; } }
+.ki-dialog__kopf, .ki-dialog__kopf .ki-dialog__titel, .ki-dialog__kopf .ki-dialog__sub { color: #fff; } /* auch auf Seiten mit eigener Absatzfarbe */
