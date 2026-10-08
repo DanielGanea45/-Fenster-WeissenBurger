@@ -1,5 +1,6 @@
 /* Tests: Anfrageformulare – E-Mail Pflicht (Telefon optional), „Worum geht es?“, Benachrichtigung/Bestätigung/Admin,
-   Assistent verlangt die E-Mail, Datenschutz, keine Reste der alten Regel „Telefon oder E-Mail“.
+   Assistent verlangt die E-Mail, Datenschutz, keine Reste der alten Regel „Telefon oder E-Mail“; Versand ohne JavaScript
+   (klassisch → 303) und Ziele aller Formulare (behebt die 404-Seite nach dem Absenden); Reihenfolge der Gründe.
    Unabhängig vom Build-Umfeld: process.env wird gesichert, mit eigenen Testwerten belegt (MAIL_FROM = Empfänger der
    Benachrichtigung, BREVO_API_KEY gesetzt, aber falsch) und am Ende wiederhergestellt; Brevo wird nie kontaktiert.
    Keine festen Admin-Werte aus data/*.json. */
@@ -38,6 +39,9 @@ test.beforeEach(async () => { mail.protokoll.length = 0; await store.setJSON("da
 
 const ev = (form, fields) => ({ httpMethod: "POST", headers: { host: "fensterweissenburgerdaniel.netlify.app", "user-agent": "test" }, body: JSON.stringify({ form, fields: Object.assign({ ts: String(Date.now() - 5000), js: "1", datenschutz: "ja" }, fields) }) });
 const call = async (form, fields) => JSON.parse((await anfrage.handler(ev(form, fields))).body);
+/* Klassischer Versand ohne JavaScript: application/x-www-form-urlencoded, kein ts/js */
+const evKlassisch = (form, felder) => { const p = new URLSearchParams(Object.assign({ "form-name": form, datenschutz: "ja" }, felder)); return { httpMethod: "POST", headers: { host: "fensterweissenburgerdaniel.netlify.app", "content-type": "application/x-www-form-urlencoded", "user-agent": "test" }, body: p.toString() }; };
+/* Eintrag im Admin-Speicher über den Inhalt finden – nie über die Sortierung der Kennungen */
 async function eintragMit(pruefung) { const alle = []; for (const k of await store.list("anfragen/")) alle.push(await store.getJSON(k, null)); return alle.find((e) => e && pruefung(e.felder || {})) || null; }
 async function anzahlEintraege() { return (await store.list("anfragen/")).length; }
 
@@ -124,6 +128,65 @@ test("Formulare: E-Mail * Pflicht, Telefon (optional), „Worum geht es?“ mit 
   assert.ok(/Name, E-Mail-Adresse, Postleitzahl, Anliegen, Nachricht sowie – freiwillig – Ihre Telefonnummer/.test(ds) && /Eingangsbestätigung/.test(ds) && !/mindestens ein/.test(ds), "Datenschutz Abschnitt 5");
 });
 test("Repo-weit: die alte Regel „Telefon oder E-Mail“ kommt nirgends mehr vor (0 Treffer für die alte Formulierung in allen versionierten Dateien)", () => {
+  const dateien = execSync("git ls-files", { cwd: ROOT, encoding: "utf8" }).split(/\r?\n/).filter((f) => f && !/\.(png|webp|jpg|jpeg|svg|ico|woff2?|pdf)$/i.test(f) && f !== "tests/kontakt-email.test.js");
+  const muster = "mindestens" + " eine"; // nicht als Literal, damit diese Datei selbst sauber bleibt
+  const treffer = [];
+  for (const f of dateien) { const p = path.join(ROOT, f); if (!fs.existsSync(p) || fs.statSync(p).isDirectory()) continue; const s = fs.readFileSync(p, "utf8"); let i = s.indexOf(muster); while (i >= 0) { treffer.push(f + ": …" + s.slice(Math.max(0, i - 30), i + 40).replace(/\s+/g, " ") + "…"); i = s.indexOf(muster, i + 1); } }
+  assert.deepEqual(treffer, [], "Reste der alten Regel");
+});
+test("Assistent: anfrage_vorbereiten und an_daniel_uebergeben verlangen die E-Mail-Adresse (Telefon freiwillig)", async () => {
+  const event = { headers: { host: "fensterweissenburgerdaniel.netlify.app", "x-nf-client-connection-ip": "203.0.113.77" } };
+  let r = await A.werkzeug("anfrage_vorbereiten", { anliegen: "3 Fenster", plz: "85049" }, {}, {}, event);
+  assert.equal(r.ok, false); assert.match(r.fehler, /E-Mail-Adresse/);
+  r = await A.werkzeug("anfrage_vorbereiten", { email: "falsch", anliegen: "3 Fenster" }, {}, {}, event); assert.equal(r.ok, false); assert.match(r.fehler, /ungültig/);
+  r = await A.werkzeug("anfrage_vorbereiten", { email: "kunde@example.de", anliegen: "3 Fenster", plz: "85049", name: "Kunde" }, {}, {}, event);
+  assert.equal(r.ok, true); assert.ok(r.link.includes("email=kunde%40example.de") && r.link.includes("plz=85049") && r.link.endsWith("#kontakt"), r.link);
+  r = await A.werkzeug("an_daniel_uebergeben", { zustimmung: true, name: "Erika Muster", telefon: "0841 1", plz: "85049", anliegen: "Angebot für 3 Fenster" }, {}, {}, event);
+  assert.equal(r.ok, false); assert.match(r.fehler, /E-Mail-Adresse/);
+  assert.ok(/E-Mail-Adresse \(Pflicht/.test(lies("netlify/functions/_lib/assistent.js")), "Regel im Systemtext");
+  /* Vorbelegung im Formular: js/main.js übernimmt email aus dem Link */
+  assert.ok(/\["name", "telefon", "email", "plz", "nachricht"\]/.test(lies("js/main.js")), "Vorbelegung inkl. E-Mail");
+});
+
+/* ---------- Versand ohne JavaScript (klassisch) und Ziele aller Formulare – behebt die 404-Seite nach dem Absenden ---------- */
+test("Klassischer Versand (application/x-www-form-urlencoded, ohne ts/js): 303 auf /danke.html, Anfrage gespeichert, Benachrichtigung + Bestätigung; Fehler → 303 auf /anfrage-fehler.html#grund; nie JSON, nie 404", async () => {
+  let r = await anfrage.handler(evKlassisch("kontakt", { name: "Ohne Skript", plz: "85049", email: "ohne@example.de", anliegen: "Haustür", nachricht: "klassisch" }));
+  assert.equal(r.statusCode, 303); assert.equal(r.headers.Location, "/danke.html"); assert.ok(fs.existsSync(path.join(ROOT, "danke.html")));
+  const e = await eintragMit((f) => f.email === "ohne@example.de"); assert.ok(e, "Eintrag im Admin-Speicher"); assert.equal(e.felder.anliegen, "Haustür"); assert.equal(e.felder["form-name"], undefined);
+  const an = mail.protokoll.map((m) => m.to); assert.ok(an.includes(FIRMA_MAIL) && an.includes("ohne@example.de"), "Benachrichtigung + Bestätigung: " + an.join(","));
+  r = await anfrage.handler(evKlassisch("kontakt", { name: "Ohne Mail", plz: "85049" })); assert.equal(r.statusCode, 303); assert.equal(r.headers.Location, "/anfrage-fehler.html#email");
+  r = await anfrage.handler(evKlassisch("kontakt", { name: "Falsche Mail", plz: "85049", email: "x" })); assert.equal(r.headers.Location, "/anfrage-fehler.html#email");
+  r = await anfrage.handler(evKlassisch("kontakt", { name: "", plz: "85049", email: "a@example.de" })); assert.equal(r.headers.Location, "/anfrage-fehler.html#felder");
+  r = await anfrage.handler(evKlassisch("kontakt", { name: "Bot", plz: "85049", email: "bot@example.de", "bot-field": "x" })); assert.equal(r.headers.Location, "/danke.html", "Honigtopf: sieht nach Erfolg aus"); assert.equal(await eintragMit((f) => f.email === "bot@example.de"), null, "Honigtopf: nichts gespeichert");
+  r = await anfrage.handler(evKlassisch("kontakt", { name: "Zu schnell", plz: "85049", email: "schnell@example.de", ts: String(Date.now()) })); assert.equal(r.headers.Location, "/anfrage-fehler.html#zeit", "mit Zeitstempel gilt die Mindestzeit auch klassisch");
+  r = await anfrage.handler(evKlassisch("unbekannt", { name: "X" })); assert.equal(r.statusCode, 303); assert.equal(r.headers.Location, "/anfrage-fehler.html#technik");
+  /* JSON-Weg unverändert */
+  r = await call("kontakt", { name: "Mit Skript", plz: "85049", email: "mit@example.de" }); assert.deepEqual(r, { ok: true });
+  r = await call("kontakt", { name: "Mit Skript", plz: "85049" }); assert.equal(r.feld, "email"); assert.equal(r.meldung, MELDUNG_LEER);
+  /* Fehlerseite: Gründe als Anker, noindex, Rückweg und Telefon */
+  const fs_ = lies("anfrage-fehler.html");
+  for (const id of ["email", "felder", "zeit", "captcha", "technik"]) assert.ok(fs_.includes(`<p id="${id}" class="fehler-grund">`), "Fehlerseite: Grund " + id);
+  assert.ok(/noindex/.test(fs_) && fs_.includes('href="/#kontakt"') && /data-firma="tel"/.test(fs_) && !/<style/.test(fs_.replace(/<svg[\s\S]*?<\/svg>/g, "")), "Fehlerseite: noindex, Rückweg, Telefon, kein Inline-Stil");
+  assert.ok(lies("css/style.css").includes(".fehler-grund:target { display: block; }"), "Grund per CSS-Anker sichtbar");
+  assert.equal(brevoAufrufe, 0);
+});
+test("Reihenfolge der Gründe: fehlende E-Mail gewinnt immer (auch wenn Name/PLZ/Datenschutz zusätzlich fehlen) → klassisch #email, JSON feld email; erst mit E-Mail melden sich die übrigen Pflichtfelder (#felder)", async () => {
+  const faelle = [{ name: "", plz: "", datenschutz: "" }, { name: "Nur Name" }, { plz: "85049", datenschutz: "" }, { name: "A", plz: "85049", datenschutz: "" }];
+  for (const extra of faelle) {
+    const p = new URLSearchParams(Object.assign({ "form-name": "kontakt" }, extra));
+    const r = await anfrage.handler({ httpMethod: "POST", headers: { host: "fensterweissenburgerdaniel.netlify.app", "content-type": "application/x-www-form-urlencoded", "user-agent": "test" }, body: p.toString() });
+    assert.equal(r.statusCode, 303, JSON.stringify(extra)); assert.equal(r.headers.Location, "/anfrage-fehler.html#email", "klassisch ohne E-Mail: " + JSON.stringify(extra));
+    const j = await call("kontakt", Object.assign({ datenschutz: "" }, extra)); assert.deepEqual([j.ok, j.feld, j.meldung], [false, "email", MELDUNG_LEER], "JSON ohne E-Mail: " + JSON.stringify(extra));
+  }
+  /* mit E-Mail, aber ohne Datenschutz/Name → felder (nicht email) */
+  let r = await anfrage.handler(evKlassisch("kontakt", { name: "A", plz: "85049", email: "a@example.de", datenschutz: "" })); assert.equal(r.headers.Location, "/anfrage-fehler.html#felder");
+  r = await call("kontakt", { name: "", plz: "85049", email: "a@example.de" }); assert.deepEqual([r.ok, r.reason, r.feld], [false, "felder", "name"]);
+  /* Konfigurator: ebenfalls E-Mail zuerst */
+  r = await call("angebot-konfigurator", { name: "", plz: "" }); assert.equal(r.feld, "email");
+  /* Fehlerseite zeigt bei #email nur den E-Mail-Hinweis (CSS :target) */
+  assert.ok(lies("css/style.css").includes(".fehler-grund:target ~ .fehler-allgemein { display: none; }"));
+});
+test("Alle Formulare zeigen auf die Function, jedes Erfolgsziel existiert, kein data-netlify mehr, main.js leitet auf data-danke und fällt nie auf einen klassischen Zweitversand zurück", () => {
   const dateien = execSync("git ls-files", { cwd: ROOT, encoding: "utf8" }).split(/\r?\n/).filter((f) => /\.html$/.test(f) && !/^(admin|docs)\//.test(f));
   let formulare = 0;
   for (const f of dateien) {
@@ -135,13 +198,13 @@ test("Repo-weit: die alte Regel „Telefon oder E-Mail“ kommt nirgends mehr vo
       assert.match(tag, /data-anfrage/, f + ": data-anfrage");
       const danke = (tag.match(/data-danke="([^"]*)"/) || [])[1]; assert.ok(danke && fs.existsSync(path.join(ROOT, danke)), f + ": Zielseite existiert: " + danke);
     }
-    for (const m of h.matchAll(/<p class="hp"><label>Bitte leer lassen: <input name="bot-field"/g)) assert.ok(m, f + ": Honigtopf");
+    assert.ok(!/<form\b[^>]*name="(kontakt|anfrage-[a-z]+|bewertung|angebot-konfigurator)"/.test(h) || h.includes('<p class="hp"><label>Bitte leer lassen: <input name="bot-field"'), f + ": Honigtopf");
   }
   assert.ok(formulare >= 10, "Formulare gefunden: " + formulare);
   for (const g of ["scripts/build-orte.js", "scripts/build-produkte.js", "scripts/build-konfigurator.js"]) assert.ok(lies(g).includes('action="/.netlify/functions/anfrage" data-anfrage data-danke="/danke.html"') && !lies(g).includes("data-netlify"), g);
   const js = lies("js/main.js");
   assert.ok(js.includes('querySelectorAll("form[data-anfrage]")') && js.includes('form.getAttribute("data-danke")') && !js.includes("HTMLFormElement.prototype.submit.call") && !/data-netlify/.test(js), "main.js");
-  assert.ok(lies("js/konfigurator.js").includes('form[data-anfrage]'), "konfigurator.js");
+  assert.ok(lies("js/konfigurator.js").includes("form[data-anfrage]"), "konfigurator.js");
   assert.ok(!/forwardToNetlifyForms|weiterleitung/.test(lies("netlify/functions/anfrage.js")), "keine Weiterleitung an Netlify Forms mehr");
-  assert.ok(/noindex/.test(lies("danke.html")) && /Vielen Dank für Ihre Anfrage/.test(lies("danke.html")) && /data-firma="tel"/.test(lies("danke.html")), "Dankeseite");
+  assert.ok(/noindex/.test(lies("danke.html")) && /Vielen Dank für Ihre Anfrage/.test(lies("danke.html")) && /data-firma="tel"/.test(lies("danke.html")) && /Produkte<\/a>/.test(lies("danke.html")), "Dankeseite");
 });

@@ -181,16 +181,17 @@ exports.handler = async (event) => {
   }
 
   /* 4) Pflichtfelder grob prüfen (echte Validierung macht der Browser; hier nur Schutz vor leeren Bot-Posts). */
-  const required = formName === "bewertung" ? ["name", "ort", "text", "kunde", "datenschutz"]
-    : formName === "angebot-konfigurator" ? ["name", "plz", "datenschutz", "konfiguration"]
-    : ["name", "plz", "datenschutz"];
-  for (const k of required) if (!String(fields[k] || "").trim()) return json(200, { ok: false, reason: "felder", feld: k });
-  /* E-Mail ist Pflicht (Telefon freiwillig) – ohne gültige Adresse wird nichts gespeichert und nichts gesendet */
+  /* E-Mail ist Pflicht (Telefon freiwillig) und wird VOR den übrigen Pflichtfeldern geprüft: Fehlt sie, lautet der Grund
+     immer „email“ (klassischer Versand → Fehlerseite #email), auch wenn zusätzlich andere Felder leer sind. */
   if (formName !== "bewertung") {
     const mailAdr = String(fields.email || "").trim();
     if (!mailAdr) return json(200, { ok: false, reason: "felder", feld: "email", meldung: "Bitte geben Sie Ihre E-Mail-Adresse ein." });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mailAdr)) return json(200, { ok: false, reason: "felder", feld: "email", meldung: "Bitte geben Sie eine gültige E-Mail-Adresse ein." });
   }
+  const required = formName === "bewertung" ? ["name", "ort", "text", "kunde", "datenschutz"]
+    : formName === "angebot-konfigurator" ? ["name", "plz", "datenschutz", "konfiguration"]
+    : ["name", "plz", "datenschutz"];
+  for (const k of required) if (!String(fields[k] || "").trim()) return json(200, { ok: false, reason: "felder", feld: k });
 
   /* 4b) Konfigurator: Preis serverseitig neu berechnen und mitspeichern. */
   let weiter = fields;

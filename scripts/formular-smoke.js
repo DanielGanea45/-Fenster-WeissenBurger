@@ -158,7 +158,9 @@ function zieleStatisch(befunde) {
   {
     const p = await browser.newPage(); await p.setViewport({ width: 390, height: 844, isMobile: true }); await p.setJavaScriptEnabled(false);
     await p.goto(base + "/#kontakt", { waitUntil: "load" });
-    const F = "form[name=kontakt]"; const el = await p.$(F + " input[name=name]"); await el.type("Ohne Mail"); await (await p.$(F + " input[name=plz]")).type("85049"); await (await p.$(F + " input[name=datenschutz]")).click();
+    const F = "form[name=kontakt]"; const el = await p.$(F + " input[name=name]"); await el.type("Ohne Mail"); await (await p.$(F + " input[name=plz]")).type("85049");
+    /* Datenschutz sicher setzen (ein Klick kann unter der festen Leiste der Startseite danebentreffen); der Grund muss trotzdem „email“ lauten – die Function prüft die E-Mail zuerst */
+    const ds = await p.$(F + " input[name=datenschutz]"); await ds.click(); if ((await ds.evaluate((e) => e.checked)) === false) await ds.evaluate((e) => { e.checked = true; });
     const nav = p.waitForNavigation({ waitUntil: "load", timeout: 20000 }); await (await p.$(F + " button[type=submit]")).click(); await nav;
     const u = new URL(p.url()); const sichtbar = await p.evaluate(() => { const e = document.getElementById("email"); return e ? getComputedStyle(e).display : "fehlt"; });
     const ok = u.pathname === "/anfrage-fehler.html" && u.hash === "#email" && sichtbar === "block";
