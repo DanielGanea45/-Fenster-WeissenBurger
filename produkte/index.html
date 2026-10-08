@@ -18,7 +18,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=19b559f1">
+  <link rel="stylesheet" href="/css/style.css?v=86a0f5f9">
   <link rel="stylesheet" href="/css/uebergang.css?v=fc98a2d2">
   <script src="/js/uebergang.js?v=478247c7"></script>
   <link rel="stylesheet" href="/css/leistungen.css?v=7ab5d8d3">
@@ -226,15 +226,20 @@
             <label for="f-name">Name *</label>
             <input id="f-name" name="name" type="text" required autocomplete="name">
           </div>
-          <div class="form__grid">
+          <div class="form__grid form__grid--kontakt">
             <div class="form__row">
-              <label for="f-tel">Telefon *</label>
-              <input id="f-tel" name="telefon" type="tel" required autocomplete="tel" inputmode="tel">
+              <label for="f-tel">Telefon</label>
+              <input id="f-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel">
             </div>
             <div class="form__row">
-              <label for="f-plz">PLZ *</label>
-              <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
+              <label for="f-mail">E-Mail</label>
+              <input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email">
             </div>
+          </div>
+          <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
+          <div class="form__row">
+            <label for="f-plz">PLZ *</label>
+            <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
           </div>
           <div class="form__row">
             <label for="f-anzahl">Anzahl Elemente</label>
@@ -270,7 +275,7 @@
     <a class="btn btn--primary" href="#anfrage">Anfrage</a>
   </div>
   <script src="/js/config.js?v=a46c3345" defer></script>
-  <script src="/js/main.js?v=c830c585" defer></script>
+  <script src="/js/main.js?v=a60a62b1" defer></script>
   <script src="/js/assistent.js?v=dfd13b6b" defer data-aktiv="0" data-whatsapp="4917681338935" data-css="/css/assistent.css?v=87824b05"></script>
 </body>
 </html>

@@ -148,6 +148,13 @@
           if (first && first.focus) first.focus();
           return;
         }
+        /* Telefon oder E-Mail – mindestens eine Angabe (beide Felder sind einzeln freiwillig) */
+        var tel = form.querySelector("input[name='telefon']"), mail = form.querySelector("input[name='email']");
+        if (tel && mail) {
+          var fehlt = !tel.value.trim() && !mail.value.trim();
+          [tel, mail].forEach(function (f) { var row = f.closest(".form__row"); if (row) row.classList.toggle("is-fehlend", fehlt); });
+          if (fehlt) { e.preventDefault(); fail("Bitte geben Sie Ihre Telefonnummer oder Ihre E-Mail-Adresse an – mindestens eines von beiden, damit wir uns bei Ihnen melden können."); tel.focus(); return; }
+        }
         if (Date.now() - Number(ts.value) < minMs) {
           e.preventDefault();
           fail("Das ging sehr schnell – bitte prüfen Sie Ihre Angaben kurz und senden Sie dann erneut.");

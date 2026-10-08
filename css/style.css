@@ -575,3 +575,7 @@ a.badge-bew__eintrag:hover { border-color: var(--accent); color: var(--ink); }
   #ueber-uns .stimmen, #ueber-uns .stimmen-titel { max-width: 1040px; }
 }
 .actions--mitte { justify-content: center; }
+/* Kontaktfelder: Telefon oder E-Mail (mindestens eines); auf schmalen Telefonen untereinander, PLZ bleibt kompakt */
+.form .form__hint, .page .form .form__hint { margin: -4px 0 12px; font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+.form__row.is-fehlend input { border-color: #a93226; box-shadow: 0 0 0 2px rgba(169, 50, 38, .15); }
+@media (max-width: 479px) { .form__grid--kontakt { grid-template-columns: 1fr; gap: 0; } }
