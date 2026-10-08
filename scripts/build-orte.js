@@ -152,12 +152,12 @@ function head(o, meta) {
 ${meta.jsonld.map((j) => `  <script type="application/ld+json"${JSON.stringify(j).includes('"LocalBusiness"') ? ' data-firma="jsonld"' : ""}>${JSON.stringify(j)}</script>`).join("\n")}
 </head>`;
 }
-function footer() {
+function footer(mitAgentur) {
   return `<footer class="legal wrap">
   <nav class="legal__nav" aria-label="Seiten"><a href="/#home">Startseite</a><a href="/produkte/">Produkte</a><a href="/leistungen/">Leistungen</a><a href="/referenzen/">Referenzen</a><a href="/einsatzgebiet/">Einsatzgebiet</a><a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a></nav>
   <nav class="legal__recht" aria-label="Rechtliches"><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutzerklärung</a><a href="/cookies.html">Cookie-Richtlinie</a></nav>
   <p class="legal__copy">© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></p>
-</footer>
+${mitAgentur ? firmaLib.agenturBlock() + "\n" : ""}</footer>
   </main>
   <div class="ctabar" aria-label="Schnellkontakt">
     <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
@@ -422,7 +422,7 @@ ${groups.map(([lk, os]) => `          <div class="lk">
       </div>
     </section>
     ${sections}
-    ${footer().replace(`<a class="btn btn--primary" href="#anfrage">Anfrage</a>`, `<a class="btn btn--primary" href="/#kontakt">Anfrage</a>`)}`;
+    ${footer(true).replace(`<a class="btn btn--primary" href="#anfrage">Anfrage</a>`, `<a class="btn btn--primary" href="/#kontakt">Anfrage</a>`)}`;
   return html;
 }
 
