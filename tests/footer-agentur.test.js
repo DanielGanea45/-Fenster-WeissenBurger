@@ -57,5 +57,6 @@ test("Logo lokal: WebP + AVIF vorhanden, 40×40 (2× Anzeigegröße 20 px), wird
   try { for (const f of ["/assets/logo/cristianweb.webp", "/assets/logo/cristianweb.avif"]) { const r = await fetch(`http://127.0.0.1:${srv.address().port}${f}`); assert.equal(r.status, 200, f); assert.ok((await r.arrayBuffer()).byteLength > 200); } } finally { srv.close(); }
   const css = lies("css/style.css");
   assert.ok(css.includes(".legal__agentur img { width: 20px; height: 20px;") && !/legal__agentur img \{[^}]*filter/.test(css), "Logo 20 px, nicht umgefärbt");
-  assert.ok(css.includes(".legal__agentur { grid-column: 1 / -1; margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; display: flex; justify-content: center; }"), "Telefon: eigene zentrierte Zeile");
+  assert.ok(css.includes(".legal__agentur { grid-column: 1 / -1; margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; display: flex; justify-content: center; }"), "eigene zentrierte Zeile");
+  assert.ok(!/legal__agentur \{[^}]*flex-end/.test(css) && !css.includes(".legal__copy { grid-column: 1 / 2; }"), "auch auf dem Desktop mittig (keine Rechtsbündigkeit, Copyright über volle Breite)");
 });
