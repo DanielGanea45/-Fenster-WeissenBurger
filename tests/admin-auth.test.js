@@ -10,7 +10,7 @@ const path = require("path");
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), "fw-admin-auth-"));
 process.env.FW_STORE_DIR = dir;
 process.env.ADMIN_SETUP_TOKEN = "test-setup-token-1234567890";
-delete process.env.NETLIFY; delete process.env.CONTEXT; delete process.env.URL;
+delete process.env.NETLIFY; delete process.env.CONTEXT; delete process.env.URL; delete process.env.BREVO_API_KEY; delete process.env.MAIL_FROM; delete process.env.MAIL_FROM_NAME; // keine echten Mail-Variablen aus dem Build
 
 const auth = require("../netlify/functions/_lib/auth");
 const http = require("../netlify/functions/_lib/http");

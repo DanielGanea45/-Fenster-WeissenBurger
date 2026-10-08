@@ -7,6 +7,11 @@ const API = "https://api.brevo.com/v3/smtp/email";
 function sender(absenderName) {
   return { name: absenderName || process.env.MAIL_FROM_NAME || "Fenster-WeissenBurger Website", email: process.env.MAIL_FROM || "info@fenster-weissenburger.de" };
 }
+/* Simulierter Versand: unter `node --test` (Node setzt NODE_TEST_CONTEXT in jedem Testprozess) oder mit FW_MAIL_SIMULIEREN=1
+   wird Brevo NIE kontaktiert – auch wenn im Build der echte BREVO_API_KEY gesetzt ist. Jede simulierte Mail landet im
+   Protokoll (für Tests: Empfänger, Absender, Antwort-an, Betreff, Text). */
+const protokoll = [];
+function simuliert() { return !!(process.env.NODE_TEST_CONTEXT || /^(1|true|ja)$/i.test(String(process.env.FW_MAIL_SIMULIEREN || ""))); }
 async function send({ to, subject, text, html, absenderName, cc, replyTo, anhaenge }) {
   const key = process.env.BREVO_API_KEY;
   if (!key) { console.log("[mail skipped] an:", to, "Betreff:", subject, anhaenge ? "Anhänge: " + anhaenge.map((a) => a.name).join(", ") : ""); return { ok: false, skipped: true }; }
@@ -14,6 +19,7 @@ async function send({ to, subject, text, html, absenderName, cc, replyTo, anhaen
   if (cc) body.cc = [{ email: cc }];
   if (replyTo) body.replyTo = { email: replyTo };
   if (anhaenge && anhaenge.length) body.attachment = anhaenge.map((a) => ({ name: a.name, content: Buffer.isBuffer(a.inhalt) ? a.inhalt.toString("base64") : String(a.inhalt) }));
+  if (simuliert()) { protokoll.push({ to, cc: cc || "", replyTo: replyTo || "", sender: body.sender, subject, text, anhaenge: (anhaenge || []).map((a) => a.name) }); return { ok: true, simuliert: true }; }
   const r = await fetch(API, { method: "POST", headers: { "api-key": key, "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body) });
   if (!r.ok) { const t = await r.text().catch(() => ""); return { ok: false, error: `Brevo ${r.status}: ${t.slice(0, 200)}` }; }
   return { ok: true };
@@ -38,4 +44,4 @@ const vorlagen = {
   veroeffentlicht: (ok, detail) => ({ subject: ok ? "Website veröffentlicht" : "Veröffentlichung fehlgeschlagen", text: ok ? `Die Website wurde erfolgreich neu veröffentlicht.\n${detail || ""}` : `Die Veröffentlichung ist fehlgeschlagen; die bisherige Version bleibt online.\n\n${detail || ""}` }),
 };
 
-module.exports = { send, vorlagen, escapeHtml };
+module.exports = { send, vorlagen, escapeHtml, protokoll, simuliert };

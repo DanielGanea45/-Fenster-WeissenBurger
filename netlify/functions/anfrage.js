@@ -101,8 +101,10 @@ async function forwardToNetlifyForms(formName, fields, event) {
 }
 
 /* Anfrage/Bewertung zusätzlich im Store speichern; Bewertungen warten dort auf Freigabe im Admin. */
+let letzteKennung = 0; // Kennungen strikt steigend, auch bei zwei Anfragen in derselben Millisekunde
+function neueKennung() { const t = Math.max(Date.now(), letzteKennung + 1); letzteKennung = t; return t + "-" + crypto.randomBytes(3).toString("hex"); }
 async function fuerAdminAblegen(formName, fields, event) {
-  const id = Date.now() + "-" + crypto.randomBytes(3).toString("hex");
+  const id = neueKennung();
   const sauber = {};
   for (const [k, v] of Object.entries(fields)) if (!["bot-field", "ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name"].includes(k)) sauber[k] = Array.isArray(v) ? v.join(", ") : String(v == null ? "" : v).slice(0, 5000);
   const konto = await store.getJSON("konto", null);
