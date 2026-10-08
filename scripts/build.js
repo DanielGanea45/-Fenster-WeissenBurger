@@ -174,10 +174,11 @@ async function neueBilderAnhaengen(root, bilder, seiten) {
 }
 
 function bewertungenSchreiben(root, liste) {
-  const frei = (Array.isArray(liste) ? liste : []).filter((b) => b.status === "freigegeben" || b.status === undefined)
-    .map((b) => ({ name: b.name, ort: b.ort, projekt: b.projekt || "", sterne: Number(b.sterne) || 5, text: b.text, datum: b.datum || "" }));
-  fs.writeFileSync(path.join(root, "data", "bewertungen.json"), JSON.stringify(frei, null, 2) + "\n");
-  return frei.length;
+  /* Vollständige Liste (mit Status, Quelle, Datum) ins Repo-Abbild – Grundlage für Seiten und als Vorgabe, solange der
+     Speicher noch nichts enthält; die Seiten erhalten über bewertungenEinsetzen nur die freigegebenen Einträge. */
+  const alle = (Array.isArray(liste) ? liste : []).map((b) => { const o = Object.assign({}, b); delete o.email; return o; });
+  fs.writeFileSync(path.join(root, "data", "bewertungen.json"), JSON.stringify(alle, null, 2) + "\n");
+  return require(path.join(LIB, "bewertungen")).oeffentlich(alle).length;
 }
 /* Google Search Console: optionale Bestätigung per Meta-Tag (Umgebungsvariable GOOGLE_SITE_VERIFICATION).
    Gesetzt → <meta name="google-site-verification"> im <head> jeder öffentlichen Seite; nicht gesetzt → nichts. Idempotent. */
@@ -257,6 +258,7 @@ async function lauf(opt = {}) {
       const nBew = bewertungenSchreiben(root, bew);
       redirectsSchreiben(root, repoEinst);
       const nF = firmaEinsetzen.lauf(root, repoEinst);
+      { const rB = require(path.join(__dirname, "bewertungen-einsetzen.js")).lauf(root, bew, repoEinst); log(`Bewertungen eingesetzt: ${rB.marker} Markierungen, ${rB.geaendert} Datei(en) geändert.`); }
       { const nG = googleVerifikationEinsetzen(root, process.env.GOOGLE_SITE_VERIFICATION); if (nG) log(`Google-Bestätigung (Search Console) in ${nG} Seiten ${process.env.GOOGLE_SITE_VERIFICATION ? "eingesetzt" : "entfernt"}.`); }
       { const f = path.join(root, "index.html"); const r = produkteLib.einsetzen(fs.readFileSync(f, "utf8"), produkte, repoEinst, ""); if (r.n) { fs.writeFileSync(f, r.html); log(`Produktkarten auf der Startseite eingesetzt (${produkteLib.karten(produkte, "startseite").length} Karten).`); } }
       log(`Firmendaten eingesetzt: ${nF.marker} Marker in ${nF.dateien} Datei(en) aktualisiert${nF.banner ? ", Ankündigungsbanner in " + nF.banner + " Datei(en)" : ""}.`);

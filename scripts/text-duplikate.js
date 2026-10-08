@@ -92,6 +92,8 @@ function hauptText(html) {
   const body = /<body\b[^>]*>([\s\S]*?)<\/body>/i.exec(s);
   if (body) s = body[1];
   s = s.replace(/<!--produkte-karten-->[\s\S]*?<!--\/produkte-karten-->/g, " ");
+  /* Kundenstimmen stehen bewusst wortgleich auf Start- und Referenzenseite (Admin → Bewertungen) */
+  s = s.replace(/<!--bewertungen-(badge|karten)(?::[^>]*)?-->[\s\S]*?<!--\/bewertungen-\1-->/g, " ");
   s = s.replace(/<!--[\s\S]*?-->/g, " ");
   for (const tag of ["script", "style", "noscript", "template", "svg", "header", "nav", "footer", "form", "h1"]) s = alleEntfernen(s, new RegExp(`<(${tag})\\b`, "i")); // h1: eigene Prüfung (gleiche H1)
   s = alleEntfernen(s, /<([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*\sdata-firma(?:=|\s|>)/i);
