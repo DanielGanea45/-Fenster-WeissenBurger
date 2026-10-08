@@ -15,6 +15,30 @@ if (!["aus", "vorschau", "online"].includes(status)) throw new Error("Ungültige
 const preise = JSON.parse(fs.readFileSync(path.join(root, "data/preise.json"), "utf8"));
 const Preis = require(path.join(root, "js/preis.js"));
 const Steuer = require(path.join(root, "js/steuer.js"));
+/* Vorschaufoto der Startkonfiguration vorladen (LCP auf dem Telefon): Startzustand aus js/konfigurator.js (eine Quelle),
+   Bildwahl wie im Browser (js/konfigurator-bilder.js), größte Stufe – genau das Bild, das das Skript zuerst lädt. */
+function vorschauStart(key) {
+  try {
+    const js = fs.readFileSync(path.join(root, "js/konfigurator.js"), "utf8");
+    const m = js.match(/var state = produkt === "fenster"\s*\?\s*(\{[^\n]*\})\s*:\s*(\{[^\n]*\});/);
+    if (!m) return null;
+    const state = new Function("return " + (key === "fenster" ? m[1] : m[2]))();
+    const FWB = require(path.join(root, "js/konfigurator-bilder.js"));
+    const B = FWB.Bilder(JSON.parse(fs.readFileSync(path.join(root, "data/konfigurator-bilder.json"), "utf8")), JSON.parse(fs.readFileSync(path.join(root, "data/preise.json"), "utf8")));
+    const name = B.vorschau(key, state); if (!name) return null;
+    const info = B.info(name) || {}; const g = info.groessen || [900];
+    return { name, src: "/assets/konfigurator/" + name + "-" + g[g.length - 1] + ".webp", alt: info.alt || "Vorschau Ihrer Konfiguration – Abbildung beispielhaft", breite: info.breite || 896, hoehe: info.hoehe || 1200 };
+  } catch (e) { return null; }
+}
+/* Vorschau-Kasten: Startfoto steht bereits im HTML (größtes Element auf dem Telefon → früher LCP, kein Nachladen durch
+   das Skript, das denselben Namen erkennt); ohne passendes Foto bleibt die schematische Zeichnung */
+function vorschauKasten(key) {
+  const v = vorschauStart(key);
+  const img = v
+    ? `<img class="preview__foto" src="${v.src}" data-name="${esc(v.name)}" alt="${esc(v.alt)}" width="${v.breite}" height="${v.hoehe}" decoding="async" fetchpriority="high">`
+    : `<img class="preview__foto" alt="" width="896" height="1200" decoding="async" fetchpriority="high" hidden>`;
+  return `<div class="preview${v ? " hat-foto" : ""}"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg>${img}<span class="preview__etikett" hidden></span></div><div class="preview__fuss"><p class="preview__masse"></p><p class="preview__note">${v ? "Abbildung beispielhaft" : "Schematische Darstellung"}</p></div></div>`;
+}
 const SATZ = Steuer.satz(einst);
 const ST = Steuer.texte(SATZ);
 const listeOk = Preis.validiereListe(preise).ok;
@@ -70,7 +94,7 @@ function header(current) {
     <button type="button" class="menu-btn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="hauptnav"><span class="menu-btn__i" aria-hidden="true"></span></button>
   </header>`;
 }
-function head(p, noindex, extraScripts) {
+function head(p, noindex, extraScripts, extraHead) {
   return `<!doctype html>
 <html lang="de">
 <head>
@@ -89,7 +113,7 @@ function head(p, noindex, extraScripts) {
   <meta property="og:image" content="${SITE}/assets/logo/og-image.png">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
-  <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>${extraHead ? "\n  " + extraHead : ""}
   <link rel="stylesheet" href="/css/style.css?v=${V.style}">
   <link rel="stylesheet" href="/css/uebergang.css?v=${V.ueberCss}">
   <script src="/js/uebergang.js?v=${V.ueberJs}"></script>
@@ -197,7 +221,7 @@ function pageKonf(key) {
         </div>
 
         <aside class="konf__aside" aria-label="Ihre Konfiguration">
-          <div class="preview"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><img class="preview__foto" alt="" width="896" height="1200" decoding="async" fetchpriority="high" hidden><span class="preview__etikett" hidden></span></div><div class="preview__fuss"><p class="preview__masse"></p><p class="preview__note">Schematische Darstellung</p></div></div>
+          ${vorschauKasten(key)}
           <div class="price"><p class="price__na">Preis wird berechnet …</p></div>
         </aside>
       </div>
