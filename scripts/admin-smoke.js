@@ -19,6 +19,7 @@ const SEITEN = ["uebersicht", "bilder", "texte", "texte/einsatzgebiet", "produkt
 const WARTEN_AUF = { uebersicht: ".kpi:not(.skeleton)", texte: ".tx-editor", "texte/einsatzgebiet": ".tx-editor", angebote: "#bel-tabelle table, #bel-tabelle .bel-leer", kunden: "#ku-tabelle table, #ku-tabelle .bel-leer, #ku-tabelle .alert", preise: "#calc .preis-gross, #calc .err" };
 
 /* ---------- eigener Testserver (statische Dateien + Functions mit Dateispeicher) ---------- */
+const HeadersLib = require(path.join(__dirname, "headers.js"));
 function starteServer() {
   const store = fs.mkdtempSync(path.join(os.tmpdir(), "fw-smoke-"));
   process.env.FW_STORE_DIR = store;
@@ -41,9 +42,74 @@ function starteServer() {
     let p = path.join(ROOT, decodeURIComponent(u.pathname));
     if (fs.existsSync(p) && fs.statSync(p).isDirectory()) p = path.join(p, "index.html");
     if (!fs.existsSync(p)) { res.writeHead(404); res.end("404"); return; }
-    res.writeHead(200, { "Content-Type": MIME[path.extname(p)] || "application/octet-stream", "Cache-Control": "no-store" }); fs.createReadStream(p).pipe(res);
+    const kopf = { "Content-Type": MIME[path.extname(p)] || "application/octet-stream", "Cache-Control": "no-store" };
+    if (p.endsWith(".html")) kopf["Content-Security-Policy"] = HeadersLib.csp({ chat: u.searchParams.get("chat") === "1" }); // wie Netlify aus _headers
+    res.writeHead(200, kopf); fs.createReadStream(p).pipe(res);
   });
   return new Promise((res) => server.listen(0, "127.0.0.1", () => res({ server, base: "http://127.0.0.1:" + server.address().port, store })));
+}
+
+/* ---------- Live-Chat: Zwei-Klick-Lösung, Kopfzeilen, keine Fremdanfrage vor dem Klick ----------
+   Ohne Kennung (Repo-Stand) darf nichts erscheinen; mit Kennung (hier per Anfrage-Umleitung in js/chat.js eingesetzt) erscheint
+   nur unser Knopf, erst „Chat laden“ fordert client.crisp.chat/l.js an (die Anfrage wird abgefangen – kein echter Netzverkehr). */
+async function chatPruefung(browser, base, befunde) {
+  const TEST_ID = "0123456789abcdef-0123-4567-89ab-cdef01234567";
+  const quelle = fs.readFileSync(path.join(ROOT, "js", "chat.js"), "utf8");
+  const mitKonfig = (cfg) => quelle.replace(/\/\*CHAT\*\/[\s\S]*?\/\*\/CHAT\*\//, "/*CHAT*/" + JSON.stringify(cfg) + "/*/CHAT*/");
+  const warte = (ms) => new Promise((r) => setTimeout(r, ms));
+  const seiteOeffnen = async (cfg, chatKopf) => {
+    const p = await browser.newPage(); await p.setViewport({ width: 1366, height: 900 });
+    const extern = [], konsole = [];
+    p.on("console", (m) => { if (m.type() === "error") konsole.push(m.text().slice(0, 200)); });
+    p.on("pageerror", (e) => konsole.push("JavaScript-Fehler: " + e.message));
+    await p.setRequestInterception(true);
+    p.on("request", (r) => {
+      const u = r.url();
+      if (/^(data|blob):/.test(u)) return r.continue(); // eingebettete Bilder (CSS) sind keine Fremdanfragen
+      if (u.startsWith(base)) {
+        if (/\/js\/chat\.js(\?|$)/.test(u)) return r.respond({ status: 200, contentType: "text/javascript", body: mitKonfig(cfg) });
+        return r.continue();
+      }
+      extern.push(u);
+      if (/^https:\/\/client\.crisp\.chat\/l\.js/.test(u)) return r.respond({ status: 200, contentType: "text/javascript", body: "window.__crispGeladen = true;" });
+      return r.abort();
+    });
+    await p.goto(base + "/?chat=" + (chatKopf ? "1" : "0"), { waitUntil: "networkidle0", timeout: 60000 });
+    await warte(500);
+    return { p, extern, konsole };
+  };
+  /* a) ohne Kennung / Schalter aus: nichts */
+  let { p, extern, konsole } = await seiteOeffnen({ id: "", aktiv: false, whatsapp: "" }, false);
+  if (await p.$(".chat-fab")) befunde.push("live-chat: Knopf erscheint, obwohl der Chat aus ist");
+  if (extern.length) befunde.push("live-chat (aus): Fremdanfragen: " + extern.slice(0, 3).join(", "));
+  for (const k of konsole) if (!/favicon/.test(k)) befunde.push("live-chat (aus): Konsole: " + k);
+  await p.close();
+  /* b) an: Knopf, Hinweis, keine Fremdanfrage vor dem Klick, nach „Chat laden“ genau das Crisp-Skript, keine CSP-Meldung */
+  ({ p, extern, konsole } = await seiteOeffnen({ id: TEST_ID, aktiv: true, whatsapp: "4917681338935" }, true));
+  if (!(await p.$(".chat-fab"))) befunde.push("live-chat: Knopf „Chat starten“ fehlt");
+  if (extern.length) befunde.push("live-chat: Fremdanfragen VOR dem Klick: " + extern.slice(0, 3).join(", "));
+  const vorher = await p.evaluate(() => ({ cookies: document.cookie, merker: sessionStorage.getItem("fw-chat-ok"), skripte: [...document.scripts].map((s) => s.src).filter((s) => /crisp/.test(s)).length }));
+  if (vorher.cookies || vorher.merker || vorher.skripte) befunde.push("live-chat: vor dem Klick bereits Cookie/Merker/Skript: " + JSON.stringify(vorher));
+  await p.click(".chat-fab"); await warte(300);
+  const panel = await p.evaluate(() => { const d = document.querySelector(".chat-panel"); return d && !d.hidden ? { text: d.textContent, wa: !!d.querySelector('a[href^="https://wa.me/4917681338935"]'), ds: !!d.querySelector('a[href="/datenschutz.html#live-chat"]') } : null; });
+  if (!panel) befunde.push("live-chat: Hinweis öffnet sich nicht");
+  else { if (!/Crisp IM SAS, Frankreich/.test(panel.text)) befunde.push("live-chat: Hinweistext fehlt"); if (!panel.wa) befunde.push("live-chat: WhatsApp-Link fehlt"); if (!panel.ds) befunde.push("live-chat: Link zur Datenschutzerklärung fehlt"); }
+  if (extern.length) befunde.push("live-chat: Fremdanfragen nach Öffnen des Hinweises: " + extern.slice(0, 3).join(", "));
+  await p.click(".chat-panel .btn--ghost"); await warte(200);
+  if (await p.evaluate(() => !document.querySelector(".chat-panel").hidden)) befunde.push("live-chat: „Abbrechen“ schließt den Hinweis nicht");
+  if (extern.length) befunde.push("live-chat: Fremdanfragen nach „Abbrechen“: " + extern.slice(0, 3).join(", "));
+  await p.click(".chat-fab"); await warte(200);
+  await p.click(".chat-panel .btn--primary"); await warte(1200);
+  const nachher = await p.evaluate(() => ({ merker: sessionStorage.getItem("fw-chat-ok"), geladen: !!window.__crispGeladen, id: window.CRISP_WEBSITE_ID, locale: window.CRISP_RUNTIME_CONFIG && window.CRISP_RUNTIME_CONFIG.locale }));
+  if (nachher.merker !== "1") befunde.push("live-chat: Merker im Sitzungsspeicher fehlt nach „Chat laden“");
+  if (!extern.some((u) => /^https:\/\/client\.crisp\.chat\/l\.js/.test(u))) befunde.push("live-chat: Crisp-Skript wird nach „Chat laden“ nicht angefordert (CSP?) – Anfragen: " + extern.join(", "));
+  if (!nachher.geladen) befunde.push("live-chat: Crisp-Skript nicht ausgeführt (Kopfzeile blockiert?)");
+  if (nachher.id !== TEST_ID || nachher.locale !== "de") befunde.push("live-chat: Crisp-Konfiguration (Kennung/Sprache) fehlt: " + JSON.stringify(nachher));
+  const fremd = extern.filter((u) => !/^https:\/\/client\.crisp\.chat\//.test(u));
+  if (fremd.length) befunde.push("live-chat: unerwartete Fremdanfragen: " + fremd.slice(0, 3).join(", "));
+  for (const k of konsole) if (/Content Security Policy|Refused to/.test(k)) befunde.push("live-chat: CSP-Meldung: " + k);
+  for (const k of konsole) if (/JavaScript-Fehler/.test(k)) befunde.push("live-chat: " + k);
+  await p.close();
 }
 
 /* ---------- Chrome finden ---------- */
@@ -97,10 +163,12 @@ if (!process.env.NETLIFY && !process.argv.includes("--erzwingen") && !arg("base"
       if (!m.text) befunde.push(`${s}: Ansicht ist leer`);
       if (m.fehler || /^Fehler\b/.test(m.text) || /konnte nicht geladen werden/.test(m.text.split("\n")[0] || "")) befunde.push(`${s}: Ansicht zeigt eine Fehlermeldung: ${m.text.split("\n").slice(0, 2).join(" ").slice(0, 200)}`);
     }
+    /* Live-Chat (Crisp, Zwei-Klick) auf der Startseite – mit der Kopfzeile wie in Produktion */
+    seite = "live-chat"; await chatPruefung(browser, base, befunde);
   } catch (e) { befunde.push(`${seite}: Abbruch: ${e.message}`); }
   await browser.close();
   if (eigener) { eigener.server.close(); try { fs.rmSync(eigener.store, { recursive: true, force: true }); } catch (e) { /* egal */ } }
   if (befunde.length) { console.error(`Admin-Smoke-Test: ${befunde.length} Befund(e):\n - ` + befunde.join("\n - ")); process.exit(1); }
-  console.log(`Admin-Smoke-Test: ${SEITEN.length} Admin-Seiten ohne Fehler geladen (${base}).`);
+  console.log(`Admin-Smoke-Test: ${SEITEN.length} Admin-Seiten ohne Fehler geladen, Live-Chat (Zwei-Klick, Kopfzeilen) geprüft (${base}).`);
   process.exit(0);
 })().catch((e) => { console.error("Admin-Smoke-Test abgebrochen:", e); process.exit(1); });

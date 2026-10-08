@@ -192,6 +192,25 @@ function googleVerifikationEinsetzen(root, wert) {
   walk(root);
   return n;
 }
+/* Live-Chat (Crisp): Konfiguration in js/chat.js (Markierung /*CHAT*\/…/*\/CHAT*\/) und passende Sicherheits-Kopfzeilen
+   (_headers). Kennung aus CRISP_WEBSITE_ID, Schalter + WhatsApp-Nummer aus den Einstellungen (Website). Ohne Kennung oder
+   ausgeschaltet: leere Konfiguration (das Skript tut dann nichts) und strenge Kopfzeilen. Idempotent. */
+function chatEinsetzen(root, einst, log) {
+  const Headers = require(path.join(__dirname, "headers.js"));
+  const id = String(process.env.CRISP_WEBSITE_ID || "").trim();
+  const aktiv = Headers.chatAktiv(einst, id);
+  const whatsapp = String(einst && einst.website && einst.website.whatsapp || "").replace(/\D/g, "");
+  const cfg = { id: aktiv ? id : "", aktiv, whatsapp };
+  const f = path.join(root, "js", "chat.js");
+  if (fs.existsSync(f)) {
+    const alt = fs.readFileSync(f, "utf8");
+    const neu = alt.replace(/\/\*CHAT\*\/[\s\S]*?\/\*\/CHAT\*\//, "/*CHAT*/" + JSON.stringify(cfg) + "/*/CHAT*/");
+    if (neu !== alt) fs.writeFileSync(f, neu);
+  }
+  const geaendert = Headers.schreiben(root, { chat: aktiv });
+  if (log) log(`Live-Chat: ${aktiv ? "an (Crisp-Kennung vorhanden, Schalter an)" : id ? "aus (Schalter in den Einstellungen aus)" : "aus (keine Crisp-Kennung hinterlegt)"}; Kopfzeilen ${geaendert ? "neu geschrieben" : "unverändert"}.`);
+  return cfg;
+}
 /* Weiterleitung der Netlify-Adresse auf die finale Domain – erst mit DOMAIN_LIVE=1 (nach dem Umzug der Domain), sonst
    bliebe die bisher genutzte Adresse (Admin!) unerreichbar. www → ohne www steht in netlify.toml und ist bis dahin wirkungslos. */
 function domainRedirects() {
@@ -231,6 +250,7 @@ async function lauf(opt = {}) {
     log(`Admin-Daten nicht verfügbar – ${grund}. Build mit den Daten aus dem Repository.`);
     mitStore = false;
     redirectsSchreiben(root, daten.repoDatei("einstellungen"));
+    chatEinsetzen(root, daten.repoDatei("einstellungen"), log);
     return null;
   };
   if (!mitStore && !opt.mitStore) { const abbruch = ohneAdminDaten(blobs.grund || "kein Datenspeicher"); if (abbruch) return abbruch; }
@@ -260,6 +280,7 @@ async function lauf(opt = {}) {
       const nB = await bilderEinsetzen(root, bilder, texte);
       const nBew = bewertungenSchreiben(root, bew);
       redirectsSchreiben(root, repoEinst);
+      chatEinsetzen(root, repoEinst, log);
       const nF = firmaEinsetzen.lauf(root, repoEinst);
       { const rB = require(path.join(__dirname, "bewertungen-einsetzen.js")).lauf(root, bew, repoEinst); log(`Bewertungen eingesetzt: ${rB.marker} Markierungen, ${rB.geaendert} Datei(en) geändert.`); }
       { const nG = googleVerifikationEinsetzen(root, process.env.GOOGLE_SITE_VERIFICATION); if (nG) log(`Google-Bestätigung (Search Console) in ${nG} Seiten ${process.env.GOOGLE_SITE_VERIFICATION ? "eingesetzt" : "entfernt"}.`); }
@@ -302,7 +323,7 @@ async function benachrichtigen(ok, detail) {
   } catch (e) { /* Benachrichtigung ist optional */ }
 }
 
-module.exports = { lauf, texteEinsetzen, bilderEinsetzen, bewertungenSchreiben, redirectsSchreiben, googleVerifikationEinsetzen, domainRedirects, DEFAULT_SCHRITTE };
+module.exports = { lauf, texteEinsetzen, bilderEinsetzen, bewertungenSchreiben, redirectsSchreiben, chatEinsetzen, googleVerifikationEinsetzen, domainRedirects, DEFAULT_SCHRITTE };
 
 if (require.main === module) {
   lauf().then((r) => process.exit(r.ok ? 0 : 1)).catch((e) => { console.error(e); process.exit(1); });

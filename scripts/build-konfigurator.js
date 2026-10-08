@@ -24,7 +24,7 @@ const ls = indexHtml.indexOf('      <span class="brand__box">');
 const le = indexHtml.indexOf("</span>\n    </a>", ls) + "</span>".length;
 const LOGO = indexHtml.slice(ls, le).trim();
 const v = (name) => { const m = indexHtml.match(new RegExp(name.replace(".", "\\.") + "\\?v=([\\w.-]+)")); return m ? m[1] : "1"; }; // Versionen sind Inhalts-Hashes (scripts/assets-version.js)
-const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js"), config: v("config.js") };
+const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js"), chat: v("chat.js"), config: v("config.js") };
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "<").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const linkHidden = status === "online" ? "" : " hidden";
 
@@ -111,6 +111,7 @@ function footer(barHtml) {
   ${barHtml || ""}
   <script src="/js/config.js?v=${V.config}" defer></script>
   <script src="/js/main.js?v=${V.main}" defer></script>
+  <script src="/js/chat.js?v=${V.chat}" defer></script>
 </body>
 </html>
 `;
