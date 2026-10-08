@@ -584,3 +584,5 @@ a.badge-bew__eintrag:hover { border-color: var(--accent); color: var(--ink); }
 .fehler-grund:target { display: block; }
 .fehler-grund, .fehler-allgemein { margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; background: #fdecea; border: 1px solid #f3b9b3; color: #7a241b; }
 .fehler-grund:target ~ .fehler-allgemein { display: none; }
+/* Fußzeile Startseite: diskreter Login-Link für den Inhaber (nur index.html), Stil wie die übrigen Rechtslinks, kleines Schloss */
+.legal__login svg { width: 12px; height: 12px; margin-right: 5px; flex: none; opacity: .85; }
