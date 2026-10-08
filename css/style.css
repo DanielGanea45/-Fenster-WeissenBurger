@@ -269,24 +269,24 @@ ul, ol { padding: 0; list-style: none; }
   background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 16px; padding: 16px;
   box-shadow: var(--shadow); text-shadow: none; max-width: 520px;
 }
-.form__row { display: grid; gap: 5px; margin-bottom: 12px; }
+.form__row { display: grid; gap: 4px; margin-bottom: 10px; }
 .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.form label { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.form label { font-size: 13px; line-height: 1.25; font-weight: 700; color: var(--ink-2); }
 .form input, .form select, .form textarea {
-  width: 100%; min-height: 44px; padding: 10px 12px;
+  width: 100%; height: 44px; padding: 0 12px;
   background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
   color: var(--ink); font: inherit; font-size: 16px;
 }
 .form select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%231b2430' stroke-width='2'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
 .form select option { color: var(--ink); }
-.form textarea { resize: vertical; }
+.form textarea { height: auto; min-height: 92px; padding: 9px 12px; resize: vertical; }
 .form input:focus, .form select:focus, .form textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
 .form input[aria-invalid="true"], .form.was-validated :invalid { border-color: #c0392b; }
-.form__check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; margin: 4px 0 14px; }
-.form__check input { width: 22px; height: 22px; min-height: 0; margin-top: 1px; accent-color: var(--accent); }
-.form__check label { font-size: 12.5px; font-weight: 500; line-height: 1.45; }
+.form__check { display: grid; grid-template-columns: 18px 1fr; gap: 8px; align-items: center; margin: 2px 0 10px; }
+.form__check input { width: 18px; height: 18px; min-height: 0; padding: 0; accent-color: var(--accent); }
+.form__check label { font-size: 12px; font-weight: 500; line-height: 1.3; }
 .form__check a { color: var(--accent); }
-.form__error { margin: 0 0 10px; color: #a93226; font-size: 13.5px; font-weight: 600; }
+.form__error { margin: 0 0 8px; color: #a93226; font-size: 13px; font-weight: 600; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* Fußzeile */
@@ -575,7 +575,12 @@ a.badge-bew__eintrag:hover { border-color: var(--accent); color: var(--ink); }
   #ueber-uns .stimmen, #ueber-uns .stimmen-titel { max-width: 1040px; }
 }
 .actions--mitte { justify-content: center; }
-/* Kontaktfelder: Telefon oder E-Mail (mindestens eines); auf schmalen Telefonen untereinander, PLZ bleibt kompakt */
-.form .form__hint, .page .form .form__hint { margin: -4px 0 12px; font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+/* Pflichtfeld E-Mail: fehlend oder ungültig → rot markiert; auf Telefonen alle Felder einspaltig */
 .form__row.is-fehlend input { border-color: #a93226; box-shadow: 0 0 0 2px rgba(169, 50, 38, .15); }
-@media (max-width: 479px) { .form__grid--kontakt { grid-template-columns: 1fr; gap: 0; } }
+@media (max-width: 599px) { .form__grid { grid-template-columns: 1fr; gap: 0; } }
+
+/* Fehlerseite nach klassischem Versand (ohne JavaScript): der Grund steht als Anker in der Adresse (#email, #felder, #zeit, #captcha, #technik) */
+.fehler-grund { display: none; }
+.fehler-grund:target { display: block; }
+.fehler-grund, .fehler-allgemein { margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; background: #fdecea; border: 1px solid #f3b9b3; color: #7a241b; }
+.fehler-grund:target ~ .fehler-allgemein { display: none; }

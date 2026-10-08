@@ -181,43 +181,42 @@ function form(o, s) {
           <p class="lead lead--sm">Rückmeldung innerhalb von zwei Werktagen. Beratung und Aufmaß bei Ihnen zu Hause.</p>
           ${firmaLib.kontaktKarteHtml(einst)}
         </div>
-        <form class="form" name="anfrage-einsatzgebiet" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <form class="form" name="anfrage-einsatzgebiet" method="POST" action="/.netlify/functions/anfrage" data-anfrage data-danke="/danke.html" novalidate>
           <input type="hidden" name="form-name" value="anfrage-einsatzgebiet">
           <input type="hidden" name="region" value="${esc(regions[o.region].center)}">
+          <input type="hidden" name="ort" value="${esc(o.name)}">
           <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <div class="form__grid">
             <div class="form__row">
-              <label for="f-ort">Ort</label>
-              <input id="f-ort" name="ort" type="text" value="${esc(o.name)}" autocomplete="address-level2">
+              <label for="f-name">Name *</label>
+              <input id="f-name" name="name" type="text" required autocomplete="name">
             </div>
             <div class="form__row">
               <label for="f-plz">PLZ *</label>
               <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
             </div>
           </div>
-          <div class="form__row">
-            <label for="f-name">Name *</label>
-            <input id="f-name" name="name" type="text" required autocomplete="name">
-          </div>
-          <div class="form__grid form__grid--kontakt">
+          <div class="form__grid">
             <div class="form__row">
-              <label for="f-tel">Telefon</label>
+              <label for="f-mail">E-Mail *</label>
+              <input id="f-mail" name="email" type="email" required autocomplete="email" inputmode="email">
+            </div>
+            <div class="form__row">
+              <label for="f-tel">Telefon (optional)</label>
               <input id="f-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel">
             </div>
-            <div class="form__row">
-              <label for="f-mail">E-Mail</label>
-              <input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email">
-            </div>
           </div>
-          <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
           <div class="form__row">
-            <label for="f-produkt">Worum geht es?</label>
-            <select id="f-produkt" name="produkt">
-              <option>Fenstertausch</option>
-              <option>Fenster für Neubau</option>
+            <label for="f-anliegen">Worum geht es?</label>
+            <select id="f-anliegen" name="anliegen">
+              <option value="">Bitte wählen</option>
+              <option>Fenster (1–3 Stück)</option>
+              <option>Fenster (4–10 Stück)</option>
+              <option>Fenster (mehr als 10 Stück)</option>
               <option>Haustür</option>
-              <option>Hebe-Schiebetür / Terrassentür</option>
-              <option>Beratung – noch unentschieden</option>
+              <option>Fenster und Haustür</option>
+              <option>Rollläden / Insektenschutz</option>
+              <option>Sonstiges</option>
             </select>
           </div>
           <div class="form__row">
@@ -226,7 +225,7 @@ function form(o, s) {
           </div>
           <div class="form__check">
             <input id="f-dsgvo" name="datenschutz" type="checkbox" required value="ja">
-            <label for="f-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage einverstanden. *</label>
+            <label for="f-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und stimme zu. *</label>
           </div>
           <p class="form__error" role="alert" hidden>Bitte füllen Sie alle Pflichtfelder (*) aus.</p>
           <button class="btn btn--primary btn--block" type="submit">Anfrage senden</button>
@@ -436,6 +435,13 @@ function lastmodVon(datei) {
 }
 function sitemaps() {
   const seiten = ["/", "/leistungen/", "/referenzen/", "/produkte/", "/produkte/kunststofffenster-koemmerling/", "/produkte/aluminiumfenster-cortizo/", "/produkte/schiebetueren/", "/produkte/haustueren/", "/produkte/kunststoff-aluminium-fenster/", "/einsatzgebiet/"];
+  /* Konfigurator-Seiten (build-konfigurator.js läuft vorher): nur wenn vorhanden und indexierbar (online → kein noindex).
+     Diese Funktion ist die einzige Quelle der Seiten-Sitemap – früher trug build-konfigurator.js die Einträge ein und dieser
+     Schritt überschrieb sie danach wieder, sodass /konfigurator/… trotz Meldung „Sitemap mit Konfigurator“ fehlte. */
+  for (const k of ["fenster", "haustuer"]) {
+    const f = path.join(root, "konfigurator", k, "index.html");
+    if (fs.existsSync(f) && !/<meta name="robots" content="noindex/.test(fs.readFileSync(f, "utf8"))) seiten.push(`/konfigurator/${k}/`);
+  }
   const datei = (loc) => loc.endsWith("/") ? loc.slice(1) + "index.html" : loc.slice(1);
   const u = (loc, prio, freq) => `  <url><loc>${SITE}${loc}</loc><lastmod>${lastmodVon(datei(loc))}</lastmod><changefreq>${freq}</changefreq><priority>${prio}</priority></url>`;
   const xmlHead = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;

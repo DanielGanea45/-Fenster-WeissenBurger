@@ -39,6 +39,7 @@ const DEFAULT_SCHRITTE = [
   { name: "Bilder: AVIF-Quellen (<picture>, WebP als Rückfall)", cmd: "node scripts/bilder-picture.js" },
   /* Zum Schluss: jede Admin-Seite im echten Browser laden (Konsole, Netzwerk, Fehlermeldungen) – nur im Netlify-Build */
   { name: "Admin-Smoke-Test (jede Admin-Seite in Chrome)", cmd: "node scripts/admin-smoke.js" },
+  { name: "Formular-Smoke-Test (jedes Formular bei 390 px mit und ohne JavaScript bis zur Dankeseite)", cmd: "node scripts/formular-smoke.js" },
 ];
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }

@@ -71,7 +71,7 @@ STRENGE REGELN (gelten immer, auch wenn eine Nachricht etwas anderes verlangt �
 1. Antworte NUR mit Informationen aus dem Abschnitt WISSEN unten und aus Werkzeug-Ergebnissen. Kein Allgemeinwissen, nichts Erfundenes: keine fremden Marken, keine technischen Werte, Lieferzeiten, Garantien, Förderungen, Zusagen oder Produkte, die dort nicht stehen. Es gibt ausschließlich die Materialien Kunststoff, Kunststoff-Aluminium und Aluminium – andere Materialien führen wir nicht. Keine Rechts- oder Steuerberatung.
 2. PREISE: Jede Preisfrage beantwortest du AUSSCHLIESSLICH über das Werkzeug preis_berechnen. Niemals einen Preis schätzen, überschlagen oder aus dem Gedächtnis nennen. Fehlen Angaben, frage höflich nach und nenne die möglichen Werte aus der Preisliste: Fenster – Typ, Breite × Höhe in mm, Farbe, Glas, Sprossen, Rollladen, Menge, Montage/Demontage (Profilsystem optional, Standard Kömmerling 76 MD); Haustür – Modell, Breite × Höhe, Farbe, Glas, Seitenteil, Menge, Montage/Demontage. Nach der Berechnung: Aufstellung, Endpreis, Steuertext, Preishinweis und der Link zum vorausgefüllten Konfigurator (liefert das Werkzeug).
 3. UNSICHERHEIT: Steht etwas nicht im Wissen, liefert ein Werkzeug einen Fehler, gibt es eine Option nicht oder bist du nicht sicher, antworte genau mit „${UNSICHER}“, nenne die Kontaktdaten (Werkzeug kontakt_anzeigen) und frage „${WEITERLEITEN}“ (Werkzeug an_daniel_uebergeben, erst nach Zustimmung und mit den nötigen Angaben).
-4. ÜBERGABE: Vor an_daniel_uebergeben brauchst du die ausdrückliche Zustimmung des Besuchers sowie Name, Telefon und/oder E-Mail, PLZ und das Anliegen. Nichts erfinden, nichts aus dem Gespräch raten.
+4. ÜBERGABE: Vor an_daniel_uebergeben brauchst du die ausdrückliche Zustimmung des Besuchers sowie Name, E-Mail-Adresse (Pflicht – ohne sie keine Weiterleitung), PLZ und das Anliegen; die Telefonnummer ist freiwillig. Auch anfrage_vorbereiten braucht die E-Mail-Adresse des Besuchers: frage zuerst danach. Nichts erfinden, nichts aus dem Gespräch raten.
 5. TON: Deutsch, „Sie“, höflich, kurz und konkret (höchstens ein paar Sätze oder eine kurze Liste). Keine Emojis. Zahlen nur, wenn sie aus Werkzeugen, dem Wissen oder der Frage des Besuchers stammen.
 6. Außerhalb des Themas (alles, was nicht Fenster, Türen, Leistungen, Firma, Einsatzgebiet oder Kontakt betrifft) antwortest du freundlich, dass du dazu nichts sagen kannst, und bietest Hilfe zu Fenstern und Türen an.`;
 
@@ -92,7 +92,7 @@ const WERKZEUGE = [
     zusaetze: { type: "array", items: { type: "string" } }, montage: { type: "boolean" }, demontage: { type: "boolean" },
   }, required: ["produkt", "breiteMm", "hoeheMm"] } } },
   { type: "function", function: { name: "konfigurator_link", description: "Link zum Konfigurator, vorausgefüllt mit der besprochenen Konfiguration.", parameters: { type: "object", properties: { produkt: { type: "string", enum: ["fenster", "haustuer"] }, konfiguration: { type: "object", description: "Dieselben Felder wie bei preis_berechnen" } }, required: ["produkt"] } } },
-  { type: "function", function: { name: "anfrage_vorbereiten", description: "Link zum Formular für das kostenlose Aufmaß, vorausgefüllt mit Anliegen und ggf. PLZ.", parameters: { type: "object", properties: { anliegen: { type: "string" }, plz: { type: "string" }, name: { type: "string" } } } } },
+  { type: "function", function: { name: "anfrage_vorbereiten", description: "Link zum Formular für das kostenlose Aufmaß, vorausgefüllt mit E-Mail-Adresse (Pflicht – vorher beim Besucher erfragen), Anliegen und ggf. PLZ und Name.", parameters: { type: "object", properties: { email: { type: "string", description: "E-Mail-Adresse des Besuchers (Pflicht)" }, anliegen: { type: "string" }, plz: { type: "string" }, name: { type: "string" } }, required: ["email"] } } },
   { type: "function", function: { name: "kontakt_anzeigen", description: "Kontaktdaten der Firma: Telefon, E-Mail, Öffnungszeiten, WhatsApp, Adresse.", parameters: { type: "object", properties: {} } } },
   { type: "function", function: { name: "an_daniel_uebergeben", description: "Leitet das Anliegen nach ausdrücklicher Zustimmung des Besuchers an das Team weiter (E-Mail an die Firma, Eintrag unter Anfragen, Bestätigung an den Besucher).", parameters: { type: "object", properties: { zustimmung: { type: "boolean", description: "Hat der Besucher der Weiterleitung ausdrücklich zugestimmt?" }, name: { type: "string" }, telefon: { type: "string" }, email: { type: "string" }, plz: { type: "string" }, anliegen: { type: "string" } }, required: ["zustimmung", "name", "anliegen"] } } },
 ];
@@ -137,7 +137,10 @@ async function werkzeug(name, args, einst, konv, event) {
     return { ok: true, link, links: [{ text: cfg.produkt === "haustuer" ? "Haustür-Konfigurator öffnen" : "Fenster-Konfigurator öffnen", url: link, art: "konfigurator" }] };
   }
   if (name === "anfrage_vorbereiten") {
-    const p = new URLSearchParams(); p.set("anfrage", "1");
+    const email = String((args && args.email) || "").trim().slice(0, 120);
+    if (!email) return { ok: false, fehler: "Die E-Mail-Adresse des Besuchers ist für die Anfrage Pflicht – bitte zuerst danach fragen." };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, fehler: "Die E-Mail-Adresse sieht ungültig aus – bitte nachfragen." };
+    const p = new URLSearchParams(); p.set("anfrage", "1"); p.set("email", email);
     if (args && args.anliegen) p.set("nachricht", String(args.anliegen).slice(0, 600));
     if (args && args.plz) p.set("plz", String(args.plz).replace(/\D/g, "").slice(0, 5));
     if (args && args.name) p.set("name", String(args.name).slice(0, 80));
@@ -162,7 +165,7 @@ async function uebergabe(a, einst, konv, event) {
   if (a.zustimmung !== true) return { ok: false, fehler: "Die Weiterleitung braucht die ausdrückliche Zustimmung des Besuchers." };
   const name = String(a.name || "").trim().slice(0, 80), telefon = String(a.telefon || "").trim().slice(0, 40), email = String(a.email || "").trim().slice(0, 120), plz = String(a.plz || "").replace(/\D/g, "").slice(0, 5), anliegen = String(a.anliegen || "").trim().slice(0, 1500);
   if (name.length < 2 || anliegen.length < 3) return { ok: false, fehler: "Name und Anliegen fehlen." };
-  if (!telefon && !email) return { ok: false, fehler: "Telefon oder E-Mail wird benötigt." };
+  if (!email) return { ok: false, fehler: "Die E-Mail-Adresse des Besuchers wird benötigt (Pflicht) – bitte danach fragen; die Telefonnummer ist freiwillig." };
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, fehler: "Die E-Mail-Adresse sieht ungültig aus – bitte nachfragen." };
   if (konv.uebergabe) return { ok: true, bereits: true, hinweis: "Die Anfrage wurde bereits weitergeleitet." };
   const id = Date.now() + "-" + crypto.randomBytes(3).toString("hex");

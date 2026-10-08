@@ -107,7 +107,7 @@
     var cfg = window.FW_CONFIG || {};
     var spam = cfg.spam || {};
     var frc = cfg.friendlyCaptcha || {};
-    var forms = Array.prototype.slice.call(document.querySelectorAll("form[data-netlify]"));
+    var forms = Array.prototype.slice.call(document.querySelectorAll("form[data-anfrage]"));
     if (!forms.length) return;
     var minMs = (spam.minSeconds || 3) * 1000;
 
@@ -141,19 +141,19 @@
       function onSubmit(e) {
         if (e.defaultPrevented) return;
         form.classList.add("was-validated");
+        /* E-Mail ist Pflicht (Telefon freiwillig): fehlend oder ungültig → eigene Meldung, Feld rot, kein Versand */
+        var mail = form.querySelector("input[name='email']");
+        if (mail && mail.required) { // Anfrageformulare; im Bewertungsformular bleibt die E-Mail freiwillig
+          var mv = mail.value.trim(), mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mv);
+          var mailRow = mail.closest(".form__row"); if (mailRow) mailRow.classList.toggle("is-fehlend", !mailOk);
+          if (!mailOk) { e.preventDefault(); fail(mv ? "Bitte geben Sie eine gültige E-Mail-Adresse ein." : "Bitte geben Sie Ihre E-Mail-Adresse ein."); mail.focus(); return; }
+        }
         if (!form.checkValidity()) {
           e.preventDefault();
           fail(errDefault);
           var first = form.querySelector(":invalid");
           if (first && first.focus) first.focus();
           return;
-        }
-        /* Telefon oder E-Mail – mindestens eine Angabe (beide Felder sind einzeln freiwillig) */
-        var tel = form.querySelector("input[name='telefon']"), mail = form.querySelector("input[name='email']");
-        if (tel && mail) {
-          var fehlt = !tel.value.trim() && !mail.value.trim();
-          [tel, mail].forEach(function (f) { var row = f.closest(".form__row"); if (row) row.classList.toggle("is-fehlend", fehlt); });
-          if (fehlt) { e.preventDefault(); fail("Bitte geben Sie Ihre Telefonnummer oder Ihre E-Mail-Adresse an – mindestens eines von beiden, damit wir uns bei Ihnen melden können."); tel.focus(); return; }
         }
         if (Date.now() - Number(ts.value) < minMs) {
           e.preventDefault();
@@ -168,7 +168,7 @@
             return;
           }
         }
-        if (!spam.functionUrl || !window.fetch) return; // klassischer Versand an Netlify Forms
+        if (!spam.functionUrl || !window.fetch) return; // klassischer Versand direkt an die Function (antwortet mit Weiterleitung)
 
         e.preventDefault();
         if (err) err.hidden = true;
@@ -179,7 +179,7 @@
         var fields = {};
         var fd = new FormData(form);
         fd.forEach(function (v, k) { fields[k] = fields[k] === undefined ? v : [].concat(fields[k], v); });
-        var action = form.getAttribute("action") || "/danke.html";
+        var action = form.getAttribute("data-danke") || "/danke.html"; // Zielseite nach Erfolg (action zeigt auf die Function)
 
         fetch(spam.functionUrl, {
           method: "POST",
@@ -194,14 +194,13 @@
           var reason = res && res.reason;
           if (reason === "zeit") fail("Das ging sehr schnell – bitte prüfen Sie Ihre Angaben kurz und senden Sie dann erneut.");
           else if (reason === "captcha") fail("Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es noch einmal.");
-          else if (reason === "felder") fail(errDefault);
+          else if (reason === "felder") fail(res.meldung || errDefault);
           else fail("Senden nicht möglich. Bitte rufen Sie uns an: 0176 81338935.");
           if (button) { button.disabled = false; button.textContent = label; }
         }).catch(function () {
-          /* Function nicht erreichbar (z. B. lokal): klassischer Versand an Netlify Forms */
-          form.removeEventListener("submit", onSubmit);
+          /* Function nicht erreichbar: klare Meldung statt eines klassischen Zweitversands (der früher auf der 404-Seite endete) */
+          fail("Senden gerade nicht möglich. Bitte versuchen Sie es in einer Minute noch einmal oder rufen Sie uns an: 0176 81338935.");
           if (button) { button.disabled = false; button.textContent = label; }
-          HTMLFormElement.prototype.submit.call(form);
         });
       }
     });

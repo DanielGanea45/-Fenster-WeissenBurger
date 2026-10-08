@@ -16,7 +16,7 @@ test("Text-Duplikate: alle öffentlichen Seiten werden erfasst (Startseite, Leis
   const s = ergebnis.seiten;
   assert.ok(s.length >= 170, "zu wenige Seiten: " + s.length);
   for (const f of ["index.html", "leistungen/index.html", "referenzen/index.html", "produkte/index.html", "produkte/haustueren/index.html", "einsatzgebiet/index.html", "einsatzgebiet/ingolstadt/index.html", "konfigurator/fenster/index.html"]) assert.ok(s.includes(f), "fehlt: " + f);
-  for (const f of ["404.html", "danke.html", "wartung.html", "admin/index.html"]) assert.ok(!s.includes(f), "darf nicht geprüft werden: " + f);
+  for (const f of ["404.html", "danke.html", "anfrage-fehler.html", "wartung.html", "admin/index.html"]) assert.ok(!s.includes(f), "darf nicht geprüft werden: " + f);
   assert.ok(ergebnis.saetzeGesamt > 2000, "zu wenige Sätze im Vergleich: " + ergebnis.saetzeGesamt);
 });
 test("Text-Duplikate: kein Satz (≥ 8 Wörter) ist auf zwei verschiedenen Seiten zu mehr als 80 % gleich", () => {

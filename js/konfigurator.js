@@ -28,7 +28,7 @@
     steps: root.querySelector(".konf__steps"), panels: root.querySelector(".konf__panels"), preview: root.querySelector(".preview svg"),
     previewBox: root.querySelector(".preview"), foto: root.querySelector(".preview__foto"), etikett: root.querySelector(".preview__etikett"), masse: root.querySelector(".preview__masse"), note: root.querySelector(".preview__note"),
     price: root.querySelector(".price"), summary: root.querySelector(".summary dl"), pos: root.querySelector(".posliste tbody"),
-    bar: document.querySelector(".konf__bar"), form: root.querySelector("form[data-netlify]"),
+    bar: document.querySelector(".konf__bar"), form: root.querySelector("form[data-anfrage]"),
     progress: root.querySelector(".konf__progress__txt"), progressBar: root.querySelector(".konf__progress__bar i"),
   };
 

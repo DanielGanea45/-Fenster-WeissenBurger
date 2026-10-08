@@ -5,7 +5,7 @@
    Exit-Code 1, sobald es Funde gibt (Build-Schranke; tests/text-duplikate.test.js führt die Prüfung aus).
 
    Geprüft werden alle index.html im Projekt sowie die HTML-Dateien im Wurzelordner – ohne admin/, 404.html,
-   danke.html, wartung.html, node_modules und Entwurfsordner. Aus jeder Seite wird der Haupttext gewonnen:
+   danke.html, anfrage-fehler.html, wartung.html, node_modules und Entwurfsordner. Aus jeder Seite wird der Haupttext gewonnen:
    ohne <header>, <nav>, <footer>, <form>, <script>, <style>, <noscript>, <template>, <svg>, ohne Elemente mit
    data-firma (Firmendaten aus den Einstellungen), ohne Buttons/CTA-Links (.btn), ohne die H1 (eigene Prüfung
    unten) und ohne den Produktkarten-Block zwischen <!--produkte-karten--> und <!--/produkte-karten--> (Admin → Produkte).
@@ -31,7 +31,7 @@ const path = require("path");
 const SCHWELLE = 0.8;
 const MIN_WOERTER = 8;
 const ORDNER_AUS = new Set(["admin", "node_modules", ".git", ".netlify", "tests", "scripts", "docs", "firma ferestre", "bilder-original", "bilder-original-2"]);
-const DATEIEN_AUS = new Set(["404.html", "danke.html", "wartung.html"]);
+const DATEIEN_AUS = new Set(["404.html", "danke.html", "anfrage-fehler.html", "wartung.html"]);
 const RECHTLICH = new Set(["impressum.html", "datenschutz.html"]);
 const MARKE = /\|?\s*fenster[- ]weissenburger(\s+ug)?(\s*\(haftungsbeschränkt\))?/g;
 

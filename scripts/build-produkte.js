@@ -285,42 +285,41 @@ function form(p) {
           ${firmaLib.kontaktKarteHtml(einst)}
           <p class="more-links"><a href="/produkte/">Alle Produkte</a> · <a href="/leistungen/">Unsere Leistungen: Beratung, Aufmaß, Montage</a></p>
         </div>
-        <form class="form" name="anfrage-produkte" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <form class="form" name="anfrage-produkte" method="POST" action="/.netlify/functions/anfrage" data-anfrage data-danke="/danke.html" novalidate>
           <input type="hidden" name="form-name" value="anfrage-produkte">
+          <input type="hidden" name="produkt" value="${esc(p.formValue)}">
           <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-          <div class="form__row">
-            <label for="f-produkt">Produkt</label>
-            <select id="f-produkt" name="produkt">
-${opts.map((o) => `              <option${o === p.formValue ? " selected" : ""}>${esc(o)}</option>`).join("\n")}
-            </select>
-          </div>
-          <div class="form__row">
-            <label for="f-name">Name *</label>
-            <input id="f-name" name="name" type="text" required autocomplete="name">
-          </div>
-          <div class="form__grid form__grid--kontakt">
+          <div class="form__grid">
             <div class="form__row">
-              <label for="f-tel">Telefon</label>
+              <label for="f-name">Name *</label>
+              <input id="f-name" name="name" type="text" required autocomplete="name">
+            </div>
+            <div class="form__row">
+              <label for="f-plz">PLZ *</label>
+              <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
+            </div>
+          </div>
+          <div class="form__grid">
+            <div class="form__row">
+              <label for="f-mail">E-Mail *</label>
+              <input id="f-mail" name="email" type="email" required autocomplete="email" inputmode="email">
+            </div>
+            <div class="form__row">
+              <label for="f-tel">Telefon (optional)</label>
               <input id="f-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel">
             </div>
-            <div class="form__row">
-              <label for="f-mail">E-Mail</label>
-              <input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email">
-            </div>
-          </div>
-          <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
-          <div class="form__row">
-            <label for="f-plz">PLZ *</label>
-            <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
           </div>
           <div class="form__row">
-            <label for="f-anzahl">Anzahl Elemente</label>
-            <select id="f-anzahl" name="anzahl-fenster">
+            <label for="f-anliegen">Worum geht es?</label>
+            <select id="f-anliegen" name="anliegen">
               <option value="">Bitte wählen</option>
-              <option>1–3</option>
-              <option>4–8</option>
-              <option>9–15</option>
-              <option>mehr als 15</option>
+              <option>Fenster (1–3 Stück)</option>
+              <option>Fenster (4–10 Stück)</option>
+              <option>Fenster (mehr als 10 Stück)</option>
+              <option${p.formValue === "Haustür" ? " selected" : ""}>Haustür</option>
+              <option>Fenster und Haustür</option>
+              <option>Rollläden / Insektenschutz</option>
+              <option>Sonstiges</option>
             </select>
           </div>
           <div class="form__row">
@@ -329,7 +328,7 @@ ${opts.map((o) => `              <option${o === p.formValue ? " selected" : ""}>
           </div>
           <div class="form__check">
             <input id="f-dsgvo" name="datenschutz" type="checkbox" required value="ja">
-            <label for="f-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage einverstanden. *</label>
+            <label for="f-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und stimme zu. *</label>
           </div>
           <p class="form__error" role="alert" hidden>Bitte füllen Sie alle Pflichtfelder (*) aus.</p>
           <button class="btn btn--primary btn--block" type="submit">Anfrage senden</button>
