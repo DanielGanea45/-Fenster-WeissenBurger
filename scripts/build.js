@@ -28,13 +28,15 @@ const DEFAULT_SCHRITTE = [
   { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" }, // zuerst: die Tests prüfen die fertigen Seiten (Steuertexte), Asset-Hashes danach
   { name: "Einsatzgebiet-Seiten", cmd: "node scripts/build-orte.js" },
   { name: "Produktseiten", cmd: "node scripts/build-produkte.js" },
-  { name: "CSS/JS minimieren", cmd: "node scripts/minify.js" }, // nur im Netlify-Build aktiv; vor den Asset-Hashes
   { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
   { name: "Tests (Preisrechner, Admin, Steuer-Audit, Performance-Budget)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
-  // Zuletzt, nach den Tests: Generator-Tests vergleichen erzeugte Seiten mit den Dateien – das <picture>-Hüllen darf
-  // sie nicht verändern. Der Schritt selbst ist in tests/performance-budget.test.js geprüft (idempotent, nur mit .avif).
-  { name: "Bilder: AVIF-Quellen (<picture>, WebP als Rückfall)", cmd: "node scripts/bilder-picture.js" }, // nur im Netlify-Build aktiv
+  /* Erst NACH den Tests (die prüfen Quelltexte und vergleichen erzeugte Seiten mit den Dateien), nur im Netlify-Build:
+     minimieren, Hashes für den minimierten Inhalt neu schreiben, <img> mit AVIF-Quelle hüllen.
+     Die Schritte selbst sind in tests/performance-budget.test.js abgesichert. */
+  { name: "CSS/JS minimieren", cmd: "node scripts/minify.js" },
+  { name: "Asset-Versionen für minimierte Dateien", cmd: "node scripts/assets-version.js" },
+  { name: "Bilder: AVIF-Quellen (<picture>, WebP als Rückfall)", cmd: "node scripts/bilder-picture.js" },
 ];
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
