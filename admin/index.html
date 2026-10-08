@@ -9,10 +9,12 @@
   <meta name="theme-color" content="#f1ede6">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/admin.css?v=1e34c854">
+  <link rel="stylesheet" href="/css/admin.css?v=a3d48b9f">
 </head>
 <body>
   <noscript><p class="loading">Für die Verwaltung muss JavaScript aktiviert sein.</p></noscript>
+  <!-- Startbild, bis die Anmeldung geprüft ist (wird per JS ausgeblendet) -->
+  <div id="splash" class="splash" aria-hidden="true"><svg viewBox="0 0 56 64"><polygon points="20,10 50,2 50,46 20,54" fill="none" stroke="#b5803f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="6,14 36,22 36,62 6,56" fill="none" stroke="#b5803f" stroke-width="2.4" stroke-linejoin="round"/><line x1="21" y1="38" x2="36" y2="42" stroke="#b5803f" stroke-width="1.6"/></svg><span>Fenster-WeissenBurger</span></div>
 
   <!-- Anmeldung / Einrichtung / Passwort zurücksetzen (Inhalt per JS) -->
   <div id="auth" class="auth" hidden>
@@ -56,7 +58,7 @@
   <script src="/js/preis.js?v=81686bca"></script>
   <script src="/js/steuer.js?v=9e77bb20"></script>
   <script src="/js/preis-validate.js?v=3cc43f70"></script>
-  <script src="/js/admin.js?v=33aae7c6"></script>
+  <script src="/js/admin.js?v=4fba27bf"></script>
   <script type="fw/modul" data-modul="einstellungen" src="/js/admin-einstellungen.js?v=25f2f3db"></script>
   <script type="fw/modul" data-modul="produkte" src="/js/admin-produkte.js?v=23fa30e8"></script>
   <script type="fw/modul" data-modul="belege" src="/js/admin-belege.js"></script>

@@ -64,8 +64,9 @@
   /* ====================================================================
      Anmeldung, Einrichtung, Passwort zurücksetzen, E-Mail bestätigen
      ==================================================================== */
-  function zeigeAuth() { $("#app").hidden = true; $("#auth").hidden = false; stopPoll(); }
-  function zeigeApp() { $("#auth").hidden = true; $("#app").hidden = false; }
+  const splashWeg = () => { const s = $("#splash"); if (s) s.hidden = true; };
+  function zeigeAuth() { splashWeg(); $("#app").hidden = true; $("#auth").hidden = false; stopPoll(); }
+  function zeigeApp() { splashWeg(); $("#auth").hidden = true; $("#app").hidden = false; }
   const fehlerBox = (msg) => (msg ? `<div class="alert alert--err" role="alert">${h(msg)}</div>` : "");
 
   function authForm(html) { $("#auth-form").innerHTML = html; const f = $("#auth-form input:not([type=checkbox]):not([type=hidden])"); if (f) f.focus(); }

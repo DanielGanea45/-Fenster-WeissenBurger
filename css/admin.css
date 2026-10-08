@@ -241,6 +241,10 @@ table.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size
 .abschnitt { scroll-margin-top: calc(var(--top) + 16px); }
 .abschnitt > h2, .card > h2 { font-size: 22px; }
 
+/* ---------- Startbild (bis die Anmeldung geprüft ist) ---------- */
+.splash { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--ink); font-family: var(--serif); font-size: 22px; }
+.splash svg { width: 44px; height: 50px; }
+
 /* ---------- Anmeldung ---------- */
 .auth { min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); }
 .auth__brand { flex: 1 1 420px; background: var(--rail-bg); color: var(--rail-ink); padding: 56px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 100vh; }
