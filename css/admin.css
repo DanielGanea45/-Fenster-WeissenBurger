@@ -819,3 +819,8 @@ code.secret { font-family: ui-monospace, Consolas, monospace; font-size: 15px; l
 .kpi.skeleton .value, .kpi.skeleton .kpi__head { background: var(--panel-2); border-radius: 6px; min-width: 60px; }
 .skelett-zeile { height: 40px; border-radius: var(--r-sm); background: var(--panel-2); animation: pulse 1.2s infinite; }
 .mehr-laden { align-self: center; }
+
+/* Ladefehler einer Ansicht: klare Meldung statt Technik (Details in der Konsole) */
+.ladefehler { max-width: 560px; padding: 24px; gap: 10px; border-color: var(--err); }
+.ladefehler h2 { font-size: 24px; }
+.ladefehler p { color: var(--ink-2); }

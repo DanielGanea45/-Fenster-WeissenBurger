@@ -53,7 +53,13 @@
     try { r = await fetch(u, opt); } catch (e) { throw new Error("Keine Verbindung zum Server."); }
     const roh = await r.text().catch(() => "");
     try { j = JSON.parse(roh); } catch (e) { j = { ok: false, error: r.status === 404 ? "Admin-Bereich nicht verfügbar (404)." : "Unerwartete Serverantwort (" + r.status + ")" + (roh && !/^\s*</.test(roh) ? ": " + roh.slice(0, 200) : ".") }; }
-    if (j && j.ok === false && !j.error) j.error = "Fehler ohne Beschreibung (HTTP " + r.status + ").";
+    /* Antworten ohne unser Format (z. B. Fehlerseiten des Hostings mit errorMessage, Zeitüberschreitung, leere Objekte):
+       nie ohne Meldung weitergeben – Details nur in der Konsole */
+    if (!j || typeof j !== "object" || Array.isArray(j) || (j.ok === undefined && (r.status >= 400 || j.errorMessage || j.errorType))) {
+      console.error("Admin-API: unerwartete Antwort", r.status, u, JSON.stringify(j).slice(0, 500));
+      j = { ok: false, error: r.status === 404 ? "Admin-Bereich nicht verfügbar (404)." : "Der Server hat nicht wie erwartet geantwortet (HTTP " + r.status + "). Bleibt der Fehler bestehen, bitte die technische Betreuung informieren.", technisch: true };
+    }
+    if (j.ok === false && !j.error) j.error = "Fehler ohne Beschreibung (HTTP " + r.status + ").";
     if (r.status === 401 && j.anmelden) { zeigeAuth(); throw new Error("Sitzung abgelaufen – bitte erneut anmelden."); }
     j.status = r.status;
     return j;
@@ -252,7 +258,13 @@
     renderNav();
     const alt = $("#main"), main = alt.cloneNode(false); alt.replaceWith(main); // alte Event-Listener verwerfen
     main.innerHTML = skelett();
-    try { if (!VIEWS[r.id]) await modulLaden(r.id); await VIEWS[r.id](main, r.sub); } catch (e) { main.innerHTML = `<div class="alert alert--err">Fehler: ${h(e.message)}</div>`; }
+    try { if (!VIEWS[r.id]) await modulLaden(r.id); await VIEWS[r.id](main, r.sub); }
+    catch (e) {
+      console.error("Admin: Ansicht „" + r.id + "“ konnte nicht geladen werden", e);
+      const grund = e && e.message && !/^(Cannot|Failed|Unexpected|TypeError|ReferenceError|undefined|null)/i.test(e.message) && !/is not|of undefined|of null|not defined/.test(e.message) ? h(e.message) : "";
+      main.innerHTML = `<div class="card ladefehler" role="alert"><h2>Diese Seite konnte nicht geladen werden.</h2><p>Bitte Seite neu laden.${grund ? " " + grund : ""}</p><div class="row"><button type="button" class="btn btn--primary" data-neuladen>Neu laden</button><a class="btn" href="#uebersicht">Zur Übersicht</a></div></div>`;
+      $("[data-neuladen]", main).addEventListener("click", () => location.reload());
+    }
     main.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
@@ -268,7 +280,7 @@
     const name = MODULE[id]; if (!name) return Promise.reject(new Error("Dieser Bereich ist nicht verfügbar."));
     const tag = document.querySelector(`script[type="fw/modul"][data-modul="${name}"]`);
     if (!tag) return Promise.reject(new Error("Dieser Bereich ist nicht verfügbar."));
-    return new Promise((res, rej) => { const el = document.createElement("script"); el.src = tag.getAttribute("src"); el.onload = res; el.onerror = () => rej(new Error("Der Bereich konnte nicht geladen werden – bitte Seite neu laden.")); document.head.appendChild(el); });
+    return new Promise((res, rej) => { const el = document.createElement("script"); el.src = tag.getAttribute("src"); el.onload = () => { if (VIEWS[id]) res(); else rej(new Error("Der Bereich steht in dieser Version nicht zur Verfügung.")); }; el.onerror = () => rej(new Error("Ein Teil der Verwaltung konnte nicht geladen werden.")); document.head.appendChild(el); });
   }
 
   /* Veröffentlichungsstatus */
