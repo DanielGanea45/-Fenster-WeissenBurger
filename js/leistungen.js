@@ -5,8 +5,11 @@
 
   /* Hero-Video erst nach dem Laden starten (schont LCP) */
   var hero = document.querySelector(".hero__video");
-  if (hero && !reduced) {
+  var sparsam = reduced || (navigator.connection && navigator.connection.saveData) || window.matchMedia("(prefers-reduced-data: reduce)").matches;
+  if (hero && !sparsam) {
     var start = function () {
+      var klein = hero.getAttribute("data-klein");
+      if (klein && window.matchMedia("(max-width: 700px)").matches) { while (hero.firstChild) hero.removeChild(hero.firstChild); var s = document.createElement("source"); s.src = klein; s.type = "video/mp4"; hero.appendChild(s); }
       hero.preload = "auto";
       hero.load();
       var p = hero.play();

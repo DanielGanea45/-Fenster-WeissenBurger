@@ -20,6 +20,7 @@
     "wawoff2": "^2.0.1"
   },
   "devDependencies": {
+    "esbuild": "^0.28.2",
     "pdfjs-dist": "^4.10.38"
   }
 }

@@ -140,15 +140,21 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# CSS/JS: immer beim Server nachfragen (ETag/304). Die Dateien werden ohne Hash im Namen
-# ausgeliefert; ein langer max-age ließ Browser nach Deploys alte Skripte/Styles behalten.
+# CSS/JS: jede Referenz trägt einen Inhalts-Hash (?v=…, scripts/assets-version.js, im Build geprüft) → ein Jahr
+# unveränderlich cachen; nach einem Deploy ändert sich die URL, nie der Inhalt hinter einer URL.
 [[headers]]
   for = "/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML: kurz, immer beim Server nachfragen (ETag/304)
+[[headers]]
+  for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 

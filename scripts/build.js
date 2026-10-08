@@ -28,6 +28,8 @@ const DEFAULT_SCHRITTE = [
   { name: "Konfigurator-Seiten", cmd: "node scripts/build-konfigurator.js" }, // zuerst: die Tests prüfen die fertigen Seiten (Steuertexte), Asset-Hashes danach
   { name: "Einsatzgebiet-Seiten", cmd: "node scripts/build-orte.js" },
   { name: "Produktseiten", cmd: "node scripts/build-produkte.js" },
+  { name: "Bilder: AVIF-Quellen (<picture>, WebP als Rückfall)", cmd: "node scripts/bilder-picture.js" }, // nur im Netlify-Build aktiv
+  { name: "CSS/JS minimieren", cmd: "node scripts/minify.js" }, // nur im Netlify-Build aktiv; vor den Asset-Hashes
   { name: "Asset-Versionen (Cache-Busting per Inhalts-Hash)", cmd: "node scripts/assets-version.js" },
   { name: "Tests (Preisrechner, Admin, Steuer-Audit)", cmd: "node --test tests/*.test.js" },
   { name: "Kontrastprüfung", cmd: "node scripts/kontrast-check.js" },
@@ -149,7 +151,7 @@ async function neueBilderAnhaengen(root, bilder, seiten) {
     const klein = dateien[0][1], gross = dateien[dateien.length - 1][1];
     let li = vorlageM[0];
     li = li.replace(/<a href="[^"]*">/, `<a href="${gross}">`);
-    li = li.replace(/<img[^>]*>/, `<img src="${klein}" srcset="${dateien.map(([g, p]) => p + " " + g + "w").join(", ")}" width="${b.breite || 800}" height="${b.hoehe || 600}" alt="${esc(b.alt || b.titel || "")}" loading="lazy" decoding="async">`);
+    li = li.replace(/<img\b[^>]*>/, `<img src="${klein}" srcset="${dateien.map(([g, p]) => p + " " + g + "w").join(", ")}" width="${b.breite || 800}" height="${b.hoehe || 600}" alt="${esc(b.alt || b.titel || "")}" loading="lazy" decoding="async">`);
     li = li.replace(/<figcaption>[\s\S]*?<\/figcaption>/, `<figcaption><strong>${esc(b.titel || "")}</strong>${b.alt ? " – " + esc(b.alt) : ""}</figcaption>`);
     eingefuegt += "\n          " + li; n++;
   }

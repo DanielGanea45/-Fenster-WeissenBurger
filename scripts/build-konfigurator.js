@@ -196,7 +196,7 @@ function pageKonf(key) {
         </div>
 
         <aside class="konf__aside" aria-label="Ihre Konfiguration">
-          <div class="preview"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><img class="preview__foto" alt="" width="896" height="1200" decoding="async" hidden><span class="preview__etikett" hidden></span></div><div class="preview__fuss"><p class="preview__masse"></p><p class="preview__note">Schematische Darstellung</p></div></div>
+          <div class="preview"><div class="preview__media"><svg viewBox="0 0 320 300" role="img" aria-label="Schematische Vorschau Ihrer Konfiguration"></svg><img class="preview__foto" alt="" width="896" height="1200" decoding="async" fetchpriority="high" hidden><span class="preview__etikett" hidden></span></div><div class="preview__fuss"><p class="preview__masse"></p><p class="preview__note">Schematische Darstellung</p></div></div>
           <div class="price"><p class="price__na">Preis wird berechnet …</p></div>
         </aside>
       </div>
