@@ -3,24 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Command Center – Fenster-WeissenBurger</title>
+  <title>Verwaltung – Fenster-WeissenBurger</title>
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="referrer" content="same-origin">
-  <meta name="theme-color" content="#121a24">
+  <meta name="theme-color" content="#f1ede6">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/admin.css?v=775e54a4">
+  <link rel="preload" href="/assets/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/admin.css?v=a3d48b9f">
 </head>
 <body>
   <noscript><p class="loading">Für die Verwaltung muss JavaScript aktiviert sein.</p></noscript>
+  <!-- Startbild, bis die Anmeldung geprüft ist (wird per JS ausgeblendet) -->
+  <div id="splash" class="splash" aria-hidden="true"><svg viewBox="0 0 56 64"><polygon points="20,10 50,2 50,46 20,54" fill="none" stroke="#b5803f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="6,14 36,22 36,62 6,56" fill="none" stroke="#b5803f" stroke-width="2.4" stroke-linejoin="round"/><line x1="21" y1="38" x2="36" y2="42" stroke="#b5803f" stroke-width="1.6"/></svg><span>Fenster-WeissenBurger</span></div>
 
   <!-- Anmeldung / Einrichtung / Passwort zurücksetzen (Inhalt per JS) -->
   <div id="auth" class="auth" hidden>
     <section class="auth__brand">
-      <div class="auth__logo"><svg width="36" height="42" viewBox="0 0 48 56" aria-hidden="true"><polygon points="16,7 44,1 44,43 16,47" fill="#3d8bff"></polygon><polygon points="5,9 31,15 31,53 5,49" fill="none" stroke="#ffffff" stroke-width="2.6"></polygon></svg><span>Fenster-WeissenBurger</span></div>
+      <div class="auth__logo"><svg viewBox="0 0 56 64" aria-hidden="true"><polygon points="20,10 50,2 50,46 20,54" fill="none" stroke="#d9ad66" stroke-width="2.4" stroke-linejoin="round"/><polygon points="6,14 36,22 36,62 6,56" fill="none" stroke="#d9ad66" stroke-width="2.4" stroke-linejoin="round"/><line x1="21" y1="38" x2="36" y2="42" stroke="#d9ad66" stroke-width="1.6"/></svg><span>Fenster-WeissenBurger</span></div>
       <div class="auth__claim">
-        <span class="eyebrow">Command Center</span>
-        <h1>Ihre Website. Ihre Preise, Bilder und Texte.</h1>
-        <p>Hier pflegen Sie Preise, Fotos, Texte, Bewertungen und Ihre Zugangsdaten – ohne Programmierkenntnisse.</p>
+        <span class="eyebrow">Verwaltung</span>
+        <h1>Ihre Website. Ihre Preise, Angebote und Texte.</h1>
+        <p>Hier pflegen Sie Preise, Fotos, Texte, Bewertungen, Angebote und Rechnungen – ohne Programmierkenntnisse.</p>
       </div>
       <span class="auth__url">fenster-weissenburger.de/admin</span>
     </section>
@@ -30,20 +33,20 @@
   <!-- Verwaltung -->
   <div id="app" class="app" hidden>
     <aside class="rail" aria-label="Navigation">
-      <a class="rail__logo" href="#uebersicht" aria-label="Übersicht"><svg width="26" height="30" viewBox="0 0 48 56" aria-hidden="true"><polygon points="16,7 44,1 44,43 16,47" fill="#3d8bff"></polygon><polygon points="5,9 31,15 31,53 5,49" fill="none" stroke="#ffffff" stroke-width="2.6"></polygon></svg></a>
       <button type="button" class="rail__schliessen" id="rail-schliessen" aria-label="Menü schließen">×</button>
+      <a class="rail__logo" href="#uebersicht" aria-label="Übersicht"><svg viewBox="0 0 56 64" aria-hidden="true"><polygon points="20,10 50,2 50,46 20,54" fill="none" stroke="#d9ad66" stroke-width="2.4" stroke-linejoin="round"/><polygon points="6,14 36,22 36,62 6,56" fill="none" stroke="#d9ad66" stroke-width="2.4" stroke-linejoin="round"/><line x1="21" y1="38" x2="36" y2="42" stroke="#d9ad66" stroke-width="1.6"/></svg><span class="lbl">Fenster-WeissenBurger</span></a>
       <nav class="nav" aria-label="Admin-Menü" id="nav-side"></nav>
       <div class="rail__foot">
-        <a href="/" target="_blank" rel="noopener" title="Website ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg><span class="lbl">Website</span></a>
-        <a href="#" data-act="abmelden" title="Abmelden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span class="lbl">Abmelden</span></a>
+        <a href="/" target="_blank" rel="noopener" title="Website ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg><span class="lbl">Website ansehen</span></a>
         <span class="ctx" id="ctx-side"></span>
+        <div class="rail__user"><span class="avatar" id="top-avatar" aria-hidden="true">A</span><span class="grow"><span class="name" id="top-name">Admin</span><span class="firma">WeissenBurger</span></span><a href="#" class="abmelden" data-act="abmelden" title="Abmelden" aria-label="Abmelden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg></a></div>
       </div>
     </aside>
 
     <header class="top">
       <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menü" aria-expanded="false" aria-controls="nav-side"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-      <div class="top__crumb"><span>Fenster-WeissenBurger</span><span class="sep">|</span><span class="dim">Command Center</span><span class="sep">›</span><span id="top-title">Übersicht</span></div>
-      <div class="top__meta"><span class="top__pub" id="top-pub"></span><span class="datum" id="top-datum"></span><span class="top__user"><span class="top__avatar" id="top-avatar">A</span><span class="name" id="top-name">Admin</span><span class="dot">Online</span></span></div>
+      <div class="top__crumb"><span class="dim">Fenster-WeissenBurger</span><span class="sep">›</span><span id="top-title">Übersicht</span></div>
+      <div class="top__meta"><span class="top__pub" id="top-pub"></span><span class="datum" id="top-datum"></span><a href="#" class="top__user" data-act="abmelden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6 6 0 0 1 11 0"/></svg><span class="name">Abmelden</span></a></div>
     </header>
 
     <main class="main" id="main" tabindex="-1"></main>
@@ -55,8 +58,8 @@
   <script src="/js/preis.js?v=81686bca"></script>
   <script src="/js/steuer.js?v=9e77bb20"></script>
   <script src="/js/preis-validate.js?v=3cc43f70"></script>
-  <script src="/js/admin.js?v=8a93ccd8"></script>
-  <script type="fw/modul" data-modul="einstellungen" src="/js/admin-einstellungen.js?v=c5457fd8"></script>
+  <script src="/js/admin.js?v=4fba27bf"></script>
+  <script type="fw/modul" data-modul="einstellungen" src="/js/admin-einstellungen.js?v=25f2f3db"></script>
   <script type="fw/modul" data-modul="produkte" src="/js/admin-produkte.js?v=23fa30e8"></script>
   <script type="fw/modul" data-modul="belege" src="/js/admin-belege.js"></script>
 </body>

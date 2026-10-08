@@ -78,7 +78,8 @@
     else if (f.t === "number") ctl = `<span class="inline-input"><input type="text" id="${id}" class="input" inputmode="numeric" data-pfad="${f.p}" data-typ="zahl" value="${h(v == null ? "" : v)}">${f.einheit ? `<span class="einheit">${h(f.einheit)}</span>` : ""}</span>`;
     else ctl = `<input type="${f.t === "iban" ? "text" : f.t || "text"}" id="${id}" class="input" data-pfad="${f.p}" data-typ="text" ${f.attrs || ""} ${f.t === "iban" ? 'autocomplete="off" spellcheck="false"' : ""} value="${h(v == null ? "" : v)}">`;
     const block = f.t === "textarea";
-    return `<div class="set-row ${block ? "set-row--block" : ""} ${err ? "field--fehler" : ""}"><div class="set-row__text"><label class="set-row__titel" for="${id}">${h(f.l)}</label>${f.d ? `<span class="set-row__desc">${h(f.d)}</span>` : ""}</div><div class="set-row__ctl">${ctl}<span class="fehler-text">${h(err || "")}</span></div></div>`;
+    const ok = f.t === "iban" && v && !err && PV.ibanGueltig(String(v)) ? '<span class="iban-ok" data-iban-ok>✓ gültig</span>' : f.t === "iban" ? '<span class="iban-ok" data-iban-ok hidden>✓ gültig</span>' : "";
+    return `<div class="set-row ${block ? "set-row--block" : ""} ${err ? "field--fehler" : ""}"><div class="set-row__text"><label class="set-row__titel" for="${id}">${h(f.l)}</label>${f.d ? `<span class="set-row__desc">${h(f.d)}</span>` : ""}</div><div class="set-row__ctl">${ctl}${ok}<span class="fehler-text">${h(err || "")}</span></div></div>`;
   }
   function karte(k) { return `<section class="card set-card"><h2>${h(k.titel)}</h2>${k.felder.map(feld).join("")}</section>`; }
 
@@ -187,7 +188,7 @@
       <div class="einst__inhalt">${z ? zweigHtml(z) : '<div class="page-head"><div><h1>Einstellungen</h1><span class="muted">Bitte links einen Bereich wählen.</span></div></div>'}</div></div>`;
     if (!z) { if (window.matchMedia("(min-width: 901px)").matches) { location.hash = "#einstellungen/" + ZWEIGE[0].id; } return; }
     const ft = $("#set-footer", main); if (ft) ft.innerHTML = footerHtml(z);
-    main.oninput = (e) => { if (!e.target.closest(".einst__inhalt")) return; lies(main); setDirty(istDirty(z)); const ft2 = $("#set-footer", main); if (ft2) ft2.innerHTML = footerHtml(z); const zt = $("#zeiten-text", main); if (zt) zt.textContent = zeitenText(E.oeffnungszeiten); if (e.target.dataset.pfad === "bank.iban") { const ok = !e.target.value.trim() || PV.ibanGueltig(e.target.value); e.target.closest(".set-row").classList.toggle("field--fehler", !ok); $(".fehler-text", e.target.closest(".set-row")).textContent = ok ? "" : "IBAN ist ungültig (Prüfsumme)."; } };
+    main.oninput = (e) => { if (!e.target.closest(".einst__inhalt")) return; lies(main); setDirty(istDirty(z)); const ft2 = $("#set-footer", main); if (ft2) ft2.innerHTML = footerHtml(z); const zt = $("#zeiten-text", main); if (zt) zt.textContent = zeitenText(E.oeffnungszeiten); if (e.target.dataset.pfad === "bank.iban") { const ok = !e.target.value.trim() || PV.ibanGueltig(e.target.value); e.target.closest(".set-row").classList.toggle("field--fehler", !ok); $(".fehler-text", e.target.closest(".set-row")).textContent = ok ? "" : "IBAN ist ungültig (Prüfsumme)."; const io = $("[data-iban-ok]", e.target.closest(".set-row")); if (io) io.hidden = !(ok && e.target.value.trim()); } };
     main.onchange = (e) => { const zu = e.target.closest("[data-zu]"); if (zu) { const k = zu.dataset.zu; $$(`[data-zeit="${k}"]`, main).forEach((i) => { i.disabled = zu.checked; }); lies(main); setDirty(istDirty(z)); const ft2 = $("#set-footer", main); if (ft2) ft2.innerHTML = footerHtml(z); const zt = $("#zeiten-text", main); if (zt) zt.textContent = zeitenText(E.oeffnungszeiten); } };
     main.onclick = async (e) => {
       const b = e.target.closest("[data-e]");

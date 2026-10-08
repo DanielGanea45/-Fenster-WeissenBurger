@@ -20,7 +20,6 @@
   const STATUS = { entwurf: ["Entwurf", "pill--grey"], gesendet: ["Gesendet", ""], angenommen: ["Angenommen", "pill--ok"], abgelehnt: ["Abgelehnt", "pill--err"], abgelaufen: ["Abgelaufen", "pill--warn"], erledigt: ["Erledigt", "pill--ok"], offen: ["Offen", "pill--warn"], teilweise: ["Teilweise bezahlt", "pill--warn"], bezahlt: ["Bezahlt", "pill--ok"], ueberfaellig: ["Überfällig", "pill--err"], storniert: ["Storniert", "pill--err"], festgeschrieben: ["Festgeschrieben", "pill--ok"] };
   const pill = (st) => { const x = STATUS[st] || [st, ""]; return `<span class="pill pill--xs ${x[1]}">${h(x[0])}</span>`; };
   const EINHEITEN = ["Stk.", "m²", "lfm", "pauschal", "Std."];
-  const FILTER = [["alle", "Alle"], ["entwurf", "Entwürfe"], ["angebot", "Angebote"], ["ab", "Auftragsbestätigungen"], ["offen", "Rechnungen offen"], ["bezahlt", "Bezahlt"], ["storniert", "Storniert"]];
   const pdfUrl = (id, download) => `${URL_B}?aktion=pdf&id=${encodeURIComponent(id)}${download ? "&download=1" : ""}`;
   const entprellt = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 
@@ -44,38 +43,92 @@
   /* ====================================================================
      Liste
      ==================================================================== */
-  const L = { filter: "alle", suche: "", sort: "datum", richtung: "ab", seite: 1 };
+  const L = { art: "alle", status: "alle", suche: "", sort: "datum", richtung: "ab", seite: 1, aktiv: null };
+  const REITER = [["alle", "Alle"], ["angebot", "Angebote"], ["ab", "Auftragsbestätigungen"], ["rechnung", "Rechnungen"], ["storno", "Storno"]];
+  const STATUS_FILTER = [["alle", "Status: Alle"], ["entwurf", "Entwurf"], ["gesendet", "Gesendet"], ["offen", "Offen"], ["ueberfaellig", "Überfällig"], ["bezahlt", "Bezahlt"], ["angenommen", "Angenommen"], ["abgelehnt", "Abgelehnt"], ["storniert", "Storniert"]];
+  const MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+  const ICON_SUCHE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
   async function liste(main) {
-    main.innerHTML = `<div class="page-head"><div><h1>Angebote &amp; Rechnungen</h1><span class="muted">Angebot → Auftragsbestätigung → Rechnung, mit einem Klick weiter. Entwürfe werden beim Tippen gespeichert.</span></div>
-        <div class="row"><a class="btn btn--sm" href="#kunden">Kunden</a><a class="btn btn--sm btn--primary" href="#angebote/neu">+ Neues Angebot</a></div></div>
+    main.innerHTML = `<div class="page-head"><div><h1>Angebote &amp; Rechnungen</h1></div>
+        <div class="row"><a class="btn btn--primary" href="#angebote/neu">Neues Angebot</a><button type="button" class="btn btn--dark" id="bel-export-btn">Export für Steuerberater</button></div></div>
       <div id="bel-muster"></div>
-      <div class="kpis" id="bel-kpis">${[1, 2, 3, 4].map(() => '<div class="card kpi skeleton"><span class="kpi__head">&nbsp;</span><span class="value">&nbsp;</span></div>').join("")}</div>
-      <div class="card bel-liste">
-        <div class="bel-toolbar"><div class="chips" id="bel-filter" role="tablist" aria-label="Filter">${FILTER.map(([k, l]) => `<button type="button" class="chip" role="tab" aria-selected="${k === L.filter}" data-f="${k}">${l}</button>`).join("")}</div>
-          <div class="row bel-suche"><input type="search" class="input" id="bel-suche" placeholder="Nummer, Kunde, Betreff …" aria-label="Suchen" value="${h(L.suche)}"><select class="input" id="bel-sort" aria-label="Sortierung">${[["datum", "Datum"], ["nummer", "Nummer"], ["kunde", "Kunde"], ["gesamt", "Betrag"], ["status", "Status"]].map(([k, l]) => `<option value="${k}" ${L.sort === k ? "selected" : ""}>${l}</option>`).join("")}</select><button type="button" class="btn btn--xs" id="bel-richtung" title="Richtung umkehren" aria-label="Sortierrichtung umkehren">${L.richtung === "ab" ? "↓" : "↑"}</button></div></div>
-        <div class="bel-tabelle-wrap" id="bel-tabelle"><p class="loading">Wird geladen …</p></div>
-        <div class="row row--between bel-foot"><span class="small muted">Rechnungen werden beim Festschreiben nummeriert und sind danach nicht mehr änderbar (GoBD). Korrekturen erfolgen per Stornorechnung. Nummern laufen fortlaufend ohne Lücken.</span><span class="row" id="bel-seiten"></span></div>
-      </div>
-      <div class="card bel-export"><h2>Export für den Steuerberater</h2><div class="row"><label class="field small">von<input type="date" class="input" id="exp-von" value="${new Date().getFullYear()}-01-01"></label><label class="field small">bis<input type="date" class="input" id="exp-bis" value="${heute()}"></label><span class="row bel-export__btns"><a class="btn btn--xs" id="exp-csv" href="#" download>CSV (alle Belege)</a><a class="btn btn--xs" id="exp-datev" href="#" download>DATEV-Buchungsstapel</a><a class="btn btn--xs" id="exp-zip" href="#" download>ZIP mit Rechnungs-PDFs</a></span></div><p class="small muted">Rechnungen und Stornorechnungen des Zeitraums; das ZIP enthält die festgeschriebenen PDFs samt Prüfsummen-Index.</p></div>`;
-    const exportLinks = () => { const q = `&von=${$("#exp-von").value}&bis=${$("#exp-bis").value}`; $("#exp-csv").href = `${URL_B}?aktion=export&format=csv${q}`; $("#exp-datev").href = `${URL_B}?aktion=export&format=datev${q}`; $("#exp-zip").href = `${URL_B}?aktion=export&format=zip${q}`; };
-    exportLinks(); $("#exp-von").addEventListener("change", exportLinks); $("#exp-bis").addEventListener("change", exportLinks);
-    get("kpis").then((k) => { if (!k.ok) return; const x = k.kpis; $("#bel-kpis").innerHTML = [["Offene Rechnungen", eur(x.offen), x.offen ? "" : "value--ink"], ["Überfällig", eur(x.ueberfaellig), x.ueberfaellig ? "value--err" : "value--ink"], ["Umsatz diesen Monat", eur(x.umsatzMonat), "value--ok"], ["Umsatz dieses Jahr", eur(x.umsatzJahr), "value--ok"]].map(([t, v, c]) => `<div class="card kpi"><span class="kpi__head">${t}</span><span class="value ${c}">${v}</span></div>`).join(""); });
+      <div class="kpis" id="bel-kpis">${[["Offene Summe"], ["Überfällig"], ["Umsatz " + MONATE[new Date().getMonth()]], ["Angebote offen"]].map(([t]) => `<div class="card kpi skeleton"><span class="kpi__head">${t}</span><span class="value">&nbsp;</span></div>`).join("")}</div>
+      <div class="bel-layout">
+        <div class="bel-haupt">
+          <div class="tabs" id="bel-reiter" role="tablist" aria-label="Belegart">${REITER.map(([k, l]) => `<button type="button" role="tab" aria-selected="${k === L.art}" data-art="${k}">${l}</button>`).join("")}</div>
+          <div class="card bel-liste">
+            <div class="bel-toolbar"><div class="row bel-suche"><span class="suche">${ICON_SUCHE}<input type="search" id="bel-suche" placeholder="Suchen" aria-label="Nummer, Kunde oder Betreff suchen" value="${h(L.suche)}"></span><select class="input" id="bel-status" aria-label="Status">${STATUS_FILTER.map(([k, l]) => `<option value="${k}" ${L.status === k ? "selected" : ""}>${l}</option>`).join("")}</select><select class="input" id="bel-sort" aria-label="Sortierung">${[["datum", "Sortierung: Datum"], ["nummer", "Nummer"], ["kunde", "Kunde"], ["gesamt", "Betrag"], ["status", "Status"]].map(([k, l]) => `<option value="${k}" ${L.sort === k ? "selected" : ""}>${l}</option>`).join("")}</select><button type="button" class="btn btn--xs" id="bel-richtung" title="Richtung umkehren" aria-label="Sortierrichtung umkehren">${L.richtung === "ab" ? "↓" : "↑"}</button></div></div>
+            <div class="bel-tabelle-wrap" id="bel-tabelle"><p class="loading">Wird geladen …</p></div>
+            <div class="row row--between bel-foot"><span class="small muted">Rechnungen werden beim Festschreiben nummeriert und sind danach nicht mehr änderbar (GoBD). Korrekturen erfolgen per Stornorechnung.</span><span class="row" id="bel-seiten"></span></div>
+          </div>
+        </div>
+        <aside class="card bel-vorschau" id="bel-vorschau" aria-live="polite"><p class="bel-vorschau__leer">Beleg in der Liste auswählen – hier erscheinen Vorschau und Aktionen.</p></aside>
+      </div>`;
+    get("kpis").then((k) => { if (!k.ok || !$("#bel-kpis")) return; const x = k.kpis; $("#bel-kpis").innerHTML = [["Offene Summe", eur(x.offen), x.offen ? "" : "value--ink"], ["Überfällig", x.ueberfaelligAnzahl ? `${x.ueberfaelligAnzahl} ${x.ueberfaelligAnzahl === 1 ? "Rechnung" : "Rechnungen"}` : "keine", x.ueberfaelligAnzahl ? "value--err" : "value--ink"], ["Umsatz " + MONATE[new Date().getMonth()], eur(x.umsatzMonat), ""], ["Angebote offen", String(x.angeboteOffen), x.angeboteOffen ? "" : "value--ink"]].map(([t, v, c]) => `<div class="card kpi"><span class="kpi__head">${t}</span><span class="value ${c}">${v}</span></div>`).join(""); });
     const lade = async () => {
       const q = { suche: L.suche, sort: L.sort, richtung: L.richtung === "ab" ? "ab" : "auf", seite: L.seite, proSeite: 25 };
-      if (["angebot", "ab"].includes(L.filter)) q.art = L.filter; else if (L.filter !== "alle") q.status = L.filter;
-      if (L.filter === "offen" || L.filter === "bezahlt" || L.filter === "storniert") q.art = "rechnung";
+      if (L.art !== "alle") q.art = L.art;
+      if (L.status !== "alle") q.status = L.status;
       const d = await get("liste", q); if (!d.ok) { $("#bel-tabelle").innerHTML = `<div class="alert alert--err">${h(d.error)}</div>`; return; }
       if (d.muster) $("#bel-muster").innerHTML = musterBanner(d.muster);
-      $("#bel-tabelle").innerHTML = d.belege.length ? `<table class="tbl bel-tabelle"><thead><tr><th>Nummer</th><th>Kunde</th><th>Betreff</th><th>Datum</th><th class="num">Betrag</th><th>Status</th><th class="num">Aktionen</th></tr></thead><tbody>${d.belege.map((b) => `<tr data-id="${h(b.id)}"><td class="name" data-l="Nummer"><a href="#angebote/${h(b.id)}">${h(b.nummer || "Entwurf")}</a><span class="sub">${h(ART_KURZ[b.art])}${b.rechnungstyp && b.rechnungstyp !== "voll" ? " · " + (b.rechnungstyp === "anzahlung" ? "Anzahlung" : "Schlussrechnung") : ""}</span></td><td data-l="Kunde">${h(b.kunde)}</td><td class="bel-betreff" data-l="Betreff">${h(b.betreff)}</td><td data-l="Datum" class="nowrap">${dDe(b.datum)}${b.art === "rechnung" && b.faelligAm && ["offen", "teilweise", "ueberfaellig"].includes(b.status) ? `<span class="sub small muted">fällig ${dDe(b.faelligAm)}</span>` : ""}</td><td class="num strong" data-l="Betrag">${eur(b.art === "storno" ? b.gesamt : b.zahlbetrag)}</td><td data-l="Status">${pill(b.status)}</td><td class="num nowrap" data-l=""><a class="btn btn--xs" href="#angebote/${h(b.id)}">Öffnen</a> ${b.nummer ? `<a class="btn btn--xs" href="${pdfUrl(b.id)}" target="_blank" rel="noopener">PDF</a>` : ""}</td></tr>`).join("")}</tbody></table>` : '<p class="muted bel-leer">Keine Belege für diesen Filter.</p>';
+      if (L.aktiv && !d.belege.some((b) => b.id === L.aktiv)) L.aktiv = null;
+      if (!L.aktiv && d.belege.length && window.matchMedia("(min-width: 1281px)").matches) L.aktiv = d.belege[0].id;
+      $("#bel-tabelle").innerHTML = d.belege.length ? `<table class="tbl bel-tabelle"><thead><tr><th>Nummer</th><th>Kunde</th><th>Datum</th><th class="num">Betrag</th><th>Status</th></tr></thead><tbody>${d.belege.map((b) => `<tr data-id="${h(b.id)}" class="${b.id === L.aktiv ? "is-aktiv" : ""}" tabindex="0" aria-selected="${b.id === L.aktiv}"><td class="name" data-l="Nummer"><a href="#angebote/${h(b.id)}">${h(b.nummer || "Entwurf")}</a><span class="sub">${h(ART_KURZ[b.art])}${b.rechnungstyp && b.rechnungstyp !== "voll" ? " · " + (b.rechnungstyp === "anzahlung" ? "Anzahlung" : "Schlussrechnung") : ""}</span></td><td data-l="Kunde">${h(b.kunde)}<span class="sub bel-betreff">${h(b.betreff)}</span></td><td data-l="Datum" class="nowrap">${dDe(b.datum)}${b.art === "rechnung" && b.faelligAm && ["offen", "teilweise", "ueberfaellig"].includes(b.status) ? `<span class="sub">fällig ${dDe(b.faelligAm)}</span>` : ""}</td><td class="num strong" data-l="Betrag">${eur(b.art === "storno" ? b.gesamt : b.zahlbetrag)}</td><td data-l="Status">${pill(b.status)}</td></tr>`).join("")}</tbody></table>` : '<p class="muted bel-leer">Keine Belege für diesen Filter.</p>';
       const seiten = Math.max(1, Math.ceil(d.gesamt / d.proSeite));
       $("#bel-seiten").innerHTML = seiten > 1 ? `<button type="button" class="btn btn--xs" data-seite="${L.seite - 1}" ${L.seite <= 1 ? "disabled" : ""}>‹</button><span class="small">Seite ${L.seite} von ${seiten} · ${d.gesamt} Belege</span><button type="button" class="btn btn--xs" data-seite="${L.seite + 1}" ${L.seite >= seiten ? "disabled" : ""}>›</button>` : `<span class="small muted">${d.gesamt} ${d.gesamt === 1 ? "Beleg" : "Belege"}</span>`;
+      vorschau();
     };
-    $("#bel-filter").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; L.filter = b.dataset.f; L.seite = 1; $$("#bel-filter .chip").forEach((c) => c.setAttribute("aria-selected", c === b)); lade(); });
+    /* Rechte Spalte: PDF-Vorschau des gewählten Belegs mit den passenden Aktionen */
+    const vorschau = async () => {
+      const box = $("#bel-vorschau"); if (!box) return;
+      if (!L.aktiv) { box.innerHTML = '<p class="bel-vorschau__leer">Beleg in der Liste auswählen – hier erscheinen Vorschau und Aktionen.</p>'; return; }
+      const id = L.aktiv;
+      const d = await get("beleg", { id }); if (!d.ok || L.aktiv !== id || !$("#bel-vorschau")) return;
+      const b = d.beleg, fest = b.art === "rechnung" && b.festgeschrieben;
+      const btns = [];
+      if (b.art !== "storno" && !(b.art === "rechnung" && !b.festgeschrieben)) btns.push(`<button type="button" class="btn btn--primary" data-vk="senden">${b.gesendet ? "Erneut per E-Mail senden" : "Per E-Mail senden"}</button>`);
+      if (fest && !["bezahlt", "storniert"].includes(b.status)) btns.push('<button type="button" class="btn btn--rahmen" data-vk="zahlung">Als bezahlt markieren</button>');
+      if (b.art === "angebot") btns.push('<button type="button" class="btn btn--rahmen" data-vk="ab">Auftragsbestätigung erstellen</button>');
+      if (b.art === "ab") btns.push('<button type="button" class="btn btn--rahmen" data-vk="rechnung">Rechnung erstellen</button>');
+      if (b.art === "rechnung" && !b.festgeschrieben) btns.push('<button type="button" class="btn btn--rahmen" data-vk="festschreiben">Rechnung festschreiben</button>');
+      btns.push(`<a class="btn" href="#angebote/${h(b.id)}">${d.aenderbar && !(b.art === "rechnung" && b.status !== "entwurf") && b.art !== "storno" ? "Bearbeiten" : "Details &amp; Verlauf"}</a>`);
+      if (b.nummer) btns.push(`<a class="btn" href="${pdfUrl(b.id, true)}" download>PDF herunterladen</a>`);
+      if (fest && b.status !== "storniert") btns.push('<button type="button" class="btn btn--danger" data-vk="storno">Stornieren</button>');
+      box.innerHTML = `<div class="bel-vorschau__kopf"><b>${h(ART[b.art])} ${h(b.nummer || "Entwurf")}</b>${pill(b.status)}</div>
+        <iframe class="bel-vorschau__blatt" src="${pdfUrl(b.id)}#toolbar=0&navpanes=0&view=FitH" title="PDF-Vorschau ${h(ART[b.art])} ${h(b.nummer || "Entwurf")}" loading="lazy"></iframe>
+        <p class="small muted">${h(b.kunde.name || "")}${b.betreff ? " · " + h(b.betreff) : ""} · ${eur(d.summen.gesamt)}</p>
+        <div class="bel-vorschau__btns">${btns.join("")}</div>`;
+      box.onclick = async (e) => { const t = e.target.closest("[data-vk]"); if (!t) return; await belegAktion(t.dataset.vk, b, d.summen, async () => { await lade(); }); };
+    };
+    $("#bel-reiter").addEventListener("click", (e) => { const b = e.target.closest("[data-art]"); if (!b) return; L.art = b.dataset.art; L.seite = 1; L.aktiv = null; $$("#bel-reiter [data-art]").forEach((c) => c.setAttribute("aria-selected", c === b)); lade(); });
     $("#bel-suche").addEventListener("input", entprellt((e) => { L.suche = e.target.value.trim(); L.seite = 1; lade(); }, 250));
+    $("#bel-status").addEventListener("change", (e) => { L.status = e.target.value; L.seite = 1; lade(); });
     $("#bel-sort").addEventListener("change", (e) => { L.sort = e.target.value; lade(); });
     $("#bel-richtung").addEventListener("click", (e) => { L.richtung = L.richtung === "ab" ? "auf" : "ab"; e.currentTarget.textContent = L.richtung === "ab" ? "↓" : "↑"; lade(); });
-    main.addEventListener("click", (e) => { const b = e.target.closest("[data-seite]"); if (!b) return; L.seite = Number(b.dataset.seite); lade(); });
+    $("#bel-export-btn").addEventListener("click", exportDialog);
+    const waehle = (tr) => { L.aktiv = tr.dataset.id; $$("#bel-tabelle tr[data-id]").forEach((r) => { r.classList.toggle("is-aktiv", r === tr); r.setAttribute("aria-selected", r === tr); }); vorschau(); if (window.matchMedia("(max-width: 1280px)").matches) $("#bel-vorschau").scrollIntoView({ behavior: "smooth", block: "start" }); };
+    main.addEventListener("click", (e) => { const s = e.target.closest("[data-seite]"); if (s) { L.seite = Number(s.dataset.seite); lade(); return; } if (e.target.closest("a")) return; const tr = e.target.closest("#bel-tabelle tr[data-id]"); if (tr) waehle(tr); });
+    main.addEventListener("keydown", (e) => { if (e.key !== "Enter" && e.key !== " ") return; const tr = e.target.closest("#bel-tabelle tr[data-id]"); if (tr && e.target === tr) { e.preventDefault(); waehle(tr); } });
     await lade();
+  }
+  /* Export für den Steuerberater: Zeitraum wählen, CSV / DATEV / ZIP herunterladen */
+  async function exportDialog() {
+    const jahr = new Date().getFullYear();
+    const p = A.modal({ titel: "Export für den Steuerberater", html: `<div class="row"><label class="field small">von<input type="date" class="input" id="exp-von" value="${jahr}-01-01"></label><label class="field small">bis<input type="date" class="input" id="exp-bis" value="${heute()}"></label></div><div class="bel-export__liste"><a class="btn" id="exp-csv" href="#" download>CSV (alle Belege des Zeitraums)</a><a class="btn" id="exp-datev" href="#" download>DATEV-Buchungsstapel</a><a class="btn" id="exp-zip" href="#" download>ZIP mit Rechnungs-PDFs und Prüfsummen-Index</a></div><p class="small muted">Rechnungen und Stornorechnungen des Zeitraums; das ZIP enthält die festgeschriebenen PDFs.</p>`, ok: "Schließen", abbrechen: "" });
+    const links = () => { const q = `&von=${$("#exp-von").value}&bis=${$("#exp-bis").value}`; $("#exp-csv").href = `${URL_B}?aktion=export&format=csv${q}`; $("#exp-datev").href = `${URL_B}?aktion=export&format=datev${q}`; $("#exp-zip").href = `${URL_B}?aktion=export&format=zip${q}`; };
+    links(); $("#exp-von").addEventListener("change", links); $("#exp-bis").addEventListener("change", links);
+    await p;
+  }
+  /* Aktionen auf einem Beleg (aus Editor und Listenvorschau): danach() wird nach erfolgreicher Änderung aufgerufen */
+  async function belegAktion(ak, b, summen, danach) {
+    const fertig = async (ziel) => { if (ziel) { location.hash = ziel; return; } if (danach) await danach(); else render(); };
+    if (ak.startsWith("status:")) { const r = await post("status", { id: b.id, status: ak.split(":")[1] }); if (r.ok) { toast("Status geändert.", "ok"); await fertig(); } else toast(r.error, "err"); return; }
+    if (ak === "ab") { const w = await formModal({ titel: "Auftragsbestätigung erstellen", text: "Alle Positionen werden übernommen; das Angebot gilt als angenommen.", html: `<label class="field small">Voraussichtlicher Liefer-/Montagetermin<input type="date" class="input" name="liefertermin"></label>`, ok: "AB erstellen" }); if (!w) return; const r = await post("ab-erstellen", { id: b.id, liefertermin: w.liefertermin }); if (r.ok) { toast("Auftragsbestätigung " + r.beleg.nummer + " erstellt.", "ok"); await fertig("#angebote/" + r.beleg.id); } else toast(r.error, "err"); return; }
+    if (ak === "rechnung") { const anz = (S.einst && S.einst.bank && Number(S.einst.bank.anzahlungProzent)) || 0; const w = await formModal({ titel: "Rechnung erstellen", text: "Die Rechnung entsteht als Entwurf und erhält ihre Nummer erst beim Festschreiben.", html: `<label class="field small">Art<select class="input" name="typ"><option value="voll">Gesamtrechnung</option>${anz ? `<option value="anzahlung">Anzahlungsrechnung (${anz} %)</option>` : ""}<option value="schluss">Schlussrechnung (abzüglich Anzahlung)</option></select></label><label class="field small">Leistungsdatum<input type="date" class="input" name="leistungsdatum" value="${heute()}"></label>`, ok: "Rechnung erstellen" }); if (!w) return; const r = await post("rechnung-erstellen", { id: b.id, typ: w.typ, leistungsdatum: w.leistungsdatum }); if (r.ok) { toast("Rechnungsentwurf erstellt.", "ok"); await fertig("#angebote/" + r.beleg.id); } else toast(r.error, "err"); return; }
+    if (ak === "festschreiben") { const ok = await bestaetigen("Rechnung festschreiben", "Die Rechnung erhält die nächste fortlaufende Rechnungsnummer, wird als PDF archiviert und ist danach nicht mehr änderbar. Korrekturen sind nur noch per Stornorechnung möglich.", "Jetzt festschreiben"); if (!ok) return; const r = await post("festschreiben", { id: b.id }); if (r.ok) { toast("Rechnung " + r.beleg.nummer + " festgeschrieben.", "ok"); await fertig(); } else toast(r.error, "err"); return; }
+    if (ak === "storno") { const w = await formModal({ titel: "Rechnung stornieren", text: "Es entsteht eine Stornorechnung mit eigener Nummer, die alle Positionen negativ ausweist. Die Rechnung selbst bleibt unverändert archiviert.", html: `<label class="field small">Grund (erscheint im Verlauf)<input type="text" class="input" name="grund" maxlength="300"></label>`, ok: "Stornorechnung erstellen", gefaehrlich: true }); if (!w) return; const r = await post("stornieren", { id: b.id, grund: w.grund }); if (r.ok) { toast("Stornorechnung " + r.storno.nummer + " erstellt.", "ok"); await fertig("#angebote/" + r.storno.id); } else toast(r.error, "err"); return; }
+    if (ak === "zahlung") { const rest = (summen ? summen.zahlbetrag : 0) - (b.zahlungen || []).reduce((x, z) => x + z.betrag, 0); const w = await formModal({ titel: "Zahlung erfassen", text: "Mit dem vollen Restbetrag gilt die Rechnung als bezahlt; Teilbeträge sind möglich.", html: `<label class="field small">Betrag in €<input type="text" class="input" inputmode="decimal" name="betrag" value="${dez(rest)}"></label><label class="field small">Zahlungsdatum<input type="date" class="input" name="datum" value="${heute()}"></label><label class="field small">Notiz (optional)<input type="text" class="input" name="notiz" maxlength="200"></label>`, ok: "Zahlung speichern" }); if (!w) return; const r = await post("zahlung", { id: b.id, betrag: centAus(w.betrag), datum: w.datum, notiz: w.notiz }); if (r.ok) { toast("Zahlung erfasst – Status: " + (STATUS[r.beleg.status] || [r.beleg.status])[0], "ok"); await fertig(); } else toast(r.error, "err"); return; }
+    if (ak === "senden") { await sendenDialog(b, danach); }
   }
 
   /* ====================================================================
@@ -211,13 +264,8 @@
         const a = e.target.closest("[data-ak]"); if (!a) return; const ak = a.dataset.ak;
         if (ak === "pos-neu" || ak === "pos-montage") { b.positionen.push(ak === "pos-montage" ? { beschreibung: "Montage inkl. Abdichtung (Arbeitsleistung)", details: "Einbau nach Stand der Technik, innen und außen abgedichtet", menge: 1, einheit: "pauschal", einzelpreis: 0, art: "arbeit" } : { beschreibung: "", details: "", menge: 1, einheit: "Stk.", einzelpreis: 0, art: "ware" }); zeichne(); bind(); const inputs = $$("#bel-positionen [data-p=beschreibung]"); if (inputs.length) inputs[inputs.length - 1].focus(); setDirty(true); autosave(); return; }
         if (ak === "speichern") { await sichern(true); return; }
-        if (ak.startsWith("status:")) { const r = await post("status", { id: b.id, status: ak.split(":")[1] }); if (r.ok) { toast("Status geändert.", "ok"); render(); } else toast(r.error, "err"); return; }
-        if (ak === "ab") { await sichern(true); if (E.fehler.length) return; const w = await formModal({ titel: "Auftragsbestätigung erstellen", text: "Alle Positionen werden übernommen; das Angebot gilt als angenommen.", html: `<label class="field small">Voraussichtlicher Liefer-/Montagetermin<input type="date" class="input" name="liefertermin"></label>`, ok: "AB erstellen" }); if (!w) return; const r = await post("ab-erstellen", { id: b.id, liefertermin: w.liefertermin }); if (r.ok) { toast("Auftragsbestätigung " + r.beleg.nummer + " erstellt.", "ok"); location.hash = "#angebote/" + r.beleg.id; } else toast(r.error, "err"); return; }
-        if (ak === "rechnung") { await sichern(true); if (E.fehler.length) return; const anz = (S.einst && S.einst.bank && Number(S.einst.bank.anzahlungProzent)) || 0; const w = await formModal({ titel: "Rechnung erstellen", text: "Die Rechnung entsteht als Entwurf und erhält ihre Nummer erst beim Festschreiben.", html: `<label class="field small">Art<select class="input" name="typ"><option value="voll">Gesamtrechnung</option>${anz ? `<option value="anzahlung">Anzahlungsrechnung (${anz} %)</option>` : ""}<option value="schluss">Schlussrechnung (abzüglich Anzahlung)</option></select></label><label class="field small">Leistungsdatum<input type="date" class="input" name="leistungsdatum" value="${heute()}"></label>`, ok: "Rechnung erstellen" }); if (!w) return; const r = await post("rechnung-erstellen", { id: b.id, typ: w.typ, leistungsdatum: w.leistungsdatum }); if (r.ok) { toast("Rechnungsentwurf erstellt.", "ok"); location.hash = "#angebote/" + r.beleg.id; } else toast(r.error, "err"); return; }
-        if (ak === "festschreiben") { await sichern(true); if (E.fehler.length) return; const ok = await bestaetigen("Rechnung festschreiben", "Die Rechnung erhält die nächste fortlaufende Rechnungsnummer, wird als PDF archiviert und ist danach nicht mehr änderbar. Korrekturen sind nur noch per Stornorechnung möglich.", "Jetzt festschreiben"); if (!ok) return; const r = await post("festschreiben", { id: b.id }); if (r.ok) { toast("Rechnung " + r.beleg.nummer + " festgeschrieben.", "ok"); render(); } else toast(r.error, "err"); return; }
-        if (ak === "storno") { const w = await formModal({ titel: "Rechnung stornieren", text: "Es entsteht eine Stornorechnung mit eigener Nummer, die alle Positionen negativ ausweist. Die Rechnung selbst bleibt unverändert archiviert.", html: `<label class="field small">Grund (erscheint im Verlauf)<input type="text" class="input" name="grund" maxlength="300"></label>`, ok: "Stornorechnung erstellen", gefaehrlich: true }); if (!w) return; const r = await post("stornieren", { id: b.id, grund: w.grund }); if (r.ok) { toast("Stornorechnung " + r.storno.nummer + " erstellt.", "ok"); location.hash = "#angebote/" + r.storno.id; } else toast(r.error, "err"); return; }
-        if (ak === "zahlung") { const rest = (E.summen ? E.summen.zahlbetrag : 0) - (b.zahlungen || []).reduce((x, z) => x + z.betrag, 0); const w = await formModal({ titel: "Zahlung erfassen", html: `<label class="field small">Betrag in €<input type="text" class="input" inputmode="decimal" name="betrag" value="${dez(rest)}"></label><label class="field small">Zahlungsdatum<input type="date" class="input" name="datum" value="${heute()}"></label><label class="field small">Notiz (optional)<input type="text" class="input" name="notiz" maxlength="200"></label>`, ok: "Zahlung speichern" }); if (!w) return; const r = await post("zahlung", { id: b.id, betrag: centAus(w.betrag), datum: w.datum, notiz: w.notiz }); if (r.ok) { toast("Zahlung erfasst – Status: " + (STATUS[r.beleg.status] || [r.beleg.status])[0], "ok"); render(); } else toast(r.error, "err"); return; }
-        if (ak === "senden") { if (!ro) { await sichern(true); if (E.fehler.length) return; } await sendenDialog(b); return; }
+        if (!ro && ["ab", "rechnung", "festschreiben", "senden"].includes(ak)) { await sichern(true); if (E.fehler.length) return; }
+        await belegAktion(ak, b, E.summen, null);
       };
       // Drag & Drop der Positionen
       const ol = $("#bel-positionen"); if (!ol || ro) return; let von = null;
@@ -228,13 +276,13 @@
     }
     bind();
   }
-  async function sendenDialog(b) {
+  async function sendenDialog(b, danach) {
     const firmaMail = (b.firma && b.firma.email) || "";
     const standard = `Guten Tag ${b.kunde.name},\n\nanbei erhalten Sie ${b.art === "angebot" ? "unser Angebot" : b.art === "rechnung" ? "unsere Rechnung" : "unsere Auftragsbestätigung"} ${b.nummer} als PDF.\n\nMit freundlichen Grüßen\n${b.firma.geschaeftsfuehrer}\n${b.firma.name}\n${b.firma.telefon} · ${firmaMail}`;
     const w = await formModal({ titel: `${ART[b.art]} ${b.nummer} per E-Mail senden`, html: `<p class="small"><a href="${pdfUrl(b.id)}" target="_blank" rel="noopener">PDF-Vorschau öffnen ↗</a> – bitte vor dem Senden prüfen.</p><label class="field small">An<input type="email" class="input" name="an" value="${h(b.kunde.email || "")}" required></label><label class="field small">Betreff<input type="text" class="input" name="betreff" value="${h(`${ART[b.art]} ${b.nummer} – ${b.firma.kurzname}`)}"></label><label class="field small">Text<textarea class="input" rows="8" name="text">${h(standard)}</textarea></label><label class="small"><input type="checkbox" name="cc" checked> Kopie an ${h(firmaMail || "die Firma")}</label>`, ok: "Jetzt senden" });
     if (!w) return;
     const r = await post("senden", { id: b.id, an: w.an, betreff: w.betreff, text: w.text, cc: !!w.cc });
-    if (r.ok) { toast(r.uebersprungen ? "E-Mail-Versand ist noch nicht eingerichtet – der Vorgang wurde nur protokolliert." : "E-Mail gesendet.", r.uebersprungen ? "" : "ok"); render(); } else toast(r.error, "err");
+    if (r.ok) { toast(r.uebersprungen ? "E-Mail-Versand ist noch nicht eingerichtet – der Vorgang wurde nur protokolliert." : "E-Mail gesendet.", r.uebersprungen ? "" : "ok"); if (danach) await danach(); else render(); } else toast(r.error, "err");
   }
 
   /* ====================================================================

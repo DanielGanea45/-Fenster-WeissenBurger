@@ -64,8 +64,9 @@
   /* ====================================================================
      Anmeldung, Einrichtung, Passwort zurücksetzen, E-Mail bestätigen
      ==================================================================== */
-  function zeigeAuth() { $("#app").hidden = true; $("#auth").hidden = false; stopPoll(); }
-  function zeigeApp() { $("#auth").hidden = true; $("#app").hidden = false; }
+  const splashWeg = () => { const s = $("#splash"); if (s) s.hidden = true; };
+  function zeigeAuth() { splashWeg(); $("#app").hidden = true; $("#auth").hidden = false; stopPoll(); }
+  function zeigeApp() { splashWeg(); $("#auth").hidden = true; $("#app").hidden = false; }
   const fehlerBox = (msg) => (msg ? `<div class="alert alert--err" role="alert">${h(msg)}</div>` : "");
 
   function authForm(html) { $("#auth-form").innerHTML = html; const f = $("#auth-form input:not([type=checkbox]):not([type=hidden])"); if (f) f.focus(); }
@@ -212,20 +213,23 @@
     const r = route();
     $("#nav-side").innerHTML = navHtml(r.id);
     $("#top-title").textContent = TITEL[r.id];
-    document.title = TITEL[r.id] + " – Command Center – Fenster-WeissenBurger";
+    document.title = TITEL[r.id] + " – Verwaltung – Fenster-WeissenBurger";
     $("#ctx-side").textContent = S.kontextLabel ? S.kontextLabel : "";
     $("#top-name").textContent = S.name || "Admin";
     $("#top-avatar").textContent = (S.name || "A").trim().slice(0, 1).toUpperCase();
     $("#top-datum").textContent = new Date().toLocaleString("de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
     const tp = $("#top-pub"); if (tp) tp.innerHTML = pubPill();
-    document.querySelector(".app").classList.remove("is-nav-open");
+    const app = document.querySelector(".app"); app.classList.remove("is-nav-open");
+    app.className = app.className.replace(/\bis-route-[a-z]+\b/g, "").trim() + " is-route-" + r.id;
   }
-  function pubPill() {
+  const ICON_GLOBUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>';
+  function pubPill(gross) {
     const p = S.pub || { status: "nie" };
-    if (p.status === "laeuft") return '<span class="pill pill--warn pill--busy" title="Veröffentlichung läuft">Wird veröffentlicht …</span>';
-    if (p.status === "fehler") return '<span class="pill pill--err" title="' + h(p.fehler || "") + '">Veröffentlichung fehlgeschlagen</span>';
-    if (p.status === "unbekannt" || p.status === "gespeichert") return '<span class="pill pill--warn">Nicht veröffentlicht</span>';
-    return '<span class="pill pill--ok" title="' + (p.letzteVeroeffentlichung ? "Zuletzt " + fmtDT(p.letzteVeroeffentlichung) : "") + '">Website online</span>';
+    const cls = gross ? "pill pill--pub" : "pill";
+    if (p.status === "laeuft") return `<span class="${cls} pill--warn pill--busy" title="Veröffentlichung läuft">${gross ? ICON_GLOBUS : ""}Wird veröffentlicht …</span>`;
+    if (p.status === "fehler") return `<span class="${cls} pill--err" title="${h(p.fehler || "")}">${gross ? ICON_GLOBUS : ""}Veröffentlichung fehlgeschlagen</span>`;
+    if (p.status === "unbekannt" || p.status === "gespeichert") return `<span class="${cls} pill--warn">${gross ? ICON_GLOBUS : ""}Nicht veröffentlicht</span>`;
+    return `<span class="${cls} pill--ok" title="${p.letzteVeroeffentlichung ? "Zuletzt " + fmtDT(p.letzteVeroeffentlichung) : ""}">${gross ? ICON_GLOBUS : ""}Website veröffentlicht</span>`;
   }
   document.addEventListener("click", (e) => {
     const t = e.target.closest("#nav-toggle"); const app = document.querySelector(".app");
@@ -340,38 +344,99 @@
     S.pub = d.veroeffentlichung; S.name = d.name; S.kontext = d.kontext; S.kontextLabel = d.kontextLabel; S.bewertungenBadge = d.bewertungenOffen || 0; S.anfragenBadge = d.anfragen.neuDieseWoche || 0; renderNav();
     S.hooks = { buildHook: d.buildHook, mail: d.mail };
     const letzte = d.versionen && d.versionen[0];
-    const typText = (p) => ({ login: "Anmeldung", "login-fehler": "Fehlversuch", "login-gesperrt": "Zugang gesperrt", logout: "Abmeldung", gespeichert: "Gespeichert", veroeffentlichung: "Veröffentlichung", "veroeffentlichung-fehler": "Veröffentlichung fehlgeschlagen", bild: "Bild", bewertung: "Bewertung", wiederhergestellt: "Wiederhergestellt", einrichtung: "Einrichtung", "2fa": "Zwei-Faktor", "veroeffentlichung-uebersprungen": "Nicht veröffentlicht (Testumgebung)", "status-zurueckgesetzt": "Status zurückgesetzt", benachrichtigungen: "Benachrichtigungen", "email-aenderung": "E-Mail-Adresse", "passwort-reset": "Passwort zurückgesetzt", passwort: "Passwort geändert" }[p.typ] || String(p.typ || "").replace(/-/g, " "));
+    const typText = (p) => ({ login: "Anmeldung", "login-fehler": "Fehlversuch", "login-gesperrt": "Zugang gesperrt", logout: "Abmeldung", gespeichert: "Gespeichert", veroeffentlichung: "Veröffentlichung", "veroeffentlichung-fehler": "Veröffentlichung fehlgeschlagen", bild: "Bild", bewertung: "Bewertung", wiederhergestellt: "Wiederhergestellt", einrichtung: "Einrichtung", "2fa": "Zwei-Faktor", "veroeffentlichung-uebersprungen": "Nicht veröffentlicht (Testumgebung)", "status-zurueckgesetzt": "Status zurückgesetzt", benachrichtigungen: "Benachrichtigungen", "email-aenderung": "E-Mail-Adresse", "passwort-reset": "Passwort zurückgesetzt", passwort: "Passwort geändert", beleg: "Beleg", sicherung: "Datensicherung", anfrage: "Anfrage" }[p.typ] || String(p.typ || "").replace(/-/g, " "));
     const warn = [];
     if (!d.buildHook) warn.push(d.kontext === "production" ? "Die automatische Veröffentlichung ist noch nicht eingerichtet: Änderungen werden gespeichert, erscheinen aber erst nach der Einrichtung auf der Website." : "Testumgebung (" + h(d.kontextLabel) + "): Änderungen werden nur gespeichert; die Live-Website wird von hier aus nie verändert.");
     { const t = PV.tageBis(d.blobsTokenAblauf); if (t !== null && t <= 30) warn.push(t < 0 ? "Der Zugriffsschlüssel für den Datenspeicher ist seit " + fmtD(d.blobsTokenAblauf) + " abgelaufen – bitte erneuern (<a href=\"#einstellungen/konten\">Konten &amp; Zugänge</a>)." : "Der Zugriffsschlüssel für den Datenspeicher läuft in " + t + " Tagen ab (" + fmtD(d.blobsTokenAblauf) + ") – rechtzeitig erneuern (<a href=\"#einstellungen/konten\">Konten &amp; Zugänge</a>)."); }
     if (!d.mail) warn.push("Der E-Mail-Versand ist noch nicht eingerichtet – es werden keine Benachrichtigungen und keine „Passwort vergessen“-Mails versendet.");
+    const jetzt = new Date(), std = jetzt.getHours();
+    const gruss = std < 11 ? "Guten Morgen" : std < 18 ? "Guten Tag" : "Guten Abend";
+    const MONATE_KURZ = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+    const MONATE_LANG = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    const KONF_LABEL = { aus: "Aus", vorschau: "Vorschau", online: "Online" };
+    const KONF_TEXT = { online: "Der Konfigurator ist auf der Website für alle Besucher sichtbar – Anfragen daraus landen unter „Anfragen“.", vorschau: "Der Konfigurator ist nur nach Anmeldung sichtbar. Prüfen Sie Preise und Fotos, bevor Sie ihn online schalten.", aus: "Der Konfigurator ist ausgeschaltet und auf der Website nicht sichtbar." };
+    const konfBild = d.konfigurator === "online" ? "/assets/konfigurator/typ-2-fluegelig-400.webp" : "/assets/konfigurator/typ-1-fluegelig-400.webp";
     main.innerHTML = `
-      <div class="page-head"><div><h1>Guten Tag, ${h(S.name || "")}</h1><span class="muted">${S.pub.status === "fehler" ? "Die letzte Veröffentlichung ist fehlgeschlagen." : S.pub.status === "laeuft" ? "Eine Veröffentlichung läuft gerade." : "Alle Änderungen sind veröffentlicht."}</span></div>${pubHtml()}</div>
+      <div class="dash-kopf"><div><h1>${h(gruss)}, ${h((S.name || "").split(" ")[0])}</h1><span class="datum">${h(jetzt.toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric" }))}</span></div>
+        <div class="dash-kopf__rechts"><div class="suche" id="dash-suche"><input type="search" id="dash-suche-feld" placeholder="Suche" aria-label="Bereich suchen" autocomplete="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><div class="suche__liste" id="dash-suche-liste" role="listbox"></div></div><span id="dash-pub">${pubPill(true)}</span></div></div>
       ${warn.length ? `<div class="alert alert--warn">${warn.join("<br>")} <span class="small">Einrichtung: unter <a href="#einstellungen">Einstellungen</a> bzw. durch die technische Betreuung.</span></div>` : ""}
-      <div class="kpis">
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${NAV.find((n) => n.id === "anfragen").icon}</span>Neue Anfragen</div><div class="value">${d.anfragen.neuDieseWoche}</div><div class="sub">letzte 7 Tage · <a href="#anfragen">Ansehen →</a></div></div>
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${NAV.find((n) => n.id === "bewertungen").icon}</span>Bewertungen</div><div class="value">${d.bewertungenOffen}</div><div class="sub">zu prüfen · <a href="#bewertungen">Prüfen →</a></div></div>
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${NAV.find((n) => n.id === "bilder").icon}</span>Bilder</div><div class="value value--ink">${d.bilder}</div><div class="sub">auf der Website · <a href="#bilder">Verwalten →</a></div></div>
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${NAV.find((n) => n.id === "versionen").icon}</span>Letzte Änderung</div><div class="value value--ink value--sm">${letzte ? fmtDT(letzte.wann) : "–"}</div><div class="sub">${letzte ? h(letzte.titel) + (letzte.beschreibung ? " · " + h(letzte.beschreibung) : "") : "Noch keine Änderungen"}</div></div>
+      ${S.pub.status === "fehler" ? `<div class="alert alert--err">Die letzte Veröffentlichung ist fehlgeschlagen: ${h(S.pub.fehler || "")} Die bisherige Version bleibt online.</div>` : ""}
+      <div class="kpis" id="dash-kpis">
+        <div class="card kpi"><div class="kpi__head">Neue Anfragen</div><div class="value">${d.anfragen.neuDieseWoche}</div><div class="sub">letzte 7 Tage · <a href="#anfragen">ansehen</a></div></div>
+        <div class="card kpi skeleton" data-kpi="angebote"><div class="kpi__head">Offene Angebote</div><div class="value">&nbsp;</div><div class="sub">gesendet</div></div>
+        <div class="card kpi skeleton" data-kpi="rechnungen"><div class="kpi__head">Offene Rechnungen</div><div class="value">&nbsp;</div><div class="sub">fällig</div></div>
+        <div class="card kpi skeleton" data-kpi="umsatz"><div class="kpi__head">Umsatz ${h(MONATE_LANG[jetzt.getMonth()])}</div><div class="value">&nbsp;</div><div class="sub">gesamt</div></div>
       </div>
-      <div class="cols">
-        <div class="card"><h2>Schnellzugriff</h2>
-          <a class="quick" href="#bilder">Neues Referenzfoto hochladen</a>
-          <a class="quick" href="#texte/startseite">Startseite-Text ändern</a>
-          <a class="quick" href="#bewertungen">Bewertung freigeben</a>
-          <a class="quick" href="#preise">Preise prüfen · Testrechner</a>
-          <a class="quick" href="#konto">Passwort ändern</a>
-          <a class="quick" href="/.netlify/functions/admin-api?aktion=sicherung" download>Datensicherung herunterladen (ZIP)</a>
+      <div class="dash">
+        <section class="card chart-card" aria-labelledby="chart-titel"><h2 id="chart-titel">Einnahmen ${jetzt.getFullYear()}</h2><div id="dash-chart"><div class="skelett-zeile"></div></div></section>
+        <div class="dash__rechts">
+          <section class="card"><h2>Letzte Anfragen</h2><div id="dash-anfragen"><div class="skelett-zeile"></div></div></section>
+          <section class="card konf-card"><img src="${konfBild}" alt="" width="180" height="140" loading="lazy"><div class="konf-card__text"><h2>Konfigurator: ${KONF_LABEL[d.konfigurator] || h(d.konfigurator)}</h2><p>${KONF_TEXT[d.konfigurator] || ""} Preisliste ${h(d.preislisteVersion)}.</p><a class="btn btn--accent" href="${d.konfigurator === "aus" ? "#preise" : "/konfigurator/fenster/"}" ${d.konfigurator === "aus" ? "" : 'target="_blank" rel="noopener"'}>${d.konfigurator === "aus" ? "Einschalten" : "Anzeigen"}</a></div></section>
         </div>
-        <div class="card grow"><h2>Letzte Aktivitäten</h2>
-          <div class="list">${(d.protokoll || []).map((p) => `<div><span><b>${h(typText(p))}</b> · ${h(p.text)}</span><span class="small muted nowrap">${fmtDT(p.wann)}</span></div>`).join("") || '<p class="muted">Noch keine Einträge.</p>'}</div>
+      </div>
+      <div class="dash-unten">
+        <section class="card"><h2>Letzte Aktivitäten</h2>
+          <div class="list">${(d.protokoll || []).slice(0, 6).map((p) => `<div><span><b>${h(typText(p))}</b> · ${h(p.text)}</span><span class="small muted nowrap">${fmtDT(p.wann)}</span></div>`).join("") || '<p class="muted">Noch keine Einträge.</p>'}</div>
           <a href="#protokoll" class="small strong">Vollständiges Zugriffsprotokoll →</a>
-        </div>
-      </div>
-      <div class="card"><div class="row row--between"><h2>Konfigurator</h2><span class="pill ${d.konfigurator === "online" ? "pill--ok" : d.konfigurator === "vorschau" ? "pill--warn" : ""}">${{ aus: "Aus", vorschau: "Vorschau", online: "Online" }[d.konfigurator]}</span></div><p class="muted">Preisliste ${h(d.preislisteVersion)} · <a href="#preise">Preise &amp; Schalter →</a></p></div>
-      <div class="card"><div class="row row--between"><h2>${h(Steuer.TITEL)}</h2><span class="pill ${d.steuer ? "pill--warn" : ""}">${h(Steuer.SCHALTER_LABEL)}: ${h(Steuer.texte(d.steuer).option)}</span></div><p class="muted">${h(Steuer.texte(d.steuer).adminKurz)} <a href="#einstellungen">Einstellungen →</a></p></div>`;
+        </section>
+        <section class="card"><h2>Schnellzugriff</h2>
+          <div class="list">
+            <div><span>${h(Steuer.TITEL)}: <b>${h(Steuer.texte(d.steuer).option)}</b></span><a href="#einstellungen/steuer" class="small strong">Einstellungen</a></div>
+            <div><span>Bewertungen zu prüfen: <b>${d.bewertungenOffen}</b></span><a href="#bewertungen" class="small strong">Prüfen</a></div>
+            <div><span>Bilder auf der Website: <b>${d.bilder}</b></span><a href="#bilder" class="small strong">Verwalten</a></div>
+            <div><span>Letzte Änderung: <b>${letzte ? fmtDT(letzte.wann) : "–"}</b>${letzte ? " · " + h(letzte.titel) : ""}</span><a href="#versionen" class="small strong">Protokoll</a></div>
+            <div><span>Datensicherung aller Admin-Daten</span><a href="/.netlify/functions/admin-api?aktion=sicherung" class="small strong" download>ZIP laden</a></div>
+          </div>
+        </section>
+      </div>`;
     if (S.pub.status === "laeuft") startPoll();
+    /* Suche: springt zu Bereichen, Einstellungs-Zweigen und Preis-Reitern */
+    const ZIELE = NAV.map((n) => ({ t: n.label, s: n.gruppe, href: "#" + n.id }))
+      .concat([["firma", "Firma & Kontakt"], ["steuer", Steuer.TITEL], ["bank", "Bank & Zahlung"], ["dokumente", "Dokumente"], ["email", "E-Mail & Benachrichtigungen"], ["bewertungen", "Bewertungen & Google"], ["oeffnungszeiten", "Öffnungszeiten & Einsatzgebiet"], ["konfigurator", "Konfigurator"], ["konten", "Konten & Zugänge"], ["website", "Website · Wartungsmodus · Banner"]].map(([id, t]) => ({ t, s: "Einstellungen", href: "#einstellungen/" + id })))
+      .concat(TABS.map(([k, l]) => ({ t: l, s: "Preise & Konfigurator", href: "#preise/" + k })))
+      .concat([{ t: "Neues Angebot", s: "Angebote & Rechnungen", href: "#angebote/neu" }, { t: "Passwort ändern", s: "Konto", href: "#konto" }, { t: "Datensicherung (ZIP)", s: "Übersicht", href: "/.netlify/functions/admin-api?aktion=sicherung" }]);
+    const sucheFeld = $("#dash-suche-feld"), sucheListe = $("#dash-suche-liste");
+    const sucheZeichne = () => { const q = sucheFeld.value.trim().toLowerCase(); sucheListe.innerHTML = q ? ZIELE.filter((z) => (z.t + " " + z.s).toLowerCase().includes(q)).slice(0, 8).map((z) => `<a href="${h(z.href)}" role="option">${h(z.t)}<span>${h(z.s)}</span></a>`).join("") : ""; };
+    sucheFeld.addEventListener("input", sucheZeichne);
+    sucheFeld.addEventListener("keydown", (e) => { if (e.key === "Enter") { const a = $("a", sucheListe); if (a) { e.preventDefault(); a.click(); } } if (e.key === "Escape") { sucheFeld.value = ""; sucheZeichne(); } });
+    sucheFeld.addEventListener("blur", () => setTimeout(() => { sucheListe.innerHTML = ""; }, 150));
+    /* Belege-Kennzahlen, Einnahmen-Diagramm, letzte Anfragen – nachgeladen, damit die Übersicht sofort steht */
+    call("/.netlify/functions/belege", { query: { aktion: "kpis" } }).then((k) => {
+      const box = $("#dash-kpis"); if (!box) return;
+      if (!k.ok) { $$(".kpi.skeleton", box).forEach((el) => { el.classList.remove("skeleton"); $(".value", el).textContent = "–"; }); $("#dash-chart").innerHTML = `<p class="chart-leer">${h(k.error || "Belege konnten nicht geladen werden.")}</p>`; return; }
+      const x = k.kpis;
+      const setze = (name, wert, sub, cls) => { const el = $(`[data-kpi="${name}"]`, box); if (!el) return; el.classList.remove("skeleton"); $(".value", el).innerHTML = wert; $(".value", el).className = "value " + (cls || ""); if (sub !== undefined) $(".sub", el).innerHTML = sub; };
+      setze("angebote", String(x.angeboteOffen), x.angeboteOffen === 1 ? "gesendet · <a href=\"#angebote\">öffnen</a>" : "gesendet · <a href=\"#angebote\">öffnen</a>");
+      setze("rechnungen", euro(x.offen), x.ueberfaelligAnzahl ? `<span class="trend trend--down">${x.ueberfaelligAnzahl} überfällig</span> · ${euro(x.ueberfaellig)}` : `${x.offenAnzahl} ${x.offenAnzahl === 1 ? "Rechnung" : "Rechnungen"} fällig`, "");
+      const diff = x.umsatzMonat - x.umsatzVormonat; const proz = x.umsatzVormonat > 0 ? Math.round((diff / x.umsatzVormonat) * 100) : null;
+      const trend = proz === null ? (x.umsatzMonat ? "gesamt · Vormonat ohne Umsatz" : "gesamt") : `<span class="trend ${diff >= 0 ? "trend--up" : "trend--down"}">${diff >= 0 ? "▲" : "▼"} ${Math.abs(proz)} %</span> gegenüber ${h(MONATE_LANG[(jetzt.getMonth() + 11) % 12])}`;
+      setze("umsatz", euro(x.umsatzMonat), trend);
+      $("#dash-chart").innerHTML = einnahmenChart(x.monate || [], jetzt.getMonth(), MONATE_KURZ, MONATE_LANG);
+    }).catch(() => { const el = $("#dash-chart"); if (el) el.innerHTML = '<p class="chart-leer">Belege konnten nicht geladen werden.</p>'; });
+    api.get("anfragen", { seite: 1, proSeite: 5 }).then((a) => {
+      const box = $("#dash-anfragen"); if (!box) return;
+      if (!a.ok) { box.innerHTML = `<p class="muted small">${h(a.error)}</p>`; return; }
+      const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator" };
+      const produkt = (q) => { const f = q.felder || {}; if (q.formular === "angebot-konfigurator" && q.konfiguration) return q.konfiguration.produkt === "haustuer" ? "Haustür" : "Fenster"; return f.produkt || f.leistung || f.interesse || FORM[q.formular] || q.formular; };
+      box.innerHTML = a.anfragen.length ? `<div class="table-wrap"><table class="tbl tbl--dash"><thead><tr><th>Kunde</th><th>Produkt</th><th class="num">Wert</th><th>Status</th></tr></thead><tbody>${a.anfragen.map((q) => `<tr><td class="name"><a href="#anfragen">${h((q.felder || {}).name || "–")}</a></td><td>${h(produkt(q))}</td><td class="num">${q.preisServer ? euro(q.preisServer) : "–"}</td><td>${q.status === "erledigt" ? '<span class="pill pill--ok">Erledigt</span>' : (q.felder || {}).angebotId || q.angebotId ? '<span class="pill pill--grey">Angebot erstellt</span>' : '<span class="pill pill--warn">Neu</span>'}</td></tr>`).join("")}</tbody></table></div><a href="#anfragen" class="small strong">Alle Anfragen →</a>` : '<p class="muted">Noch keine Anfragen.</p>';
+    }).catch(() => { /* egal */ });
   };
+  /* Balkendiagramm Einnahmen je Monat (SVG ohne Inline-Styles; Daten zusätzlich als Tabelle für Screenreader) */
+  function einnahmenChart(monate, bisMonat, kurz, lang) {
+    const reihe = monate.slice(0, Math.max(1, bisMonat + 1));
+    const max = Math.max(0, ...reihe.map((m) => Math.max(m.umsatz, m.angebote)));
+    if (!max) return `<p class="chart-leer">Noch keine festgeschriebenen Rechnungen in diesem Jahr. Sobald Rechnungen erstellt sind, erscheinen hier die Einnahmen je Monat.</p>`;
+    const stufe = [100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000].map((s) => s * 100).find((s) => max / s <= 5) || 10000000;
+    const top = Math.ceil(max / stufe) * stufe;
+    const W = 640, H = 300, L = 64, R = 12, T = 14, B = 34, iw = W - L - R, ih = H - T - B;
+    const n = reihe.length, slot = iw / n, bw = Math.min(16, slot * 0.28), y = (v) => T + ih - (v / top) * ih;
+    const raster = []; for (let v = 0; v <= top; v += stufe) raster.push(`<line x1="${L}" x2="${W - R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/><text x="${L - 8}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${euro(v).replace(",00", "")}</text>`);
+    const pts = reihe.map((m, i) => `${(L + slot * i + slot / 2).toFixed(1)},${y(Math.max(0, m.umsatz)).toFixed(1)}`);
+    const flaeche = `${L + slot / 2},${y(0)} ${pts.join(" ")} ${(L + slot * (n - 1) + slot / 2).toFixed(1)},${y(0)}`;
+    const balken = reihe.map((m, i) => { const cx = L + slot * i + slot / 2; const a = Math.max(0, m.umsatz), b = Math.max(0, m.angebote); return `<rect class="${a ? "balken--a" : "balken--leer"}" x="${(cx - bw - 1.5).toFixed(1)}" y="${y(a || stufe * 0.02).toFixed(1)}" width="${bw}" height="${(y(0) - y(a || stufe * 0.02)).toFixed(1)}" rx="2"><title>${lang[i]}: Umsatz ${euro(a)}</title></rect><rect class="${b ? "balken--b" : "balken--leer"}" x="${(cx + 1.5).toFixed(1)}" y="${y(b || stufe * 0.02).toFixed(1)}" width="${bw}" height="${(y(0) - y(b || stufe * 0.02)).toFixed(1)}" rx="2"><title>${lang[i]}: Angebote ${euro(b)}</title></rect><text x="${cx.toFixed(1)}" y="${H - 12}" text-anchor="middle">${kurz[i]}</text>`; }).join("");
+    const tabelle = `<table class="sr-only"><caption>Einnahmen je Monat</caption><thead><tr><th>Monat</th><th>Umsatz</th><th>Angebote</th></tr></thead><tbody>${reihe.map((m, i) => `<tr><td>${lang[i]}</td><td>${euro(m.umsatz)}</td><td>${euro(m.angebote)}</td></tr>`).join("")}</tbody></table>`;
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Einnahmen je Monat: ${reihe.map((m, i) => kurz[i] + " " + euro(m.umsatz)).join(", ")}"><g class="raster achse">${raster.join("")}</g><polygon class="flaeche" points="${flaeche}"/><polyline class="linie" points="${pts.join(" ")}"/><g class="achse">${balken}</g></svg><div class="chart-legende"><span>Umsatz (Rechnungen)</span><span class="b">Angebote</span></div>${tabelle}`;
+  }
 
   /* ---------- Bilder ---------- */
   const SEKTIONEN = { startseite: "Startseite", referenzen: "Referenzen", produkte: "Produkte", leistungen: "Leistungen", "ueber-uns": "Über uns", konfigurator: "Konfigurator", sonstiges: "Sonstiges" };
@@ -565,15 +630,8 @@
     render();
   }
 
-  /* ---------- Preise & Konfigurator (Command Center) ---------- */
+  /* ---------- Preise & Konfigurator ---------- */
   const TABS = [["fenster", "Fenster"], ["haustuer", "Haustüren"], ["schiebetuer", "Hebe-Schiebetüren"], ["allgemein", "Montage & Allgemein"]];
-  const ICON_KPI = {
-    systeme: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 12h18M12 3v18"/></svg>',
-    zeit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-    konf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18M4 12h16"/></svg>',
-    tests: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
-    calc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0"/></svg>',
-  };
   function zahlInput(pfad, wert, opts = {}) { return `<input type="text" inputmode="decimal" data-pfad="${h(pfad)}" data-typ="zahl" value="${h(dez(wert))}" aria-label="${h(opts.label || pfad)}" ${opts.cls ? `class="${opts.cls}"` : ""}>`; }
   function textInput(pfad, wert, label, cls) { return `<textarea rows="1" class="${cls || "zelle-input--text"}" data-pfad="${h(pfad)}" data-typ="text" aria-label="${h(label || pfad)}">${h(wert == null ? "" : wert)}</textarea>`; }
   function toggle(pfad, wert, label) { return `<label class="switch"><input type="checkbox" data-pfad="${h(pfad)}" data-typ="bool" ${wert !== false ? "checked" : ""} aria-label="${h(label || "aktiv")}"><span class="switch__track"></span><span class="lbl">${wert !== false ? "Aktiv" : "Aus"}</span></label>`; }
@@ -624,23 +682,16 @@
     if (sub && TABS.some(([k]) => k === sub)) S.tab = sub;
     if (!S.test) S.test = { produkt: "fenster", system: Object.keys(S.preise.fenster.systeme)[0], typ: Object.keys(S.preise.fenster.typen)[0], modell: Object.keys(S.preise.haustuer.modelle)[0], breiteMm: 1200, hoeheMm: 1400, menge: 1, farbe: "weiss", glas: Object.keys(S.preise.fenster.glas)[0], glasT: "standard", sprossen: "keine", rollladen: "keiner", seitenteil: "keines", zusaetze: [], montage: true, demontage: true, angebot: "" };
     const STATUS_LABEL = { aus: "Aus", vorschau: "Vorschau", online: "Online" };
-    const kpiTests = () => { const p = S.pub || {}; if (p.status === "veroeffentlicht") return `<div class="value value--ok">✓ bestanden</div><div class="sub">Letzter Build ${fmtDT(p.letzteVeroeffentlichung || p.ende)} · alle Prüfungen erfolgreich</div>`; if (p.status === "fehler") return `<div class="value value--err">Fehler</div><div class="sub">${h((p.fehler || "").slice(0, 120))}</div>`; if (p.status === "laeuft") return `<div class="value value--sm">läuft …</div><div class="sub">Build gestartet ${fmtDT(p.start)}</div>`; return `<div class="value value--ink value--sm">–</div><div class="sub">Noch kein Build über den Admin</div>`; };
+    const kpiTests = () => { const p = S.pub || {}; if (p.status === "veroeffentlicht") return `Tests: <span class="ok">✓ bestanden</span> · veröffentlicht ${fmtDT(p.letzteVeroeffentlichung || p.ende)}`; if (p.status === "fehler") return `Tests: <span class="err">Fehler</span> – ${h((p.fehler || "").slice(0, 120))}`; if (p.status === "laeuft") return `Veröffentlichung läuft … (gestartet ${fmtDT(p.start)})`; return `Noch keine Veröffentlichung über den Admin`; };
     const sysAktiv = () => { const s = Object.values(S.preise.fenster.systeme); return [s.filter((x) => x.aktiv !== false).length, s.length]; };
     main.innerHTML = `
-      <div class="page-head"><div><h1>Preise &amp; Konfigurator</h1><span class="muted">Alle Preise in Euro ohne Steuer. Steuer (<a href="#einstellungen/steuer">Einstellungen → Steuer</a>) und Online-Rabatt rechnet der Konfigurator automatisch – auf der Website genauso wie hier.</span></div>
-        <div class="row"><a class="btn btn--sm" href="#versionen">Änderungsprotokoll</a></div></div>
-      <div class="kpis">
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${ICON_KPI.systeme}</span>Systeme aktiv</div><div class="value" id="kpi-sys">${sysAktiv()[0]}</div><div class="sub" id="kpi-sys-sub">von ${sysAktiv()[1]} Profilsystemen</div></div>
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${ICON_KPI.zeit}</span>Letzte Änderung</div><div class="value value--ink value--sm">${preisVersionen[0] ? fmtDT(preisVersionen[0].wann) : "–"}</div><div class="sub">${preisVersionen[0] ? "durch " + h(preisVersionen[0].wer) + (preisVersionen[0].beschreibung ? " · " + h(preisVersionen[0].beschreibung) : "") : "Preisliste " + h(S.preise.version)}</div></div>
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${ICON_KPI.konf}</span>Konfigurator: <span id="kpi-konf">${STATUS_LABEL[S.einst.konfigurator.status]}</span></div>
-          <div class="seg" role="radiogroup" aria-label="Konfigurator-Status" id="konf-status">${Object.entries(STATUS_LABEL).map(([k, l]) => `<button type="button" role="radio" class="seg--${k}" aria-checked="${S.einst.konfigurator.status === k}" data-status="${k}">${l}</button>`).join("")}</div>
-          <div class="sub">Aus: unsichtbar · Vorschau: nur nach Anmeldung · Online: öffentlich<br><a href="/konfigurator/fenster/" target="_blank" rel="noopener">Fenster ↗</a> · <a href="/konfigurator/haustuer/" target="_blank" rel="noopener">Haustür ↗</a></div></div>
-        <div class="card kpi"><div class="kpi__head"><span class="kpi__icon">${ICON_KPI.tests}</span>Tests</div><div id="kpi-tests">${kpiTests()}</div></div>
-      </div>
-      ${pubBar()}
+      <div class="preis-kopf"><div><h1>Preise &amp; Konfigurator</h1></div>
+        <div class="preis-kopf__ctl"><div class="seg" role="radiogroup" aria-label="Konfigurator-Status" id="konf-status" title="Aus: unsichtbar · Vorschau: nur nach Anmeldung · Online: öffentlich">${Object.entries(STATUS_LABEL).map(([k, l]) => `<button type="button" role="radio" class="seg--${k}" aria-checked="${S.einst.konfigurator.status === k}" data-status="${k}">${l}</button>`).join("")}</div><button type="button" class="btn btn--primary" data-p="speichern-pub">Speichern &amp; veröffentlichen</button></div></div>
+      <div class="preis-meta"><span>Konfigurator: <b id="kpi-konf">${STATUS_LABEL[S.einst.konfigurator.status]}</b> · <a href="/konfigurator/fenster/" target="_blank" rel="noopener">Fenster ↗</a> · <a href="/konfigurator/haustuer/" target="_blank" rel="noopener">Haustür ↗</a></span><span><b id="kpi-sys">${sysAktiv()[0]}</b> <span id="kpi-sys-sub">von ${sysAktiv()[1]} Profilsystemen</span> aktiv</span><span>Letzte Änderung: <b>${preisVersionen[0] ? fmtDT(preisVersionen[0].wann) : "–"}</b>${preisVersionen[0] ? " durch " + h(preisVersionen[0].wer) : " · Preisliste " + h(S.preise.version)} · <a href="#versionen">Protokoll</a></span><span id="kpi-tests">${kpiTests()}</span><span>Alle Preise in Euro ohne Steuer; Steuer (<a href="#einstellungen/steuer">Einstellungen</a>) und Online-Rabatt rechnet der Konfigurator automatisch.</span></div>
+      <div class="pubbar" id="pubbar" hidden></div>
       <div id="preis-fehler"></div>
-      <div class="chips" role="tablist" aria-label="Produktbereich" id="preis-tabs">${TABS.map(([k, l]) => `<button type="button" role="tab" class="chip" aria-selected="${S.tab === k}" data-tab="${k}">${l}</button>`).join("")}</div>
-      <div class="cols"><div class="col-main" id="preis-main"></div><aside class="col-side"><div class="card card--accent calc" id="calc"></div></aside></div>
+      <div class="tabs" role="tablist" aria-label="Produktbereich" id="preis-tabs">${TABS.map(([k, l]) => `<button type="button" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${l}</button>`).join("")}</div>
+      <div class="preis-layout"><div class="col-main" id="preis-main"></div><aside class="col-side"><div class="card calc" id="calc"></div></aside></div>
       <div class="aktionsleiste" id="aktionsleiste" hidden><span><span class="zahl" id="aend-zahl">0</span> Änderungen nicht gespeichert</span><span class="row"><button type="button" class="btn btn--sm" data-p="verwerfen">Verwerfen</button><button type="button" class="btn btn--sm btn--dark" data-p="speichern">Speichern</button><button type="button" class="btn btn--sm btn--primary" data-p="speichern-pub">Speichern &amp; veröffentlichen</button></span></div>`;
 
     /* Preisverlauf je System aus den gespeicherten Versionen (letzte 10 Stände) */
@@ -660,15 +711,14 @@
       if (S.tab === "fenster") el.innerHTML = `
         ${sub([["grundpreise", "Grundpreise"], ["grenzen", "Grenzen"], ["typen", "Fenstertyp"], ["farben", "Farben"], ["glas", "Verglasung"], ["sprossen", "Sprossen"], ["rollladen", "Rollladen"], ["extras", "Extras"], ["montage", "Montage"]])}
         <section class="card abschnitt" id="grundpreise"><div class="row row--between"><h2>Grundpreise je Profilsystem</h2><span class="small muted">Mindestfläche ${dez(g.mindestflaecheM2)} m² · Standardmaße bis ${g.breiteMaxMm} × ${g.hoeheMaxMm} mm</span></div>
-          <div class="table-wrap"><table class="tbl tbl--karten"><thead><tr><th>System</th><th>€/m²</th><th>Min. m²</th><th>max. Maße (B × H mm)</th><th>Aktiv</th><th>Verlauf</th></tr></thead><tbody>
+          <div class="table-wrap"><table class="tbl tbl--karten"><thead><tr><th>Profilsystem</th><th>Preis</th><th>Min. m²</th><th>max. Maße (B × H)</th><th>Status</th></tr></thead><tbody>
           ${Object.entries(F.systeme).map(([k, s]) => `<tr>
-            <td class="name" data-th="System">${textInput(`fenster.systeme.${k}.name`, s.name, "Systemname")}<span class="sub">${h(s.material || "")}${s.uf ? " · Uf " + dez(s.uf) : ""}</span></td>
-            <td class="num" data-th="€/m²">${zahlInput(`fenster.systeme.${k}.preisProM2`, s.preisProM2, { label: s.name + " Preis je m²" })}<span class="einheit">€/m²</span><span class="fehler-text" data-fehler="fenster.systeme.${k}.preisProM2"></span></td>
+            <td class="name" data-th="Profilsystem">${textInput(`fenster.systeme.${k}.name`, s.name, "Systemname")}<span class="sub">${h(s.material || "")}${s.uf ? " · Uf " + dez(s.uf) : ""}</span></td>
+            <td class="num" data-th="Preis"><span class="spark-zelle"><span>${zahlInput(`fenster.systeme.${k}.preisProM2`, s.preisProM2, { label: s.name + " Preis je m²" })}<span class="einheit">€/m²</span></span><span data-spark="${k}" title="Preisverlauf über die letzten gespeicherten Versionen"><span class="spark--leer">…</span></span></span><span class="fehler-text" data-fehler="fenster.systeme.${k}.preisProM2"></span></td>
             <td class="num" data-th="Min. m²"><span class="muted">${dez(g.mindestflaecheM2)} m²</span></td>
-            <td data-th="max. Maße"><span class="masse">${zahlInput(`fenster.systeme.${k}.breiteMaxMm`, s.breiteMaxMm, { label: s.name + " Breite max." })} × ${zahlInput(`fenster.systeme.${k}.hoeheMaxMm`, s.hoeheMaxMm, { label: s.name + " Höhe max." })}</span><span class="fehler-text" data-fehler="fenster.systeme.${k}.breiteMaxMm"></span><span class="fehler-text" data-fehler="fenster.systeme.${k}.hoeheMaxMm"></span></td>
-            <td data-th="Aktiv">${toggle(`fenster.systeme.${k}.aktiv`, s.aktiv, s.name + " aktiv")}</td>
-            <td data-th="Verlauf"><span data-spark="${k}"><span class="spark--leer">…</span></span></td></tr>`).join("")}
-          </tbody><tfoot><tr><td colspan="6">Leere Maximalmaße = allgemeine Fenstergrenzen. Unter der Mindestfläche wird die Mindestfläche berechnet. Inaktive Systeme erscheinen nicht im Konfigurator. Verlauf: €/m² über die letzten gespeicherten Versionen.</td></tr></tfoot></table></div></section>
+            <td data-th="max. Maße"><span class="masse">${zahlInput(`fenster.systeme.${k}.breiteMaxMm`, s.breiteMaxMm, { label: s.name + " Breite max." })} × ${zahlInput(`fenster.systeme.${k}.hoeheMaxMm`, s.hoeheMaxMm, { label: s.name + " Höhe max." })} <span class="einheit">mm</span></span><span class="fehler-text" data-fehler="fenster.systeme.${k}.breiteMaxMm"></span><span class="fehler-text" data-fehler="fenster.systeme.${k}.hoeheMaxMm"></span></td>
+            <td data-th="Status">${toggle(`fenster.systeme.${k}.aktiv`, s.aktiv, s.name + " aktiv")}</td></tr>`).join("")}
+          </tbody><tfoot><tr><td colspan="5">Leere Maximalmaße = allgemeine Fenstergrenzen. Unter der Mindestfläche wird die Mindestfläche berechnet. Inaktive Systeme erscheinen nicht im Konfigurator. Verlauf: €/m² über die letzten gespeicherten Versionen.</td></tr></tfoot></table></div></section>
         ${feldTable("grenzen", "Grenzen Fenster", [["fenster.grenzen.breiteMinMm", "Breite min.", g.breiteMinMm, "mm"], ["fenster.grenzen.breiteMaxMm", "Breite max.", g.breiteMaxMm, "mm"], ["fenster.grenzen.hoeheMinMm", "Höhe min.", g.hoeheMinMm, "mm"], ["fenster.grenzen.hoeheMaxMm", "Höhe max.", g.hoeheMaxMm, "mm"], ["fenster.grenzen.mindestflaecheM2", "Mindestfläche", g.mindestflaecheM2, "m²"], ["fenster.grenzen.mengeMax", "Menge max.", g.mengeMax, "Stück"]])}
         ${mapTable("typen", "Fenstertyp", "fenster.typen", F.typen, [{ key: "zuschlagProzent", label: "Zuschlag", einheit: "%" }], { aktiv: true })}
         ${mapTable("farben", "Farben & Dekore", "fenster.farben", F.farben, [{ key: "zuschlagProzent", label: "Zuschlag", einheit: "%" }], { aktiv: true, loeschbar: true, neu: { name: "Neue Farbe", zuschlagProzent: 0 }, neuLabel: "Farbe" })}
@@ -752,7 +802,7 @@
       const basis = r.ok ? r.positionen[0].betrag : 0, zuschlaege = r.ok ? r.positionen.slice(1).reduce((a, x) => a + x.betrag, 0) : 0;
       const ergebnis = r.ok ? `
         <div class="ergebnis"><div class="ergebnis__titel">Ergebnis Vorschau</div>
-          <div class="ergebnis__body"><img class="ergebnis__bild" src="${bildFuer(cfg)}" alt="" width="112" height="112" loading="lazy"><div class="ergebnis__preis"><div class="preis-gross">${euro(r.endpreis)}</div><div class="preis-sub">Kunde sieht · ${h(ST.kurz)}</div></div></div>
+          <div class="ergebnis__body"><img class="ergebnis__bild" src="${bildFuer(cfg)}" alt="" width="280" height="280" loading="lazy"><div class="ergebnis__preis"><div class="preis-gross">${euro(r.endpreis)}</div><div class="preis-sub">Endpreis für den Kunden · ${h(ST.kurz)}</div></div></div>
           <div class="line"><span>Basis (${h(r.positionen[0].name)})</span><span class="wert">${euro(basis)}</span></div>
           <div class="line"><span>Zuschläge</span><span class="wert">${euro(zuschlaege)}</span></div>
           ${r.menge > 1 ? `<div class="line"><span>× ${r.menge} Stück</span><span class="wert">${euro(r.produkt)}</span></div>` : ""}
@@ -765,15 +815,14 @@
       let diff = "";
       const ang = zahl(t.angebot);
       if (r.ok && ang != null && !isNaN(ang) && ang > 0) { const a = Math.round(ang * 100); const d = r.endpreis - a; const proz = (d / a) * 100; diff = `<div class="diff ${d > 0 ? "diff--neg" : ""}">Abweichung: ${d >= 0 ? "+" : "−"}${euro(Math.abs(d))} (${d >= 0 ? "+" : "−"}${Math.abs(proz).toFixed(2).replace(".", ",")} %) – Konfigurator liegt ${d > 0 ? "über" : d < 0 ? "unter" : "gleichauf mit"} Ihrem Angebot</div>`; }
-      box.innerHTML = `<div class="calc__head"><span class="kpi__icon">${ICON_KPI.calc}</span><div><span class="eyebrow">Schnellkalkulation</span><h2>Testrechner</h2></div></div>
-        <span class="small muted">Rechnet mit den Werten in diesem Formular – auch ungespeicherten.</span>
+      box.innerHTML = `<div class="calc__head"><h2>Testrechner</h2></div>
         <div class="seg" role="radiogroup" aria-label="Produkt"><button type="button" role="radio" aria-checked="${t.produkt === "fenster"}" data-tp="fenster">Fenster</button><button type="button" role="radio" aria-checked="${t.produkt === "haustuer"}" data-tp="haustuer">Haustür</button></div>
         <div class="grid">
-          <label class="field">Breite (mm)<input type="text" inputmode="numeric" data-tf="breiteMm" value="${t.breiteMm}"></label>
-          <label class="field">Höhe (mm)<input type="text" inputmode="numeric" data-tf="hoeheMm" value="${t.hoeheMm}"></label>
-          ${t.produkt === "fenster" ? `<label class="field">Profil<select data-tf="system">${opt(F.systeme, t.system)}</select></label><label class="field">Typ<select data-tf="typ">${opt(F.typen, t.typ)}</select></label><label class="field">Verglasung<select data-tf="glas">${opt(F.glas, t.glas)}</select></label>` : `<label class="field">Modell<select data-tf="modell">${opt(H.modelle, t.modell)}</select></label><label class="field">Verglasung<select data-tf="glasT">${opt(H.glas, t.glasT)}</select></label><label class="field">Seitenteil<select data-tf="seitenteil">${opt(H.seitenteil, t.seitenteil)}</select></label>`}
-          <label class="field">Farbe<select data-tf="farbe">${opt(t.produkt === "fenster" ? F.farben : H.farben, t.farbe)}</select></label>
-          ${t.produkt === "fenster" ? `<label class="field">Sprossen<select data-tf="sprossen">${opt(F.sprossen, t.sprossen)}</select></label><label class="field">Rollladen<select data-tf="rollladen">${opt(F.rollladen, t.rollladen)}</select></label>` : ""}
+          ${t.produkt === "fenster" ? `<label class="field field--voll">System<select data-tf="system">${opt(F.systeme, t.system)}</select></label><label class="field field--voll">Typ<select data-tf="typ">${opt(F.typen, t.typ)}</select></label>` : `<label class="field field--voll">Modell<select data-tf="modell">${opt(H.modelle, t.modell)}</select></label>`}
+          <label class="field mm">Breite<input type="text" inputmode="numeric" data-tf="breiteMm" value="${t.breiteMm}" aria-label="Breite in mm"></label>
+          <label class="field mm">Höhe<input type="text" inputmode="numeric" data-tf="hoeheMm" value="${t.hoeheMm}" aria-label="Höhe in mm"></label>
+          <label class="field field--voll">Farbe<select data-tf="farbe">${opt(t.produkt === "fenster" ? F.farben : H.farben, t.farbe)}</select></label>
+          ${t.produkt === "fenster" ? `<label class="field">Verglasung<select data-tf="glas">${opt(F.glas, t.glas)}</select></label><label class="field">Sprossen<select data-tf="sprossen">${opt(F.sprossen, t.sprossen)}</select></label><label class="field">Rollladen<select data-tf="rollladen">${opt(F.rollladen, t.rollladen)}</select></label>` : `<label class="field">Verglasung<select data-tf="glasT">${opt(H.glas, t.glasT)}</select></label><label class="field">Seitenteil<select data-tf="seitenteil">${opt(H.seitenteil, t.seitenteil)}</select></label>`}
           <label class="field">Menge<input type="text" inputmode="numeric" data-tf="menge" value="${t.menge}"></label>
         </div>
         <div class="checks">${Object.entries(t.produkt === "fenster" ? F.zusaetze : H.zusaetze).filter(([, e]) => e.aktiv !== false).map(([k, e]) => `<label class="check"><input type="checkbox" data-tz="${k}" ${t.zusaetze.includes(k) ? "checked" : ""}> ${h(e.name)}</label>`).join("")}
@@ -794,7 +843,7 @@
       };
     };
     zeichneTab(); zeichneCalc();
-    $("#preis-tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; S.tab = b.dataset.tab; history.replaceState(null, "", "#preise/" + S.tab); $$("#preis-tabs .chip").forEach((c) => c.setAttribute("aria-selected", c === b)); zeichneTab(); });
+    $("#preis-tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; S.tab = b.dataset.tab; history.replaceState(null, "", "#preise/" + S.tab); $$("#preis-tabs [data-tab]").forEach((c) => c.setAttribute("aria-selected", c === b)); zeichneTab(); });
     $("#konf-status").addEventListener("click", async (e) => {
       const b = e.target.closest("[data-status]"); if (!b) return;
       const neu = b.dataset.status, alt = S.einst.konfigurator.status;
