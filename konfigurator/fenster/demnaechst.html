@@ -17,7 +17,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=6c7ab768">
+  <link rel="stylesheet" href="/css/style.css?v=97b6e77a">
   <link rel="stylesheet" href="/css/uebergang.css?v=fc98a2d2">
   <script src="/js/uebergang.js?v=478247c7"></script>
   <link rel="stylesheet" href="/css/leistungen.css?v=7ab5d8d3">
@@ -57,8 +57,8 @@
       <div class="nav__item nav__item--konf konf-link" hidden>
         <a href="/konfigurator/fenster/" aria-haspopup="true" aria-expanded="false">Konfigurator</a>
         <div class="nav__drop nav__drop--konf" aria-label="Konfigurator">
-          <a href="/konfigurator/haustuer/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 3v18M9 7h7M9 11h7M9 15h7"/><circle cx="14.5" cy="12" r=".9" fill="currentColor"/></svg><span>Haustür konfigurieren</span></a>
-          <a href="/konfigurator/fenster/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><span>Fenster konfigurieren</span></a>
+          <a href="/konfigurator/haustuer/"><img class="nav__thumb" src="/assets/img/menu/konfigurator-haustuer-80.webp" width="40" height="40" alt="Moderne Haustür in Anthrazit" loading="lazy" decoding="async"><span>Haustür konfigurieren</span></a>
+          <a href="/konfigurator/fenster/"><img class="nav__thumb" src="/assets/img/menu/konfigurator-fenster-80.webp" width="40" height="40" alt="Einflügeliges Fenster in Anthrazit" loading="lazy" decoding="async"><span>Fenster konfigurieren</span></a>
         </div>
       </div>
       <a href="/#ueber-uns">Über uns</a>
@@ -75,7 +75,7 @@
     <section class="phero soon" aria-labelledby="h1">
       <div class="wrap">
         <p class="eyebrow"><span>Konfigurator</span> Fenster</p>
-        <h1 class="title" id="h1">Demnächst <em>verfügbar.</em></h1>
+        <h1 class="title" id="h1">Fenster-Konfigurator: <em>demnächst online.</em></h1>
         <p class="lead">Unser Online-Konfigurator für Fenster ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>
         <div class="actions" style="justify-content:center">
           <a class="btn btn--primary" href="tel:+4917681338935" data-firma="tel">0176 81338935</a>
@@ -85,15 +85,10 @@
       </div>
     </section>
     <footer class="legal wrap">
-      <a href="/#home">Startseite</a>
-      <a href="/produkte/">Produkte</a>
-      <a href="/leistungen/">Leistungen</a>
-      <a href="/referenzen/">Referenzen</a>
-      <a href="/einsatzgebiet/">Einsatzgebiet</a>
-      <a href="/impressum.html">Impressum</a>
-      <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> <span data-firma="name">Fenster-WeissenBurger UG (haftungsbeschränkt)</span></span>
-    </footer>
+  <nav class="legal__nav" aria-label="Seiten"><a href="/#home">Startseite</a><a href="/produkte/">Produkte</a><a href="/leistungen/">Leistungen</a><a href="/referenzen/">Referenzen</a><a href="/einsatzgebiet/">Einsatzgebiet</a><a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a></nav>
+  <nav class="legal__recht" aria-label="Rechtliches"><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutzerklärung</a><a href="/cookies.html">Cookie-Richtlinie</a></nav>
+  <p class="legal__copy">© <span id="year">2026</span> <span data-firma="name">Fenster-WeissenBurger UG (haftungsbeschränkt)</span></p>
+</footer>
   </main>
   <div class="ctabar" aria-label="Schnellkontakt"><a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a><a class="btn btn--primary" href="/#kontakt">Anfrage</a></div>
   <script src="/js/config.js?v=a46c3345" defer></script>

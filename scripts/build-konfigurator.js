@@ -25,7 +25,7 @@ const le = indexHtml.indexOf("</span>\n    </a>", ls) + "</span>".length;
 const LOGO = indexHtml.slice(ls, le).trim();
 const v = (name) => { const m = indexHtml.match(new RegExp(name.replace(".", "\\.") + "\\?v=([\\w.-]+)")); return m ? m[1] : "1"; }; // Versionen sind Inhalts-Hashes (scripts/assets-version.js)
 const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js"), config: v("config.js") };
-const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "<").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const linkHidden = status === "online" ? "" : " hidden";
 
 const PAGES = {
@@ -56,8 +56,8 @@ function header(current) {
       <div class="nav__item nav__item--konf konf-link"${linkHidden}>
         <a href="/konfigurator/fenster/" aria-haspopup="true" aria-expanded="false"${current ? ' aria-current="page"' : ""}>Konfigurator</a>
         <div class="nav__drop nav__drop--konf" aria-label="Konfigurator">
-          <a href="/konfigurator/haustuer/"${current === "haustuer" ? ' aria-current="page"' : ""}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 3v18M9 7h7M9 11h7M9 15h7"/><circle cx="14.5" cy="12" r=".9" fill="currentColor"/></svg><span>Haustür konfigurieren</span></a>
-          <a href="/konfigurator/fenster/"${current === "fenster" ? ' aria-current="page"' : ""}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><span>Fenster konfigurieren</span></a>
+          <a href="/konfigurator/haustuer/"${current === "haustuer" ? ' aria-current="page"' : ""}><img class="nav__thumb" src="/assets/img/menu/konfigurator-haustuer-80.webp" width="40" height="40" alt="Moderne Haustür in Anthrazit" loading="lazy" decoding="async"><span>Haustür konfigurieren</span></a>
+          <a href="/konfigurator/fenster/"${current === "fenster" ? ' aria-current="page"' : ""}><img class="nav__thumb" src="/assets/img/menu/konfigurator-fenster-80.webp" width="40" height="40" alt="Einflügeliges Fenster in Anthrazit" loading="lazy" decoding="async"><span>Fenster konfigurieren</span></a>
         </div>
       </div>
       <a href="/#ueber-uns">Über uns</a>
@@ -102,15 +102,10 @@ function head(p, noindex, extraScripts) {
 }
 function footer(barHtml) {
   return `<footer class="legal wrap">
-      <a href="/#home">Startseite</a>
-      <a href="/produkte/">Produkte</a>
-      <a href="/leistungen/">Leistungen</a>
-      <a href="/referenzen/">Referenzen</a>
-      <a href="/einsatzgebiet/">Einsatzgebiet</a>
-      <a href="/impressum.html">Impressum</a>
-      <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></span>
-    </footer>
+  <nav class="legal__nav" aria-label="Seiten"><a href="/#home">Startseite</a><a href="/produkte/">Produkte</a><a href="/leistungen/">Leistungen</a><a href="/referenzen/">Referenzen</a><a href="/einsatzgebiet/">Einsatzgebiet</a><a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a></nav>
+  <nav class="legal__recht" aria-label="Rechtliches"><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutzerklärung</a><a href="/cookies.html">Cookie-Richtlinie</a></nav>
+  <p class="legal__copy">© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></p>
+</footer>
   </main>
   ${barHtml || ""}
   <script src="/js/config.js?v=${V.config}" defer></script>
@@ -131,8 +126,11 @@ function pageSoon(key) {
     <section class="phero soon" aria-labelledby="h1">
       <div class="wrap">
         <p class="eyebrow"><span>Konfigurator</span> ${key === "fenster" ? "Fenster" : "Haustüren"}</p>
-        <h1 class="title" id="h1">Demnächst <em>verfügbar.</em></h1>
-        <p class="lead">Unser Online-Konfigurator für ${key === "fenster" ? "Fenster" : "Haustüren"} ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>
+        ${key === "fenster"
+          ? `<h1 class="title" id="h1">Fenster-Konfigurator: <em>demnächst online.</em></h1>
+        <p class="lead">Unser Online-Konfigurator für Fenster ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>`
+          : `<h1 class="title" id="h1">Haustür-Konfigurator <em>in Vorbereitung.</em></h1>
+        <p class="lead">Den Online-Konfigurator für Haustüren bereiten wir gerade vor. Ihr Angebot erstellen wir Ihnen bis dahin persönlich: ein Anruf oder eine Nachricht über das Kontaktformular genügt.</p>`}
         <div class="actions" style="justify-content:center">
           <a class="btn btn--primary" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel">${firmaLib.esc(einst.firma.telefon)}</a>
           <a class="btn btn--ghost" href="/#kontakt">Kostenloses Aufmaß anfragen</a>
@@ -146,7 +144,8 @@ function pageSoon(key) {
 function pageKonf(key) {
   const p = PAGES[key];
   const noindex = status !== "online";
-  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/steuer.js?v=1" defer></script>\n  <script src="/js/konfigurator-bilder.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=3" defer></script>`;
+  const scripts = `<script src="/js/preis.js?v=1" defer></script>\n  <script src="/js/steuer.js?v=1" defer></script>\n  <script src="/js/hinweise.js?v=1" defer></script>
+  <script src="/js/konfigurator-bilder.js?v=1" defer></script>\n  <script src="/js/konfigurator.js?v=3" defer></script>`;
   return `${head(p, noindex, scripts)}
 <body class="page lp pp konf-page">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>

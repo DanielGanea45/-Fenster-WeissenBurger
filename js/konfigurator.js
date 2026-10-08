@@ -10,6 +10,7 @@
   var Steuer = window.FWSteuer;
   var SATZ = Steuer ? Steuer.satz({ steuer: { satzProzent: Number(root.getAttribute("data-steuer")) } }) : 0; // aus data/einstellungen.json (Build)
   var ST = Steuer ? Steuer.texte(SATZ) : { kurz: "", lang: "", summeLabel: "Summe", steuerLabel: null };
+  var HW = (window.FWHinweise && window.FWHinweise.richtpreis) || { lang: "Alle Preise sind unverbindliche Richtpreise; Ihr verbindliches Angebot erhalten Sie nach dem kostenlosen Aufmaß.", kurz: "Unverbindlicher Richtpreis – verbindliches Angebot nach Aufmaß" };
   var produkt = root.getAttribute("data-produkt") === "haustuer" ? "haustuer" : "fenster";
   var IMG = "/assets/konfigurator/";
   var liste = null, listeOk = false;
@@ -190,7 +191,7 @@
       html = '<h2>Angebot <em>anfordern.</em></h2><p class="lead lead--sm">Wir prüfen Ihre Konfiguration, nehmen das Aufmaß kostenlos vor Ort und schicken Ihnen ein verbindliches Angebot.</p>' +
         '<div class="angebot__grid">' + angebotBildHtml() +
         '<div class="angebot__summary summary"><h3>Ihre Konfiguration</h3><dl>' + summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("") + "</dl>" +
-        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.endpreis) + "</strong> · " + esc(ST.kurz) + " (unverbindlich)</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + "</div></div>";
+        (r2.ok ? '<p class="price__note price__note--abstand">Richtpreis: <strong>' + fmtEuro(r2.endpreis) + "</strong> · " + esc(ST.kurz) + "</p>" : '<p class="price__note price__note--abstand">Preis auf Anfrage</p>') + '<p class="preishinweis preishinweis--lang">' + esc(HW.lang) + "</p></div></div>";
     }
     html += '<div class="konf__nav">' + (step > 0 ? '<button type="button" class="btn btn--ghost" data-nav="-1">Zurück</button>' : "<span></span>") + (step < STEPS.length - 1 ? '<button type="button" class="btn btn--primary" data-nav="1">Weiter</button>' : "") + "</div>";
     els.panels.innerHTML = '<section class="konf__panel is-active">' + html + "</section>";
@@ -288,7 +289,7 @@
           '<p class="price__note">' + (r.fehler[0] === "preisliste" ? "Die Preisliste ist derzeit nicht verfügbar. Wir erstellen Ihnen gern ein individuelles Angebot." : "Bitte prüfen Sie die Maße – außerhalb des konfigurierbaren Bereichs erstellen wir ein individuelles Angebot.") + "</p>" +
           '<details class="posliste"' + (offen ? " open" : "") + "><summary>Einzelpositionen anzeigen</summary>" + zusammen + "</details>";
       } else {
-        els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">' + fmtEuro(r.endpreis) + "<small>" + esc(ST.kurz) + "</small></strong></div>" + cta + "</div>" +
+        els.price.innerHTML = '<div class="price__kopf"><div><span class="price__lbl">Ihr Preis</span><strong class="price__sum">' + fmtEuro(r.endpreis) + "<small>" + esc(ST.kurz) + "</small></strong></div>" + cta + "</div>" + '<p class="preishinweis">' + esc(HW.kurz) + "</p>" +
           '<details class="posliste"' + (offen ? " open" : "") + '><summary>Einzelpositionen anzeigen</summary><div class="price__rows">' +
           "<div><span>Preis ohne Online-Rabatt</span><span>" + fmtEuro(r.ohneRabatt) + "</span></div>" +
           "<div><span>Online-Rabatt −" + r.rabattProzent + " %</span><span>− " + fmtEuro(r.ersparnis) + "</span></div>" +
@@ -297,7 +298,7 @@
           (state.menge > 1 ? "<tr><td>× " + state.menge + " Elemente</td><td>" + fmtEuro(r.produkt) + "</td></tr>" : "") +
           "<tr><td>Online-Rabatt " + r.rabattProzent + " %</td><td>− " + fmtEuro(r.rabatt) + "</td></tr>" + (r.montage ? "<tr><td>Montage" + (state.demontage ? " + Demontage/Entsorgung" : "") + "</td><td>" + fmtEuro(r.montage) + "</td></tr>" : "") +
           "<tr><td>" + esc(ST.summeLabel) + "</td><td>" + fmtEuro(r.summe) + "</td></tr>" + (ST.steuerLabel ? "<tr><td>" + esc(ST.steuerLabel) + "</td><td>" + fmtEuro(r.steuer) + "</td></tr>" : "") + "</tbody></table>" + zusammen +
-          '<p class="price__note">' + esc(ST.lang) + " Unverbindlicher Richtpreis" + (state.menge > 1 ? " für " + state.menge + " Elemente" : "") + " · Preisliste " + esc(r.version) + "</p></details>";
+          '<p class="price__note">' + esc(ST.lang) + (state.menge > 1 ? " Richtpreis für " + state.menge + " Elemente." : "") + " Preisliste " + esc(r.version) + '.</p><p class="price__note preishinweis--lang">' + esc(HW.lang) + "</p></details>";
       }
     }
     if (els.summary) els.summary.innerHTML = summaryRows().map(function (x) { return "<dt>" + esc(x[0]) + "</dt><dd>" + esc(x[1]) + "</dd>"; }).join("");
@@ -305,7 +306,7 @@
   function renderBar() {
     if (!els.bar) return;
     var r = calc();
-    els.bar.innerHTML = "<div><div class=\"lbl\">Ihr Preis</div><div class=\"sum\">" + (r.ok ? fmtEuro(r.endpreis) : "auf Anfrage") + "</div><div class=\"sub\">" + (r.ok ? esc(ST.kurz) + " · Richtpreis" : "Maße prüfen") + "</div></div>" +
+    els.bar.innerHTML = "<div><div class=\"lbl\">Ihr Preis</div><div class=\"sum\">" + (r.ok ? fmtEuro(r.endpreis) : "auf Anfrage") + "</div><div class=\"sub\">" + (r.ok ? esc(ST.kurz) + " · unverbindlicher Richtpreis" : "Maße prüfen") + "</div></div>" +
       (step < STEPS.length - 1 ? "<button type=\"button\" class=\"btn btn--primary\" data-nav=\"1\">Weiter</button>" : "<a class=\"btn btn--primary\" href=\"#angebot-form\">Angebot anfordern</a>");
   }
   function updateForm() {
@@ -315,7 +316,7 @@
     set("konfiguration", JSON.stringify(state));
     set("preis_browser", r.ok ? String(r.endpreis) : "");
     set("preisliste_version", liste ? String(liste.version || "") : "");
-    set("zusammenfassung", summaryRows().map(function (x) { return x[0] + ": " + x[1]; }).join(" | ") + (r.ok ? " | Richtpreis " + fmtEuro(r.endpreis) + " · " + ST.kurz : " | Preis auf Anfrage"));
+    set("zusammenfassung", summaryRows().map(function (x) { return x[0] + ": " + x[1]; }).join(" | ") + (r.ok ? " | Richtpreis " + fmtEuro(r.endpreis) + " · " + ST.kurz + " | " + HW.kurz : " | Preis auf Anfrage"));
   }
 
   /* ---------- Zeichnungen (SVG) ---------- */

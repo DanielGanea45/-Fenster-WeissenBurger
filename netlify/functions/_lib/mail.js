@@ -1,6 +1,7 @@
 /* E-Mail-Versand über Brevo (kostenloser Plan, transaktionale API). Ohne BREVO_API_KEY werden Mails nur
    protokolliert (Rückgabe { ok:false, skipped:true }), damit Vorschau/Tests ohne Konto funktionieren. */
 "use strict";
+const Hinweise = require("../../../js/hinweise.js");
 const API = "https://api.brevo.com/v3/smtp/email";
 
 function sender(absenderName) {
@@ -22,7 +23,7 @@ function escapeHtml(s) { return String(s || "").replace(/&/g, "&amp;").replace(/
 const vorlagen = {
   reset: (link) => ({ subject: "Passwort zurücksetzen – Fenster-WeissenBurger Admin", text: `Guten Tag,\n\nüber diesen Link können Sie ein neues Passwort für den Admin-Bereich festlegen (30 Minuten gültig):\n${link}\n\nWenn Sie das nicht angefordert haben, ignorieren Sie diese E-Mail – Ihr Passwort bleibt unverändert.` }),
   emailBestaetigen: (link) => ({ subject: "Neue E-Mail-Adresse bestätigen – Fenster-WeissenBurger Admin", text: `Guten Tag,\n\nbitte bestätigen Sie Ihre neue Anmelde-E-Mail-Adresse über diesen Link (30 Minuten gültig):\n${link}\n\nErst nach der Bestätigung wird die neue Adresse aktiv.` }),
-  neueAnfrage: (fields, adminUrl) => ({ subject: `Neue Anfrage: ${fields.name || "?"} · ${fields.produkt || fields.leistung || fields.ort || ""}`.trim(), text: `Neue Anfrage über die Website:\n\n${Object.entries(fields).filter(([k]) => !/^(bot-field|ts|js|form-name)$/.test(k)).map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nAlle Anfragen im Admin: ${adminUrl}#anfragen` }),
+  neueAnfrage: (fields, adminUrl) => ({ subject: `Neue Anfrage: ${fields.name || "?"} · ${fields.produkt || fields.leistung || fields.ort || ""}`.trim(), text: `Neue Anfrage über die Website:\n\n${Object.entries(fields).filter(([k]) => !/^(bot-field|ts|js|form-name)$/.test(k)).map(([k, v]) => `${k}: ${v}`).join("\n")}${fields.preis_server_text || fields.preis_browser ? `\n\n${Hinweise.richtpreis.lang}` : ""}\n\nAlle Anfragen im Admin: ${adminUrl}#anfragen` }),
   neueBewertung: (fields, adminUrl) => ({ subject: `Neue Bewertung zur Prüfung: ${fields.name || "?"} · ${fields.sterne || "?"} Sterne`, text: `Eine neue Bewertung wartet auf Freigabe:\n\n${fields.name} (${fields.ort}) – ${fields.projekt} – ${fields.sterne} Sterne\n„${fields.text}“\n\nPrüfen und freigeben: ${adminUrl}#bewertungen` }),
   veroeffentlicht: (ok, detail) => ({ subject: ok ? "Website veröffentlicht" : "Veröffentlichung fehlgeschlagen", text: ok ? `Die Website wurde erfolgreich neu veröffentlicht.\n${detail || ""}` : `Die Veröffentlichung ist fehlgeschlagen; die bisherige Version bleibt online.\n\n${detail || ""}` }),
 };

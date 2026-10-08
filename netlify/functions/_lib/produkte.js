@@ -3,6 +3,7 @@
    Steuerhinweis ausschließlich aus js/steuer.js. Keine Inline-Styles (CSP). */
 "use strict";
 const Steuer = require("../../../js/steuer.js");
+const Hinweise = require("../../../js/hinweise.js");
 
 function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 function karten(daten, wo) {
@@ -20,7 +21,7 @@ function bildHtml(k, basis, eager) {
 function preisHtml(k, satz) {
   const p = Number(k.abPreis);
   if (!(p > 0)) return "";
-  return `<p class="price">ab <strong>${esc(euro(p))}</strong> <small>${esc(Steuer.texte(satz).kurz)}</small></p>`;
+  return `<p class="price">ab <strong>${esc(euro(p))}</strong> <small>${esc(Steuer.texte(satz).kurz)}</small></p><p class="price__hinweis">${esc(Hinweise.richtpreis.kurz)}</p>`;
 }
 /* Startseite: scrollbare Kartenreihe, ganze Karte verlinkt */
 function startHtml(daten, einst, basis) {

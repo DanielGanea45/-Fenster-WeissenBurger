@@ -24,7 +24,22 @@ const SEITEN = [
   { slug: "einsatzgebiet", datei: "einsatzgebiet/index.html", titel: "Einsatzgebiet (Übersicht)", sektion: "sonstiges" },
   { slug: "impressum", datei: "impressum.html", titel: "Impressum", sektion: "sonstiges", geschuetzt: true },
   { slug: "datenschutz", datei: "datenschutz.html", titel: "Datenschutzerklärung", sektion: "sonstiges", geschuetzt: true },
+  { slug: "cookies", datei: "cookies.html", titel: "Cookie-Richtlinie", sektion: "sonstiges", geschuetzt: true },
+  /* Texte, die an vielen Stellen erscheinen und in einem Modul stehen (Markierungen /*TEXT:id*\/"…"/*\/TEXT*\/) */
+  { slug: "hinweise", datei: "js/hinweise.js", titel: "Preishinweis (bei allen Preisen)", sektion: "sonstiges", geschuetzt: true, modul: true, abschnitt: "Preishinweis – erscheint im Konfigurator, bei Produktkarten mit „ab …“ und in Anfrage-E-Mails" },
 ];
+/* Bausteine aus einem JS-Modul: /*TEXT:hinweise-1*\/"Text"/*\/TEXT*\/ – nur reiner Text, keine Auszeichnung */
+function verarbeiteModulTexte(seite, js, registry) {
+  let count = 0;
+  const re = /\/\*TEXT:([a-z0-9-]+)\*\/"((?:[^"\\]|\\.)*)"\/\*\/TEXT\*\//g;
+  let m;
+  while ((m = re.exec(js))) {
+    const text = JSON.parse('"' + m[2] + '"');
+    registry.bloecke[m[1]] = { seite: seite.slug, tag: "p", html: text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"), label: text.slice(0, 70), geschuetzt: !!seite.geschuetzt, abschnitt: "preishinweis", abschnittTitel: seite.abschnitt || seite.titel, rolle: m[1].endsWith("-2") ? "button" : "p", nurText: true };
+    count++;
+  }
+  return count;
+}
 const INLINE = /^(a|b|strong|em|i|br|span|small|sup|sub|time|abbr|mark|wbr)$/i;
 
 /* Bereiche, in denen nichts bearbeitet wird: Kopf, Navigation, Formulare, Fußzeilen, Skripte */
@@ -109,7 +124,7 @@ function verarbeiteBilder(seite, html, registry) {
     const tag = m[0];
     const attr = (k) => { const x = tag.match(new RegExp(`\\s${k}="([^"]*)"`)); return x ? x[1] : ""; };
     const src = attr("src");
-    if (!/^\/?assets\//.test(src) || /logo/.test(src)) continue;
+    if (!/^\/?assets\//.test(src) || /logo/.test(src) || /assets\/img\/menu\//.test(src)) continue; // Menü-Miniaturen sind kein Inhalt
     const base = path.basename(src).replace(/-\d+(?=\.\w+$)/, "").replace(/\.\w+$/, "");
     let id = `${seite.slug}-${base}`;
     if (seen[id] !== undefined) { seen[id]++; id += "-" + seen[id]; } else seen[id] = 1;
@@ -130,6 +145,7 @@ for (const s of SEITEN) {
   if (!fs.existsSync(f)) { console.warn("fehlt:", s.datei); continue; }
   const html = fs.readFileSync(f, "utf8");
   texte.seiten[s.slug] = { titel: s.titel, datei: s.datei, geschuetzt: !!s.geschuetzt };
+  if (s.modul) { texte.seiten[s.slug].modul = true; const n = verarbeiteModulTexte(s, html, texte); total += n; console.log(`${s.datei}: ${n} Texte (Modul)`); continue; }
   const t = verarbeiteTexte(s, html, texte);
   if (t.html !== html && !nurPruefen) fs.writeFileSync(f, t.html);
   const b = verarbeiteBilder(s, html, bilder);

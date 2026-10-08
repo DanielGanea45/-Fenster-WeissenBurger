@@ -84,7 +84,7 @@
     const url = seiteUrl(s);
     main.innerHTML = `
       <div class="page-head"><div><h1>Texte</h1><span class="muted">Klicken Sie in der Vorschau auf einen Text oder wählen Sie rechts ein Feld. Markieren Sie Wörter und nutzen Sie die Schaltflächen für Fett, Hervorhebung und Links.</span></div>
-        <div class="row tx-kopf"><label class="field tx-seitenwahl"><span class="sr-only">Seite</span><select id="txt-seite" class="input">${Object.entries(D.seiten).map(([k, x]) => `<option value="${h(k)}" ${k === S.seite ? "selected" : ""}>${h(x.titel)}${x.geschuetzt ? " (geschützt)" : ""}</option>`).join("")}</select></label><a class="btn btn--sm" href="${h(url)}" target="_blank" rel="noopener">Seite öffnen ↗</a></div></div>
+        <div class="row tx-kopf"><label class="field tx-seitenwahl"><span class="sr-only">Seite</span><select id="txt-seite" class="input">${Object.entries(D.seiten).map(([k, x]) => `<option value="${h(k)}" ${k === S.seite ? "selected" : ""}>${h(x.titel)}${x.geschuetzt ? " (geschützt)" : ""}</option>`).join("")}</select></label>${s.modul ? "" : `<a class="btn btn--sm" href="${h(url)}" target="_blank" rel="noopener">Seite öffnen ↗</a>`}</div></div>
       <div class="pubbar" id="pubbar">${pubHtml()}</div>
       ${s.geschuetzt ? '<div class="alert alert--warn">Impressum und Datenschutzerklärung sind rechtlich relevante Texte. Änderungen werden erst nach einer zusätzlichen Bestätigung gespeichert.</div>' : ""}
       <div class="tx-layout">
@@ -151,6 +151,7 @@
      ==================================================================== */
   function vorschauLaden(s) {
     FRAME = $("#tx-frame", MAIN);
+    if (s.modul || !/.html$/.test(s.datei)) { const r = $("#tx-rahmen", MAIN); if (r) r.innerHTML = '<p class="tx-vorschau__leer">Für diesen Text gibt es keine Seitenvorschau: Er erscheint an mehreren Stellen der Website – im Konfigurator neben jedem Preis, bei Produktkarten mit „ab …“ und in Anfrage-E-Mails. Änderungen werden beim Veröffentlichen überall eingesetzt.</p>'; FRAME = null; return; }
     if (!FRAME || !window.matchMedia("(min-width: 901px)").matches) return;
     const rahmen = $("#tx-rahmen", MAIN);
     FRAME.addEventListener("load", () => {

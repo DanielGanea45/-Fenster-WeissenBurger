@@ -16,6 +16,7 @@ const ALLOWED_FORMS = ["kontakt", "anfrage-leistungen", "anfrage-produkte", "anf
 const path = require("path");
 const fs = require("fs");
 const Preis = require("../../js/preis.js");
+const Hinweise = require("../../js/hinweise.js");
 const Steuer = require("../../js/steuer.js");
 const daten = require("./_lib/daten");
 const store = require("./_lib/store");
@@ -49,7 +50,7 @@ function konfiguratorNachrechnen(fields) {
   out.preis_browser = String(fields.preis_browser || "");
   if (r.ok) {
     out.preis_server = String(r.endpreis);
-    out.preis_server_text = Steuer.preisMitZusatz(Preis.euro(r.endpreis), satz) + " (Richtpreis, Liste " + liste.version + ")";
+    out.preis_server_text = Steuer.preisMitZusatz(Preis.euro(r.endpreis), satz) + " (" + Hinweise.richtpreis.kurz + "; Liste " + liste.version + ")";
     out.preis_abweichung = String(fields.preis_browser || "") === String(r.endpreis) ? "nein" : "JA – Browserpreis weicht ab";
     out.positionen = r.positionen.map((p) => p.name + ": " + Preis.euro(p.betrag)).join(" | ");
   } else {

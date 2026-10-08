@@ -101,7 +101,7 @@ test("Speichern über die API: Validierung je Feld, dann versionierte Speicherun
 });
 test("Generator: Produktübersicht und neue Seite Kunststoff-Aluminium-Fenster aus den Daten, ohne Holz und ohne Arbeitsvermerke", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "fw-prod-gen-"));
-  for (const f of ["index.html", "data/einstellungen.json", "data/produkte.json", "netlify/functions/_lib/firma.js", "netlify/functions/_lib/produkte.js", "js/steuer.js"]) { fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true }); fs.copyFileSync(path.join(ROOT, f), path.join(tmp, f)); }
+  for (const f of ["index.html", "data/einstellungen.json", "data/produkte.json", "netlify/functions/_lib/firma.js", "netlify/functions/_lib/produkte.js", "js/steuer.js", "js/hinweise.js"]) { fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true }); fs.copyFileSync(path.join(ROOT, f), path.join(tmp, f)); }
   const d = repoProdukte(); d.karten[2].abPreis = 890; fs.writeFileSync(path.join(tmp, "data/produkte.json"), JSON.stringify(d));
   execFileSync(process.execPath, [path.join(ROOT, "scripts/build-produkte.js")], { env: Object.assign({}, process.env, { FW_ROOT: tmp }), stdio: "pipe" });
   const ue = fs.readFileSync(path.join(tmp, "produkte/index.html"), "utf8");
