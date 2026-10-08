@@ -97,6 +97,7 @@ function head(p, noindex, extraScripts) {
   <link rel="stylesheet" href="/css/produkte.css?v=1">
   <link rel="stylesheet" href="/css/konfigurator.css?v=1">
   <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Start", item: SITE + "/" }, { "@type": "ListItem", position: 2, name: "Produkte", item: SITE + "/produkte/" }, { "@type": "ListItem", position: 3, name: p.breadcrumb, item: SITE + p.url }] })}</script>
+  <script type="application/ld+json" data-firma="jsonld">${JSON.stringify(Object.assign({ "@context": "https://schema.org" }, firmaLib.jsonLdFirma(einst, SITE)))}</script>
   ${extraScripts || ""}
 </head>`;
 }
@@ -163,7 +164,7 @@ function pageKonf(key) {
             <nav class="crumbs crumbs--konf" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li><a href="/produkte/">Produkte</a></li><li aria-current="page">${esc(p.breadcrumb)}</li></ol></nav>
           </div>
           <div class="konf__panels" aria-live="polite"></div>
-          <p class="konf__hint">Abbildungen beispielhaft. Alle Preise unverbindliche Richtpreise – ${esc(ST.lang)} Verbindlich wird es mit dem Angebot nach dem Aufmaß.</p>
+          <p class="konf__hint">${key === "haustuer" ? `Abbildungen beispielhaft, Farben und Füllungen können leicht abweichen. ${esc(ST.lang)} Ihr Haustür-Richtpreis ist unverbindlich; das verbindliche Angebot folgt nach dem Aufmaß vor Ort.` : `Abbildungen beispielhaft. ${esc(ST.lang)} Der Richtpreis für Ihr Fenster ist unverbindlich und wird mit dem Angebot nach dem Aufmaß verbindlich.`}</p>
 
           <section class="angebot" id="angebot-form" aria-label="Angebot anfordern">
             <form class="form" name="angebot-konfigurator" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate hidden>

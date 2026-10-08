@@ -78,3 +78,25 @@ test("Selbsttest Haupttext: Kopf, Navigation, H1, Fußzeile, Formular, Buttons, 
   assert.equal(s.lang.length, 2);
   assert.deepEqual(td.saetze("Preise ab 1.200 € inkl. Montage. Stand 31.12.2025! Noch eine Frage? Ja."), ["Preise ab 1.200 € inkl. Montage.", "Stand 31.12.2025!", "Noch eine Frage?", "Ja."]);
 });
+test("Konfigurator online: die echten Konfigurator-Seiten (Fenster/Haustür) haben eigene Texte, canonical und Firmendaten", () => {
+  /* Im Repo steht der Konfigurator meist auf „aus“ (Platzhalterseiten); auf Produktion ist er online. Deshalb hier in einer
+     Kopie online bauen und mit denselben Regeln prüfen – sonst scheitert erst der Produktions-Build. */
+  const fs = require("fs"), os = require("os"), { execFileSync } = require("child_process");
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "fw-konf-online-"));
+  const kopiere = (rel) => { const q = path.join(ROOT, rel); if (!fs.existsSync(q)) return; const z = path.join(tmp, rel); if (fs.statSync(q).isDirectory()) { fs.mkdirSync(z, { recursive: true }); for (const e of fs.readdirSync(q)) kopiere(path.join(rel, e)); } else { fs.mkdirSync(path.dirname(z), { recursive: true }); fs.copyFileSync(q, z); } };
+  for (const r of ["index.html", "leistungen", "referenzen", "produkte", "konfigurator", "data", "js", "netlify/functions/_lib", "sitemap-seiten.xml"]) kopiere(r);
+  const einst = JSON.parse(fs.readFileSync(path.join(tmp, "data/einstellungen.json"), "utf8")); einst.konfigurator.status = "online"; fs.writeFileSync(path.join(tmp, "data/einstellungen.json"), JSON.stringify(einst));
+  execFileSync(process.execPath, [path.join(ROOT, "scripts/build-konfigurator.js")], { env: Object.assign({}, process.env, { FW_ROOT: tmp }), stdio: "pipe" });
+  for (const k of ["fenster", "haustuer"]) {
+    const h = fs.readFileSync(path.join(tmp, "konfigurator", k, "index.html"), "utf8");
+    assert.ok(!/name="robots" content="noindex/.test(h), k + ": online-Seite ist indexierbar");
+    assert.match(h, new RegExp('<link rel="canonical" href="https://fenster-weissenburger.de/konfigurator/' + k + '/">'));
+    assert.match(h, /"@type":"LocalBusiness"/, k + ": Firmendaten (LocalBusiness)"); assert.match(h, /"@type":"BreadcrumbList"/);
+    assert.ok(!/aggregateRating|"@type":"Review"/.test(h));
+  }
+  const e = td.pruefen(tmp);
+  assert.ok(e.seiten.includes("konfigurator/fenster/index.html") && e.seiten.includes("konfigurator/haustuer/index.html"), "Konfigurator-Seiten im Vergleich");
+  assert.equal(e.paare.length, 0, "doppelte Sätze mit Konfigurator online:\n" + e.paare.slice(0, 10).map((x) => `  ${(x.sim * 100).toFixed(0)} %  ${x.a} ↔ ${x.b}: „${x.satzA}“`).join("\n"));
+  assert.equal(e.titel.length + e.beschreibungen.length + e.h1.length, 0, "gleiche Titel/Beschreibungen/H1 mit Konfigurator online");
+  fs.rmSync(tmp, { recursive: true, force: true });
+});
