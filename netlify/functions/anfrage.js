@@ -113,7 +113,7 @@ async function fuerAdminAblegen(formName, fields, event) {
   if (formName === "bewertung") {
     /* Liste aus dem Speicher – oder, solange dort noch nichts liegt, die mitgelieferten Bewertungen (data/bewertungen.json),
        damit die ersten eingehenden Bewertungen die vorhandenen (Google/MyHammer) nicht verdrängen */
-    const liste = (await store.getJSON("daten/bewertungen", null)) || (await daten.lade("bewertungen").catch(() => null)) || [];
+    const liste = (await daten.lade("bewertungen").catch(() => null)) || []; // gespeicherte Liste + übernommene Vorgaben
     liste.unshift({ id, status: "offen", eingegangen: Date.now(), name: sauber.name, ort: sauber.ort, projekt: sauber.projekt || "", sterne: Number(sauber.sterne) || 0, text: sauber.text, email: sauber.email || "", kunde: sauber.kunde || "", datum: new Date().toISOString().slice(0, 7) });
     await store.setJSON("daten/bewertungen", liste);
     if (ziel("bewertungen")) { const v = mail.vorlagen.neueBewertung(sauber, adminUrl); await mail.send({ to: ziel("bewertungen"), subject: v.subject, text: v.text, absenderName: absender }); }

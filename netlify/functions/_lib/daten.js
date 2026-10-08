@@ -64,6 +64,15 @@ async function ladeOhneCache(bereich) {
     return out;
   }
   if (bereich === "einstellungen") return tief(repoDatei("einstellungen"), gespeichert || {});
+  if (bereich === "bewertungen") {
+    /* Gespeicherte Liste gilt; übernommene Vorgaben aus dem Repository (importiert, z. B. Google/MyHammer) kommen dazu,
+       solange sie dort nicht vorhanden sind – auch nicht als „gelöscht“ vermerkt. */
+    const liste = Array.isArray(gespeichert) ? gespeichert.slice() : [];
+    if (!Array.isArray(gespeichert)) return repoDatei("bewertungen");
+    const ids = new Set(liste.map((b) => b && b.id));
+    for (const b of repoDatei("bewertungen")) if (b && b.importiert && b.id && !ids.has(b.id)) liste.push(b);
+    return liste;
+  }
   const out = gespeichert === null ? repoDatei(bereich) : gespeichert;
   if (bereich === "preise" && out && typeof out === "object") for (const k of Object.keys(out)) if (!PREISE_FELDER.has(k)) delete out[k]; // Altbestand (z. B. früherer Steuersatz in der Liste) verwerfen – der Steuersatz steht in den Einstellungen
   return out;

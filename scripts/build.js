@@ -174,11 +174,14 @@ async function neueBilderAnhaengen(root, bilder, seiten) {
 }
 
 function bewertungenSchreiben(root, liste) {
-  /* Vollständige Liste (mit Status, Quelle, Datum) ins Repo-Abbild – Grundlage für Seiten und als Vorgabe, solange der
-     Speicher noch nichts enthält; die Seiten erhalten über bewertungenEinsetzen nur die freigegebenen Einträge. */
-  const alle = (Array.isArray(liste) ? liste : []).map((b) => { const o = Object.assign({}, b); delete o.email; return o; });
+  /* Nur freigegebene Bewertungen in das (öffentlich abrufbare) Repo-Abbild – ohne E-Mail, Kundenangabe oder interne
+     Vermerke; mit Kennung/Status/Herkunft, damit die Liste als Vorgabe dient, solange der Speicher nichts enthält. */
+  const B = require(path.join(LIB, "bewertungen"));
+  const quelle = Array.isArray(liste) ? liste : [];
+  const frei = quelle.filter((b) => b && b.text && (b.status === "freigegeben" || b.status === undefined));
+  const alle = B.oeffentlich(frei).map((p) => { const o = frei.find((b) => b.text === p.text && String(b.name || "") === p.name) || {}; return Object.assign({ id: o.id, status: "freigegeben" }, p, o.importiert ? { importiert: true } : {}); });
   fs.writeFileSync(path.join(root, "data", "bewertungen.json"), JSON.stringify(alle, null, 2) + "\n");
-  return require(path.join(LIB, "bewertungen")).oeffentlich(alle).length;
+  return alle.length;
 }
 /* Google Search Console: optionale Bestätigung per Meta-Tag (Umgebungsvariable GOOGLE_SITE_VERIFICATION).
    Gesetzt → <meta name="google-site-verification"> im <head> jeder öffentlichen Seite; nicht gesetzt → nichts. Idempotent. */
