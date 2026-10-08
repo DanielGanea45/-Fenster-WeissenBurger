@@ -25,6 +25,7 @@ function lauf(root, einst, opt = {}) {
     let { html, n } = firma.einsetzen(alt, einst, SITE);
     const mitBanner = firma.bannerEinsetzen(html, einst);
     if (mitBanner !== html) { banner++; html = mitBanner; }
+    html = firma.agenturEinsetzen(html); // Agentur-Hinweis im Footer aus einer Quelle (nur wo der Marker steht)
     marker += n;
     if (html !== alt) { dateien++; if (!opt.pruefen) fs.writeFileSync(f, html); }
   }

@@ -164,6 +164,20 @@ function bannerEinsetzen(html, e) {
   return html.replace(/(<body\b[^>]*>)/, "$1\n" + block);
 }
 
+/* ---------- Agentur-Hinweis im Footer (eine Quelle für alle öffentlichen Seiten) ----------
+   Logo + Text bilden einen Link; nur auf Seiten mit dem Marker <!--agentur--> (statische Seiten) bzw. über agenturBlock() in den
+   Generatoren (Produkte, Konfigurator, Einsatzgebiet-Übersicht). Ortsseiten, wartung.html und Admin bekommen den Block nicht.
+   Nicht im Textregister (kein data-text), nicht im Assistent-Wissen (Fußzeile wird dort nicht gelesen), kein JSON-LD. */
+const AGENTUR = { name: "CristianWeb", url: "https://cristianweb.de", logo: "/assets/logo/cristianweb.webp", text: "Website erstellt von" };
+function agenturHtml() {
+  return `<p class="legal__agentur"><a href="${AGENTUR.url}" target="_blank" rel="noopener"><img src="${AGENTUR.logo}" width="40" height="40" alt="${AGENTUR.name}" loading="lazy" decoding="async">${AGENTUR.text} ${AGENTUR.name}</a></p>`;
+}
+function agenturBlock() { return `<!--agentur-->${agenturHtml()}<!--/agentur-->`; }
+function agenturEinsetzen(html) {
+  if (!/<!--agentur-->[\s\S]*?<!--\/agentur-->/.test(html)) return html;
+  return html.replace(/<!--agentur-->[\s\S]*?<!--\/agentur-->/g, agenturBlock());
+}
+
 /* ---------- Wartungsmodus (_redirects) ---------- */
 function wartungRedirects(e) {
   if (!(e && e.website && e.website.wartung)) return "";
@@ -199,4 +213,4 @@ function dokumenteMuster(e) {
   return { muster: fehlt.length > 0, fehlt };
 }
 
-module.exports = { bannerAktiv, TAGE, TAG_KURZ, esc, firma, vollerName, strassenName, adresseZeilen, adresseHtml, telHref, telInternational, mailSpan, zeitOk, zeitenGruppen, zeitenText, zeitenSpec, jsonLdFirma, jsonLdAktualisieren, kontaktKarteHtml, BAUSTEINE, einsetzen, bannerHtml, bannerBlock, bannerEinsetzen, wartungRedirects, ibanGueltig, ibanFormat, bicGueltig, nummerGueltig, dokumenteMuster };
+module.exports = { AGENTUR, agenturHtml, agenturBlock, agenturEinsetzen, bannerAktiv, TAGE, TAG_KURZ, esc, firma, vollerName, strassenName, adresseZeilen, adresseHtml, telHref, telInternational, mailSpan, zeitOk, zeitenGruppen, zeitenText, zeitenSpec, jsonLdFirma, jsonLdAktualisieren, kontaktKarteHtml, BAUSTEINE, einsetzen, bannerHtml, bannerBlock, bannerEinsetzen, wartungRedirects, ibanGueltig, ibanFormat, bicGueltig, nummerGueltig, dokumenteMuster };

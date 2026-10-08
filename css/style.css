@@ -586,3 +586,10 @@ a.badge-bew__eintrag:hover { border-color: var(--accent); color: var(--ink); }
 .fehler-grund:target ~ .fehler-allgemein { display: none; }
 /* Fußzeile Startseite: diskreter Login-Link für den Inhaber (nur index.html), Stil wie die übrigen Rechtslinks, kleines Schloss */
 .legal__login svg { width: 12px; height: 12px; margin-right: 5px; flex: none; opacity: .85; }
+
+/* Fußzeile: Agentur-Hinweis (Logo + Text = ein Link), Stil des Nebentexts, auf dem Telefon eigene zentrierte Zeile */
+.legal__agentur { grid-column: 1 / -1; margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; display: flex; justify-content: center; }
+.legal__agentur a { display: inline-flex; align-items: center; gap: 7px; min-height: 0; padding: 0; border-bottom: 0; font-size: 12.5px; line-height: 1.4; font-weight: 500; color: var(--footer-ink); } /* Schriftgröße am Link: .page p (16 px) greift sonst auf Unterseiten; volle Farbe für AA-Kontrast bei 12,5 px */
+.legal__agentur a:hover, .legal__agentur a:focus-visible { color: var(--accent); }
+.legal__agentur img { width: 20px; height: 20px; border-radius: 4px; flex: none; }
+@media (min-width: 600px) { .legal__agentur { justify-content: flex-end; margin-top: 0; } .legal__copy { grid-column: 1 / 2; } }
