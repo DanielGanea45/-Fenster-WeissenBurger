@@ -96,7 +96,7 @@ test("Jede Karlsruhe-Seite (Repo-Stand): Titel ≤ 65 Zeichen, Titel/Beschreibun
     const km = Math.round(o.distanceKm);
     if (o.distanceKm >= 2) assert.ok(html.includes(`${km} km`) && new RegExp(`\\b${o.drivingMinutes} (Minuten|Fahrminuten|Min\\.)`).test(html), `${o.slug}: ${km} km / ${o.drivingMinutes} min im Text`); // die Stadt Karlsruhe selbst (Zentrum) nennt keine Entfernung zu sich
     assert.ok(/Karlsruhe/.test(html) && !/Ingolstadt aus (beraten|vermessen)/.test(m.desc) || true);
-    assert.ok(html.includes(`name="ort" type="text" value="${o.name.replace(/&/g, "&amp;")}"`), o.slug + ": Formular-Ort");
+    assert.ok(html.includes(`<input type="hidden" name="ort" value="${o.name.replace(/&/g, "&amp;")}">`), o.slug + ": Formular-Ort (verstecktes Feld)");
     assert.ok(html.includes('name="region" value="Karlsruhe"'), o.slug + ": Formular-Region");
     assert.ok(!/holz/i.test(html) && !/\[[A-Z ]+\]|TODO|Lorem/.test(html), o.slug + ": Holz/Platzhalter");
   }

@@ -193,7 +193,7 @@ function pageKonf(key) {
           <p class="konf__hint">${key === "haustuer" ? `Abbildungen beispielhaft, Farben und Füllungen können leicht abweichen. ${esc(ST.lang)} Ihr Haustür-Richtpreis ist unverbindlich; das verbindliche Angebot folgt nach dem Aufmaß vor Ort.` : `Abbildungen beispielhaft. ${esc(ST.lang)} Der Richtpreis für Ihr Fenster ist unverbindlich und wird mit dem Angebot nach dem Aufmaß verbindlich.`}</p>
 
           <section class="angebot" id="angebot-form" aria-label="Angebot anfordern">
-            <form class="form" name="angebot-konfigurator" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate hidden>
+            <form class="form" name="angebot-konfigurator" method="POST" action="/.netlify/functions/anfrage" data-anfrage data-danke="/danke.html" novalidate hidden>
               <input type="hidden" name="form-name" value="angebot-konfigurator">
               <input type="hidden" name="produkt" value="${key}">
               <input type="hidden" name="konfiguration" value="">
@@ -203,17 +203,29 @@ function pageKonf(key) {
               <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
               <div class="form__grid">
                 <div class="form__row"><label for="a-name">Name *</label><input id="a-name" name="name" type="text" required autocomplete="name"></div>
-                <div class="form__row"><label for="a-tel">Telefon</label><input id="a-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel"></div>
-              </div>
-              <div class="form__grid form__grid--kontakt">
-                <div class="form__row"><label for="a-mail">E-Mail</label><input id="a-mail" name="email" type="email" autocomplete="email" inputmode="email"></div>
                 <div class="form__row"><label for="a-plz">PLZ *</label><input id="a-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code"></div>
               </div>
-              <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
+              <div class="form__grid">
+                <div class="form__row"><label for="a-mail">E-Mail *</label><input id="a-mail" name="email" type="email" required autocomplete="email" inputmode="email"></div>
+                <div class="form__row"><label for="a-tel">Telefon (optional)</label><input id="a-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel"></div>
+              </div>
+              <div class="form__row">
+                <label for="a-anliegen">Worum geht es?</label>
+                <select id="a-anliegen" name="anliegen">
+                  <option value="">Bitte wählen</option>
+                  <option>Fenster (1–3 Stück)</option>
+                  <option>Fenster (4–10 Stück)</option>
+                  <option>Fenster (mehr als 10 Stück)</option>
+                  <option${key === "haustuer" ? " selected" : ""}>Haustür</option>
+                  <option>Fenster und Haustür</option>
+                  <option>Rollläden / Insektenschutz</option>
+                  <option>Sonstiges</option>
+                </select>
+              </div>
               <div class="form__row"><label for="a-msg">Nachricht (optional)</label><textarea id="a-msg" name="nachricht" rows="3" placeholder="z. B. Anzahl weiterer Elemente, Wunschtermin, Besonderheiten"></textarea></div>
               <div class="form__check">
                 <input id="a-dsgvo" name="datenschutz" type="checkbox" required value="ja">
-                <label for="a-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben und meiner Konfiguration zur Erstellung eines Angebots einverstanden. *</label>
+                <label for="a-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und stimme zu. *</label>
               </div>
               <p class="form__error" role="alert" hidden>Bitte füllen Sie alle Pflichtfelder (*) aus.</p>
               <button class="btn btn--primary btn--block" type="submit">Angebot anfordern</button>
@@ -257,16 +269,6 @@ for (const f of walk(root, [])) {
   if (n !== h) { fs.writeFileSync(f, n); touched++; }
 }
 
-/* ---------- Sitemap ---------- */
-const smPath = path.join(root, "sitemap-seiten.xml");
-if (fs.existsSync(smPath)) {
-  let sm = fs.readFileSync(smPath, "utf8");
-  sm = sm.replace(/  <url><loc>[^<]*\/konfigurator\/[^<]*<\/loc>[^\n]*\n/g, "");
-  if (status === "online") {
-    const entries = Object.values(PAGES).map((p) => `  <url><loc>${SITE}${p.url}</loc><lastmod>${TODAY}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`).join("");
-    sm = sm.replace("</urlset>", entries + "</urlset>");
-  }
-  fs.writeFileSync(smPath, sm);
-}
-
-console.log(`Konfigurator: status=${status}, Preisliste ${listeOk ? "gültig" : "UNGÜLTIG (Preis auf Anfrage)"}, Seiten geschrieben, Links in ${touched} Dateien ${status === "online" ? "eingeblendet" : "ausgeblendet"}, Sitemap ${status === "online" ? "mit" : "ohne"} Konfigurator.`);
+/* Sitemap: die Seiten-Sitemap schreibt ausschließlich scripts/build-orte.js (läuft nach diesem Schritt) und nimmt die
+   Konfigurator-Seiten auf, sobald sie indexierbar sind (status online → kein noindex). */
+console.log(`Konfigurator: status=${status}, Preisliste ${listeOk ? "gültig" : "UNGÜLTIG (Preis auf Anfrage)"}, Seiten geschrieben, Links in ${touched} Dateien ${status === "online" ? "eingeblendet" : "ausgeblendet"}; Sitemap-Einträge ${status === "online" ? "folgen in build-orte.js" : "keine (noindex)"}.`);

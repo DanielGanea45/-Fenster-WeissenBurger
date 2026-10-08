@@ -18,7 +18,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=86a0f5f9">
+  <link rel="stylesheet" href="/css/style.css?v=5fac73b2">
   <link rel="stylesheet" href="/css/uebergang.css?v=fc98a2d2">
   <script src="/js/uebergang.js?v=478247c7"></script>
   <link rel="stylesheet" href="/css/leistungen.css?v=7ab5d8d3">
@@ -198,7 +198,7 @@
           <p class="lead lead--sm" data-text="referenzen-13">Ihre Meinung hilft anderen bei der Entscheidung und uns, besser zu werden. Bewertungen können nur Kundinnen und Kunden abgeben, für die wir einen Auftrag ausgeführt haben. Nach einer Prüfung veröffentlichen wir Ihre Bewertung mit Namen oder Initialen, Ort und Art des Projekts.</p>
           <p class="lead lead--sm" data-text="referenzen-14">Sie können Ihre Bewertung jederzeit ändern oder löschen lassen – eine E-Mail an <span class="mail" data-u="info" data-d="fenster-weissenburger.de">info [at] fenster-weissenburger.de</span> genügt.</p>
         </div>
-        <form class="form" name="bewertung" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <form class="form" name="bewertung" method="POST" action="/.netlify/functions/anfrage" data-anfrage data-danke="/danke.html" novalidate>
           <input type="hidden" name="form-name" value="bewertung">
           <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <div class="form__grid">
@@ -279,7 +279,7 @@
   </div>
 
   <script src="/js/config.js?v=a46c3345" defer></script>
-  <script src="/js/main.js?v=a60a62b1" defer></script>
+  <script src="/js/main.js?v=1cf89562" defer></script>
   <script src="/js/assistent.js?v=dfd13b6b" defer data-aktiv="0" data-whatsapp="4917681338935" data-css="/css/assistent.css?v=87824b05"></script>
   <script src="/js/leistungen.js?v=c7e0b22e" defer></script>
   <script src="/js/referenzen.js?v=cb4cbb5c" defer></script>

@@ -26,15 +26,17 @@ async function send({ to, subject, text, html, absenderName, cc, replyTo, anhaen
 }
 function escapeHtml(s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
+/* Beschriftungen der Formularfelder in E-Mails (technische Schlüssel bleiben als Rückfall) */
+const FELD_LABEL = { name: "Name", email: "E-Mail", telefon: "Telefon", plz: "PLZ", ort: "Ort", region: "Region", anliegen: "Anliegen", "anzahl-fenster": "Anzahl Fenster", "anzahl-elemente": "Anzahl Elemente", produkt: "Produkt", leistung: "Leistung", nachricht: "Nachricht", datenschutz: "Datenschutz", zusammenfassung: "Zusammenfassung", preis_server_text: "Richtpreis (Server)", preis_browser: "Preis im Browser", preisliste_version: "Preisliste", steuersatz_prozent: "Steuersatz", preis_abweichung: "Preisabweichung", quelle: "Quelle", gespraech: "Gespräch" };
 const vorlagen = {
   reset: (link) => ({ subject: "Passwort zurücksetzen – Fenster-WeissenBurger Admin", text: `Guten Tag,\n\nüber diesen Link können Sie ein neues Passwort für den Admin-Bereich festlegen (30 Minuten gültig):\n${link}\n\nWenn Sie das nicht angefordert haben, ignorieren Sie diese E-Mail – Ihr Passwort bleibt unverändert.` }),
   emailBestaetigen: (link) => ({ subject: "Neue E-Mail-Adresse bestätigen – Fenster-WeissenBurger Admin", text: `Guten Tag,\n\nbitte bestätigen Sie Ihre neue Anmelde-E-Mail-Adresse über diesen Link (30 Minuten gültig):\n${link}\n\nErst nach der Bestätigung wird die neue Adresse aktiv.` }),
-  neueAnfrage: (fields, adminUrl) => ({ subject: `Neue Anfrage: ${fields.name || "?"} · ${fields.produkt || fields.leistung || fields.ort || ""}`.trim(), text: `Neue Anfrage über die Website:\n\n${Object.entries(fields).filter(([k]) => !/^(bot-field|ts|js|form-name)$/.test(k)).map(([k, v]) => `${k}: ${v}`).join("\n")}${fields.preis_server_text || fields.preis_browser ? `\n\n${Hinweise.richtpreis.lang}` : ""}\n\nAlle Anfragen im Admin: ${adminUrl}#anfragen` }),
+  neueAnfrage: (fields, adminUrl) => ({ subject: `Neue Anfrage: ${fields.name || "?"} · ${fields.anliegen || fields.produkt || fields.leistung || fields.ort || ""}`.trim(), text: `Neue Anfrage über die Website:\n\n${Object.entries(fields).filter(([k]) => !/^(bot-field|ts|js|form-name)$/.test(k)).map(([k, v]) => `${FELD_LABEL[k] || k}: ${v}`).join("\n")}${fields.preis_server_text || fields.preis_browser ? `\n\n${Hinweise.richtpreis.lang}` : ""}\n\nAlle Anfragen im Admin: ${adminUrl}#anfragen` }),
   neueBewertung: (fields, adminUrl) => ({ subject: `Neue Bewertung zur Prüfung: ${fields.name || "?"} · ${fields.sterne || "?"} Sterne`, text: `Eine neue Bewertung wartet auf Freigabe:\n\n${fields.name} (${fields.ort}) – ${fields.projekt} – ${fields.sterne} Sterne\n„${fields.text}“\n\nPrüfen und freigeben: ${adminUrl}#bewertungen` }),
   /* Bestätigung an den Kunden nach einer Anfrage (nur mit E-Mail-Adresse) */
   bestaetigungAnfrage: (fields, firma) => {
     const f = firma || {};
-    const zeilen = [["Name", fields.name], ["Telefon", fields.telefon], ["E-Mail", fields.email], ["PLZ", fields.plz], ["Ort", fields.ort], ["Anliegen", fields.produkt || fields.leistung], ["Anzahl", fields["anzahl-fenster"] || fields["anzahl-elemente"] || fields.anzahl], ["Nachricht", fields.nachricht]].filter(([, v]) => v && String(v).trim());
+    const zeilen = [["Name", fields.name], ["Telefon", fields.telefon], ["E-Mail", fields.email], ["PLZ", fields.plz], ["Ort", fields.ort], ["Anliegen", fields.anliegen || fields.produkt || fields.leistung], ["Anzahl", fields["anzahl-fenster"] || fields["anzahl-elemente"] || fields.anzahl], ["Nachricht", fields.nachricht]].filter(([, v]) => v && String(v).trim());
     const preis = fields.preis_server_text ? `\nIhr unverbindlicher Richtpreis aus dem Konfigurator: ${fields.preis_server_text}\n` : "";
     return {
       subject: `Vielen Dank für Ihre Anfrage – ${f.name || "Fenster-WeissenBurger"}`,
@@ -44,4 +46,4 @@ const vorlagen = {
   veroeffentlicht: (ok, detail) => ({ subject: ok ? "Website veröffentlicht" : "Veröffentlichung fehlgeschlagen", text: ok ? `Die Website wurde erfolgreich neu veröffentlicht.\n${detail || ""}` : `Die Veröffentlichung ist fehlgeschlagen; die bisherige Version bleibt online.\n\n${detail || ""}` }),
 };
 
-module.exports = { send, vorlagen, escapeHtml, protokoll, simuliert };
+module.exports = { send, vorlagen, escapeHtml, protokoll, simuliert, FELD_LABEL };

@@ -60,10 +60,9 @@ function konfiguratorNachrechnen(fields) {
   }
   return { ok: true, felder: out };
 }
-const INTERNAL_FIELDS = ["ts", "js", "frc-captcha-response", "frc-captcha-solution", "form-name", "preis_browser"];
 const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
-function json(statusCode, body) {
+function jsonAntwort(statusCode, body) {
   return { statusCode, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" }, body: JSON.stringify(body) };
 }
 
@@ -82,22 +81,26 @@ async function verifyCaptcha(response, sitekey) {
   return { success: !!data.success, error: data.error && data.error.error_code };
 }
 
-async function forwardToNetlifyForms(formName, fields, event) {
-  const base = process.env.URL || process.env.DEPLOY_PRIME_URL || (event.headers && event.headers.origin);
-  if (!base) throw new Error("Site-URL unbekannt");
-  const params = new URLSearchParams();
-  params.set("form-name", formName);
-  for (const [k, v] of Object.entries(fields)) {
-    if (INTERNAL_FIELDS.includes(k)) continue;
-    params.set(k, Array.isArray(v) ? v.join(", ") : String(v == null ? "" : v));
-  }
-  const r = await fetch(base + "/", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": (event.headers && event.headers["user-agent"]) || "fenster-weissenburger-anfrage" },
-    body: params.toString(),
-    redirect: "manual",
-  });
-  if (r.status >= 400) throw new Error("Netlify Forms antwortete mit " + r.status);
+/* Klassischer Versand (ohne JavaScript): der Browser schickt application/x-www-form-urlencoded direkt an diese Function.
+   Antwort ist dann eine Weiterleitung (303) auf die Dankeseite bzw. auf die Fehlerseite mit dem Grund als Anker –
+   nie eine JSON-Antwort und nie ein 404. Netlify Forms wird nicht mehr genutzt (die Anfrage liegt im Admin-Speicher,
+   Benachrichtigung und Bestätigung gehen per E-Mail). */
+const DANKE_SEITE = "/danke.html", FEHLER_SEITE = "/anfrage-fehler.html";
+function klassisch(event) {
+  const h = (event && event.headers) || {};
+  const ct = String(h["content-type"] || h["Content-Type"] || "").toLowerCase();
+  return ct.includes("application/x-www-form-urlencoded") || ct.includes("multipart/form-data");
+}
+function formularFelder(event) {
+  let body = event.body || "";
+  if (event.isBase64Encoded) body = Buffer.from(body, "base64").toString("utf8");
+  const fields = {};
+  for (const [k, v] of new URLSearchParams(body)) fields[k] = fields[k] === undefined ? v : [].concat(fields[k], v);
+  const form = String(fields["form-name"] || ""); delete fields["form-name"];
+  return { form, fields };
+}
+function umleitung(ziel) {
+  return { statusCode: 303, headers: { Location: ziel, "Cache-Control": "no-store" }, body: "" };
 }
 
 /* Anfrage/Bewertung zusätzlich im Store speichern; Bewertungen warten dort auf Freigabe im Admin. */
@@ -132,7 +135,7 @@ async function fuerAdminAblegen(formName, fields, event) {
   }
   await store.setJSON("anfragen/" + id, eintrag);
   if (ziel("anfragen")) { const v = mail.vorlagen.neueAnfrage(sauber, adminUrl); await mail.send({ to: ziel("anfragen"), subject: v.subject, text: v.text, absenderName: absender, replyTo: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(sauber.email || "") ? sauber.email : undefined }); }
-  /* Bestätigung an den Kunden – nur, wenn eine E-Mail-Adresse angegeben wurde */
+  /* Bestätigung an den Kunden – die E-Mail-Adresse ist Pflicht, der Kunde erhält sie also immer (Prüfung bleibt als Schutz) */
   if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(sauber.email || "")) {
     const firmaLib = require("./_lib/firma");
     const fi = firmaLib.firma(einst);
@@ -144,20 +147,30 @@ async function fuerAdminAblegen(formName, fields, event) {
 exports.handler = async (event) => {
   store.verbinde(event);
   if (event.httpMethod !== "POST") return json(405, { ok: false, reason: "method" });
+  const ohneJs = klassisch(event);
   let payload;
-  try { payload = JSON.parse(event.body || "{}"); } catch (e) { return json(400, { ok: false, reason: "json" }); }
+  if (ohneJs) payload = formularFelder(event);
+  else { try { payload = JSON.parse(event.body || "{}"); } catch (e) { return json(400, { ok: false, reason: "json" }); } }
   const formName = String(payload.form || "");
   const fields = payload.fields && typeof payload.fields === "object" ? payload.fields : {};
+  /* Antwort je Versandart: JSON für den Browser mit JavaScript, Weiterleitung für den klassischen Versand */
+  const json = (statusCode, body) => {
+    if (!ohneJs) return jsonAntwort(statusCode, body);
+    if (body.ok) return umleitung(DANKE_SEITE);
+    const grund = body.feld === "email" ? "email" : body.reason === "felder" ? "felder" : body.reason === "zeit" ? "zeit" : body.reason === "captcha" ? "captcha" : "technik";
+    return umleitung(FEHLER_SEITE + "#" + grund);
+  };
   if (!ALLOWED_FORMS.includes(formName)) return json(400, { ok: false, reason: "form" });
 
   /* 1) Honeypot: Bots füllen das unsichtbare Feld aus → still verwerfen (Antwort sieht nach Erfolg aus). */
   if (String(fields["bot-field"] || "").trim() !== "") return json(200, { ok: true, dropped: "honeypot" });
 
-  /* 2) Mindestzeit zwischen Seitenaufruf und Absenden. */
+  /* 2) Mindestzeit zwischen Seitenaufruf und Absenden (den Zeitstempel setzt js/main.js; beim klassischen Versand ohne
+        JavaScript gibt es ihn nicht – dann bleiben Honigtopf und Pflichtfelder als Schutz). */
   const minMs = (Number(process.env.SPAM_MIN_SECONDS) || 3) * 1000;
   const ts = Number(fields.ts);
   const age = Date.now() - ts;
-  if (!ts || !(age >= minMs) || age > MAX_AGE_MS) return json(200, { ok: false, reason: "zeit" });
+  if (!(ohneJs && !fields.ts) && (!ts || !(age >= minMs) || age > MAX_AGE_MS)) return json(200, { ok: false, reason: "zeit" });
 
   /* 3) Friendly Captcha (nur wenn FRC_API_KEY gesetzt ist). */
   try {
@@ -172,11 +185,11 @@ exports.handler = async (event) => {
     : formName === "angebot-konfigurator" ? ["name", "plz", "datenschutz", "konfiguration"]
     : ["name", "plz", "datenschutz"];
   for (const k of required) if (!String(fields[k] || "").trim()) return json(200, { ok: false, reason: "felder", feld: k });
-  /* Telefon oder E-Mail – mindestens eines; E-Mail, wenn angegeben, in gültiger Form */
+  /* E-Mail ist Pflicht (Telefon freiwillig) – ohne gültige Adresse wird nichts gespeichert und nichts gesendet */
   if (formName !== "bewertung") {
-    const tel = String(fields.telefon || "").trim(), mailAdr = String(fields.email || "").trim();
-    if (!tel && !mailAdr) return json(200, { ok: false, reason: "felder", feld: "kontakt", meldung: "Bitte Telefonnummer oder E-Mail-Adresse angeben." });
-    if (mailAdr && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mailAdr)) return json(200, { ok: false, reason: "felder", feld: "email", meldung: "Bitte eine gültige E-Mail-Adresse angeben." });
+    const mailAdr = String(fields.email || "").trim();
+    if (!mailAdr) return json(200, { ok: false, reason: "felder", feld: "email", meldung: "Bitte geben Sie Ihre E-Mail-Adresse ein." });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mailAdr)) return json(200, { ok: false, reason: "felder", feld: "email", meldung: "Bitte geben Sie eine gültige E-Mail-Adresse ein." });
   }
 
   /* 4b) Konfigurator: Preis serverseitig neu berechnen und mitspeichern. */
@@ -187,14 +200,8 @@ exports.handler = async (event) => {
     weiter = Object.assign({}, fields, k.felder);
   }
 
-  /* 4c) Kopie für den Admin-Bereich ablegen (Anfragen-Liste bzw. Bewertungen zur Freigabe) und benachrichtigen. */
-  try { await fuerAdminAblegen(formName, weiter, event); } catch (e) { console.log("Admin-Ablage fehlgeschlagen:", e.message); }
-
-  /* 5) An Netlify Forms weiterreichen. */
-  try {
-    await forwardToNetlifyForms(formName, weiter, event);
-  } catch (e) {
-    return json(502, { ok: false, reason: "weiterleitung" });
-  }
+  /* 5) Anfrage im Admin-Bereich ablegen (Anfragen-Liste bzw. Bewertungen zur Freigabe), Firma benachrichtigen, Kunden bestätigen.
+        Schlägt die Ablage fehl, bekommt der Besucher einen klaren Fehler statt einer stillen Erfolgsmeldung. */
+  try { await fuerAdminAblegen(formName, weiter, event); } catch (e) { console.log("Admin-Ablage fehlgeschlagen:", e.message); return json(500, { ok: false, reason: "technik" }); }
   return json(200, { ok: true });
 };

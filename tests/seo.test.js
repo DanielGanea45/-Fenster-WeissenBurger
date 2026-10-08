@@ -60,7 +60,7 @@ test("Sitemaps: nur indexierbare Seiten, jede indexierbare Seite enthalten, last
     assert.ok(!noindex(s.html), "noindex-Seite in Sitemap: " + rel);
     assert.ok(!/\/admin|\.netlify|\/konfigurator\//.test(l) || /konfigurator/.test(l), l);
   }
-  for (const s of alle) if (!noindex(s.html) && !/^konfigurator\//.test(s.rel)) assert.ok(locs.includes(SITE + "/" + s.rel.replace(/index\.html$/, "")), "indexierbare Seite nicht in Sitemap: " + s.rel);
+  for (const s of alle) if (!noindex(s.html)) assert.ok(locs.includes(SITE + "/" + s.rel.replace(/index\.html$/, "")), "indexierbare Seite nicht in Sitemap: " + s.rel); // auch /konfigurator/… sobald online
   const robots = fs.readFileSync(path.join(ROOT, "robots.txt"), "utf8");
   assert.match(robots, new RegExp("Sitemap: " + SITE + "/sitemap-index.xml")); assert.match(robots, /Disallow: \/admin\//);
 });

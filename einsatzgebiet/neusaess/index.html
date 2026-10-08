@@ -17,7 +17,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=86a0f5f9">
+  <link rel="stylesheet" href="/css/style.css?v=5fac73b2">
   <link rel="stylesheet" href="/css/uebergang.css?v=fc98a2d2">
   <script src="/js/uebergang.js?v=478247c7"></script>
   <link rel="stylesheet" href="/css/leistungen.css?v=7ab5d8d3">
@@ -178,43 +178,42 @@
             <span class="muted" data-firma="zeiten">Mo–Fr 9–17 Uhr</span>
           </address>
         </div>
-        <form class="form" name="anfrage-einsatzgebiet" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <form class="form" name="anfrage-einsatzgebiet" method="POST" action="/.netlify/functions/anfrage" data-anfrage data-danke="/danke.html" novalidate>
           <input type="hidden" name="form-name" value="anfrage-einsatzgebiet">
           <input type="hidden" name="region" value="Ingolstadt">
+          <input type="hidden" name="ort" value="Neusäß">
           <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <div class="form__grid">
             <div class="form__row">
-              <label for="f-ort">Ort</label>
-              <input id="f-ort" name="ort" type="text" value="Neusäß" autocomplete="address-level2">
+              <label for="f-name">Name *</label>
+              <input id="f-name" name="name" type="text" required autocomplete="name">
             </div>
             <div class="form__row">
               <label for="f-plz">PLZ *</label>
               <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
             </div>
           </div>
-          <div class="form__row">
-            <label for="f-name">Name *</label>
-            <input id="f-name" name="name" type="text" required autocomplete="name">
-          </div>
-          <div class="form__grid form__grid--kontakt">
+          <div class="form__grid">
             <div class="form__row">
-              <label for="f-tel">Telefon</label>
+              <label for="f-mail">E-Mail *</label>
+              <input id="f-mail" name="email" type="email" required autocomplete="email" inputmode="email">
+            </div>
+            <div class="form__row">
+              <label for="f-tel">Telefon (optional)</label>
               <input id="f-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel">
             </div>
-            <div class="form__row">
-              <label for="f-mail">E-Mail</label>
-              <input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email">
-            </div>
           </div>
-          <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
           <div class="form__row">
-            <label for="f-produkt">Worum geht es?</label>
-            <select id="f-produkt" name="produkt">
-              <option>Fenstertausch</option>
-              <option>Fenster für Neubau</option>
+            <label for="f-anliegen">Worum geht es?</label>
+            <select id="f-anliegen" name="anliegen">
+              <option value="">Bitte wählen</option>
+              <option>Fenster (1–3 Stück)</option>
+              <option>Fenster (4–10 Stück)</option>
+              <option>Fenster (mehr als 10 Stück)</option>
               <option>Haustür</option>
-              <option>Hebe-Schiebetür / Terrassentür</option>
-              <option>Beratung – noch unentschieden</option>
+              <option>Fenster und Haustür</option>
+              <option>Rollläden / Insektenschutz</option>
+              <option>Sonstiges</option>
             </select>
           </div>
           <div class="form__row">
@@ -223,7 +222,7 @@
           </div>
           <div class="form__check">
             <input id="f-dsgvo" name="datenschutz" type="checkbox" required value="ja">
-            <label for="f-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage einverstanden. *</label>
+            <label for="f-dsgvo">Ich habe die <a href="/datenschutz.html">Datenschutzerklärung</a> gelesen und stimme zu. *</label>
           </div>
           <p class="form__error" role="alert" hidden>Bitte füllen Sie alle Pflichtfelder (*) aus.</p>
           <button class="btn btn--primary btn--block" type="submit">Anfrage senden</button>
@@ -241,7 +240,7 @@
     <a class="btn btn--primary" href="#anfrage">Anfrage</a>
   </div>
   <script src="/js/config.js?v=a46c3345" defer></script>
-  <script src="/js/main.js?v=a60a62b1" defer></script>
+  <script src="/js/main.js?v=1cf89562" defer></script>
   <script src="/js/assistent.js?v=dfd13b6b" defer data-aktiv="0" data-whatsapp="4917681338935" data-css="/css/assistent.css?v=87824b05"></script>
 </body>
 </html>

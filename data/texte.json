@@ -3177,7 +3177,7 @@
   "datenschutz-15": {
    "seite": "datenschutz",
    "tag": "p",
-   "html": "Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten wir die von Ihnen eingegebenen Angaben (Name, Telefonnummer und/oder E-Mail-Adresse – mindestens eines von beiden –, Postleitzahl, Anzahl der Fenster, Nachricht) sowie den Zeitpunkt der Absendung, um Ihre Anfrage zu bearbeiten und einen Termin für Beratung oder Aufmaß zu vereinbaren. Haben Sie eine E-Mail-Adresse angegeben, erhalten Sie eine automatische Eingangsbestätigung mit Ihren Angaben; weitere E-Mails versenden wir nur zur Bearbeitung Ihrer Anfrage.",
+   "html": "Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten wir die von Ihnen eingegebenen Angaben (Name, E-Mail-Adresse, Postleitzahl, Anliegen, Nachricht sowie – freiwillig – Ihre Telefonnummer) und den Zeitpunkt der Absendung, um Ihre Anfrage zu bearbeiten, Ihnen per E-Mail zu antworten und einen Termin für Beratung oder Aufmaß zu vereinbaren. Die E-Mail-Adresse ist erforderlich, weil wir Ihnen eine automatische Eingangsbestätigung mit Ihren Angaben senden und Ihnen auf diesem Weg antworten; die Telefonnummer ist optional und dient nur der schnelleren Abstimmung. Weitere E-Mails versenden wir nur zur Bearbeitung Ihrer Anfrage.",
    "label": "Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten",
    "geschuetzt": true,
    "abschnitt": "abschnitt-6",
