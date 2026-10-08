@@ -51,7 +51,10 @@ async function chromePfad() {
   if (process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)) return { pfad: process.env.CHROME_PATH, args: ["--no-sandbox"] };
   const bekannt = ["C:/Program Files/Google/Chrome/Application/chrome.exe", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe", "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"];
   for (const p of bekannt) if (fs.existsSync(p)) return { pfad: p, args: ["--no-sandbox"] };
-  try { const chromium = require("@sparticuz/chromium"); return { pfad: await chromium.executablePath(), args: chromium.args }; } catch (e) { /* nicht installiert */ }
+  /* Mitgelieferter Chromium (Lambda-Paket): die beigelegten Bibliotheken werden nur in einer Lambda-ähnlichen Umgebung
+     entpackt – deshalb vor dem Laden markieren, dann läuft er auch im Build-Image ohne Systembibliotheken */
+  if (!process.env.AWS_EXECUTION_ENV) process.env.AWS_EXECUTION_ENV = "AWS_Lambda_nodejs20.x";
+  try { const m = require("@sparticuz/chromium"); const chromium = m && m.default ? m.default : m; const pfad = await chromium.executablePath(); if (pfad && fs.existsSync(pfad)) return { pfad, args: (chromium.args || []).concat(["--no-sandbox"]) }; console.error("Admin-Smoke-Test: @sparticuz/chromium lieferte keinen Pfad."); } catch (e) { console.error("Admin-Smoke-Test: @sparticuz/chromium nicht nutzbar:", e.message); }
   try { const pp = require("puppeteer"); return { pfad: pp.executablePath(), args: ["--no-sandbox"] }; } catch (e) { /* nicht installiert */ }
   return null;
 }
