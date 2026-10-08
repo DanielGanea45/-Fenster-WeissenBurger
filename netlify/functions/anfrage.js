@@ -129,7 +129,14 @@ async function fuerAdminAblegen(formName, fields, event) {
     eintrag.preislisteVersion = sauber.preisliste_version || "";
   }
   await store.setJSON("anfragen/" + id, eintrag);
-  if (ziel("anfragen")) { const v = mail.vorlagen.neueAnfrage(sauber, adminUrl); await mail.send({ to: ziel("anfragen"), subject: v.subject, text: v.text, absenderName: absender }); }
+  if (ziel("anfragen")) { const v = mail.vorlagen.neueAnfrage(sauber, adminUrl); await mail.send({ to: ziel("anfragen"), subject: v.subject, text: v.text, absenderName: absender, replyTo: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(sauber.email || "") ? sauber.email : undefined }); }
+  /* Bestätigung an den Kunden – nur, wenn eine E-Mail-Adresse angegeben wurde */
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(sauber.email || "")) {
+    const firmaLib = require("./_lib/firma");
+    const fi = firmaLib.firma(einst);
+    const v = mail.vorlagen.bestaetigungAnfrage(sauber, { name: firmaLib.vollerName(einst), telefon: fi.telefon, email: fi.email, zeiten: firmaLib.zeitenText(einst.oeffnungszeiten) });
+    try { await mail.send({ to: sauber.email, subject: v.subject, text: v.text, absenderName: absender, replyTo: fi.email || undefined }); } catch (e) { console.log("Bestätigung nicht gesendet:", e.message); }
+  }
 }
 
 exports.handler = async (event) => {
@@ -160,9 +167,15 @@ exports.handler = async (event) => {
 
   /* 4) Pflichtfelder grob prüfen (echte Validierung macht der Browser; hier nur Schutz vor leeren Bot-Posts). */
   const required = formName === "bewertung" ? ["name", "ort", "text", "kunde", "datenschutz"]
-    : formName === "angebot-konfigurator" ? ["name", "telefon", "email", "plz", "datenschutz", "konfiguration"]
-    : ["name", "telefon", "plz", "datenschutz"];
+    : formName === "angebot-konfigurator" ? ["name", "plz", "datenschutz", "konfiguration"]
+    : ["name", "plz", "datenschutz"];
   for (const k of required) if (!String(fields[k] || "").trim()) return json(200, { ok: false, reason: "felder", feld: k });
+  /* Telefon oder E-Mail – mindestens eines; E-Mail, wenn angegeben, in gültiger Form */
+  if (formName !== "bewertung") {
+    const tel = String(fields.telefon || "").trim(), mailAdr = String(fields.email || "").trim();
+    if (!tel && !mailAdr) return json(200, { ok: false, reason: "felder", feld: "kontakt", meldung: "Bitte Telefonnummer oder E-Mail-Adresse angeben." });
+    if (mailAdr && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mailAdr)) return json(200, { ok: false, reason: "felder", feld: "email", meldung: "Bitte eine gültige E-Mail-Adresse angeben." });
+  }
 
   /* 4b) Konfigurator: Preis serverseitig neu berechnen und mitspeichern. */
   let weiter = fields;

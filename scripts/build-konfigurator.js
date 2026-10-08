@@ -203,12 +203,13 @@ function pageKonf(key) {
               <p class="hp"><label>Bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
               <div class="form__grid">
                 <div class="form__row"><label for="a-name">Name *</label><input id="a-name" name="name" type="text" required autocomplete="name"></div>
-                <div class="form__row"><label for="a-tel">Telefon *</label><input id="a-tel" name="telefon" type="tel" required autocomplete="tel" inputmode="tel"></div>
+                <div class="form__row"><label for="a-tel">Telefon</label><input id="a-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel"></div>
               </div>
-              <div class="form__grid">
-                <div class="form__row"><label for="a-mail">E-Mail *</label><input id="a-mail" name="email" type="email" required autocomplete="email"></div>
+              <div class="form__grid form__grid--kontakt">
+                <div class="form__row"><label for="a-mail">E-Mail</label><input id="a-mail" name="email" type="email" autocomplete="email" inputmode="email"></div>
                 <div class="form__row"><label for="a-plz">PLZ *</label><input id="a-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code"></div>
               </div>
+              <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
               <div class="form__row"><label for="a-msg">Nachricht (optional)</label><textarea id="a-msg" name="nachricht" rows="3" placeholder="z. B. Anzahl weiterer Elemente, Wunschtermin, Besonderheiten"></textarea></div>
               <div class="form__check">
                 <input id="a-dsgvo" name="datenschutz" type="checkbox" required value="ja">

@@ -25,6 +25,16 @@ const vorlagen = {
   emailBestaetigen: (link) => ({ subject: "Neue E-Mail-Adresse bestätigen – Fenster-WeissenBurger Admin", text: `Guten Tag,\n\nbitte bestätigen Sie Ihre neue Anmelde-E-Mail-Adresse über diesen Link (30 Minuten gültig):\n${link}\n\nErst nach der Bestätigung wird die neue Adresse aktiv.` }),
   neueAnfrage: (fields, adminUrl) => ({ subject: `Neue Anfrage: ${fields.name || "?"} · ${fields.produkt || fields.leistung || fields.ort || ""}`.trim(), text: `Neue Anfrage über die Website:\n\n${Object.entries(fields).filter(([k]) => !/^(bot-field|ts|js|form-name)$/.test(k)).map(([k, v]) => `${k}: ${v}`).join("\n")}${fields.preis_server_text || fields.preis_browser ? `\n\n${Hinweise.richtpreis.lang}` : ""}\n\nAlle Anfragen im Admin: ${adminUrl}#anfragen` }),
   neueBewertung: (fields, adminUrl) => ({ subject: `Neue Bewertung zur Prüfung: ${fields.name || "?"} · ${fields.sterne || "?"} Sterne`, text: `Eine neue Bewertung wartet auf Freigabe:\n\n${fields.name} (${fields.ort}) – ${fields.projekt} – ${fields.sterne} Sterne\n„${fields.text}“\n\nPrüfen und freigeben: ${adminUrl}#bewertungen` }),
+  /* Bestätigung an den Kunden nach einer Anfrage (nur mit E-Mail-Adresse) */
+  bestaetigungAnfrage: (fields, firma) => {
+    const f = firma || {};
+    const zeilen = [["Name", fields.name], ["Telefon", fields.telefon], ["E-Mail", fields.email], ["PLZ", fields.plz], ["Ort", fields.ort], ["Anliegen", fields.produkt || fields.leistung], ["Anzahl", fields["anzahl-fenster"] || fields["anzahl-elemente"] || fields.anzahl], ["Nachricht", fields.nachricht]].filter(([, v]) => v && String(v).trim());
+    const preis = fields.preis_server_text ? `\nIhr unverbindlicher Richtpreis aus dem Konfigurator: ${fields.preis_server_text}\n` : "";
+    return {
+      subject: `Vielen Dank für Ihre Anfrage – ${f.name || "Fenster-WeissenBurger"}`,
+      text: `Guten Tag${fields.name ? " " + fields.name : ""},\n\nvielen Dank für Ihre Anfrage – sie ist bei uns eingegangen. Wir melden uns innerhalb von zwei Werktagen bei Ihnen und vereinbaren gern einen Termin für Beratung und kostenloses Aufmaß.\n\nIhre Angaben:\n${zeilen.map(([k, v]) => `${k}: ${v}`).join("\n")}\n${preis}\nMit freundlichen Grüßen\n${f.name || "Fenster-WeissenBurger"}\n${[f.telefon, f.email, f.zeiten].filter(Boolean).join(" · ")}\n\nDiese Bestätigung wurde automatisch erstellt; Sie können einfach auf diese E-Mail antworten.`,
+    };
+  },
   veroeffentlicht: (ok, detail) => ({ subject: ok ? "Website veröffentlicht" : "Veröffentlichung fehlgeschlagen", text: ok ? `Die Website wurde erfolgreich neu veröffentlicht.\n${detail || ""}` : `Die Veröffentlichung ist fehlgeschlagen; die bisherige Version bleibt online.\n\n${detail || ""}` }),
 };
 

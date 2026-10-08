@@ -298,15 +298,20 @@ ${opts.map((o) => `              <option${o === p.formValue ? " selected" : ""}>
             <label for="f-name">Name *</label>
             <input id="f-name" name="name" type="text" required autocomplete="name">
           </div>
-          <div class="form__grid">
+          <div class="form__grid form__grid--kontakt">
             <div class="form__row">
-              <label for="f-tel">Telefon *</label>
-              <input id="f-tel" name="telefon" type="tel" required autocomplete="tel" inputmode="tel">
+              <label for="f-tel">Telefon</label>
+              <input id="f-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel">
             </div>
             <div class="form__row">
-              <label for="f-plz">PLZ *</label>
-              <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
+              <label for="f-mail">E-Mail</label>
+              <input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email">
             </div>
+          </div>
+          <p class="form__hint">Telefon oder E-Mail – mindestens eine Angabe, damit wir uns bei Ihnen melden können.</p>
+          <div class="form__row">
+            <label for="f-plz">PLZ *</label>
+            <input id="f-plz" name="plz" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
           </div>
           <div class="form__row">
             <label for="f-anzahl">Anzahl Elemente</label>
