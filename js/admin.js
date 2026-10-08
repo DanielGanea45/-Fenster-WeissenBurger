@@ -361,6 +361,7 @@
           <a class="quick" href="#bewertungen">Bewertung freigeben</a>
           <a class="quick" href="#preise">Preise prüfen · Testrechner</a>
           <a class="quick" href="#konto">Passwort ändern</a>
+          <a class="quick" href="/.netlify/functions/admin-api?aktion=sicherung" download>Datensicherung herunterladen (ZIP)</a>
         </div>
         <div class="card grow"><h2>Letzte Aktivitäten</h2>
           <div class="list">${(d.protokoll || []).map((p) => `<div><span><b>${h(typText(p))}</b> · ${h(p.text)}</span><span class="small muted nowrap">${fmtDT(p.wann)}</span></div>`).join("") || '<p class="muted">Noch keine Einträge.</p>'}</div>

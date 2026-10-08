@@ -86,6 +86,21 @@ async function lesen(aktion, q, s, event) {
     case "protokoll": { const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(200, Math.max(20, Number(q.proSeite) || 50)); const alle = await store.getJSON("protokoll", []); return http.json(200, { ok: true, protokoll: alle.slice((seite - 1) * pro, seite * pro), gesamt: alle.length, seite, proSeite: pro }); }
     /* Technischer Status der verbundenen Dienste – ausschließlich „gesetzt ja/nein“, nie Werte */
     case "dienste": return http.json(200, { ok: true, dienste: diensteStatus() });
+    /* Vollständige Datensicherung als ZIP: Einstellungen, Texte, Bilderzuordnung, Preise, Versionen, Anfragen, Belege samt
+       archivierter PDFs, Kunden, Protokoll – ohne Zugangsdaten und Sitzungen. Hochgeladene Bilddateien nur, solange die
+       Antwort klein genug bleibt (Function-Grenze); sie sind ohnehin Teil der veröffentlichten Website. */
+    case "sicherung": {
+      const JSZip = require("jszip"); const zip = new JSZip(); const index = []; let bilderBytes = 0, bilderAusgelassen = 0;
+      const jsonAblegen = async (k) => { const v = await store.getJSON(k, null); if (v !== null) { zip.file(k + ".json", JSON.stringify(v, null, 1)); index.push(k); } };
+      for (const p of ["daten/", "versionen/", "anfragen/", "belege/", "kunden/"]) for (const k of await store.list(p)) await jsonAblegen(k);
+      for (const k of ["kunden-index", "belege-nummern", "belege-index", "protokoll", "veroeffentlichung"]) await jsonAblegen(k);
+      for (const k of await store.list("belege-pdf/")) { const b = await store.getBinary(k); if (b) { zip.file(k + ".pdf", b); index.push(k); } }
+      for (const k of await store.list("bilder/")) { const b = await store.getBinary(k); if (!b) continue; if (bilderBytes + b.length > 3.5 * 1024 * 1024) { bilderAusgelassen++; continue; } bilderBytes += b.length; zip.file(k + ".webp", b); index.push(k); }
+      zip.file("SICHERUNG.json", JSON.stringify({ erstellt: new Date().toISOString(), kontext: store.kontext(), eintraege: index.length, bilderAusgelassen, hinweis: "Sicherung der Admin-Daten ohne Zugangsdaten und Sitzungen. Schlüssel = Dateiname ohne Endung. " + (bilderAusgelassen ? `${bilderAusgelassen} hochgeladene Bilddateien wurden wegen der Größe ausgelassen; sie sind Teil der veröffentlichten Website.` : "") }, null, 1));
+      const buf = await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
+      await http.protokoll(event, "sicherung", `Datensicherung heruntergeladen (${index.length} Einträge)`, s.account.email);
+      return { statusCode: 200, headers: Object.assign({ "Content-Type": "application/zip", "Content-Disposition": `attachment; filename="fenster-weissenburger-sicherung-${new Date().toISOString().slice(0, 10)}.zip"` }, http.NO_STORE), body: buf.toString("base64"), isBase64Encoded: true };
+    }
     case "konto": {
       const a = s.account;
       return http.json(200, { ok: true, konto: { email: a.email, name: a.name, notify: a.notify, totp: !!(a.totp && a.totp.enabled), letzteAnmeldung: a.lastLogin || 0, erstellt: a.createdAt } });

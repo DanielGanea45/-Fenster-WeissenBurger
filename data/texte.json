@@ -2205,6 +2205,20 @@
    "label": "Mit Netlify haben wir einen Auftragsverarbeitungsvertrag gemäß Art. 28",
    "geschuetzt": true
   },
+  "datenschutz-44": {
+   "seite": "datenschutz",
+   "tag": "h2",
+   "html": "4a. E-Mail-Versand",
+   "label": "4a. E-Mail-Versand",
+   "geschuetzt": true
+  },
+  "datenschutz-45": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "Für den Versand von E-Mails an Sie – etwa Angebote, Auftragsbestätigungen und Rechnungen als PDF – sowie für interne Benachrichtigungen über neue Anfragen nutzen wir den Dienst Brevo der Sendinblue GmbH, Köpenicker Straße 126, 10179 Berlin. Dabei werden Empfängeradresse, Betreff, Inhalt und Anhänge der E-Mail über die Server von Brevo (Standort EU) übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung und Durchführung eines Vertrags). Mit Brevo besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.",
+   "label": "Für den Versand von E-Mails an Sie – etwa Angebote, Auftragsbestätigun",
+   "geschuetzt": true
+  },
   "datenschutz-14": {
    "seite": "datenschutz",
    "tag": "h2",
