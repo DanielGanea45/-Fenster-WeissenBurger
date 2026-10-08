@@ -41,11 +41,22 @@ exports.handler = async (event) => {
 /* ---------- Hilfen ---------- */
 const sid = (x) => String(x || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 60);
 async function ladeBeleg(id) { const b = await store.getJSON("belege/" + sid(id), null); if (!b) throw Object.assign(new Error("Beleg nicht gefunden."), { code: 409 }); return b; }
-async function speichereBeleg(b) { b.geaendert = Date.now(); await store.setJSON("belege/" + b.id, b); return b; }
+/* Kurzindex (belege-index): ein Lesezugriff für Listen, Kennzahlen und Kunden statt einem je Beleg */
+const INDEX_KEY = "belege-index";
+async function speichereBeleg(b) { b.geaendert = Date.now(); await store.setJSON("belege/" + b.id, b); const idx = (await store.getJSON(INDEX_KEY, null)) || {}; idx[b.id] = kurz(b); await store.setJSON(INDEX_KEY, idx); return b; }
 async function alleBelege() { const keys = await store.list("belege/"); const out = []; for (const k of keys) { const b = await store.getJSON(k, null); if (b) out.push(b); } return out; }
+function statusHeute(k) {
+  if (k.art !== "rechnung" || !k.festgeschrieben || ["storniert", "bezahlt"].includes(k.statusRoh || k.status)) return k.status;
+  const rest = k.zahlbetrag - k.gezahlt; if (rest <= 0) return "bezahlt"; if (k.faelligAm && k.faelligAm < B.heute()) return "ueberfaellig"; return k.gezahlt > 0 ? "teilweise" : "offen";
+}
+async function alleKurz() {
+  let idx = await store.getJSON(INDEX_KEY, null);
+  if (!idx) { idx = {}; for (const b of await alleBelege()) idx[b.id] = kurz(b); if (Object.keys(idx).length) await store.setJSON(INDEX_KEY, idx); }
+  return Object.values(idx).map((k) => Object.assign({}, k, { status: statusHeute(k) }));
+}
 function kurz(b) {
   const s = B.berechne(b, b.steuer.satz);
-  return { id: b.id, art: b.art, nummer: b.nummer, status: b.art === "rechnung" ? B.zahlungsstatus(b) : b.status, datum: b.datum, faelligAm: b.faelligAm || null, gueltigBis: b.gueltigBis || null, kunde: b.kunde.name, kundeId: b.kundeId, betreff: b.betreff, gesamt: s.gesamt, summe: s.summe, zahlbetrag: s.zahlbetrag, gezahlt: B.gezahlt(b), festgeschrieben: B.istFestgeschrieben(b), gesendet: b.gesendet ? b.gesendet.wann : null, bezug: b.bezug || {}, rechnungstyp: b.rechnungstyp || null, erstellt: b.erstellt, geaendert: b.geaendert, steuerSatz: b.steuer.satz };
+  return { id: b.id, art: b.art, nummer: b.nummer, status: b.art === "rechnung" ? B.zahlungsstatus(b) : b.status, statusRoh: b.status, datum: b.datum, faelligAm: b.faelligAm || null, gueltigBis: b.gueltigBis || null, kunde: b.kunde.name, kundeId: b.kundeId, betreff: b.betreff, gesamt: s.gesamt, summe: s.summe, zahlbetrag: s.zahlbetrag, gezahlt: B.gezahlt(b), festgeschrieben: B.istFestgeschrieben(b), gesendet: b.gesendet ? b.gesendet.wann : null, bezug: b.bezug || {}, rechnungstyp: b.rechnungstyp || null, erstellt: b.erstellt, geaendert: b.geaendert, steuerSatz: b.steuer.satz };
 }
 function sicherKunde(k) { k = k || {}; const s = (x, n) => String(x == null ? "" : x).trim().slice(0, n || 120); return { anrede: ["Herrn", "Frau", ""].includes(k.anrede) ? k.anrede : "", name: s(k.name), firma: s(k.firma), strasse: s(k.strasse), plz: s(k.plz, 5), ort: s(k.ort), email: s(k.email), telefon: s(k.telefon, 40) }; }
 function sicherPositionen(liste) {
@@ -85,7 +96,7 @@ async function lesen(q, s, event) {
   switch (q.aktion) {
     case "liste": {
       const einst = await daten.lade("einstellungen");
-      let liste = (await alleBelege()).map(kurz);
+      let liste = await alleKurz();
       const art = sid(q.art), status = sid(q.status), suche = String(q.suche || "").trim().toLowerCase();
       if (art && art !== "alle") liste = liste.filter((b) => b.art === art);
       if (status === "offen") liste = liste.filter((b) => ["offen", "teilweise", "ueberfaellig"].includes(b.status));
@@ -102,18 +113,18 @@ async function lesen(q, s, event) {
       const einst = await daten.lade("einstellungen");
       const kette = {};
       for (const [k, key] of [["angebot", "angebotId"], ["ab", "abId"], ["rechnung", "rechnungId"]]) if (b.bezug && b.bezug[key]) { const x = await store.getJSON("belege/" + sid(b.bezug[key]), null); if (x) kette[k] = kurz(x); }
-      const folge = (await alleBelege()).filter((x) => x.bezug && (x.bezug.angebotId === b.id || x.bezug.abId === b.id || x.bezug.rechnungId === b.id)).map(kurz);
+      const folge = (await alleKurz()).filter((x) => x.bezug && (x.bezug.angebotId === b.id || x.bezug.abId === b.id || x.bezug.rechnungId === b.id));
       return http.json(200, { ok: true, beleg: b, summen: B.berechne(b, b.steuer.satz), kette, folge, muster: B.muster(einst), einheiten: B.EINHEITEN, aenderbar: !B.istFestgeschrieben(b) });
     }
     case "kpis": {
-      const alle = await alleBelege(); const jetzt = new Date(); const jahr = jetzt.toISOString().slice(0, 4), monat = jetzt.toISOString().slice(0, 7);
+      const alle = await alleKurz(); const jetzt = new Date(); const jahr = jetzt.toISOString().slice(0, 4), monat = jetzt.toISOString().slice(0, 7);
       let offen = 0, ueberfaellig = 0, umsatzMonat = 0, umsatzJahr = 0, entwuerfe = 0, angeboteOffen = 0;
       for (const b of alle) {
-        const s = B.berechne(b, b.steuer.satz);
+        const s = b;
         if (b.status === "entwurf") entwuerfe++;
         if (b.art === "angebot" && b.status === "gesendet") angeboteOffen++;
-        if (b.art === "rechnung" && B.istFestgeschrieben(b)) {
-          const st = B.zahlungsstatus(b); const rest = s.zahlbetrag - B.gezahlt(b);
+        if (b.art === "rechnung" && b.festgeschrieben) {
+          const st = b.status; const rest = s.zahlbetrag - b.gezahlt;
           if (["offen", "teilweise", "ueberfaellig"].includes(st)) { offen += rest; if (st === "ueberfaellig") ueberfaellig += rest; }
           // Umsatz: Rechnung zählt positiv, die Stornorechnung (unten) negativ – stornierte Vorgänge heben sich so auf
           if (b.datum.startsWith(monat)) umsatzMonat += s.summe; if (b.datum.startsWith(jahr)) umsatzJahr += s.summe;
@@ -124,16 +135,17 @@ async function lesen(q, s, event) {
     }
     case "kunden": {
       const keys = await store.list("kunden/"); const liste = [];
-      const belege = (await alleBelege()).map(kurz);
+      const belege = await alleKurz();
       for (const k of keys) { const ku = await store.getJSON(k, null); if (!ku) continue; const eigene = belege.filter((b) => b.kundeId === ku.id); liste.push(Object.assign({}, ku, { belege: eigene.length, umsatz: eigene.filter((b) => b.art === "rechnung" && b.festgeschrieben).reduce((a, b) => a + b.gesamt, 0), letzter: eigene.map((b) => b.datum).sort().pop() || "" })); }
       const suche = String(q.suche || "").trim().toLowerCase();
       const out = suche ? liste.filter((k) => [k.name, k.firma, k.ort, k.email].some((x) => String(x || "").toLowerCase().includes(suche))) : liste;
       out.sort((a, b) => String(b.letzter || "").localeCompare(String(a.letzter || "")) || b.erstellt - a.erstellt);
-      return http.json(200, { ok: true, kunden: out });
+      const seite = Math.max(1, Number(q.seite) || 1), proSeite = Math.min(200, Math.max(10, Number(q.proSeite) || 50));
+      return http.json(200, { ok: true, kunden: out.slice((seite - 1) * proSeite, seite * proSeite), gesamt: out.length, seite, proSeite });
     }
     case "kunde": {
       const ku = await store.getJSON("kunden/" + sid(q.id), null); if (!ku) return http.json(404, { ok: false, error: "Kunde nicht gefunden." });
-      const belege = (await alleBelege()).filter((b) => b.kundeId === ku.id).map(kurz).sort((a, b) => b.erstellt - a.erstellt);
+      const belege = (await alleKurz()).filter((b) => b.kundeId === ku.id).sort((a, b) => b.erstellt - a.erstellt);
       return http.json(200, { ok: true, kunde: ku, belege });
     }
     case "pdf": {
@@ -215,7 +227,7 @@ async function schreiben(body, s, event) {
       pruefeOderWerfe(ab);
       const typ = B.RECHNUNGSTYPEN.includes(body.typ) ? body.typ : "voll";
       let anz = null;
-      if (typ === "schluss") { const alle = await alleBelege(); anz = alle.find((x) => x.art === "rechnung" && x.rechnungstyp === "anzahlung" && x.bezug && x.bezug.abId === ab.id && B.istFestgeschrieben(x) && x.status !== "storniert") || null; if (!anz) return http.json(409, { ok: false, error: "Für eine Schlussrechnung muss zuerst eine festgeschriebene Anzahlungsrechnung vorliegen." }); }
+      if (typ === "schluss") { const k = (await alleKurz()).find((x) => x.art === "rechnung" && x.rechnungstyp === "anzahlung" && x.bezug && x.bezug.abId === ab.id && x.festgeschrieben && x.status !== "storniert"); anz = k ? await store.getJSON("belege/" + k.id, null) : null; if (!anz) return http.json(409, { ok: false, error: "Für eine Schlussrechnung muss zuerst eine festgeschriebene Anzahlungsrechnung vorliegen." }); }
       if (typ === "anzahlung" && !(Number((einst.bank || {}).anzahlungProzent) > 0)) return http.json(409, { ok: false, error: "Anzahlung ist in den Einstellungen (Bank & Zahlung) nicht gesetzt." });
       const b = B.rechnungAusAb(ab, einst, typ, anz);
       if (body.leistungsdatum && /^\d{4}-\d{2}-\d{2}$/.test(body.leistungsdatum)) b.leistungsdatum = body.leistungsdatum;

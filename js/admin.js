@@ -247,14 +247,25 @@
     }
     renderNav();
     const alt = $("#main"), main = alt.cloneNode(false); alt.replaceWith(main); // alte Event-Listener verwerfen
-    main.innerHTML = '<p class="loading">Wird geladen …</p>';
-    try { await VIEWS[r.id](main, r.sub); } catch (e) { main.innerHTML = `<div class="alert alert--err">Fehler: ${h(e.message)}</div>`; }
+    main.innerHTML = skelett();
+    try { if (!VIEWS[r.id]) await modulLaden(r.id); await VIEWS[r.id](main, r.sub); } catch (e) { main.innerHTML = `<div class="alert alert--err">Fehler: ${h(e.message)}</div>`; }
     main.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", render);
   window.addEventListener("beforeunload", (e) => { if (S.dirty) { e.preventDefault(); e.returnValue = ""; } });
   function setDirty(v) { S.dirty = v; S.dirtyRoute = v ? route().id : null; }
+  /* Platzhalter, bis die Ansicht geladen ist (kein Layoutsprung, kein Spinner-Text) */
+  const skelett = () => `<div class="skelett" aria-busy="true"><span class="sr-only">Wird geladen …</span><div class="skelett__kopf"></div><div class="kpis">${'<div class="card kpi skeleton"></div>'.repeat(4)}</div><div class="card skelett__block"></div></div>`;
+  /* Größere Bereiche (Einstellungen, Produkte, Angebote & Rechnungen, Kunden) liegen in eigenen Dateien und werden
+     erst beim ersten Aufruf geladen – die Übersicht bleibt schlank. Die Dateien stehen als <script type="fw/modul"> im HTML. */
+  const MODULE = { einstellungen: "einstellungen", produkte: "produkte", angebote: "belege", kunden: "belege" };
+  function modulLaden(id) {
+    const name = MODULE[id]; if (!name) return Promise.reject(new Error("Dieser Bereich ist nicht verfügbar."));
+    const tag = document.querySelector(`script[type="fw/modul"][data-modul="${name}"]`);
+    if (!tag) return Promise.reject(new Error("Dieser Bereich ist nicht verfügbar."));
+    return new Promise((res, rej) => { const el = document.createElement("script"); el.src = tag.getAttribute("src"); el.onload = res; el.onerror = () => rej(new Error("Der Bereich konnte nicht geladen werden – bitte Seite neu laden.")); document.head.appendChild(el); });
+  }
 
   /* Veröffentlichungsstatus */
   function pubHtml(p) {
@@ -843,39 +854,58 @@
     });
   };
 
-  /* ---------- Anfragen ---------- */
+  /* ---------- Anfragen (serverseitig gefiltert, seitenweise) ---------- */
   VIEWS.anfragen = async (main) => {
-    const d = await api.get("anfragen");
-    if (!d.ok) throw new Error(d.error);
     const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator" };
     const AUSBLENDEN = ["konfiguration", "preis_server", "preis_server_text", "preis_abweichung", "preisliste_version", "positionen", "preis_browser", "steuersatz_prozent", "datenschutz"];
+    const Z = { formular: "alle", status: "alle", suche: "", seite: 1 };
     main.innerHTML = `<div class="page-head"><div><h1>Anfragen</h1><span class="muted">Alle Anfragen aus Formularen und Konfigurator (zusätzlich zur E-Mail-Benachrichtigung und zum Netlify-Dashboard). Konfigurator-Anfragen zeigen den vom Server nachgerechneten Preis.</span></div></div>
-      <div class="chips" id="anf-filter">${[["alle", "Alle"], ...Object.entries(FORM)].map(([k, l]) => `<button type="button" class="chip" aria-selected="${k === "alle"}" data-f="${k}">${l}</button>`).join("")}</div>
-      <div class="stack" id="anf-liste"></div>`;
-    const zeichne = (f) => {
-      const liste = d.anfragen.filter((a) => f === "alle" || a.formular === f);
-      $("#anf-liste").innerHTML = liste.map((a) => {
-        const k = a.felder || {};
-        const konf = a.formular === "angebot-konfigurator";
-        const abw = konf && /JA/.test(a.abweichung || "");
-        return `<div class="card anfrage ${a.status === "erledigt" ? "is-erledigt" : ""}"><div class="row row--between"><div><span class="badge ${konf ? "" : "badge--grey"}">${FORM[a.formular] || a.formular}</span> <b>${h(k.name || "")}</b>${k.plz || k.ort ? " · " + h([k.plz, k.ort].filter(Boolean).join(" ")) : ""}</div><span class="small muted">${fmtDT(a.eingegangen)}</span></div>
+      <div class="bel-toolbar"><div class="chips" id="anf-filter">${[["alle", "Alle"], ...Object.entries(FORM)].map(([k, l]) => `<button type="button" class="chip" aria-selected="${k === "alle"}" data-f="${k}">${l}</button>`).join("")}</div>
+        <div class="row bel-suche"><input type="search" class="input" id="anf-suche" placeholder="Name, Ort, E-Mail, Text …" aria-label="Anfragen durchsuchen"><select class="input" id="anf-status" aria-label="Status"><option value="alle">Alle</option><option value="neu">Neu</option><option value="erledigt">Erledigt</option></select></div></div>
+      <div class="stack" id="anf-liste">${'<div class="card skelett-zeile"></div>'.repeat(3)}</div>
+      <div class="row row--between" id="anf-seiten"></div>`;
+    const karte = (a) => {
+      const k = a.felder || {};
+      const konf = a.formular === "angebot-konfigurator";
+      const abw = konf && /JA/.test(a.abweichung || "");
+      return `<div class="card anfrage ${a.status === "erledigt" ? "is-erledigt" : ""}"><div class="row row--between"><div><span class="badge ${konf ? "" : "badge--grey"}">${FORM[a.formular] || a.formular}</span> <b>${h(k.name || "")}</b>${k.plz || k.ort ? " · " + h([k.plz, k.ort].filter(Boolean).join(" ")) : ""}</div><span class="small muted">${fmtDT(a.eingegangen)}</span></div>
           ${abw ? `<div class="alert alert--err"><b>Achtung:</b> Der im Browser angezeigte Preis (${k.preis_browser ? euro(Number(k.preis_browser)) : "?"}) weicht vom Serverpreis ab – mögliche Manipulation oder veraltete Preisliste. Maßgeblich ist der Serverpreis.</div>` : ""}
           <dl>${Object.entries(k).filter(([key]) => !AUSBLENDEN.includes(key) && key !== "name").map(([key, v]) => `<dt>${h(key)}</dt><dd>${key === "email" ? `<a href="mailto:${h(v)}">${h(v)}</a>` : key === "telefon" ? `<a href="tel:${h(v)}">${h(v)}</a>` : h(v)}</dd>`).join("")}</dl>
           ${konf ? `<details><summary>Konfiguration &amp; Preis (Server)</summary><dl><dt>Serverpreis</dt><dd><b>${a.preisServer ? euro(a.preisServer) : h(k.preis_server_text || "–")}</b> ${k.preis_server_text ? "· " + h(k.preis_server_text) : ""}</dd>${a.steuerProzent !== undefined && !isNaN(a.steuerProzent) ? `<dt>${h(Steuer.TITEL)} bei Anfrage</dt><dd>${h(Steuer.texte(a.steuerProzent).option)}</dd>` : ""}<dt>Browserpreis</dt><dd>${a.preisBrowser ? euro(a.preisBrowser) : "–"} · Abweichung: ${h(a.abweichung || "–")}</dd><dt>Preisliste</dt><dd>${h(a.preislisteVersion || "–")}</dd><dt>Positionen</dt><dd>${h(k.positionen || "–")}</dd><dt>Konfiguration</dt><dd><code class="small">${h(JSON.stringify(a.konfiguration))}</code></dd></dl></details>` : ""}
           <div class="row"><a class="btn btn--xs btn--primary" href="#angebote/neu:anfrage:${h(a.id)}">Angebot erstellen</a><button type="button" class="btn btn--xs" data-st="${a.status === "erledigt" ? "neu" : "erledigt"}" data-id="${h(a.id)}">${a.status === "erledigt" ? "Als neu markieren" : "Als erledigt markieren"}</button>${a.status === "erledigt" ? '<span class="badge badge--ok">erledigt</span>' : ""}</div></div>`;
-      }).join("") || '<p class="muted">Keine Anfragen.</p>';
     };
-    zeichne("alle");
-    $("#anf-filter").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; $$("#anf-filter .chip").forEach((c) => c.setAttribute("aria-selected", c === b)); zeichne(b.dataset.f); });
-    main.addEventListener("click", async (e) => { const b = e.target.closest("[data-st]"); if (!b) return; const r = await api.post("anfrage-status", { id: b.dataset.id, status: b.dataset.st }); if (r.ok) render(); else toast(r.error, "err"); });
+    let timer = null;
+    const lade = async () => {
+      const d = await api.get("anfragen", { formular: Z.formular, status: Z.status, suche: Z.suche, seite: Z.seite, proSeite: 25 });
+      if (!d.ok) { $("#anf-liste").innerHTML = `<div class="alert alert--err">${h(d.error)}</div>`; return; }
+      $("#anf-liste").innerHTML = d.anfragen.map(karte).join("") || '<p class="muted">Keine Anfragen.</p>';
+      const seiten = Math.max(1, Math.ceil(d.gesamt / d.proSeite));
+      $("#anf-seiten").innerHTML = `<span class="small muted">${d.gesamt} ${d.gesamt === 1 ? "Anfrage" : "Anfragen"}</span>${seiten > 1 ? `<span class="row"><button type="button" class="btn btn--xs" data-seite="${Z.seite - 1}" ${Z.seite <= 1 ? "disabled" : ""}>‹</button><span class="small">Seite ${Z.seite} von ${seiten}</span><button type="button" class="btn btn--xs" data-seite="${Z.seite + 1}" ${Z.seite >= seiten ? "disabled" : ""}>›</button></span>` : ""}`;
+    };
+    $("#anf-filter").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; $$("#anf-filter .chip").forEach((c) => c.setAttribute("aria-selected", c === b)); Z.formular = b.dataset.f; Z.seite = 1; lade(); });
+    $("#anf-suche").addEventListener("input", (e) => { clearTimeout(timer); timer = setTimeout(() => { Z.suche = e.target.value.trim(); Z.seite = 1; lade(); }, 250); });
+    $("#anf-status").addEventListener("change", (e) => { Z.status = e.target.value; Z.seite = 1; lade(); });
+    main.addEventListener("click", async (e) => {
+      const sb = e.target.closest("[data-seite]"); if (sb) { Z.seite = Number(sb.dataset.seite); lade(); return; }
+      const b = e.target.closest("[data-st]"); if (!b) return; const r = await api.post("anfrage-status", { id: b.dataset.id, status: b.dataset.st }); if (r.ok) lade(); else toast(r.error, "err");
+    });
+    await lade();
   };
 
-  /* ---------- Änderungsprotokoll (Versionen) ---------- */
+  /* ---------- Änderungsprotokoll (Versionen), seitenweise nachladen ---------- */
   VIEWS.versionen = async (main) => {
-    const d = await api.get("versionen");
-    if (!d.ok) throw new Error(d.error);
+    let seite = 1;
+    const eintrag = (v) => `<div class="version"><span><b>${fmtDT(v.wann)}</b> · ${h(v.titel)} · ${h(v.wer)} · ${v.aenderungen} Änderung(en)${v.beschreibung ? " · <i>" + h(v.beschreibung) + "</i>" : ""}</span><span class="row"><button type="button" class="btn btn--xs" data-diff="${h(v.id)}">Details</button><button type="button" class="btn btn--sm" data-restore="${h(v.id)}">Wiederherstellen</button></span></div><div class="diff" data-diff-box="${h(v.id)}" hidden></div>`;
     main.innerHTML = `<div class="page-head"><div><h1>Änderungsprotokoll</h1><span class="muted">Jede Speicherung ist eine Version: wer, wann, was. „Wiederherstellen“ übernimmt den Stand und veröffentlicht ihn (mit allen Tests).</span></div></div>${pubBar()}
-      <div class="card"><div class="list" id="v-liste">${d.versionen.map((v) => `<div class="version"><span><b>${fmtDT(v.wann)}</b> · ${h(v.titel)} · ${h(v.wer)} · ${v.aenderungen} Änderung(en)${v.beschreibung ? " · <i>" + h(v.beschreibung) + "</i>" : ""}</span><span class="row"><button type="button" class="btn btn--xs" data-diff="${h(v.id)}">Details</button><button type="button" class="btn btn--sm" data-restore="${h(v.id)}">Wiederherstellen</button></span></div><div class="diff" data-diff-box="${h(v.id)}" hidden></div>`).join("") || '<p class="muted">Noch keine Versionen.</p>'}</div></div>`;
+      <div class="card"><div class="list" id="v-liste">${'<div class="skelett-zeile"></div>'.repeat(4)}</div><button type="button" class="btn btn--sm mehr-laden" id="v-mehr" hidden>Weitere Versionen laden</button></div>`;
+    const lade = async () => {
+      const d = await api.get("versionen", { seite, proSeite: 25 });
+      if (!d.ok) throw new Error(d.error);
+      const html = d.versionen.map(eintrag).join("");
+      if (seite === 1) $("#v-liste").innerHTML = html || '<p class="muted">Noch keine Versionen.</p>'; else $("#v-liste").insertAdjacentHTML("beforeend", html);
+      $("#v-mehr").hidden = !d.mehr;
+    };
+    $("#v-mehr").addEventListener("click", () => { seite++; lade(); });
     main.addEventListener("click", async (e) => {
       const r = e.target.closest("[data-restore]"); if (r) return wiederherstellen(r.dataset.restore);
       const b = e.target.closest("[data-diff]"); if (!b) return;
@@ -886,14 +916,24 @@
       box.innerHTML = v.ok ? `<div class="table-wrap"><table class="tbl tbl--karten diff-tbl"><thead><tr><th>Feld</th><th>Vorher</th><th>Nachher</th></tr></thead><tbody>${v.version.diff.map((x) => `<tr><td class="name" data-th="Feld"><code>${h(x.pfad)}</code></td><td class="alt" data-th="Vorher">${fmt(x.alt)}</td><td class="neu" data-th="Nachher">${fmt(x.neu)}</td></tr>`).join("") || "<tr><td colspan=3>Keine Feldänderungen (z. B. identischer Stand).</td></tr>"}</tbody></table></div>` : `<p class="fehler-text">${h(v.error)}</p>`;
       box.hidden = false;
     });
+    await lade();
   };
 
-  /* ---------- Zugriffsprotokoll ---------- */
+  /* ---------- Zugriffsprotokoll, seitenweise nachladen ---------- */
   VIEWS.protokoll = async (main) => {
-    const d = await api.get("protokoll");
-    if (!d.ok) throw new Error(d.error);
+    let seite = 1;
+    const zeile = (p) => `<tr><td class="name nowrap" data-th="Zeit">${fmtDT(p.wann)}</td><td data-th="Typ"><span class="badge ${/fehler|gesperrt/.test(p.typ) ? "badge--err" : /login|einrichtung/.test(p.typ) ? "badge--ok" : "badge--grey"}">${h(p.typ)}</span></td><td data-th="Details">${h(p.text)}</td><td data-th="Wer">${h(p.wer || "")}</td><td class="small muted" data-th="IP">${h(p.ip || "")}</td></tr>`;
     main.innerHTML = `<div class="page-head"><div><h1>Zugriffsprotokoll</h1><span class="muted">Anmeldungen (erfolgreich und fehlgeschlagen), Änderungen und Veröffentlichungen – die letzten 500 Einträge. IP-Adressen sind gekürzt.</span></div></div>
-      <div class="card"><div class="table-wrap"><table class="tbl tbl--karten"><thead><tr><th>Zeit</th><th>Typ</th><th>Details</th><th>Wer</th><th>IP</th></tr></thead><tbody>${d.protokoll.map((p) => `<tr><td class="name nowrap" data-th="Zeit">${fmtDT(p.wann)}</td><td data-th="Typ"><span class="badge ${/fehler|gesperrt/.test(p.typ) ? "badge--err" : /login|einrichtung/.test(p.typ) ? "badge--ok" : "badge--grey"}">${h(p.typ)}</span></td><td data-th="Details">${h(p.text)}</td><td data-th="Wer">${h(p.wer || "")}</td><td class="small muted" data-th="IP">${h(p.ip || "")}</td></tr>`).join("") || "<tr><td colspan=5>Noch keine Einträge.</td></tr>"}</tbody></table></div></div>`;
+      <div class="card"><div class="table-wrap"><table class="tbl tbl--karten"><thead><tr><th>Zeit</th><th>Typ</th><th>Details</th><th>Wer</th><th>IP</th></tr></thead><tbody id="p-liste"></tbody></table></div><button type="button" class="btn btn--sm mehr-laden" id="p-mehr" hidden>Weitere Einträge laden</button></div>`;
+    const lade = async () => {
+      const d = await api.get("protokoll", { seite, proSeite: 50 });
+      if (!d.ok) throw new Error(d.error);
+      const html = d.protokoll.map(zeile).join("");
+      if (seite === 1) $("#p-liste").innerHTML = html || "<tr><td colspan=5>Noch keine Einträge.</td></tr>"; else $("#p-liste").insertAdjacentHTML("beforeend", html);
+      $("#p-mehr").hidden = seite * d.proSeite >= d.gesamt;
+    };
+    $("#p-mehr").addEventListener("click", () => { seite++; lade(); });
+    await lade();
   };
 
   /* ---------- Konto ---------- */

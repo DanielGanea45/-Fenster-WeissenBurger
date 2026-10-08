@@ -33,8 +33,20 @@ function repoDatei(bereich) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 /* Aktuelle Daten eines Bereichs (Store vor Repo). Für texte/bilder: Repo-Registry + gespeicherte Änderungen. */
+/* Kurzer Zwischenspeicher je Function-Instanz (nur in Netlify Functions, nie in Tests/Build): spart den
+   Blobs-Zugriff bei wiederholten Aufrufen innerhalb weniger Sekunden. Rückgabe ist immer eine Kopie. */
+const CACHE_TTL = 15000;
+const cache = new Map();
+const cacheAktiv = () => !!process.env.AWS_LAMBDA_FUNCTION_NAME && !process.env.FW_STORE_DIR;
+const kopie = (x) => (x === null || x === undefined ? x : JSON.parse(JSON.stringify(x)));
 async function lade(bereich) {
   if (!BEREICHE[bereich]) throw new Error("Unbekannter Bereich " + bereich);
+  if (cacheAktiv()) { const c = cache.get(bereich); if (c && c.bis > Date.now()) return kopie(c.wert); }
+  const wert = await ladeOhneCache(bereich);
+  if (cacheAktiv()) cache.set(bereich, { wert: kopie(wert), bis: Date.now() + CACHE_TTL });
+  return wert;
+}
+async function ladeOhneCache(bereich) {
   const gespeichert = await store.getJSON("daten/" + bereich, null);
   if (bereich === "texte") {
     const reg = repoDatei("texte");
@@ -88,6 +100,7 @@ async function speichere(bereich, neu, { wer, beschreibung, rohAlt } = {}) {
   const vergleichAlt = alt === null ? (bereich === "texte" || bereich === "bilder" ? {} : repoDatei(bereich)) : alt;
   const d = diff(vergleichAlt, neu);
   await store.setJSON("daten/" + bereich, neu);
+  cache.delete(bereich);
   const ts = Date.now();
   const v = { id: null, wann: ts, wer: wer || "", bereich, titel: BEREICHE[bereich].titel, beschreibung: beschreibung || "", aenderungen: d.length, diff: d, snapshot: neu };
   const key = versionKey(ts);

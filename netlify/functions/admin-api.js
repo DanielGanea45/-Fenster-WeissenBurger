@@ -66,16 +66,24 @@ async function lesen(aktion, q, s, event) {
       const roh = await daten.ladeRoh(bereich);
       return http.json(200, { ok: true, bereich, daten: d, geaendertGegenueberRepo: roh !== null, original: bereich === "preise" || bereich === "einstellungen" ? daten.repoDatei(bereich) : undefined });
     }
-    case "versionen": return http.json(200, { ok: true, versionen: await daten.versionen(100) });
+    case "versionen": { const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(100, Math.max(10, Number(q.proSeite) || 25)); const alle = await daten.versionen(seite * pro + 1); return http.json(200, { ok: true, versionen: alle.slice((seite - 1) * pro, seite * pro), seite, proSeite: pro, mehr: alle.length > seite * pro }); }
     case "version": { const v = await daten.version(String(q.id || "")); return v ? http.json(200, { ok: true, version: v }) : http.json(404, { ok: false, error: "Version nicht gefunden." }); }
     case "status": return http.json(200, { ok: true, veroeffentlichung: await statusAktuell(await daten.publishStatus()), kontext: store.kontext(), kontextLabel: store.kontextLabel() });
     case "anfragen": {
-      const keys = (await store.list("anfragen/")).sort().reverse().slice(0, 200);
-      const liste = [];
-      for (const k of keys) { const a = await store.getJSON(k, null); if (a) liste.push(a); }
-      return http.json(200, { ok: true, anfragen: liste });
+      /* Seitenweise; Filter (Formular, Status) und Suche serverseitig. Ohne Filter werden nur die Einträge der Seite gelesen. */
+      const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(100, Math.max(10, Number(q.proSeite) || 25));
+      const formular = String(q.formular || "alle"), status = String(q.status || "alle"), suche = String(q.suche || "").trim().toLowerCase();
+      const keys = (await store.list("anfragen/")).sort().reverse();
+      const filtern = formular !== "alle" || status !== "alle" || !!suche;
+      const lesen = filtern ? keys.slice(0, 1000) : keys.slice((seite - 1) * pro, seite * pro);
+      let liste = [];
+      for (const k of lesen) { const a = await store.getJSON(k, null); if (a) liste.push(a); }
+      if (filtern) liste = liste.filter((a) => (formular === "alle" || a.formular === formular) && (status === "alle" || (a.status || "neu") === status) && (!suche || JSON.stringify(a.felder || {}).toLowerCase().includes(suche)));
+      const gesamt = filtern ? liste.length : keys.length;
+      if (filtern) liste = liste.slice((seite - 1) * pro, seite * pro);
+      return http.json(200, { ok: true, anfragen: liste, gesamt, seite, proSeite: pro });
     }
-    case "protokoll": return http.json(200, { ok: true, protokoll: await store.getJSON("protokoll", []) });
+    case "protokoll": { const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(200, Math.max(20, Number(q.proSeite) || 50)); const alle = await store.getJSON("protokoll", []); return http.json(200, { ok: true, protokoll: alle.slice((seite - 1) * pro, seite * pro), gesamt: alle.length, seite, proSeite: pro }); }
     /* Technischer Status der verbundenen Dienste – ausschließlich „gesetzt ja/nein“, nie Werte */
     case "dienste": return http.json(200, { ok: true, dienste: diensteStatus() });
     case "konto": {
