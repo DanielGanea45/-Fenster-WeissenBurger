@@ -64,7 +64,7 @@ async function lesen(aktion, q, s, event) {
       if (!daten.BEREICHE[bereich]) return http.json(400, { ok: false, error: "Unbekannter Bereich." });
       const d = await daten.lade(bereich);
       const roh = await daten.ladeRoh(bereich);
-      return http.json(200, { ok: true, bereich, daten: d, geaendertGegenueberRepo: roh !== null, original: bereich === "preise" || bereich === "einstellungen" ? daten.repoDatei(bereich) : undefined });
+      return http.json(200, { ok: true, bereich, daten: d, geaendertGegenueberRepo: roh !== null, original: bereich === "preise" || bereich === "einstellungen" || bereich === "texte" ? daten.repoDatei(bereich) : undefined });
     }
     case "versionen": { const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(100, Math.max(10, Number(q.proSeite) || 25)); const alle = await daten.versionen(seite * pro + 1); return http.json(200, { ok: true, versionen: alle.slice((seite - 1) * pro, seite * pro), seite, proSeite: pro, mehr: alle.length > seite * pro }); }
     case "version": { const v = await daten.version(String(q.id || "")); return v ? http.json(200, { ok: true, version: v }) : http.json(404, { ok: false, error: "Version nicht gefunden." }); }
@@ -197,7 +197,7 @@ async function schreiben(body, s, event) {
         const geschuetzt = Object.keys(aend).filter((id) => reg.bloecke[id] && reg.bloecke[id].geschuetzt);
         if (geschuetzt.length && !body.bestaetigt) return http.json(409, { ok: false, bestaetigen: true, error: "Impressum/Datenschutz sind rechtlich relevante Texte. Änderung wirklich speichern?" });
         neu = Object.assign({}, roh);
-        for (const [id, html] of Object.entries(aend)) { if (html === null || (reg.bloecke[id] && validate.sanitizeHtml(html) === reg.bloecke[id].html)) delete neu[id]; else neu[id] = validate.sanitizeHtml(html); }
+        for (const [id, html] of Object.entries(aend)) { const norm = html === null ? null : validate.textNormalisieren(html, reg.bloecke[id] && reg.bloecke[id].html); if (norm === null || (reg.bloecke[id] && norm === reg.bloecke[id].html)) delete neu[id]; else neu[id] = norm; }
       } else if (bereich === "bilder") {
         const roh = (await daten.ladeRoh("bilder")) || {};
         const aend = body.daten && typeof body.daten === "object" ? body.daten : {};

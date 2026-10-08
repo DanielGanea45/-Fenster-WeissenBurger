@@ -92,6 +92,11 @@ const adminChecks = [
   ["Admin: Fehler-Text auf Fehler-Fläche", ADM.err, ADM.errSoft, 4.5],
   ["Admin: Fehler-Rahmen gegen Papier (UI, 3:1)", ADM.err, ADM.paper, 3.0],
   ["Admin: Rahmenlinie gegen Karte (dezent, nur Info)", ADM.line, ADM.panel, 0],
+  ["Admin Texte-Editor: Text auf Weiß (Eingabefeld)", ADM.ink, ADM.paper, 4.5],
+  ["Admin Texte-Editor: Hervorhebung (Blau der Website) auf Weiß", "#0B5ED7", ADM.paper, 4.5],
+  ["Admin Texte-Editor: Link-Text (Akzent) auf Weiß", ADM.accentText, ADM.paper, 4.5],
+  ["Admin Texte-Editor: Etikett gesperrter Baustein (Text sekundär auf Fläche 3)", ADM.ink2, ADM.panel3, 4.5],
+  ["Admin Texte-Editor: Etikett automatischer Hinweis (Akzent-Text auf Akzent-Tint)", ADM.accentText, accentSoft, 4.5],
 ];
 let fail = 0;
 const rows = checks.concat(adminChecks).map(([name, fg, bg, min]) => {

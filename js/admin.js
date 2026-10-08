@@ -263,7 +263,7 @@
   const skelett = () => `<div class="skelett" aria-busy="true"><span class="sr-only">Wird geladen …</span><div class="skelett__kopf"></div><div class="kpis">${'<div class="card kpi skeleton"></div>'.repeat(4)}</div><div class="card skelett__block"></div></div>`;
   /* Größere Bereiche (Einstellungen, Produkte, Angebote & Rechnungen, Kunden) liegen in eigenen Dateien und werden
      erst beim ersten Aufruf geladen – die Übersicht bleibt schlank. Die Dateien stehen als <script type="fw/modul"> im HTML. */
-  const MODULE = { einstellungen: "einstellungen", produkte: "produkte", angebote: "belege", kunden: "belege" };
+  const MODULE = { einstellungen: "einstellungen", produkte: "produkte", angebote: "belege", kunden: "belege", texte: "texte" };
   function modulLaden(id) {
     const name = MODULE[id]; if (!name) return Promise.reject(new Error("Dieser Bereich ist nicht verfügbar."));
     const tag = document.querySelector(`script[type="fw/modul"][data-modul="${name}"]`);
@@ -540,86 +540,14 @@
     }
   };
 
-  /* ---------- Texte ---------- */
-  const TAG_LABEL = { h1: "Hauptüberschrift", h2: "Überschrift", h3: "Zwischenüberschrift", p: "Text" };
-  function sanitizeClient(html) {
-    const t = document.createElement("template"); t.innerHTML = html;
-    $$("script,style,iframe,object,embed,img,video,audio,link,meta,form,input,button,svg", t.content).forEach((n) => n.remove());
-    $$("*", t.content).forEach((n) => { Array.from(n.attributes).forEach((a) => { if (/^on/i.test(a.name) || (a.name === "href" && /^\s*javascript:/i.test(a.value))) n.removeAttribute(a.name); if (a.name === "style") n.removeAttribute("style"); }); });
-    return t.innerHTML;
+  /* ---------- Texte: visueller Editor in js/admin-texte.js (Modul) ---------- */
+  const Texte = window.FWTexte;
+  /* Lesbare Darstellung eines Textbausteins (Versionen, Vergleich): Hervorhebung blau, Fett, Links unterstrichen,
+     gesperrte Bausteine und Platzhalter als Etikett – nie als Code */
+  function textVisuell(html) {
+    const k = (knoten) => (knoten || []).map((n) => n.typ === "text" ? h(n.text) : n.typ === "br" ? "<br>" : n.typ === "em" ? `<em>${k(n.kinder)}</em>` : n.typ === "strong" ? `<strong>${k(n.kinder)}</strong>` : n.typ === "a" ? `<a>${k(n.kinder)}</a>` : n.typ === "platzhalter" ? `<span class="tx-atom tx-atom--auto">${h(Texte.PLATZHALTER[n.name] || n.name)}</span>` : `<span class="tx-atom">${h(Texte.nurText([n]) || "Baustein")}</span>`).join("");
+    return `<span class="tx-visuell">${k(Texte.parse(html))}</span>`;
   }
-  VIEWS.texte = async (main, sub) => {
-    const [d, de] = await Promise.all([api.get("daten", { bereich: "texte" }), api.get("daten", { bereich: "einstellungen" })]);
-    if (!d.ok) throw new Error(d.error);
-    S.texte = d.daten; S.texteAend = S.texteAend || {}; if (de.ok) S.einst = de.daten;
-    const steuerSatz = () => Steuer.satz(S.einst);
-    if (sub && S.texte.seiten[sub]) S.seite = sub;
-    if (!S.texte.seiten[S.seite]) S.seite = Object.keys(S.texte.seiten)[0];
-    const bloeckeVon = (seite) => Object.entries(S.texte.bloecke).filter(([, b]) => b.seite === seite);
-    main.innerHTML = `
-      <div class="page-head"><div><h1>Texte</h1><span class="muted">Wählen Sie eine Seite und ändern Sie Überschriften und Texte. Erlaubt: <b>fett</b>, <i>kursiv</i>, Links, Zeilenumbruch.</span></div>
-        <div class="row"><span class="small muted" id="txt-stand"></span><button type="button" class="btn" data-t="vorschau">Vorschau</button><button type="button" class="btn btn--dark" data-t="speichern">Speichern</button><button type="button" class="btn btn--primary" data-t="speichern-pub">Speichern &amp; veröffentlichen</button></div></div>
-      ${pubBar()}
-      <div class="cols">
-        <nav class="col-nav seiten-nav" aria-label="Seiten" id="seiten-nav"></nav>
-        <div class="col-main" id="txt-main"></div>
-      </div>`;
-    const zeichneNav = () => { $("#seiten-nav").innerHTML = Object.entries(S.texte.seiten).map(([k, s]) => { const n = bloeckeVon(k).filter(([id, b]) => b.geaendert || S.texteAend[id] !== undefined).length; return `<button type="button" data-seite="${k}" aria-current="${S.seite === k}"><span>${h(s.titel)}</span>${s.geschuetzt ? '<span class="badge badge--warn">geschützt</span>' : n ? `<span class="badge">${n}</span>` : ""}</button>`; }).join(""); };
-    const zeichneMain = () => {
-      const s = S.texte.seiten[S.seite];
-      const bl = bloeckeVon(S.seite);
-      const url = "/" + s.datei.replace(/index\.html$/, "");
-      $("#txt-main").innerHTML = `
-        <section class="card">
-          <div class="row row--between"><h2>${h(s.titel)}</h2><a href="${h(url)}" target="_blank" rel="noopener" class="small strong">Auf der Seite ansehen ↗</a></div>
-          ${s.geschuetzt ? '<div class="alert alert--warn">Impressum und Datenschutzerklärung sind rechtlich relevante Texte. Änderungen werden erst nach einer zusätzlichen Bestätigung gespeichert.</div>' : ""}
-          <p class="small muted">Steuerhinweis nie von Hand schreiben: Der Platzhalter <code>${h(Steuer.PLATZHALTER)}</code> wird beim Veröffentlichen automatisch durch den aktuellen Hinweis ersetzt (zurzeit: „${h(Steuer.texte(steuerSatz()).lang)}“).</p>
-          <label class="field"><span class="sr-only">Suche</span><input type="search" id="txt-suche" placeholder="In den Texten dieser Seite suchen …"></label>
-          <div class="toolbar" role="toolbar" aria-label="Formatierung"><button type="button" class="tb-b" data-tb="b" title="Fett">B</button><button type="button" class="tb-i" data-tb="i" title="Kursiv">I</button><button type="button" data-tb="a">Link</button><button type="button" data-tb="br">Zeilenumbruch</button><span class="hint">Markieren Sie Text im Feld und klicken Sie auf eine Schaltfläche.</span></div>
-          <div class="stack" id="txt-bloecke">${bl.map(([id, b]) => { const wert = S.texteAend[id] !== undefined ? S.texteAend[id] : b.html; const ge = b.geaendert || S.texteAend[id] !== undefined; return `<div class="block block--${b.tag}" data-block="${id}"><div class="block__head"><b>${TAG_LABEL[b.tag] || b.tag}</b><span>${ge ? `geändert · <button type="button" class="btn btn--link" data-reset="${id}">Original wiederherstellen</button>` : ""} <span class="zeichen">${wert.replace(/<[^>]+>/g, "").length} Zeichen</span></span></div><textarea rows="${b.tag === "p" ? 3 : 2}" data-id="${id}" class="${ge ? "is-geaendert" : ""}" aria-label="${TAG_LABEL[b.tag]}">${h(wert)}</textarea></div>`; }).join("")}</div>
-        </section>
-        <section class="card" id="txt-versionen"><h2>Frühere Versionen (Texte)</h2><p class="muted small">Wird geladen …</p></section>`;
-      let fokus = null;
-      $("#txt-bloecke").addEventListener("focusin", (e) => { if (e.target.tagName === "TEXTAREA") fokus = e.target; });
-      $("#txt-bloecke").addEventListener("input", (e) => { const ta = e.target; if (ta.tagName !== "TEXTAREA") return; const id = ta.dataset.id; S.texteAend[id] = ta.value; ta.classList.add("is-geaendert"); $(".zeichen", ta.closest(".block")).textContent = ta.value.replace(/<[^>]+>/g, "").length + " Zeichen"; setDirty(true); $("#txt-stand").textContent = "Ungespeicherte Änderungen"; });
-      $("#txt-bloecke").addEventListener("click", (e) => { const r = e.target.closest("[data-reset]"); if (!r) return; S.texteAend[r.dataset.reset] = null; setDirty(true); zeichneMain(); });
-      $(".toolbar", $("#txt-main")).addEventListener("click", (e) => {
-        const b = e.target.closest("[data-tb]"); if (!b || !fokus) return;
-        const ta = fokus, a = ta.selectionStart, z = ta.selectionEnd, sel = ta.value.slice(a, z);
-        let ins;
-        if (b.dataset.tb === "b") ins = `<strong>${sel || "fett"}</strong>`;
-        else if (b.dataset.tb === "i") ins = `<em>${sel || "kursiv"}</em>`;
-        else if (b.dataset.tb === "br") ins = "<br>";
-        else { const url = prompt("Linkziel (z. B. /leistungen/ oder https://…):", "/"); if (!url) return; ins = `<a href="${url.replace(/"/g, "")}">${sel || "Link"}</a>`; }
-        ta.setRangeText(ins, a, z, "end"); ta.dispatchEvent(new Event("input", { bubbles: true })); ta.focus();
-      });
-      $("#txt-suche").addEventListener("input", (e) => { const q = e.target.value.toLowerCase(); $$("#txt-bloecke .block").forEach((el) => { el.hidden = q && !$("textarea", el).value.toLowerCase().includes(q); }); });
-      api.get("versionen").then((v) => { const vs = (v.versionen || []).filter((x) => x.bereich === "texte").slice(0, 8); $("#txt-versionen").innerHTML = `<h2>Frühere Versionen (Texte)</h2>${vs.length ? vs.map((x) => `<div class="version"><span>${fmtDT(x.wann)} · ${h(x.wer)} · ${x.aenderungen} Änderung(en)${x.beschreibung ? " · " + h(x.beschreibung) : ""}</span><button type="button" class="btn btn--sm" data-restore="${x.id}">Wiederherstellen</button></div>`).join("") : '<p class="muted small">Noch keine gespeicherten Versionen.</p>'}<a href="#versionen" class="small strong">Alle Versionen →</a>`; });
-    };
-    zeichneNav(); zeichneMain();
-    $("#seiten-nav").addEventListener("click", (e) => { const b = e.target.closest("[data-seite]"); if (!b) return; S.seite = b.dataset.seite; history.replaceState(null, "", "#texte/" + S.seite); zeichneNav(); zeichneMain(); });
-    main.addEventListener("click", async (e) => {
-      const r = e.target.closest("[data-restore]"); if (r) return wiederherstellen(r.dataset.restore);
-      const b = e.target.closest("[data-t]"); if (!b) return;
-      if (b.dataset.t === "vorschau") {
-        const s = S.texte.seiten[S.seite];
-        const html = bloeckeVon(S.seite).map(([id, blk]) => { const wert = S.texteAend[id] !== undefined && S.texteAend[id] !== null ? S.texteAend[id] : S.texteAend[id] === null ? d.daten.bloecke[id].html : blk.html; const ge = S.texteAend[id] !== undefined || blk.geaendert; return `<${blk.tag} class="${ge ? "is-geaendert" : ""}">${Steuer.ersetzePlatzhalter(sanitizeClient(wert), steuerSatz())}</${blk.tag}>`; }).join("");
-        modal({ titel: "Vorschau · " + s.titel, html: `<div class="vorschau">${html}</div><p class="small muted">Geänderte Bausteine sind blau umrandet. Die Vorschau zeigt den Text in Lesereihenfolge, ohne das Seitenlayout.</p>`, ok: "Schließen", abbrechen: "" });
-      }
-      if (b.dataset.t === "speichern" || b.dataset.t === "speichern-pub") {
-        const aend = {}; Object.entries(S.texteAend).forEach(([id, v]) => { aend[id] = v; });
-        if (!Object.keys(aend).length) { toast("Keine Änderungen zum Speichern."); if (b.dataset.t === "speichern-pub") await veroeffentlichen("Texte"); return; }
-        const geschuetzt = Object.keys(aend).some((id) => S.texte.bloecke[id] && S.texte.bloecke[id].geschuetzt);
-        let bestaetigt = false;
-        if (geschuetzt) { bestaetigt = await bestaetigen("Rechtliche Texte ändern", "Sie ändern Impressum oder Datenschutzerklärung. Diese Texte sind rechtlich relevant – bitte nur nach Prüfung speichern.", "Ja, speichern", true); if (!bestaetigt) return; }
-        const r = await api.post("speichern", { bereich: "texte", daten: aend, bestaetigt, beschreibung: "Texte: " + S.texte.seiten[S.seite].titel, veroeffentlichen: b.dataset.t === "speichern-pub" });
-        if (!r.ok) { toast(r.error + (r.fehler ? " " + r.fehler.map((f) => f.meldung).join(" ") : ""), "err"); return; }
-        S.texteAend = {}; setDirty(false); toast(`Gespeichert (${r.version.aenderungen} Änderung(en)).`, "ok");
-        if (r.veroeffentlichung) { if (r.veroeffentlichung.ok) { S.pub = r.veroeffentlichung.veroeffentlichung; startPoll(); toast("Veröffentlichung gestartet.", "ok"); } else toast(r.veroeffentlichung.error, r.veroeffentlichung.uebersprungen ? "" : "err"); }
-        render();
-      }
-    });
-  };
 
   async function wiederherstellen(id) {
     if (!(await bestaetigen("Version wiederherstellen", "Der gespeicherte Stand wird als neue Version übernommen und sofort veröffentlicht (mit allen Tests).", "Wiederherstellen & veröffentlichen"))) return;
@@ -945,6 +873,7 @@
   /* ---------- Änderungsprotokoll (Versionen), seitenweise nachladen ---------- */
   VIEWS.versionen = async (main) => {
     let seite = 1;
+    if (!S.texteRegister) api.get("daten", { bereich: "texte" }).then((d) => { if (d.ok && d.original) S.texteRegister = d.original; }).catch(() => { /* egal */ });
     const eintrag = (v) => `<div class="version"><span><b>${fmtDT(v.wann)}</b> · ${h(v.titel)} · ${h(v.wer)} · ${v.aenderungen} Änderung(en)${v.beschreibung ? " · <i>" + h(v.beschreibung) + "</i>" : ""}</span><span class="row"><button type="button" class="btn btn--xs" data-diff="${h(v.id)}">Details</button><button type="button" class="btn btn--sm" data-restore="${h(v.id)}">Wiederherstellen</button></span></div><div class="diff" data-diff-box="${h(v.id)}" hidden></div>`;
     main.innerHTML = `<div class="page-head"><div><h1>Änderungsprotokoll</h1><span class="muted">Jede Speicherung ist eine Version: wer, wann, was. „Wiederherstellen“ übernimmt den Stand und veröffentlicht ihn (mit allen Tests).</span></div></div>${pubBar()}
       <div class="card"><div class="list" id="v-liste">${'<div class="skelett-zeile"></div>'.repeat(4)}</div><button type="button" class="btn btn--sm mehr-laden" id="v-mehr" hidden>Weitere Versionen laden</button></div>`;
@@ -962,12 +891,15 @@
       const box = $(`[data-diff-box="${CSS.escape(b.dataset.diff)}"]`, main);
       if (!box.hidden) { box.hidden = true; return; }
       const v = await api.get("version", { id: b.dataset.diff });
-      const fmt = (x) => (x === null || x === undefined ? "<i>leer</i>" : typeof x === "object" ? h(JSON.stringify(x)) : h(String(x)).slice(0, 300));
-      box.innerHTML = v.ok ? `<div class="table-wrap"><table class="tbl tbl--karten diff-tbl"><thead><tr><th>Feld</th><th>Vorher</th><th>Nachher</th></tr></thead><tbody>${v.version.diff.map((x) => `<tr><td class="name" data-th="Feld"><code>${h(x.pfad)}</code></td><td class="alt" data-th="Vorher">${fmt(x.alt)}</td><td class="neu" data-th="Nachher">${fmt(x.neu)}</td></tr>`).join("") || "<tr><td colspan=3>Keine Feldänderungen (z. B. identischer Stand).</td></tr>"}</tbody></table></div>` : `<p class="fehler-text">${h(v.error)}</p>`;
+      const fmt = (x) => (x === null || x === undefined ? "<i>leer</i>" : typeof x === "object" ? h(JSON.stringify(x)) : (v.version.bereich || "") === "texte" ? textVisuell(String(x).slice(0, 600)) : h(String(x)).slice(0, 300));
+      box.innerHTML = v.ok ? `<div class="table-wrap"><table class="tbl tbl--karten diff-tbl"><thead><tr><th>Feld</th><th>Vorher</th><th>Nachher</th></tr></thead><tbody>${v.version.diff.map((x) => `<tr><td class="name" data-th="Feld">${(v.version.bereich || "") === "texte" ? h(textFeldName(x.pfad)) : `<code>${h(x.pfad)}</code>`}</td><td class="alt" data-th="Vorher">${fmt(x.alt)}</td><td class="neu" data-th="Nachher">${fmt(x.neu)}</td></tr>`).join("") || "<tr><td colspan=3>Keine Feldänderungen (z. B. identischer Stand).</td></tr>"}</tbody></table></div>` : `<p class="fehler-text">${h(v.error)}</p>`;
       box.hidden = false;
     });
     await lade();
   };
+
+  /* Name eines Textbausteins für Protokolle: „Startseite · Produkte · Überschrift“ */
+  function textFeldName(id) { const b = S.texteRegister && S.texteRegister.bloecke && S.texteRegister.bloecke[id]; if (!b) return id; const s = S.texteRegister.seiten[b.seite]; return `${s ? s.titel : b.seite} · ${b.abschnittTitel || ""} · ${Texte.ROLLEN[b.rolle] || b.rolle || b.tag}`; }
 
   /* ---------- Zugriffsprotokoll, seitenweise nachladen ---------- */
   VIEWS.protokoll = async (main) => {
@@ -1041,5 +973,5 @@
 
   /* ---------- Start ---------- */
   start();
-  window.FWAdmin = { $, $$, h, api, call, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, pubHtml, bildVerarbeiten: verarbeite };
+  window.FWAdmin = { $, $$, h, api, call, toast, modal, bestaetigen, S, I, VIEWS, setDirty, startPoll, ladeStatus, render, renderNav, fmtDT, fmtD, euro, PV, Steuer, Texte, pubHtml, textVisuell, wiederherstellen, bildVerarbeiten: verarbeite };
 })();
