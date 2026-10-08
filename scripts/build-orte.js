@@ -10,7 +10,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const root = path.join(__dirname, "..");
+const root = process.env.FW_ROOT ? path.resolve(process.env.FW_ROOT) : path.join(__dirname, ".."); // FW_ROOT: Kopie (Tests prüfen beide Einsatzgebiet-Zustände)
 const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
 const td = require(path.join(__dirname, "text-duplikate.js")); // Satzvergleich (dieselbe Messung wie der Test)
 const T = require(path.join(__dirname, "orte-texte.js")); // Textbausteine (Satzhälften)
@@ -40,6 +40,23 @@ function dist(a, b) { const R = 6371, t = (x) => (x * Math.PI) / 180; const dLat
 const orte = data.orte.filter((o) => o.stufe === 1);
 const bySlug = Object.fromEntries(orte.map((o) => [o.slug, o]));
 const published = (o) => !!regions[o.region].veroeffentlicht;
+/* Kurztitel ≤ 65 Zeichen: Varianten nach Seed gemischt, die erste passende gewinnt (mit Marke bevorzugt) */
+function titelKurz(o, c, s) {
+  const MAX = 65, MARKE = " | Fenster-WeissenBurger";
+  const kerne = [
+    `Fenster & Türen in ${o.name} – Beratung & Montage`,
+    `Fenstertausch & Fenstermontage in ${o.name}`,
+    `Fenster, Haustüren & Montage in ${o.name}`,
+    `Neue Fenster & Haustüren in ${o.name}`,
+    `Fenster & Türen in ${o.name}`,
+  ];
+  const start = T.hash(o.slug + "|titel" + s) % kerne.length;
+  const reihe = kerne.slice(start).concat(kerne.slice(0, start));
+  for (const k of reihe) if ((k + MARKE).length <= MAX) return k + MARKE;
+  for (const k of reihe) if ((k + " | WeissenBurger").length <= MAX) return k + " | WeissenBurger";
+  for (const k of reihe) if (k.length <= MAX) return k;
+  return `Fenster in ${o.name}`.slice(0, MAX);
+}
 
 /* ---------- Textbausteine ----------
    Die Sätze kommen aus scripts/orte-texte.js: Jeder längere Satz besteht aus zwei Hälften, jede Kombination wird im
@@ -237,7 +254,9 @@ function buildOrt(o, seed, baukasten, pruefung) {
     return { q, a };
   });
   const url = `/einsatzgebiet/${o.slug}/`;
-  const titleVar = pick([
+  /* Titel: Raum Karlsruhe höchstens 65 Zeichen (Suchergebnis-Breite) – je Seite die längste passende Variante, Marke nur,
+     wenn sie noch hineinpasst; Raum Ingolstadt behält die bisherigen Titel (unverändert, bereits indexiert) */
+  const titleVar = o.region === "karlsruhe" ? titelKurz(o, c, s) : pick([
     `Fenster & Türen in ${o.name} – Beratung, Aufmaß, Montage | Fenster-WeissenBurger`,
     `Fenstertausch & Fenstermontage in ${o.name} | Fenster-WeissenBurger`,
     `Fenster, Haustüren & Montage in ${o.name} (${c.lk}) | Fenster-WeissenBurger`,
