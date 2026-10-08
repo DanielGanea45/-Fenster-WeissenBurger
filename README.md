@@ -44,8 +44,8 @@ Google-Bewertungslink: in `referenzen/index.html` beim Link `id="google-review"`
 
 - Datenbasis: `data/orte.json` (Wikidata/OSM: Name, Landkreis, Koordinaten, Entfernung, Fahrzeit-Schätzung, Einwohner). `stufe: 1` = Seite wird erzeugt, `stufe: 2` = später.
 - Erzeugen: `node scripts/build-orte.js` schreibt `/einsatzgebiet/<ort>/index.html`, die Übersicht `/einsatzgebiet/index.html` sowie `sitemap-seiten.xml`, `sitemap-orte.xml` und `sitemap-index.xml`. Der Bericht zur Textüberschneidung liegt in `data/orte-report.json` (`--report` druckt ihn).
-- **Veröffentlichungsschalter pro Region:** in `data/orte.json` unter `regions[].veroeffentlicht` (`true`/`false`). Eine Region mit `false` wird gebaut, aber mit `noindex`, ohne Eintrag in `sitemap-orte.xml` und ohne Abschnitt auf `/einsatzgebiet/`.
-  - Raum Karlsruhe freischalten: `"veroeffentlicht": true` setzen, `node scripts/build-orte.js` ausführen, committen, deployen. Mehr ist nicht nötig.
+- **Veröffentlichungsschalter pro Region:** *Admin → Einstellungen → Einsatzgebiet* (Raum Ingolstadt / Raum Karlsruhe). Eine ausgeschaltete Region wird gebaut, aber mit `noindex`, ohne Eintrag in `sitemap-orte.xml`, ohne Abschnitt auf `/einsatzgebiet/`, ohne `areaServed` in den Firmendaten und ohne ihre Orte im Wissen des KI-Assistenten.
+  - **Raum Karlsruhe freischalten (57 Ortsseiten, vorbereitet und geprüft):** Schalter im Admin an → „Speichern & veröffentlichen“. Der Build macht den Rest: Seiten indexierbar, in `sitemap-orte.xml`, eigener Abschnitt „Raum Karlsruhe“ mit allen Links auf `/einsatzgebiet/`, `areaServed` Ingolstadt + Karlsruhe, Orte im Assistent-Wissen. Ausschalten nimmt alles wieder zurück. Beide Zustände prüft `tests/karlsruhe.test.js` (Kopie mit Schalter an/aus). Titel der Karlsruhe-Seiten sind auf 65 Zeichen begrenzt (Suchergebnis-Breite); das Repository-Feld `regions[].veroeffentlicht` in `data/orte.json` ist nur noch die Vorgabe.
 - Textbausteine stehen im Generator; neue Varianten dort ergänzen, dann neu bauen.
 
 ## Spam-Schutz der Formulare

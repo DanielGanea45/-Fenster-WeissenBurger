@@ -53,6 +53,13 @@ function zeitenSpec(oz) {
 }
 
 /* ---------- JSON-LD ---------- */
+/* Einsatzgebiet (Einstellungen → Einsatzgebiet): nur freigeschaltete Regionen als areaServed – Ingolstadt immer, Karlsruhe erst nach dem Schalter */
+const REGIONEN = { ingolstadt: { name: "Ingolstadt", region: "Bayern" }, karlsruhe: { name: "Karlsruhe", region: "Baden-Württemberg" } };
+function areaServed(e) {
+  const eg = (e && e.einsatzgebiet) || {};
+  const liste = Object.keys(REGIONEN).filter((k) => eg[k] === true || (k === "ingolstadt" && eg[k] === undefined)).map((k) => ({ "@type": "City", name: REGIONEN[k].name, containedInPlace: { "@type": "State", name: REGIONEN[k].region } }));
+  return liste.length ? liste : undefined;
+}
 function jsonLdFirma(e, site) {
   const f = firma(e), s = (site || "https://fenster-weissenburger.de").replace(/\/$/, "");
   const out = {
@@ -61,6 +68,7 @@ function jsonLdFirma(e, site) {
     image: s + "/assets/logo/og-image.png", logo: s + "/assets/logo/og-image.png",
     address: { "@type": "PostalAddress", streetAddress: f.strasse, postalCode: f.plz, addressLocality: f.ort, addressRegion: "Bayern", addressCountry: "DE" },
     openingHoursSpecification: zeitenSpec(e && e.oeffnungszeiten),
+    areaServed: areaServed(e),
     vatID: f.ustIdNr || undefined, priceRange: "€€",
   };
   Object.keys(out).forEach((k) => out[k] === undefined && delete out[k]);
@@ -74,7 +82,7 @@ function jsonLdAktualisieren(text, e, site) {
   const patch = (n) => {
     if (!n || typeof n !== "object") return n;
     if (Array.isArray(n)) { n.forEach(patch); return n; }
-    if (n["@type"] === "LocalBusiness") for (const k of ["name", "telephone", "email", "address", "openingHoursSpecification", "vatID"]) { if (k in n || k === "name" || k === "telephone" || k === "address") { if (neu[k] === undefined) delete n[k]; else n[k] = neu[k]; } }
+    if (n["@type"] === "LocalBusiness") for (const k of ["name", "telephone", "email", "address", "openingHoursSpecification", "vatID", "areaServed"]) { if (k in n || k === "name" || k === "telephone" || k === "address" || k === "areaServed") { if (neu[k] === undefined) delete n[k]; else n[k] = neu[k]; } }
     Object.values(n).forEach(patch);
     return n;
   };
