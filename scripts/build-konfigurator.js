@@ -126,8 +126,11 @@ function pageSoon(key) {
     <section class="phero soon" aria-labelledby="h1">
       <div class="wrap">
         <p class="eyebrow"><span>Konfigurator</span> ${key === "fenster" ? "Fenster" : "Haustüren"}</p>
-        <h1 class="title" id="h1">Demnächst <em>verfügbar.</em></h1>
-        <p class="lead">Unser Online-Konfigurator für ${key === "fenster" ? "Fenster" : "Haustüren"} ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>
+        ${key === "fenster"
+          ? `<h1 class="title" id="h1">Fenster-Konfigurator: <em>demnächst online.</em></h1>
+        <p class="lead">Unser Online-Konfigurator für Fenster ist in Vorbereitung. Bis dahin erstellen wir Ihnen gern persönlich ein Angebot – rufen Sie an oder nutzen Sie das Kontaktformular.</p>`
+          : `<h1 class="title" id="h1">Haustür-Konfigurator <em>in Vorbereitung.</em></h1>
+        <p class="lead">Den Online-Konfigurator für Haustüren bereiten wir gerade vor. Ihr Angebot erstellen wir Ihnen bis dahin persönlich: ein Anruf oder eine Nachricht über das Kontaktformular genügt.</p>`}
         <div class="actions" style="justify-content:center">
           <a class="btn btn--primary" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel">${firmaLib.esc(einst.firma.telefon)}</a>
           <a class="btn btn--ghost" href="/#kontakt">Kostenloses Aufmaß anfragen</a>
