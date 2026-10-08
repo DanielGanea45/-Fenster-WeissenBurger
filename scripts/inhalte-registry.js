@@ -51,6 +51,8 @@ function gesperrteBereiche(html) {
   while ((m = rp.exec(html))) ranges.push([m.index, m.index + m[0].length]);
   const rb = /<!--bewertungen-(badge|karten)(?::[^>]*)?-->[\s\S]*?<!--\/bewertungen-\1-->/g; // Bewertungen kommen aus Admin → Bewertungen
   while ((m = rb.exec(html))) ranges.push([m.index, m.index + m[0].length]);
+  const ra = /<!--ankuendigung-->[\s\S]*?<!--\/ankuendigung-->/g; // Ankündigungsbanner kommt aus Admin → Website
+  while ((m = ra.exec(html))) ranges.push([m.index, m.index + m[0].length]);
   return ranges;
 }
 const inRange = (ranges, i) => ranges.some(([a, b]) => i >= a && i < b);
