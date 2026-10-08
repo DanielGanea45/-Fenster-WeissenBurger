@@ -96,3 +96,31 @@ test("Admin: Texte-Editor als nachladbares Modul, Modell eingebunden, Vorschau-S
   assert.match(toml, /X-Frame-Options = "SAMEORIGIN"/); assert.match(toml, /frame-ancestors 'self'/);
   assert.ok(!/frame-ancestors 'none'/.test(toml.split("[[headers]]")[1] || ""), "öffentliche Seiten erlauben die eigene Einbettung");
 });
+test("Preishinweis: Baustein im Modul js/hinweise.js ist registriert, geschützt und wird beim Build als reiner Text eingesetzt", () => {
+  const Hinweise = require("../js/hinweise.js");
+  assert.match(Hinweise.richtpreis.lang, /unverbindliche Richtpreise/); assert.match(Hinweise.richtpreis.kurz, /^Unverbindlicher Richtpreis/);
+  const b1 = texte.bloecke["hinweise-1"], b2 = texte.bloecke["hinweise-2"];
+  assert.ok(b1 && b2 && b1.geschuetzt && b2.geschuetzt && texte.seiten.hinweise && texte.seiten.hinweise.modul, "Modul-Bausteine in der Registry");
+  assert.equal(T.decode(b1.html), Hinweise.richtpreis.lang);
+  const build = require("../scripts/build.js");
+  const os = require("os"); const dir = fs.mkdtempSync(path.join(os.tmpdir(), "fw-hinweis-")); fs.mkdirSync(path.join(dir, "js"));
+  fs.copyFileSync(path.join(ROOT, "js/hinweise.js"), path.join(dir, "js/hinweise.js")); fs.copyFileSync(path.join(ROOT, "js/texte-modell.js"), path.join(dir, "js/texte-modell.js"));
+  const reg = JSON.parse(JSON.stringify(texte)); reg.bloecke["hinweise-2"] = Object.assign({}, reg.bloecke["hinweise-2"], { html: "Richtpreis &amp; <em>unverbindlich</em> – Angebot nach Aufmaß", geaendert: true });
+  const n = build.texteEinsetzen(dir, reg, 0);
+  assert.equal(n, 1);
+  const neu = fs.readFileSync(path.join(dir, "js/hinweise.js"), "utf8");
+  assert.match(neu, /\/\*TEXT:hinweise-2\*\/"Richtpreis & unverbindlich – Angebot nach Aufmaß"\/\*\/TEXT\*\//, "nur reiner Text zwischen den Markierungen");
+  const m = { exports: {} }; new Function("module", neu)(m);
+  assert.equal(m.exports.richtpreis.kurz, "Richtpreis & unverbindlich – Angebot nach Aufmaß"); assert.equal(m.exports.richtpreis.lang, Hinweise.richtpreis.lang);
+  fs.rmSync(dir, { recursive: true, force: true });
+  /* Hinweis erscheint überall neben Preisen */
+  const produkte = require("../netlify/functions/_lib/produkte.js");
+  const karte = produkte.startHtml({ karten: [{ id: "x", titel: "T", kurz: "K", link: "/produkte/", abPreis: 100, sichtbar: true }] }, { steuer: { satzProzent: 0 } }, "");
+  assert.ok(karte.includes('<p class="price__hinweis">' + Hinweise.richtpreis.kurz + "</p>"), "Produktkarte");
+  const konf = fs.readFileSync(path.join(ROOT, "js/konfigurator.js"), "utf8");
+  assert.ok(/HW\.kurz/.test(konf) && /HW\.lang/.test(konf) && /FWHinweise/.test(konf), "Konfigurator nutzt das Modul");
+  assert.match(fs.readFileSync(path.join(ROOT, "scripts/build-konfigurator.js"), "utf8"), /js\/hinweise\.js\?v=/, "Konfigurator-Seiten laden das Modul");
+  const mail = require("../netlify/functions/_lib/mail.js").vorlagen.neueAnfrage({ name: "A", preis_server_text: "1 €" }, "https://x/admin/");
+  assert.ok(mail.text.includes(Hinweise.richtpreis.lang), "Anfrage-E-Mail");
+  assert.match(fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8"), /"js\/hinweise\.js"/);
+});

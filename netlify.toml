@@ -8,7 +8,16 @@
 
 [functions]
   directory = "netlify/functions"
-  included_files = ["data/*.json", "js/preis.js", "js/steuer.js", "js/preis-validate.js", "js/texte-modell.js", "admin/index.html", "konfigurator/**/*.html", "netlify/functions/_lib/fonts/*.ttf"]
+  included_files = ["data/*.json", "js/preis.js", "js/steuer.js", "js/preis-validate.js", "js/texte-modell.js", "js/hinweise.js", "admin/index.html", "konfigurator/**/*.html", "netlify/functions/_lib/fonts/*.ttf"]
+
+# Finale Domain: www → ohne www (greift erst, wenn die Domain auf Netlify zeigt; bis dahin wirkungslos).
+# Die Weiterleitung von fensterweissenburgerdaniel.netlify.app auf die Domain schreibt der Build in _redirects,
+# sobald die Umgebungsvariable DOMAIN_LIVE=1 gesetzt ist (siehe README, Abschnitt Search Console).
+[[redirects]]
+  from = "https://www.fenster-weissenburger.de/*"
+  to = "https://fenster-weissenburger.de/:splat"
+  status = 301
+  force = true
 
 # Admin-Bereich: wird von einer Function ausgeliefert (auf Produktion ohne ADMIN_SETUP_TOKEN → 404)
 [[redirects]]

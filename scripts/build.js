@@ -54,6 +54,14 @@ function texteEinsetzen(root, texte, satz) {
     const f = path.join(root, info.datei); if (!fs.existsSync(f)) continue;
     let html = fs.readFileSync(f, "utf8");
     for (const [id, b] of liste) {
+      if (info.modul || /\.js$/.test(info.datei)) {
+        /* Textbaustein in einem JS-Modul (z. B. Preishinweis): nur reiner Text zwischen den Markierungen */
+        const Texte = require(path.join(root, "js", "texte-modell.js"));
+        const text = Texte.nurText(Texte.parse(Steuer.ersetzePlatzhalter(validate.sanitizeHtml(b.html), satz))).replace(/\s+/g, " ").trim();
+        const re = new RegExp(`/\\*TEXT:${id}\\*/"(?:[^"\\\\]|\\\\.)*"/\\*/TEXT\\*/`);
+        if (re.test(html) && text) { html = html.replace(re, () => `/*TEXT:${id}*/${JSON.stringify(text)}/*/TEXT*/`); n++; }
+        continue;
+      }
       const re = new RegExp(`(<(h1|h2|h3|p)\\b[^>]*data-text="${id}"[^>]*>)([\\s\\S]*?)(</\\2>)`);
       if (re.test(html)) { html = html.replace(re, (m, a, t, inner, z) => a + Steuer.ersetzePlatzhalter(validate.sanitizeHtml(b.html), satz) + z); n++; }
     }
@@ -171,9 +179,24 @@ function bewertungenSchreiben(root, liste) {
   fs.writeFileSync(path.join(root, "data", "bewertungen.json"), JSON.stringify(frei, null, 2) + "\n");
   return frei.length;
 }
+/* Google Search Console: optionale Bestätigung per Meta-Tag (Umgebungsvariable GOOGLE_SITE_VERIFICATION).
+   Gesetzt → <meta name="google-site-verification"> im <head> jeder öffentlichen Seite; nicht gesetzt → nichts. Idempotent. */
+function googleVerifikationEinsetzen(root, wert) {
+  const code = String(wert || "").trim().replace(/[^A-Za-z0-9_-]/g, "");
+  let n = 0;
+  const walk = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const f = path.join(dir, e.name); if (e.isDirectory()) { if (!/^(node_modules|\.git|admin|netlify|design-admin|firma ferestre)$/.test(e.name)) walk(f); } else if (e.name.endsWith(".html")) { let h = fs.readFileSync(f, "utf8"); const alt = h; h = h.replace(/\s*<meta name="google-site-verification" content="[^"]*">/g, ""); if (code) h = h.replace(/(<meta charset="utf-8">)/, `$1\n  <meta name="google-site-verification" content="${code}">`); if (h !== alt) { fs.writeFileSync(f, h); n++; } } } };
+  walk(root);
+  return n;
+}
+/* Weiterleitung der Netlify-Adresse auf die finale Domain – erst mit DOMAIN_LIVE=1 (nach dem Umzug der Domain), sonst
+   bliebe die bisher genutzte Adresse (Admin!) unerreichbar. www → ohne www steht in netlify.toml und ist bis dahin wirkungslos. */
+function domainRedirects() {
+  if (!/^(1|true|ja)$/i.test(String(process.env.DOMAIN_LIVE || ""))) return "";
+  return "# Finale Domain aktiv (DOMAIN_LIVE=1): Netlify-Adresse dauerhaft auf fenster-weissenburger.de umleiten\nhttps://fensterweissenburgerdaniel.netlify.app/*  https://fenster-weissenburger.de/:splat  301!\nhttp://fensterweissenburgerdaniel.netlify.app/*  https://fenster-weissenburger.de/:splat  301!\n";
+}
 function redirectsSchreiben(root, einst) {
   const status = typeof einst === "string" ? einst : einst && einst.konfigurator && einst.konfigurator.status;
-  const kopf = "# Automatisch erzeugt von scripts/build.js – nicht von Hand bearbeiten.\n";
+  const kopf = "# Automatisch erzeugt von scripts/build.js – nicht von Hand bearbeiten.\n" + domainRedirects();
   const wartung = typeof einst === "object" ? firmaLib.wartungRedirects(einst) : "";
   const vorschau = status === "vorschau" ? "/konfigurator/*  /.netlify/functions/konfigurator-vorschau  200!\n" : "";
   fs.writeFileSync(path.join(root, "_redirects"), kopf + wartung + vorschau);
@@ -234,6 +257,7 @@ async function lauf(opt = {}) {
       const nBew = bewertungenSchreiben(root, bew);
       redirectsSchreiben(root, repoEinst);
       const nF = firmaEinsetzen.lauf(root, repoEinst);
+      { const nG = googleVerifikationEinsetzen(root, process.env.GOOGLE_SITE_VERIFICATION); if (nG) log(`Google-Bestätigung (Search Console) in ${nG} Seiten ${process.env.GOOGLE_SITE_VERIFICATION ? "eingesetzt" : "entfernt"}.`); }
       { const f = path.join(root, "index.html"); const r = produkteLib.einsetzen(fs.readFileSync(f, "utf8"), produkte, repoEinst, ""); if (r.n) { fs.writeFileSync(f, r.html); log(`Produktkarten auf der Startseite eingesetzt (${produkteLib.karten(produkte, "startseite").length} Karten).`); } }
       log(`Firmendaten eingesetzt: ${nF.marker} Marker in ${nF.dateien} Datei(en) aktualisiert${nF.banner ? ", Ankündigungsbanner in " + nF.banner + " Datei(en)" : ""}.`);
       log(`Admin-Daten übernommen: Preisliste ${preise.version}, Konfigurator ${einst.konfigurator.status}, ${nT} Texte, ${nB} Bilder, ${nBew} Bewertungen.`);
@@ -273,7 +297,7 @@ async function benachrichtigen(ok, detail) {
   } catch (e) { /* Benachrichtigung ist optional */ }
 }
 
-module.exports = { lauf, texteEinsetzen, bilderEinsetzen, bewertungenSchreiben, redirectsSchreiben, DEFAULT_SCHRITTE };
+module.exports = { lauf, texteEinsetzen, bilderEinsetzen, bewertungenSchreiben, redirectsSchreiben, googleVerifikationEinsetzen, domainRedirects, DEFAULT_SCHRITTE };
 
 if (require.main === module) {
   lauf().then((r) => process.exit(r.ok ? 0 : 1)).catch((e) => { console.error(e); process.exit(1); });

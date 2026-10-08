@@ -60,6 +60,17 @@
    "titel": "Datenschutzerklärung",
    "datei": "datenschutz.html",
    "geschuetzt": true
+  },
+  "cookies": {
+   "titel": "Cookie-Richtlinie",
+   "datei": "cookies.html",
+   "geschuetzt": true
+  },
+  "hinweise": {
+   "titel": "Preishinweis (bei allen Preisen)",
+   "datei": "js/hinweise.js",
+   "geschuetzt": true,
+   "modul": true
   }
  },
  "bloecke": {
@@ -3306,21 +3317,51 @@
   "datenschutz-30": {
    "seite": "datenschutz",
    "tag": "h2",
-   "html": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
-   "label": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
+   "html": "8. Cookies, lokale Speicherung, Analyse und Google Search Console",
+   "label": "8. Cookies, lokale Speicherung, Analyse und Google Search Console",
    "geschuetzt": true,
    "abschnitt": "abschnitt-10",
-   "abschnittTitel": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
+   "abschnittTitel": "8. Cookies, lokale Speicherung, Analyse und Google Search Co",
    "rolle": "h2"
   },
   "datenschutz-31": {
    "seite": "datenschutz",
    "tag": "p",
-   "html": "Diese Website setzt keine Cookies und verwendet keine Web-Analyse- oder Tracking-Dienste. Die verwendete Schriftart (Manrope) sowie alle Bilder und Videos werden lokal von unserem Webspace ausgeliefert; es werden keine Verbindungen zu Servern von Google oder anderen Drittanbietern aufgebaut. Ein Cookie-Banner ist daher nicht erforderlich.",
-   "label": "Diese Website setzt keine Cookies und verwendet keine Web-Analyse- ode",
+   "html": "Die öffentliche Website setzt keine Cookies und verwendet keine Web-Analyse- oder Tracking-Dienste. Die verwendete Schriftart (Manrope) sowie alle Bilder und Videos werden lokal von unserem Webspace ausgeliefert; es werden keine Verbindungen zu Servern von Google oder anderen Drittanbietern aufgebaut. Ein Cookie-Banner ist daher nicht erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG).",
+   "label": "Die öffentliche Website setzt keine Cookies und verwendet keine Web-An",
    "geschuetzt": true,
    "abschnitt": "abschnitt-10",
-   "abschnittTitel": "8. Keine Cookies, keine Analyse, keine Drittinhalte",
+   "abschnittTitel": "8. Cookies, lokale Speicherung, Analyse und Google Search Co",
+   "rolle": "p"
+  },
+  "datenschutz-46": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "Zwei rein technische Merker legt die Website im <strong>Sitzungsspeicher</strong> (sessionStorage) Ihres Browsers ab, nicht in Cookies: „fw-banner-zu“ merkt sich, dass Sie eine Ankündigung geschlossen haben, und „fw-transition“ überbrückt für den Bruchteil einer Sekunde den Seitenwechsel mit der Fensteranimation. Beide enthalten keine personenbezogenen Daten, werden nicht an uns übertragen und verschwinden automatisch, sobald Sie den Browser-Tab schließen. Rechtsgrundlage ist unser berechtigtes Interesse an einer funktionierenden Darstellung (Art. 6 Abs. 1 lit. f DSGVO); eine Einwilligung ist nicht erforderlich, weil die Speicherung für die von Ihnen gewünschte Darstellung unbedingt erforderlich ist.",
+   "label": "Zwei rein technische Merker legt die Website im Sitzungsspeicher (sess",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "8. Cookies, lokale Speicherung, Analyse und Google Search Co",
+   "rolle": "p"
+  },
+  "datenschutz-47": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "Der <strong>Verwaltungsbereich</strong> dieser Website (nur für uns als Betreiber, nach Anmeldung) setzt ein technisch notwendiges Sitzungs-Cookie („fw_admin“, HttpOnly, SameSite=Strict), das die Anmeldung hält und nach dem Abmelden bzw. spätestens nach 30 Tagen abläuft. Besucher der Website erhalten dieses Cookie nicht. Einzelheiten zu allen Cookies und Speicherarten finden Sie in unserer <a href=\"cookies.html\">Cookie-Richtlinie</a>.",
+   "label": "Der Verwaltungsbereich dieser Website (nur für uns als Betreiber, nach",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "8. Cookies, lokale Speicherung, Analyse und Google Search Co",
+   "rolle": "p"
+  },
+  "datenschutz-48": {
+   "seite": "datenschutz",
+   "tag": "p",
+   "html": "Um zu sehen, wie unsere Seiten in der Google-Suche erscheinen, nutzen wir die <strong>Google Search Console</strong> (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland). Dafür ist lediglich die Inhaberschaft der Domain bestätigt (ein Eintrag beim Domain-Anbieter bzw. eine Kennung im Seitenkopf); auf der Website selbst wird dadurch kein Code ausgeführt, kein Cookie gesetzt und es werden keine Daten über Sie an Google übertragen. Die Search Console zeigt uns ausschließlich zusammengefasste Suchstatistiken ohne Personenbezug.",
+   "label": "Um zu sehen, wie unsere Seiten in der Google-Suche erscheinen, nutzen ",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-10",
+   "abschnittTitel": "8. Cookies, lokale Speicherung, Analyse und Google Search Co",
    "rolle": "p"
   },
   "datenschutz-32": {
@@ -3442,6 +3483,168 @@
    "abschnitt": "abschnitt-15",
    "abschnittTitel": "13. Änderungen dieser Datenschutzerklärung",
    "rolle": "p"
+  },
+  "cookies-1": {
+   "seite": "cookies",
+   "tag": "h1",
+   "html": "Cookie-Richtlinie",
+   "label": "Cookie-Richtlinie",
+   "geschuetzt": true,
+   "abschnitt": "oben",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "h1"
+  },
+  "cookies-2": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Stand: Oktober 2026",
+   "label": "Stand: Oktober 2026",
+   "geschuetzt": true,
+   "abschnitt": "oben",
+   "abschnittTitel": "Oben auf der Seite",
+   "rolle": "p"
+  },
+  "cookies-3": {
+   "seite": "cookies",
+   "tag": "h2",
+   "html": "Kurz gesagt",
+   "label": "Kurz gesagt",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Kurz gesagt",
+   "rolle": "h2"
+  },
+  "cookies-4": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Diese Website setzt <strong>keine Cookies</strong>, die eine Einwilligung erfordern: keine Analyse-, Tracking-, Werbe- oder Social-Media-Cookies und keine Inhalte von Drittanbietern. Deshalb gibt es auch kein Cookie-Banner. Nur der Verwaltungsbereich, den ausschließlich wir als Betreiber nach Anmeldung nutzen, setzt ein technisch notwendiges Sitzungs-Cookie.",
+   "label": "Diese Website setzt keine Cookies, die eine Einwilligung erfordern: ke",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-1",
+   "abschnittTitel": "Kurz gesagt",
+   "rolle": "p"
+  },
+  "cookies-5": {
+   "seite": "cookies",
+   "tag": "h2",
+   "html": "Was sind Cookies und ähnliche Speicherarten?",
+   "label": "Was sind Cookies und ähnliche Speicherarten?",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Was sind Cookies und ähnliche Speicherarten?",
+   "rolle": "h2"
+  },
+  "cookies-6": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Cookies sind kleine Textdateien, die eine Website im Browser ablegt und bei späteren Aufrufen wieder ausliest. Ähnlich funktioniert der <em>Sitzungsspeicher</em> (sessionStorage) des Browsers: Dort kann eine Seite Werte ablegen, die nur im aktuellen Tab gelten und beim Schließen des Tabs automatisch gelöscht werden – sie werden nicht an den Server übertragen.",
+   "label": "Cookies sind kleine Textdateien, die eine Website im Browser ablegt un",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-2",
+   "abschnittTitel": "Was sind Cookies und ähnliche Speicherarten?",
+   "rolle": "p"
+  },
+  "cookies-7": {
+   "seite": "cookies",
+   "tag": "h2",
+   "html": "Welche Cookies und Speicher nutzt diese Website?",
+   "label": "Welche Cookies und Speicher nutzt diese Website?",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Welche Cookies und Speicher nutzt diese Website?",
+   "rolle": "h2"
+  },
+  "cookies-8": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Alle drei Einträge enthalten keine personenbezogenen Daten über Sie, werden nicht zur Wiedererkennung oder Profilbildung genutzt und nicht an Dritte weitergegeben. Für unbedingt erforderliche Speichervorgänge ist nach § 25 Abs. 2 Nr. 2 TDDDG keine Einwilligung nötig.",
+   "label": "Alle drei Einträge enthalten keine personenbezogenen Daten über Sie, w",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-3",
+   "abschnittTitel": "Welche Cookies und Speicher nutzt diese Website?",
+   "rolle": "p"
+  },
+  "cookies-9": {
+   "seite": "cookies",
+   "tag": "h2",
+   "html": "Keine Marketing- und Analyse-Cookies",
+   "label": "Keine Marketing- und Analyse-Cookies",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Keine Marketing- und Analyse-Cookies",
+   "rolle": "h2"
+  },
+  "cookies-10": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Wir setzen keine Werbe-, Analyse- oder Statistik-Dienste ein (kein Google Analytics, keine Pixel, keine Social-Media-Plugins) und binden keine Schriften, Karten oder Videos von fremden Servern ein. Die Kontakt- und Anfrageformulare arbeiten ebenfalls ohne Cookies. Die Google Search Console, mit der wir die Darstellung in der Google-Suche beobachten, läuft außerhalb der Website und setzt hier nichts.",
+   "label": "Wir setzen keine Werbe-, Analyse- oder Statistik-Dienste ein (kein Goo",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-4",
+   "abschnittTitel": "Keine Marketing- und Analyse-Cookies",
+   "rolle": "p"
+  },
+  "cookies-11": {
+   "seite": "cookies",
+   "tag": "h2",
+   "html": "Cookies und Sitzungsspeicher im Browser löschen",
+   "label": "Cookies und Sitzungsspeicher im Browser löschen",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Cookies und Sitzungsspeicher im Browser löschen",
+   "rolle": "h2"
+  },
+  "cookies-12": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Der Sitzungsspeicher wird automatisch geleert, sobald Sie den Tab schließen. Die Website funktioniert auch dann vollständig, wenn Ihr Browser Cookies und Sitzungsspeicher blockiert – lediglich die Fensteranimation beim Seitenwechsel entfällt.",
+   "label": "Der Sitzungsspeicher wird automatisch geleert, sobald Sie den Tab schl",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-5",
+   "abschnittTitel": "Cookies und Sitzungsspeicher im Browser löschen",
+   "rolle": "p"
+  },
+  "cookies-13": {
+   "seite": "cookies",
+   "tag": "h2",
+   "html": "Fragen",
+   "label": "Fragen",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "Fragen",
+   "rolle": "h2"
+  },
+  "cookies-14": {
+   "seite": "cookies",
+   "tag": "p",
+   "html": "Bei Fragen zu dieser Richtlinie erreichen Sie uns über die Kontaktdaten im <a href=\"impressum.html\">Impressum</a>; weitere Angaben zur Verarbeitung Ihrer Daten enthält die <a href=\"datenschutz.html\">Datenschutzerklärung</a>.",
+   "label": "Bei Fragen zu dieser Richtlinie erreichen Sie uns über die Kontaktdate",
+   "geschuetzt": true,
+   "abschnitt": "abschnitt-6",
+   "abschnittTitel": "Fragen",
+   "rolle": "p"
+  },
+  "hinweise-1": {
+   "seite": "hinweise",
+   "tag": "p",
+   "html": "Alle Preise sind unverbindliche Richtpreise und dienen Ihrer ersten Orientierung. Ihr verbindliches Angebot erhalten Sie nach dem kostenlosen Aufmaß bei Ihnen vor Ort – oder nach Prüfung Ihrer genauen Maße, Fotos und Anforderungen.",
+   "label": "Alle Preise sind unverbindliche Richtpreise und dienen Ihrer ersten Or",
+   "geschuetzt": true,
+   "abschnitt": "preishinweis",
+   "abschnittTitel": "Preishinweis – erscheint im Konfigurator, bei Produktkarten mit „ab …“ und in Anfrage-E-Mails",
+   "rolle": "p",
+   "nurText": true
+  },
+  "hinweise-2": {
+   "seite": "hinweise",
+   "tag": "p",
+   "html": "Unverbindlicher Richtpreis – verbindliches Angebot nach Aufmaß",
+   "label": "Unverbindlicher Richtpreis – verbindliches Angebot nach Aufmaß",
+   "geschuetzt": true,
+   "abschnitt": "preishinweis",
+   "abschnittTitel": "Preishinweis – erscheint im Konfigurator, bei Produktkarten mit „ab …“ und in Anfrage-E-Mails",
+   "rolle": "button",
+   "nurText": true
   }
  }
 }

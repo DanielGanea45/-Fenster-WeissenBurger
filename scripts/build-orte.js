@@ -26,7 +26,7 @@ const LOGO = indexHtml.slice(ls, le).trim();
 const v = (name) => { const m = indexHtml.match(new RegExp(name.replace(".", "\\.") + "\\?v=([\\w.-]+)")); return m ? m[1] : "1"; }; // Versionen sind Inhalts-Hashes (scripts/assets-version.js)
 const V = { style: v("style.css"), ueberCss: v("uebergang.css"), ueberJs: v("uebergang.js"), main: v("main.js") };
 
-const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "<").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const num = (n) => Math.round(n).toLocaleString("de-DE");
 function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function pick(arr, seed, salt) { return arr[(hash(seed + ":" + salt) + 0) % arr.length]; }
@@ -219,8 +219,8 @@ function header() {
       <div class="nav__item nav__item--konf konf-link" hidden>
         <a href="/konfigurator/fenster/" aria-haspopup="true" aria-expanded="false">Konfigurator</a>
         <div class="nav__drop nav__drop--konf" aria-label="Konfigurator">
-          <a href="/konfigurator/haustuer/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 3v18M9 7h7M9 11h7M9 15h7"/><circle cx="14.5" cy="12" r=".9" fill="currentColor"/></svg><span>Haustür konfigurieren</span></a>
-          <a href="/konfigurator/fenster/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><span>Fenster konfigurieren</span></a>
+          <a href="/konfigurator/haustuer/"><img class="nav__thumb" src="/assets/img/menu/konfigurator-haustuer-80.webp" width="40" height="40" alt="Moderne Haustür in Anthrazit" loading="lazy" decoding="async"><span>Haustür konfigurieren</span></a>
+          <a href="/konfigurator/fenster/"><img class="nav__thumb" src="/assets/img/menu/konfigurator-fenster-80.webp" width="40" height="40" alt="Einflügeliges Fenster in Anthrazit" loading="lazy" decoding="async"><span>Fenster konfigurieren</span></a>
         </div>
       </div>
       <a href="/#ueber-uns">Über uns</a>
@@ -264,15 +264,10 @@ ${meta.jsonld.map((j) => `  <script type="application/ld+json"${JSON.stringify(j
 }
 function footer() {
   return `<footer class="legal wrap">
-      <a href="/#home">Startseite</a>
-      <a href="/produkte/">Produkte</a>
-      <a href="/leistungen/">Leistungen</a>
-      <a href="/referenzen/">Referenzen</a>
-      <a href="/einsatzgebiet/">Einsatzgebiet</a>
-      <a href="/impressum.html">Impressum</a>
-      <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></span>
-    </footer>
+  <nav class="legal__nav" aria-label="Seiten"><a href="/#home">Startseite</a><a href="/produkte/">Produkte</a><a href="/leistungen/">Leistungen</a><a href="/referenzen/">Referenzen</a><a href="/einsatzgebiet/">Einsatzgebiet</a><a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a></nav>
+  <nav class="legal__recht" aria-label="Rechtliches"><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutzerklärung</a><a href="/cookies.html">Cookie-Richtlinie</a></nav>
+  <p class="legal__copy">© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></p>
+</footer>
   </main>
   <div class="ctabar" aria-label="Schnellkontakt">
     <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
@@ -475,6 +470,7 @@ function buildOverview() {
   const url = "/einsatzgebiet/";
   const meta = { title: "Einsatzgebiet: Fenster & Türen im Raum Ingolstadt" + (regs.some((r) => r.key === "karlsruhe") ? " und Karlsruhe" : "") + " | Fenster-WeissenBurger", description: "Alle Orte, in denen Fenster-WeissenBurger Fenster und Haustüren berät, aufmisst und montiert – nach Landkreis sortiert, mit Entfernung vom Firmensitz Ingolstadt.", url, noindex: false, jsonld: [
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Start", item: SITE + "/" }, { "@type": "ListItem", position: 2, name: "Einsatzgebiet", item: SITE + url }] },
+    PROVIDER,
   ] };
   const sections = regs.map((r) => {
     const list = orte.filter((o) => o.region === r.key);
@@ -519,14 +515,22 @@ ${groups.map(([lk, os]) => `          <div class="lk">
 }
 
 /* ---------- Sitemaps ---------- */
+/* lastmod je Seite: Datum der letzten Änderung der Datei laut Git (deterministisch, auch im Netlify-Build verfügbar);
+   ohne Git-Historie das Datum der Preisliste/Daten (TODAY). Rechtsseiten (noindex) gehören nicht in die Sitemap. */
+function lastmodVon(datei) {
+  try { const d = require("child_process").execFileSync("git", ["log", "-1", "--format=%cs", "--", datei], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return d; } catch (e) { /* kein Git */ }
+  return TODAY;
+}
 function sitemaps() {
-  const seiten = ["/", "/leistungen/", "/referenzen/", "/produkte/", "/produkte/kunststofffenster-koemmerling/", "/produkte/aluminiumfenster-cortizo/", "/produkte/schiebetueren/", "/produkte/haustueren/", "/produkte/kunststoff-aluminium-fenster/", "/einsatzgebiet/", "/impressum.html", "/datenschutz.html"];
-  const u = (loc, prio, freq) => `  <url><loc>${SITE}${loc}</loc><lastmod>${TODAY}</lastmod><changefreq>${freq}</changefreq><priority>${prio}</priority></url>`;
+  const seiten = ["/", "/leistungen/", "/referenzen/", "/produkte/", "/produkte/kunststofffenster-koemmerling/", "/produkte/aluminiumfenster-cortizo/", "/produkte/schiebetueren/", "/produkte/haustueren/", "/produkte/kunststoff-aluminium-fenster/", "/einsatzgebiet/"];
+  const datei = (loc) => loc.endsWith("/") ? loc.slice(1) + "index.html" : loc.slice(1);
+  const u = (loc, prio, freq) => `  <url><loc>${SITE}${loc}</loc><lastmod>${lastmodVon(datei(loc))}</lastmod><changefreq>${freq}</changefreq><priority>${prio}</priority></url>`;
   const xmlHead = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  const seitenXml = xmlHead + seiten.map((l) => u(l, l === "/" ? "1.0" : /impressum|datenschutz/.test(l) ? "0.2" : "0.8", /impressum|datenschutz/.test(l) ? "yearly" : "monthly")).join("\n") + "\n</urlset>\n";
+  const seitenXml = xmlHead + seiten.map((l) => u(l, l === "/" ? "1.0" : "0.8", "monthly")).join("\n") + "\n</urlset>\n";
   const pub = orte.filter(published);
   const orteXml = xmlHead + pub.map((o) => u(`/einsatzgebiet/${o.slug}/`, "0.6", "monthly")).join("\n") + "\n</urlset>\n";
-  const idx = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${SITE}/sitemap-seiten.xml</loc><lastmod>${TODAY}</lastmod></sitemap>\n  <sitemap><loc>${SITE}/sitemap-orte.xml</loc><lastmod>${TODAY}</lastmod></sitemap>\n</sitemapindex>\n`;
+  const neuestes = (xml) => [...xml.matchAll(/<lastmod>([^<]+)/g)].map((m) => m[1]).sort().pop() || TODAY;
+  const idx = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${SITE}/sitemap-seiten.xml</loc><lastmod>${neuestes(seitenXml)}</lastmod></sitemap>\n  <sitemap><loc>${SITE}/sitemap-orte.xml</loc><lastmod>${neuestes(orteXml)}</lastmod></sitemap>\n</sitemapindex>\n`;
   fs.writeFileSync(path.join(root, "sitemap-seiten.xml"), seitenXml);
   fs.writeFileSync(path.join(root, "sitemap-orte.xml"), orteXml);
   fs.writeFileSync(path.join(root, "sitemap-index.xml"), idx);

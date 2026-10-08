@@ -28,7 +28,7 @@ const PRODUCTS = [
   { slug: "haustueren", short: "Haustüren", menu: "Haustüren" },
 ];
 
-const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "<").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const jsonStr = (s) => JSON.stringify(s);
 
 function head(p) {
@@ -58,6 +58,7 @@ function head(p) {
   <link rel="stylesheet" href="/css/leistungen.css?v=2">
   <link rel="stylesheet" href="/css/produkte.css?v=1">
 ${p.jsonld.map((o) => `  <script type="application/ld+json">${JSON.stringify(o)}</script>`).join("\n")}
+  <script type="application/ld+json" data-firma="jsonld">${JSON.stringify(Object.assign({ "@context": "https://schema.org" }, firmaLib.jsonLdFirma(einst, SITE)))}</script>
 </head>`;
 }
 
@@ -86,8 +87,8 @@ function header(current) {
       <div class="nav__item nav__item--konf konf-link" hidden>
         <a href="/konfigurator/fenster/" aria-haspopup="true" aria-expanded="false">Konfigurator</a>
         <div class="nav__drop nav__drop--konf" aria-label="Konfigurator">
-          <a href="/konfigurator/haustuer/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 3v18M9 7h7M9 11h7M9 15h7"/><circle cx="14.5" cy="12" r=".9" fill="currentColor"/></svg><span>Haustür konfigurieren</span></a>
-          <a href="/konfigurator/fenster/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><span>Fenster konfigurieren</span></a>
+          <a href="/konfigurator/haustuer/"><img class="nav__thumb" src="/assets/img/menu/konfigurator-haustuer-80.webp" width="40" height="40" alt="Moderne Haustür in Anthrazit" loading="lazy" decoding="async"><span>Haustür konfigurieren</span></a>
+          <a href="/konfigurator/fenster/"><img class="nav__thumb" src="/assets/img/menu/konfigurator-fenster-80.webp" width="40" height="40" alt="Einflügeliges Fenster in Anthrazit" loading="lazy" decoding="async"><span>Fenster konfigurieren</span></a>
         </div>
       </div>
       <a href="/#ueber-uns">Über uns</a>
@@ -277,15 +278,10 @@ ${PRODUCTS.filter((x) => x.slug !== current).map((x) => `          <li><a href="
 
 function footer() {
   return `<footer class="legal wrap">
-      <a href="/#home">Startseite</a>
-      <a href="/produkte/">Produkte</a>
-      <a href="/leistungen/">Leistungen</a>
-      <a href="/referenzen/">Referenzen</a>
-      <a href="/einsatzgebiet/">Einsatzgebiet</a>
-      <a href="/impressum.html">Impressum</a>
-      <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <span>© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></span>
-    </footer>
+  <nav class="legal__nav" aria-label="Seiten"><a href="/#home">Startseite</a><a href="/produkte/">Produkte</a><a href="/leistungen/">Leistungen</a><a href="/referenzen/">Referenzen</a><a href="/einsatzgebiet/">Einsatzgebiet</a><a class="konf-link" href="/konfigurator/fenster/" hidden>Konfigurator</a></nav>
+  <nav class="legal__recht" aria-label="Rechtliches"><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutzerklärung</a><a href="/cookies.html">Cookie-Richtlinie</a></nav>
+  <p class="legal__copy">© <span id="year">2026</span> <span data-firma="name">${firmaLib.esc(firmaLib.vollerName(einst))}</span></p>
+</footer>
   </main>
   <div class="ctabar" aria-label="Schnellkontakt">
     <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
