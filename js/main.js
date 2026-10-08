@@ -16,8 +16,11 @@
   var current = 0;
   var stopTimer = null;
 
+  /* Videos erst nach dem load-Ereignis anfassen: bis dahin konkurrieren sie mit Schrift, CSS und Text (LCP) */
+  var geladen = document.readyState === "complete", ausstehend = null;
   function playVideo(v) {
     if (!v || sparsam) return;
+    if (!geladen) { ausstehend = v; return; }
     if (v.preload === "none") {
       var klein = v.getAttribute("data-klein");
       if (klein && window.matchMedia("(max-width: 700px)").matches) { while (v.firstChild) v.removeChild(v.firstChild); var s = document.createElement("source"); s.src = klein; s.type = "video/mp4"; v.appendChild(s); }
@@ -95,9 +98,9 @@
 
   initForm();
   initPage();
-  /* Hintergrundvideo der ersten Szene erst nach dem Laden starten – es konkurriert sonst mit Schrift und Text (LCP) */
-  var heroStart = function () { setTimeout(function () { playVideo(videos[current]); }, 300); };
-  if (document.readyState === "complete") heroStart(); else window.addEventListener("load", heroStart);
+  /* Hintergrundvideo der aktuellen Szene erst nach dem Laden starten (siehe playVideo) */
+  var heroStart = function () { geladen = true; setTimeout(function () { var v = ausstehend || videos[current]; ausstehend = null; playVideo(v); }, 300); };
+  if (geladen) heroStart(); else window.addEventListener("load", heroStart);
 
   /* ---------- Formulare: Prüfung, Spam-Schutz, Versand über Netlify Function ---------- */
   function initForm() {
