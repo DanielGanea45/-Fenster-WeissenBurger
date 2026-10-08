@@ -1,0 +1,708 @@
+{
+ "stand": "2026-10-08",
+ "firma": {
+  "name": "Fenster-WeissenBurger UG (haftungsbeschränkt)",
+  "adresse": "Richard-Strauß-Straße 21, 85057 Ingolstadt",
+  "telefon": "0176 81338935",
+  "telefonLink": "tel:+4917681338935",
+  "email": "info@fenster-weissenburger.de",
+  "oeffnungszeiten": "Mo–Fr 9–17 Uhr",
+  "whatsapp": "4917681338935",
+  "website": "https://fenster-weissenburger.de"
+ },
+ "hinweise": {
+  "richtpreis": "Alle Preise sind unverbindliche Richtpreise und dienen Ihrer ersten Orientierung. Ihr verbindliches Angebot erhalten Sie nach dem kostenlosen Aufmaß bei Ihnen vor Ort – oder nach Prüfung Ihrer genauen Maße, Fotos und Anforderungen.",
+  "richtpreisKurz": "Unverbindlicher Richtpreis – verbindliches Angebot nach Aufmaß",
+  "steuer": "Endpreis – gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
+  "steuerKurz": "Endpreis gem. § 19 UStG",
+  "steuerProzent": 0
+ },
+ "preisliste": {
+  "version": "2026-10-07-beispiel",
+  "onlineRabattProzent": 5,
+  "fenster": {
+   "grenzen": {
+    "breiteMinMm": 400,
+    "breiteMaxMm": 2500,
+    "hoeheMinMm": 400,
+    "hoeheMaxMm": 2500,
+    "mindestflaecheM2": 0.5,
+    "mengeMax": 50
+   },
+   "systeme": [
+    {
+     "key": "koemmerling-70",
+     "name": "Kömmerling 70",
+     "material": "Kunststoff",
+     "bautiefeMm": 70,
+     "kammern": 5,
+     "uf": 1.2,
+     "kurz": "Wirtschaftlich für Sanierung und Fenstertausch"
+    },
+    {
+     "key": "koemmerling-76-ad",
+     "name": "Kömmerling 76 AD",
+     "material": "Kunststoff",
+     "bautiefeMm": 76,
+     "kammern": 5,
+     "uf": 1.1,
+     "kurz": "Anschlagdichtung, Dreifachglas bis 48 mm"
+    },
+    {
+     "key": "koemmerling-76-md",
+     "name": "Kömmerling 76 MD",
+     "material": "Kunststoff",
+     "bautiefeMm": 76,
+     "kammern": 6,
+     "uf": 1,
+     "kurz": "Mitteldichtung – unsere Empfehlung für Neubau"
+    },
+    {
+     "key": "koemmerling-88",
+     "name": "Kömmerling 88",
+     "material": "Kunststoff",
+     "bautiefeMm": 88,
+     "kammern": 7,
+     "uf": 0.95,
+     "kurz": "Passivhaus-Niveau, Verglasung bis 52 mm"
+    },
+    {
+     "key": "koemmerling-76-aluclip",
+     "name": "Kömmerling 76 AluClip",
+     "material": "Kunststoff-Aluminium",
+     "bautiefeMm": 81.5,
+     "kammern": 5,
+     "uf": 1.2,
+     "kurz": "Außen Aluminium in RAL-Farbe"
+    },
+    {
+     "key": "koemmerling-76-aluclip-pro",
+     "name": "Kömmerling 76 AluClip Pro",
+     "material": "Kunststoff-Aluminium",
+     "bautiefeMm": 81.5,
+     "kammern": 6,
+     "uf": 1.1,
+     "kurz": "Flächenbündig, Mitteldichtung"
+    },
+    {
+     "key": "koemmerling-88-aluclip-pro",
+     "name": "Kömmerling 88 AluClip Pro",
+     "material": "Kunststoff-Aluminium",
+     "bautiefeMm": 93.5,
+     "kammern": 7,
+     "uf": 0.95,
+     "kurz": "Premium, flächenbündig, optional Dämmkern"
+    },
+    {
+     "key": "cortizo-60",
+     "name": "Cortizo 60",
+     "material": "Aluminium",
+     "bautiefeMm": 60,
+     "uf": 2.1,
+     "kurz": "Aluminium, 2-fach Standard",
+     "breiteMaxMm": 1400,
+     "hoeheMaxMm": 2600
+    },
+    {
+     "key": "cortizo-70",
+     "name": "Cortizo 70",
+     "material": "Aluminium",
+     "bautiefeMm": 70,
+     "uf": 1.9,
+     "kurz": "Aluminium, Dreifachglas bis 48 mm",
+     "breiteMaxMm": 1600,
+     "hoeheMaxMm": 2600
+    }
+   ],
+   "typen": [
+    {
+     "key": "1-fluegelig",
+     "name": "Dreh-Kipp, 1-flügelig"
+    },
+    {
+     "key": "2-fluegelig",
+     "name": "2-flügelig (Stulp)"
+    },
+    {
+     "key": "festverglasung",
+     "name": "Festverglasung"
+    },
+    {
+     "key": "balkontuer",
+     "name": "Balkontür (Dreh-Kipp)"
+    }
+   ],
+   "farben": [
+    {
+     "key": "weiss",
+     "name": "Weiß"
+    },
+    {
+     "key": "anthrazit",
+     "name": "Anthrazit (einseitig)"
+    },
+    {
+     "key": "golden-oak",
+     "name": "Golden Oak (einseitig)"
+    },
+    {
+     "key": "zweifarbig",
+     "name": "Zweifarbig (außen farbig, innen weiß)"
+    }
+   ],
+   "glas": [
+    {
+     "key": "2-fach",
+     "name": "2-fach Wärmeschutz (Ug 1,1)"
+    },
+    {
+     "key": "3-fach",
+     "name": "3-fach Wärmeschutz (Ug 0,6)"
+    },
+    {
+     "key": "schallschutz",
+     "name": "Schallschutzglas"
+    },
+    {
+     "key": "sicherheit",
+     "name": "Sicherheitsglas (VSG)"
+    }
+   ],
+   "sprossen": [
+    {
+     "key": "keine",
+     "name": "Keine Sprossen"
+    },
+    {
+     "key": "innenliegend",
+     "name": "Innenliegende Sprossen"
+    },
+    {
+     "key": "wiener",
+     "name": "Wiener Sprossen"
+    }
+   ],
+   "rollladen": [
+    {
+     "key": "keiner",
+     "name": "Kein Rollladen"
+    },
+    {
+     "key": "aufsatz",
+     "name": "Aufsatzrollladen"
+    },
+    {
+     "key": "vorsatz",
+     "name": "Vorsatzrollladen"
+    }
+   ],
+   "zusaetze": [
+    {
+     "key": "rc2",
+     "name": "Einbruchschutz RC2"
+    },
+    {
+     "key": "insektenschutz",
+     "name": "Insektenschutz"
+    },
+    {
+     "key": "rollladenmotor",
+     "name": "Rollladenmotor (nur mit Rollladen)",
+     "nurMitRollladen": true
+    },
+    {
+     "key": "fensterbank-innen",
+     "name": "Fensterbank innen"
+    },
+    {
+     "key": "fensterbank-aussen",
+     "name": "Fensterbank außen (Alu)"
+    }
+   ]
+  },
+  "haustuer": {
+   "grenzen": {
+    "breiteMinMm": 800,
+    "breiteMaxMm": 1300,
+    "hoeheMinMm": 1900,
+    "hoeheMaxMm": 2400,
+    "mengeMax": 5,
+    "standardBreiteMaxMm": 1100,
+    "standardHoeheMaxMm": 2100,
+    "uebergroesseProzent": 10
+   },
+   "modelle": [
+    {
+     "key": "modern-voll",
+     "name": "Modern, vollflächig",
+     "kurz": "Flächenbündige Füllung, Stangengriff"
+    },
+    {
+     "key": "modern-glasstreifen",
+     "name": "Modern mit Glasstreifen",
+     "kurz": "Satinierter Glasstreifen bandseitig"
+    },
+    {
+     "key": "klassisch-golden-oak",
+     "name": "Klassisch, Eichenoptik",
+     "kurz": "Kassettenfüllung, Ornamentglas"
+    },
+    {
+     "key": "mit-seitenteil",
+     "name": "Modern mit Seitenteil",
+     "kurz": "Inklusive festem Seitenteil aus satiniertem Glas"
+    }
+   ],
+   "farben": [
+    {
+     "key": "weiss",
+     "name": "Weiß"
+    },
+    {
+     "key": "anthrazit",
+     "name": "Anthrazit"
+    },
+    {
+     "key": "golden-oak",
+     "name": "Golden Oak"
+    },
+    {
+     "key": "ral",
+     "name": "RAL-Farbe nach Wunsch"
+    }
+   ],
+   "glas": [
+    {
+     "key": "standard",
+     "name": "Standard (satiniert)"
+    },
+    {
+     "key": "sicherheit",
+     "name": "Sicherheitsglas (VSG)"
+    },
+    {
+     "key": "ornament",
+     "name": "Ornamentglas"
+    }
+   ],
+   "seitenteil": [
+    {
+     "key": "keines",
+     "name": "Kein zusätzliches Seitenteil"
+    },
+    {
+     "key": "links",
+     "name": "Seitenteil links"
+    },
+    {
+     "key": "rechts",
+     "name": "Seitenteil rechts"
+    },
+    {
+     "key": "beidseitig",
+     "name": "Seitenteile beidseitig"
+    }
+   ],
+   "zusaetze": [
+    {
+     "key": "rc2",
+     "name": "Einbruchschutz RC2"
+    },
+    {
+     "key": "fingerprint",
+     "name": "Fingerprint-Öffner"
+    },
+    {
+     "key": "automatikschloss",
+     "name": "Automatische Verriegelung"
+    },
+    {
+     "key": "oberlicht",
+     "name": "Oberlicht"
+    }
+   ]
+  }
+ },
+ "einsatzgebiet": {
+  "regionen": [
+   "ingolstadt"
+  ],
+  "orte": [
+   "Abensberg",
+   "Adelschlag",
+   "Aichach",
+   "Allershausen",
+   "Altmannstein",
+   "Aresing",
+   "Attenkirchen",
+   "Au in der Hallertau",
+   "Augsburg",
+   "Baar-Ebenhausen",
+   "Beilngries",
+   "Berching",
+   "Breitenbrunn",
+   "Burgheim",
+   "Buxheim",
+   "Dachau",
+   "Denkendorf",
+   "Dietfurt",
+   "Dollnstein",
+   "Donauwörth",
+   "Ehekirchen",
+   "Eichstätt",
+   "Eitensheim",
+   "Erding",
+   "Freising",
+   "Friedberg",
+   "Fürstenfeldbruck",
+   "Gachenbach",
+   "Gaimersheim",
+   "Geisenfeld",
+   "Gerolsbach",
+   "Gersthofen",
+   "Greding",
+   "Großmehring",
+   "Hepberg",
+   "Hilgertshausen-Tandern",
+   "Hitzhofen",
+   "Hohenkammer",
+   "Hohenwart",
+   "Ihrlerstein",
+   "Inchenhofen",
+   "Ingolstadt",
+   "Jetzendorf",
+   "Karlsfeld",
+   "Karlshuld",
+   "Karlskron",
+   "Kelheim",
+   "Kinding",
+   "Kipfenberg",
+   "Kirchdorf an der Amper",
+   "Königsbrunn",
+   "Königsmoos",
+   "Kösching",
+   "Kühbach",
+   "Landshut",
+   "Lenting",
+   "Mainburg",
+   "Manching",
+   "Marxheim",
+   "Moosburg an der Isar",
+   "Münchsmünster",
+   "Nandlstadt",
+   "Neuburg an der Donau",
+   "Neufahrn bei Freising",
+   "Neumarkt in der Oberpfalz",
+   "Neusäß",
+   "Neustadt an der Donau",
+   "Nördlingen",
+   "Oberhausen",
+   "Olching",
+   "Pappenheim",
+   "Petershausen",
+   "Pfaffenhofen an der Ilm",
+   "Pförring",
+   "Pollenfeld",
+   "Pöttmes",
+   "Puchheim",
+   "Rain am Lech",
+   "Regensburg",
+   "Reichertshausen",
+   "Reichertshofen",
+   "Rennertshofen",
+   "Riedenburg",
+   "Rohr in Niederbayern",
+   "Rohrbach",
+   "Roth",
+   "Rudelzhausen",
+   "Schernfeld",
+   "Scheyern",
+   "Schrobenhausen",
+   "Schwabach",
+   "Schweitenkirchen",
+   "Siegenburg",
+   "Stammham",
+   "Thalmässing",
+   "Titting",
+   "Unterschleißheim",
+   "Vohburg an der Donau",
+   "Wellheim",
+   "Wettstetten",
+   "Wolfersdorf",
+   "Wolnzach"
+  ]
+ },
+ "seiten": [
+  {
+   "titel": "Startseite (Angebot, Über uns, Kontakt)",
+   "url": "/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "01 Fenster & Haustüren · Ingolstadt Neue Fenster. Fachgerecht montiert. Kunststoff, Kunststoff-Aluminium oder Aluminium – wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster und Haustüren sauber und termingerecht."
+    },
+    {
+     "titel": "Produkte",
+     "text": "02 Produkte Drei Werkstoffe. Ein Anspruch. Alle Fenster mit Wärmeschutzverglasung, nach Maß gefertigt und von uns montiert. Preise verstehen sich pro Element, abhängig von Größe und Ausstattung. Alle Produkte · Hebe-Schiebetüren · Online konfigurieren"
+    },
+    {
+     "titel": "Leistungen",
+     "text": "03 Leistungen Von der Beratung bis zum letzten Handgriff. Beratung vor Ort Wir kommen zu Ihnen, sehen uns die Situation an und besprechen Werkstoff, Öffnungsarten, Verglasung und Farben. Kostenloses Aufmaß Exaktes Aufmaß jedes Elements durch unsere Monteure – damit alles passt, bevor produziert wird. Montage & Entsorgung Ausbau der alten Fenster, fachgerechter Einbau nach RAL-Montagerichtlinien, Abdichtung, Entsorgung der Altelemente. Hinweise zu Fördermöglichkeiten Wir informieren Sie über aktuelle Förderprogramme für energetische Sanierung (z. B. BAFA, KfW) und welche Unterlagen Sie dafür benötigen."
+    },
+    {
+     "titel": "Über uns",
+     "text": "04 Über uns Fensterbau aus Ingolstadt – persönlich und verbindlich. Fenster-WeissenBurger – seit 2022 Ihr Partner für Fenster und Türen in Ingolstadt. Wir sind ein junges, engagiertes Team aus Ingolstadt und begleiten Sie vom ersten Gespräch bis zum fertigen Einbau: persönliche Beratung vor Ort, kostenloses Aufmaß, ein klares Angebot und eine saubere Montage – inklusive Ausbau und Entsorgung Ihrer alten Fenster. Wir setzen auf geprüfte Qualität: Unsere Fenster und Türen fertigt unser Partner Helios mit Profilen von Kömmerling und Cortizo. Dazu kommen individuelle Lösungen nach Maß – vom Sonderformat bis zur Hebe-Schiebetür. Bei uns gibt es keine „dummen Fragen“: Wir nehmen uns Zeit, hören zu und finden gemeinsam die Lösung, die zu Ihrem Zuhause passt. Referenzen & Kundenstimmen Das sagen unsere Kunden"
+    },
+    {
+     "titel": "Kontakt",
+     "text": "05 Kontakt Kostenloses Aufmaß anfragen. Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Termin bei Ihnen vor Ort."
+    }
+   ]
+  },
+  {
+   "titel": "Produkte – Übersicht",
+   "url": "/produkte/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "Produkte Fenster · Türen · Schiebetüren Fenster und Türen – nach Maß für Ihr Zuhause. Kunststoff, Kunststoff-Aluminium oder Aluminium: Wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster, Haustüren und Schiebetüren in Ingolstadt und der Region. Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo."
+    },
+    {
+     "titel": "Kategorien",
+     "text": "01 Kategorien Unsere Produktgruppen."
+    },
+    {
+     "titel": "aluplast",
+     "text": "02 aluplast Kunststoff-Fenstersysteme von aluplast. Neben den Kömmerling-Profilen bieten wir Fenster mit Systemen des deutschen Herstellers aluplast an. Die Serien unterscheiden sich in Bautiefe, Kammerzahl und Ausstattung: Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot."
+    },
+    {
+     "titel": "Gemeinsam für alle Produkte",
+     "text": "03 Gemeinsam für alle Produkte Was immer dazugehört. Alle Leistungen im Detail → ? Ratgeber Fachbegriffe kurz erklärt"
+    },
+    {
+     "titel": "Anfrage",
+     "text": "→ Anfrage Kostenloses Aufmaß anfragen. Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen. Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage"
+    }
+   ]
+  },
+  {
+   "titel": "Kunststofffenster (Kömmerling)",
+   "url": "/produkte/kunststofffenster-koemmerling/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "01 Kunststofffenster Kunststofffenster mit Kömmerling-Profilen – gefertigt von Helios Kömmerling steht seit 1897 für Kunststoff-Fenstersysteme aus Deutschland. Unsere Fenster werden mit Kömmerling-Profilen in vier Bautiefen gefertigt – von der wirtschaftlichen Lösung für den Fenstertausch bis zum Passivhaus-Niveau für den Neubau. Gefertigt von unserem Partner Helios auf Basis der Kömmerling-Profile 70, 76 und 88."
+    },
+    {
+     "titel": "Vorteile",
+     "text": "02 Vorteile Warum Kunststofffenster von Kömmerling? 03 AD oder MD? Zwei Dichtungssysteme, ein Unterschied. AD – Anschlagdichtung: zwei Dichtungsebenen außen und innen. Bewährt, wirtschaftlich, die Standardlösung für Sanierung und Fenstertausch. MD – Mitteldichtung: eine dritte Dichtung in der Profilmitte trennt den Beschlagraum vom Außenklima. Ergebnis: bessere Wärmedämmung, höhere Schlagregendichtheit. Unsere Empfehlung für Neubau und Energiesparhaus."
+    },
+    {
+     "titel": "Profile",
+     "text": "04 Profile Unsere Kömmerling-Systeme im Überblick. Die Helios-Produktlinien und die zugrunde liegenden Kömmerling-Profile. Alle Werte sind Herstellerangaben. Herstellerangaben. Welchen Uw-Wert Ihr Fenster erreicht, hängt von Maß, Verglasung und Ausstattung ab – das Angebot nennt ihn genau. Kunststoff-Aluminium: außen Aluminium, innen Kunststoff Die AluClip-Varianten tragen außen eine Aluminium-Vorsatzschale: witterungsbeständig, in jeder RAL-Farbe lackierbar, bei den Pro-Varianten flächenbündig – Rahmen und Flügel liegen außen in einer Ebene."
+    },
+    {
+     "titel": "Für wen geeignet?",
+     "text": "05 Für wen geeignet? Das passende Profil für Ihr Projekt. ? Ratgeber Fachbegriffe kurz erklärt"
+    },
+    {
+     "titel": "Häufige Fragen",
+     "text": "06 Häufige Fragen Fragen zu Kunststofffenstern. Uf ist der Wärmedurchgang des Rahmens, Uw der des gesamten Fensters inklusive Glas. Beide werden in W/(m²K) angegeben – je kleiner, desto besser dämmt das Fenster. Für Ihr Angebot berechnen wir den Uw-Wert aus Profil, Verglasung und Größe. Bei der Anschlagdichtung (AD) dichten zwei Dichtungsebenen – bewährt und wirtschaftlich, ideal für Sanierung und Fenstertausch. Die Mitteldichtung (MD) ergänzt eine dritte Dichtung in der Profilmitte und verbessert Wärmedämmung und Schlagregendichtheit. Für Neubau und Energiesparhäuser empfehlen wir MD. Ja. Neben Weiß sind Dekore (z. B. Golden Oak in Eichenoptik, Anthrazit, Mahagoni), Grautöne und zweifarbige Ausführungen möglich – innen weiß, außen farbig. Bei den AluClip-Varianten ist die Außenseite aus Aluminium in RAL-Farben. Sicherheitsbeschläge mit Pilzkopfzapfen, abschließbare Griffe und Sicherheitsglas lassen sich bei neuen Fenstern direkt mitbestellen; bei vielen bestehenden Fenstern ist eine Nachrüstung der Beschläge möglich. Wir beraten Sie vor Ort, welche Widerstandsklasse (RC1/RC2) für Ihr Haus sinnvoll ist."
+    },
+    {
+     "titel": "Anfrage",
+     "text": "→ Anfrage Kostenloses Aufmaß anfragen. Welches Kömmerling-Profil zu Ihrem Haus passt, klären wir bei Ihnen vor Ort – mit kostenlosem Aufmaß und schriftlichem Angebot. Wir melden uns innerhalb von zwei Werktagen. Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage"
+    },
+    {
+     "titel": "Weitere Produkte",
+     "text": "+ Weitere Produkte Das passt dazu."
+    }
+   ]
+  },
+  {
+   "titel": "Kunststoff-Aluminium-Fenster",
+   "url": "/produkte/kunststoff-aluminium-fenster/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "01 Kunststoff-Aluminium Kunststoff-Aluminium-Fenster – innen Kunststoff, außen Aluminium. Die AluClip-Systeme von Kömmerling verbinden zwei Werkstoffe: Innen der wärmedämmende, pflegeleichte Kunststoffrahmen, außen eine Aluminium-Deckschale, die Wind und Wetter trotzt und sich in jeder RAL-Farbe lackieren lässt. Gefertigt von unserem Partner Helios, montiert von uns in Ingolstadt und der Region. Unser Partner Helios fertigt die AluClip-Fenster mit Kömmerling-Kern und Aluminium-Deckschale nach Ihrem Aufmaß."
+    },
+    {
+     "titel": "Vorteile",
+     "text": "02 Vorteile Das Beste aus zwei Werkstoffen. 03 So funktioniert es Kunststoffprofil plus Aluminium-Deckschale. Innen: Kömmerling-Mehrkammerprofil aus Kunststoff – Wärmedämmung, Schallschutz, pflegeleichte Oberfläche. Außen: eine aufgeklipste Aluminiumschale – stabil, witterungsbeständig, pulverbeschichtet in der gewünschten Farbe. Sie schützt das Profil und bestimmt die Ansicht von der Straße."
+    },
+    {
+     "titel": "Profile",
+     "text": "04 Profile Die AluClip-Systeme im Überblick. Alle Werte sind Herstellerangaben für die von Helios verwendeten Ausführungen. Herstellerangaben. Der Wert Ihres Fensters ergibt sich aus Größe, Glasaufbau und Ausstattung; wir weisen ihn im Angebot aus."
+    },
+    {
+     "titel": "Für wen geeignet?",
+     "text": "05 Für wen geeignet? Wann sich Kunststoff-Aluminium lohnt. ? Ratgeber Fachbegriffe kurz erklärt"
+    },
+    {
+     "titel": "Häufige Fragen",
+     "text": "06 Häufige Fragen Fragen zu Kunststoff-Aluminium-Fenstern. Ein Kunststofffenster mit einer außen aufgesetzten Aluminium-Deckschale (AluClip). Innen bleibt der wärmedämmende, pflegeleichte Kunststoff; außen schützt und gestaltet Aluminium – wetterfest, farbstabil und in jeder RAL-Farbe lackierbar. Es dämmt wie ein Kunststofffenster (Uf bis 0,95 W/(m²K)) und ist günstiger als ein thermisch getrenntes Aluminiumfenster. Reines Aluminium erlaubt dafür noch größere Elemente mit schmaleren Ansichten. Praktisch alle RAL-Farben, matt, glänzend oder strukturiert, außerdem Dekore in Eichenoptik. Innen bleibt das Fenster in der Regel Weiß – auf Wunsch auch farbig. Bei den Pro-Varianten liegen Rahmen und Flügel außen in einer Ebene. Das ergibt eine ruhige, moderne Fassadenansicht ohne vorstehende Flügel."
+    },
+    {
+     "titel": "Anfrage",
+     "text": "→ Anfrage Kostenloses Aufmaß anfragen. Sie möchten außen Aluminium und innen Kunststoff? Wir zeigen Ihnen die AluClip-Varianten bei Ihnen zu Hause, messen auf und schreiben Ihnen ein Angebot. Wir melden uns innerhalb von zwei Werktagen. Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage"
+    },
+    {
+     "titel": "Weitere Produkte",
+     "text": "+ Weitere Produkte Das passt dazu."
+    }
+   ]
+  },
+  {
+   "titel": "Aluminiumfenster (Cortizo)",
+   "url": "/produkte/aluminiumfenster-cortizo/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "01 Aluminiumfenster Aluminiumfenster mit Cortizo-Systemen Cortizo ist einer der großen europäischen Hersteller von Aluminium-Systemen für Fenster, Türen und Fassaden. Aluminium ist formstabil und langlebig und erlaubt schmale Profile mit großen Glasflächen – die richtige Wahl für moderne Architektur, Terrassentüren und Wintergärten. Gefertigt von unserem Partner Helios mit thermisch getrennten Cortizo-Systemen."
+    },
+    {
+     "titel": "Vorteile",
+     "text": "02 Vorteile Warum Aluminiumfenster von Cortizo? 03 Thermische Trennung So dämmt Aluminium. Aluminium leitet Wärme gut – deshalb bestehen moderne Fensterprofile aus zwei Aluminiumschalen, die durch Stege aus glasfaserverstärktem Kunststoff verbunden sind. Je breiter diese thermische Trennung, desto besser der Uf-Wert. Dazu kommen Dichtungen auf drei Ebenen und Dreifachverglasung."
+    },
+    {
+     "titel": "Systeme",
+     "text": "04 Systeme Unsere Cortizo-Systeme im Überblick. Herstellerangaben. Uf und Uw Ihres Aluminiumfensters richten sich nach Elementgröße, Verglasung und Ausführung – im Angebot stehen die konkreten Werte. Auf Anfrage: hochwärmegedämmte Cortizo-Systeme Für besondere Anforderungen – sehr große Glasflächen, verdeckte Flügel oder Passivhaus-Standard – bieten wir auf Anfrage weitere Cortizo-Systeme an, etwa die Cor-70- und Cor-80-Industrial-Reihe mit Uf-Werten ab 0,94 W/(m²K) oder Schiebesysteme der Cor-Vision-Reihe. Sprechen Sie uns an, wir prüfen Machbarkeit und Lieferzeit für Ihr Projekt."
+    },
+    {
+     "titel": "Für wen geeignet?",
+     "text": "05 Für wen geeignet? Aluminium ist richtig, wenn … Sie möchten die Dämmwerte von Kunststoff mit der Optik von Aluminium? Dann sind unsere Kunststoff-Aluminium-Fenster (AluClip) eine Alternative. ? Ratgeber Fachbegriffe kurz erklärt"
+    },
+    {
+     "titel": "Häufige Fragen",
+     "text": "06 Häufige Fragen Fragen zu Aluminiumfenstern. Moderne Aluminiumprofile sind thermisch getrennt: Ein Kunststoffsteg zwischen Außen- und Innenschale unterbricht den Wärmefluss. Bei Cortizo 70 ist diese thermische Trennung 35 mm breit, dazu kommt Dreifachverglasung bis 48 mm. So erreichen Aluminiumfenster Dämmwerte, die für Neubau und Sanierung geeignet sind. Aluminium ist steifer und erlaubt größere Elemente mit schmaleren Rahmen – ideal für große Glasflächen und moderne Architektur. Kunststoff dämmt bei gleicher Bautiefe etwas besser und ist günstiger. Ein guter Kompromiss sind Kunststoff-Aluminium-Fenster (AluClip): innen Kunststoff, außen Aluminium. Aluminiumprofile werden pulverbeschichtet und sind in praktisch allen RAL-Farben erhältlich, matt, glänzend oder strukturiert, außerdem in Dekoren mit Eichenoptik und zweifarbig innen/außen. Beim verdeckten Flügel ist der Flügelrahmen von außen nicht sichtbar – man sieht nur Glas und den schmalen Blendrahmen. Das ergibt eine besonders ruhige Fassade. Solche Systeme bieten wir auf Anfrage an."
+    },
+    {
+     "titel": "Anfrage",
+     "text": "→ Anfrage Kostenloses Aufmaß anfragen. Für große Elemente und schlanke Profile beraten wir Sie direkt am Objekt, nehmen das Aufmaß und kalkulieren Ihr Aluminiumfenster schriftlich. Wir melden uns innerhalb von zwei Werktagen. Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage"
+    },
+    {
+     "titel": "Weitere Produkte",
+     "text": "+ Weitere Produkte Das passt dazu."
+    }
+   ]
+  },
+  {
+   "titel": "Hebe-Schiebetüren",
+   "url": "/produkte/schiebetueren/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "01 Schiebetüren Hebe-Schiebetüren – großzügig zur Terrasse. Schiebetüren öffnen Wohnräume zum Garten, ohne dass ein Flügel in den Raum schwenkt. Wir liefern Hebe-Schiebe- und Schiebesysteme aus Kunststoff und Aluminium – von der zweiflügeligen Terrassentür bis zur sechsflügeligen Glasfront. Hebe-Schiebetüren aus der Fertigung unseres Partners Helios – in Kunststoff oder Aluminium, nach Ihrem Aufmaß."
+    },
+    {
+     "titel": "Vorteile",
+     "text": "02 Vorteile Mehr Licht, mehr Raum, mehr Garten. 03 Bauarten Hebe-Schiebe oder Schiebe? Hebe-Schiebetür (HST): Der Flügel wird per Griffdrehung einige Millimeter angehoben und gleitet dann fast ohne Widerstand. Sehr dicht im geschlossenen Zustand, geeignet für große, schwere Flügel. Schiebetür mit Bürstendichtung: leichtere, wirtschaftliche Bauart (z. B. Versatil 70, Visuell 60) für Terrassen, Balkone und Nebenräume."
+    },
+    {
+     "titel": "Linien",
+     "text": "04 Linien Unsere Schiebetür-Linien im Überblick. Herstellerangaben. Bei Schiebetüren bestimmen Flügelgröße, Glasaufbau und Schwelle die tatsächlichen Werte – wir rechnen sie für Ihr Angebot aus."
+    },
+    {
+     "titel": "Für wen geeignet?",
+     "text": "05 Für wen geeignet? Die passende Linie für Ihre Öffnung. ? Ratgeber Fachbegriffe kurz erklärt"
+    },
+    {
+     "titel": "Häufige Fragen",
+     "text": "06 Häufige Fragen Fragen zu Schiebetüren. Bei der Hebe-Schiebetür wird der Flügel über den Griff leicht angehoben und gleitet dann auf Laufrollen – das erlaubt sehr große und schwere Flügel und eine barrierearme Schwelle. Parallel-Schiebe-Kipp-Türen sind leichter und günstiger, lassen sich zusätzlich kippen, sind aber auf kleinere Flügel begrenzt. Wir empfehlen je nach Öffnungsbreite und Nutzung. Das hängt vom System ab: Versatil 70 bis 3500 × 2400 mm, Robust 76 und Robust 76 Premium bis 6500 × 2600 mm, die Aluminium-Linie Visuell 160 bis 6400 × 3000 mm – jeweils als zweiflügelige Tür. Drei- bis sechsflügelige Anlagen sind möglich. Hebe-Schiebetüren lassen sich mit flacher Bodenschwelle planen, die mit Rollstuhl oder Kinderwagen überfahrbar ist. Wir klären die Details beim Aufmaß, da Bodenaufbau und Abdichtung dafür vorbereitet sein müssen. Ja. Aufsatz- und Vorsatzrollläden sowie Raffstores sind für alle Linien möglich und können gleich mit der Tür geplant und montiert werden."
+    },
+    {
+     "titel": "Anfrage",
+     "text": "→ Anfrage Kostenloses Aufmaß anfragen. Ob Hebe-Schiebetür in Kunststoff oder Aluminium: Wir prüfen Öffnung, Sturz und Schwelle vor Ort und erstellen Ihnen ein Angebot nach Aufmaß. Wir melden uns innerhalb von zwei Werktagen. Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage"
+    },
+    {
+     "titel": "Weitere Produkte",
+     "text": "+ Weitere Produkte Das passt dazu."
+    }
+   ]
+  },
+  {
+   "titel": "Haustüren",
+   "url": "/produkte/haustueren/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "01 Haustüren Haustüren aus Kunststoff, Kunststoff-Aluminium und Aluminium Die Haustür ist Visitenkarte und Schutz zugleich. Wir planen sie mit Ihnen: Werkstoff, Füllung, Glas, Seitenteile, Griff und Sicherheitsausstattung – und montieren sie fachgerecht, inklusive Ausbau der alten Tür. Unser Partner Helios fertigt jede Haustür nach Aufmaß – in Kunststoff, Kunststoff-Aluminium oder Aluminium."
+    },
+    {
+     "titel": "Vorteile",
+     "text": "02 Vorteile Was unsere Haustüren auszeichnet. 03 Füllungsarten Eingesetzt oder flügelüberdeckend? Eingesetzte Füllung: Die Füllung sitzt im Türflügel, der Flügelrahmen bleibt rundum sichtbar – klassisch und preiswert. Einseitig flügelüberdeckend: Außen überdeckt die Füllung den Flügelrahmen – flächenbündige, moderne Optik von der Straße aus. Beidseitig flügelüberdeckend: Außen und innen glatt, kein sichtbarer Flügelrahmen – Premium-Optik und meist die beste Wärmedämmung."
+    },
+    {
+     "titel": "Linien",
+     "text": "04 Linien Unsere Haustür-Linien im Überblick. Herstellerangaben. Der Ud-Wert Ihrer Haustür hängt von Füllung, Glasanteil und Maß ab und wird für Ihr Angebot berechnet. Türfüllungen und Griffe Zur Auswahl stehen Füllungen aus Kunststoff (Designs D 1, D 2, D 3, D 6, D 7, D 9, D 1420, Celia, Ella, Marta, Rebeca) und aus Aluminium (D 1404, D 1411, D 1413, D 1415, D 1420, D 1422, D 1434, D 1436), jeweils mit oder ohne Glasausschnitt und in den Farben der Tür. Griffe: Stoßgriffe in mehreren Längen, Griffleisten, Drücker und Schutzbeschläge in Edelstahl, Schwarz, Weiß, Bronze oder Aluminium. Muster zeigen wir Ihnen beim Beratungstermin."
+    },
+    {
+     "titel": "Für wen geeignet?",
+     "text": "05 Für wen geeignet? Die passende Tür für Ihr Haus. ? Ratgeber Fachbegriffe kurz erklärt"
+    },
+    {
+     "titel": "Häufige Fragen",
+     "text": "06 Häufige Fragen Fragen zu Haustüren. RC2 ist eine Widerstandsklasse nach DIN EN 1627. Eine RC2-Tür hält dem Versuch stand, sie mit einfachen Werkzeugen wie Schraubendreher oder Zange aufzuhebeln. Dafür greifen Mehrfachverriegelung, Sicherheitsglas, Bandseitensicherung und ein geprüfter Schließzylinder ineinander. RC2 ist der empfohlene Standard für Wohnhäuser. Der Ud-Wert beschreibt den Wärmedurchgang der gesamten Tür in W/(m²K) – Rahmen, Flügel, Füllung und Glas zusammen. Je kleiner, desto weniger Wärme geht verloren. Hochgedämmte Haustüren mit flügelüberdeckender Füllung erreichen je nach Modell und Glasanteil Werte unter 1,0 W/(m²K). Für klassische Fassaden und knappe Budgets die eingesetzte Füllung; für eine moderne, flächenbündige Außenansicht die einseitig flügelüberdeckende; wenn innen und außen glatt sein sollen und die beste Dämmung zählt, die beidseitig flügelüberdeckende Füllung. Wir zeigen Ihnen die Varianten gern vor Ort. Bei einer neuen Tür planen wir RC2 direkt ein. Bestehende Türen lassen sich oft mit Mehrfachverriegelung, Sicherheitsbeschlag und Zylinder nachrüsten – ob das sinnvoll ist, beurteilen wir beim Termin vor Ort."
+    },
+    {
+     "titel": "Anfrage",
+     "text": "→ Anfrage Kostenloses Aufmaß anfragen. Ihre neue Haustür planen wir bei Ihnen zu Hause – Füllung, Glas, Griff und Farbe am Muster, Aufmaß inklusive, Angebot schriftlich. Wir melden uns innerhalb von zwei Werktagen. Alle Produkte · Unsere Leistungen: Beratung, Aufmaß, Montage"
+    },
+    {
+     "titel": "Weitere Produkte",
+     "text": "+ Weitere Produkte Das passt dazu."
+    }
+   ]
+  },
+  {
+   "titel": "Leistungen und Fenstermontage",
+   "url": "/leistungen/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "Leistungen Ingolstadt & Umgebung Fenster- und Türenmontage in Ingolstadt. Alles rund um Fenster, Türen und Zubehör – professionell, sauber und zuverlässig umgesetzt. Von der persönlichen Beratung über das kostenlose Aufmaß bis zur fachgerechten Montage und Entsorgung der alten Elemente."
+    },
+    {
+     "titel": "Leistungen",
+     "text": "01 Leistungen Alles aus einer Hand – von der Beratung bis zur Entsorgung. Beratung & Planung vor Ort Wir beraten Sie persönlich und kostenlos direkt bei Ihnen zu Hause: Werkstoff, Öffnungsarten, Verglasung, Farben und Sicherheitsausstattung – abgestimmt auf Ihr Bauprojekt. Kostenloses Aufmaß Unsere Monteure messen jedes Element exakt auf – damit Fenster und Türen passgenau gefertigt werden und am Montagetag alles sitzt. Professionelle Montage Fachgerechte Fenster- und Türenmontage durch erfahrene Monteure: präzise ausgerichtet, sauber abgedichtet, inklusive Anschluss- und Abdichtungsarbeiten. Demontage & Entsorgung Beim Fenstertausch bauen wir die alten Fenster und Türen aus und entsorgen sie fachgerecht. Sie müssen sich um nichts kümmern."
+    },
+    {
+     "titel": "So läuft es ab",
+     "text": "02 So läuft es ab In vier Schritten zu neuen Fenstern. Beratung Sie rufen an oder schreiben uns. Wir kommen zu Ihnen, sehen uns die Situation an und besprechen Ihre Wünsche. Aufmaß Wir messen alle Elemente kostenlos und exakt auf – Grundlage für Angebot und Fertigung. Angebot Sie erhalten ein schriftliches Angebot mit allen Positionen. Erst wenn Sie zufrieden sind, geht es weiter. Montage Zum vereinbarten Termin montieren wir Ihre Fenster und Türen, entsorgen die alten Elemente und übergeben besenrein."
+    },
+    {
+     "titel": "Warum wir?",
+     "text": "03 Warum wir? Erfahrung, Maßarbeit, saubere Ausführung. 04 Ergänzende Arbeiten Was wir rund um den Einbau erledigen."
+    },
+    {
+     "titel": "Referenzen",
+     "text": "05 Referenzen Unsere aktuellen Renovierungsprojekte. Einige Eindrücke von unseren Fassaden- und Innenarbeiten – von präzisem Einbau bis zum letzten Pinselstrich, alles aus einer Hand. Ein Klick oder Tipp auf ein Foto öffnet die große Ansicht. Mehr Fotos und Kundenstimmen: Referenzen."
+    },
+    {
+     "titel": "Häufige Fragen",
+     "text": "06 Häufige Fragen Fragen zur Montage. Wir kommen zu Ihnen, sehen uns Fenster und Türen an, besprechen Ihre Wünsche und nehmen bei Bedarf gleich das Aufmaß. Beratung und Aufmaß sind kostenlos und unverbindlich. Das hängt von der Anzahl der Elemente und der Bausituation ab. Bei einem typischen Einfamilienhaus sind es meist ein bis wenige Arbeitstage. Den konkreten Zeitrahmen nennen wir Ihnen mit dem Angebot. Wir bauen die alten Fenster und Türen aus und entsorgen sie fachgerecht. Das ist Teil unseres Rundum-Service. Zu Beginn und zur Abnahme ja. Dazwischen reicht es, wenn wir Zugang zu den Räumen haben. Wir decken Böden und Möbel ab und übergeben besenrein. Ja. Abdichtungs- und Anschlussarbeiten, innere und äußere Fensterbänke sowie kleinere Mauer-, Putz- und Ausbesserungsarbeiten führen wir im Zuge der Montage mit aus. Für energetische Sanierungen gibt es staatliche Förderprogramme (z. B. BAFA, KfW). Wir informieren Sie über die aktuellen Möglichkeiten und welche Unterlagen Sie dafür benötigen; die Antragstellung erfolgt durch Sie bzw. einen Energieberater."
+    },
+    {
+     "titel": "Anfrage",
+     "text": "07 Anfrage Kostenloses Aufmaß anfragen. Innerhalb von zwei Werktagen hören Sie von uns – mit einem Terminvorschlag für Beratung und Aufmaß bei Ihnen zu Hause."
+    }
+   ]
+  },
+  {
+   "titel": "Einsatzgebiet",
+   "url": "/einsatzgebiet/",
+   "abschnitte": [
+    {
+     "titel": "Oben auf der Seite",
+     "text": "Einsatzgebiet Beratung · Aufmaß · Montage Wo wir für Sie im Einsatz sind. Von unserem Firmensitz in Ingolstadt aus beraten, vermessen und montieren wir in der ganzen Region. Wählen Sie Ihren Ort: Dort finden Sie Entfernung, Ablauf und das Anfrageformular mit vorausgefülltem Ort."
+    },
+    {
+     "titel": "Raum Ingolstadt",
+     "text": "01 Raum Ingolstadt Rund um unseren Sitz in Ingolstadt. 102 Orte bis 70 km Luftlinie um Ingolstadt. Entfernungen und Fahrzeiten sind Richtwerte vom Firmensitz. Kreisfreie Städte Landkreis Eichstätt Landkreis Pfaffenhofen an der Ilm Landkreis Neuburg-Schrobenhausen Landkreis Kelheim Landkreis Aichach-Friedberg Landkreis Neumarkt in der Oberpfalz Landkreis Roth Landkreis Freising Landkreis Donau-Ries Landkreis Weißenburg-Gunzenhausen Landkreis Dachau Landkreis München Landkreis Augsburg Landkreis Erding Landkreis Fürstenfeldbruck"
+    }
+   ]
+  }
+ ],
+ "wissen": []
+}

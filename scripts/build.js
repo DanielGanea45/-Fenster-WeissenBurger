@@ -192,24 +192,25 @@ function googleVerifikationEinsetzen(root, wert) {
   walk(root);
   return n;
 }
-/* Live-Chat (Crisp): Konfiguration in js/chat.js (Markierung /*CHAT*\/…/*\/CHAT*\/) und passende Sicherheits-Kopfzeilen
-   (_headers). Kennung aus CRISP_WEBSITE_ID, Schalter + WhatsApp-Nummer aus den Einstellungen (Website). Ohne Kennung oder
-   ausgeschaltet: leere Konfiguration (das Skript tut dann nichts) und strenge Kopfzeilen. Idempotent. */
-function chatEinsetzen(root, einst, log) {
+/* KI-Assistent: data-Attribute am <script>-Tag jeder öffentlichen Seite (scripts/assistent-tag.js) und strenge Kopfzeilen (_headers).
+   Aktiv nur, wenn ein OpenAI-Schlüssel hinterlegt ist (OPENAI_API_KEY – Scope Builds + Functions) UND der Schalter in
+   Admin → Assistent an ist; sonst leere Konfiguration (das Skript tut dann nichts). Der Schlüssel selbst wird nie geschrieben. */
+function assistentEinsetzen(root, einst, log) {
   const Headers = require(path.join(__dirname, "headers.js"));
-  const id = String(process.env.CRISP_WEBSITE_ID || "").trim();
-  const aktiv = Headers.chatAktiv(einst, id);
-  const whatsapp = String(einst && einst.website && einst.website.whatsapp || "").replace(/\D/g, "");
-  const cfg = { id: aktiv ? id : "", aktiv, whatsapp };
-  const f = path.join(root, "js", "chat.js");
-  if (fs.existsSync(f)) {
-    const alt = fs.readFileSync(f, "utf8");
-    const neu = alt.replace(/\/\*CHAT\*\/[\s\S]*?\/\*\/CHAT\*\//, "/*CHAT*/" + JSON.stringify(cfg) + "/*/CHAT*/");
-    if (neu !== alt) fs.writeFileSync(f, neu);
-  }
-  const geaendert = Headers.schreiben(root, { chat: aktiv });
-  if (log) log(`Live-Chat: ${aktiv ? "an (Crisp-Kennung vorhanden, Schalter an)" : id ? "aus (Schalter in den Einstellungen aus)" : "aus (keine Crisp-Kennung hinterlegt)"}; Kopfzeilen ${geaendert ? "neu geschrieben" : "unverändert"}.`);
-  return cfg;
+  const Tag = require(path.join(__dirname, "assistent-tag.js"));
+  const schluessel = !!String(process.env.OPENAI_API_KEY || "").trim();
+  const aktiv = Tag.aktiv(einst, schluessel);
+  let n = 0;
+  const walk = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const f = path.join(dir, e.name); if (e.isDirectory()) { if (!/^(node_modules|\.git|\.claude|admin|netlify|design-|firma ferestre)/.test(e.name) && !/\s/.test(e.name)) walk(f); } else if (e.name.endsWith(".html")) { const h = fs.readFileSync(f, "utf8"); const neu = Tag.einsetzen(h, einst, schluessel); if (neu !== h) { fs.writeFileSync(f, neu); n++; } } } };
+  walk(root);
+  const geaendert = Headers.schreiben(root);
+  if (log) log(`KI-Assistent: ${aktiv ? "an (Schlüssel vorhanden, Schalter an)" : schluessel ? "aus (Schalter in Admin → Assistent aus)" : "aus (kein OpenAI-Schlüssel hinterlegt)"} – Tag in ${n} Seite(n) angepasst; Kopfzeilen ${geaendert ? "neu geschrieben" : "unverändert"}.`);
+  return { aktiv, whatsapp: Tag.whatsapp(einst), seiten: n };
+}
+/* Wissen des KI-Assistenten (data/assistent-wissen.json) aus den fertigen Texten, Einstellungen, Preisliste, Orten und Admin-Wissen */
+function wissenSchreiben(root, log) {
+  try { const r = require(path.join(__dirname, "assistent-wissen.js")).schreiben(root, false); if (log) log(`Assistent-Wissen: ${r.seiten} Seiten, ${r.orte} Orte, ${r.wissen} Wissenseinträge (${Math.round(r.bytes / 1024)} kB)${r.geaendert ? "" : " – unverändert"}.`); return r; }
+  catch (e) { if (log) log("Assistent-Wissen konnte nicht erzeugt werden: " + e.message); return null; }
 }
 /* Weiterleitung der Netlify-Adresse auf die finale Domain – erst mit DOMAIN_LIVE=1 (nach dem Umzug der Domain), sonst
    bliebe die bisher genutzte Adresse (Admin!) unerreichbar. www → ohne www steht in netlify.toml und ist bis dahin wirkungslos. */
@@ -250,7 +251,8 @@ async function lauf(opt = {}) {
     log(`Admin-Daten nicht verfügbar – ${grund}. Build mit den Daten aus dem Repository.`);
     mitStore = false;
     redirectsSchreiben(root, daten.repoDatei("einstellungen"));
-    chatEinsetzen(root, daten.repoDatei("einstellungen"), log);
+    assistentEinsetzen(root, daten.repoDatei("einstellungen"), log);
+    wissenSchreiben(root, log);
     return null;
   };
   if (!mitStore && !opt.mitStore) { const abbruch = ohneAdminDaten(blobs.grund || "kein Datenspeicher"); if (abbruch) return abbruch; }
@@ -279,8 +281,10 @@ async function lauf(opt = {}) {
       const nT = texteEinsetzen(root, texte, Steuer.satz(einst));
       const nB = await bilderEinsetzen(root, bilder, texte);
       const nBew = bewertungenSchreiben(root, bew);
+      try { const wis = await daten.lade("wissen"); fs.writeFileSync(path.join(root, "data", "wissen.json"), JSON.stringify(Array.isArray(wis) ? wis : [], null, 2) + "\n"); } catch (e) { log("Assistent-Wissen aus dem Admin nicht lesbar – Repo-Stand bleibt."); }
       redirectsSchreiben(root, repoEinst);
-      chatEinsetzen(root, repoEinst, log);
+      assistentEinsetzen(root, repoEinst, log);
+      wissenSchreiben(root, log);
       const nF = firmaEinsetzen.lauf(root, repoEinst);
       { const rB = require(path.join(__dirname, "bewertungen-einsetzen.js")).lauf(root, bew, repoEinst); log(`Bewertungen eingesetzt: ${rB.marker} Markierungen, ${rB.geaendert} Datei(en) geändert.`); }
       { const nG = googleVerifikationEinsetzen(root, process.env.GOOGLE_SITE_VERIFICATION); if (nG) log(`Google-Bestätigung (Search Console) in ${nG} Seiten ${process.env.GOOGLE_SITE_VERIFICATION ? "eingesetzt" : "entfernt"}.`); }
@@ -323,7 +327,7 @@ async function benachrichtigen(ok, detail) {
   } catch (e) { /* Benachrichtigung ist optional */ }
 }
 
-module.exports = { lauf, texteEinsetzen, bilderEinsetzen, bewertungenSchreiben, redirectsSchreiben, chatEinsetzen, googleVerifikationEinsetzen, domainRedirects, DEFAULT_SCHRITTE };
+module.exports = { lauf, texteEinsetzen, bilderEinsetzen, bewertungenSchreiben, redirectsSchreiben, assistentEinsetzen, googleVerifikationEinsetzen, domainRedirects, DEFAULT_SCHRITTE };
 
 if (require.main === module) {
   lauf().then((r) => process.exit(r.ok ? 0 : 1)).catch((e) => { console.error(e); process.exit(1); });

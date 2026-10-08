@@ -113,7 +113,11 @@
 
     if (frc.enabled && frc.sitekey) loadScriptOnce(frc.script);
 
+    /* Vorbelegung aus der Adresse (z. B. vom digitalen Assistenten: /?anfrage=1&nachricht=…&plz=…#kontakt) – nur Textfelder */
+    var vorbelegung = null;
+    try { var q = new URLSearchParams(location.search); if (q.get("anfrage") === "1") vorbelegung = q; } catch (e) { vorbelegung = null; }
     forms.forEach(function (form) {
+      if (vorbelegung) ["name", "telefon", "email", "plz", "nachricht"].forEach(function (k) { var v = vorbelegung.get(k); var f = v && form.querySelector("[name='" + k + "']"); if (f && !f.value && /^(text|tel|email|textarea)$/i.test(f.type || f.tagName)) f.value = v.slice(0, 600); });
       /* Zeitstempel des Seitenaufrufs (für Mindestzeit) + Kennzeichen „JS aktiv“ */
       var ts = hidden(form, "ts", String(Date.now()));
       hidden(form, "js", "1");

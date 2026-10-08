@@ -88,7 +88,6 @@
       "von": "",
       "bis": ""
     },
-    "liveChat": false,
     "whatsapp": "4917681338935"
   },
   "konten": {
@@ -115,5 +114,11 @@
       "telefon": ""
     },
     "blobsTokenAblauf": "2027-10-01"
+  },
+  "assistent": {
+    "aktiv": true,
+    "monatslimitEuro": 20,
+    "tageslimit": 200,
+    "alarmEmail": ""
   }
 }

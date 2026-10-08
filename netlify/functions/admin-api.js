@@ -83,6 +83,29 @@ async function lesen(aktion, q, s, event) {
       if (filtern) liste = liste.slice((seite - 1) * pro, seite * pro);
       return http.json(200, { ok: true, anfragen: liste, gesamt, seite, proSeite: pro });
     }
+    /* ---- KI-Assistent (Admin → Assistent): Übersicht, Gespräche ---- */
+    case "assistent-uebersicht": {
+      const As = require("./_lib/assistent");
+      const einst = await daten.lade("einstellungen");
+      const tag = await As.tag(), mon = await As.monatStat();
+      const keys = (await store.list("assistent/konv/")).sort().reverse();
+      let uebergaben = 0; for (const k of keys.slice(0, 300)) { const g = await store.getJSON(k, null); if (g && g.uebergabe) uebergaben++; }
+      return http.json(200, { ok: true, schluessel: !!As.schluessel(), modell: As.schluessel() ? As.modell() : "", einstellungen: einst.assistent || {}, wissen: (await daten.lade("wissen")) || [],
+        stand: { monatKosten: mon.kosten || 0, monatNachrichten: mon.nachrichten || 0, monatBlockiert: mon.blockiert || 0, tagNachrichten: tag.nachrichten || 0, tagBlockiert: tag.blockiert || 0, gespraeche: keys.length, uebergaben } });
+    }
+    case "assistent-gespraeche": {
+      const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(50, Math.max(5, Number(q.proSeite) || 20));
+      const keys = (await store.list("assistent/konv/")).sort().reverse();
+      const liste = [];
+      for (const k of keys.slice((seite - 1) * pro, seite * pro)) { const g = await store.getJSON(k, null); if (!g) continue; const erste = (g.nachrichten || []).find((m) => m.rolle === "nutzer"); liste.push({ id: g.id, start: g.start, anzahl: g.anzahl || 0, kosten: g.kosten || 0, uebergabe: g.uebergabe ? { name: g.uebergabe.name } : null, verdacht: g.verdacht || 0, erste: erste ? erste.text : "", seite: g.seite || "" }); }
+      return http.json(200, { ok: true, gespraeche: liste, gesamt: keys.length, seite, proSeite: pro });
+    }
+    case "assistent-gespraech": {
+      const id = String(q.id || "").replace(/[^a-z0-9-]/gi, "");
+      const g = await store.getJSON("assistent/konv/" + id, null);
+      if (!g) return http.json(404, { ok: false, error: "Gespräch nicht gefunden." });
+      return http.json(200, { ok: true, gespraech: g });
+    }
     case "protokoll": { const seite = Math.max(1, Number(q.seite) || 1), pro = Math.min(200, Math.max(20, Number(q.proSeite) || 50)); const alle = await store.getJSON("protokoll", []); return http.json(200, { ok: true, protokoll: alle.slice((seite - 1) * pro, seite * pro), gesamt: alle.length, seite, proSeite: pro }); }
     /* Technischer Status der verbundenen Dienste – ausschließlich „gesetzt ja/nein“, nie Werte */
     case "dienste": return http.json(200, { ok: true, dienste: diensteStatus() });
@@ -176,7 +199,7 @@ async function schreiben(body, s, event) {
       } else if (bereich === "einstellungen") {
         const alt = await daten.lade("einstellungen");
         const d = body.daten && typeof body.daten === "object" ? body.daten : {};
-        const ZWEIGE = ["konfigurator", "steuer", "firma", "bank", "dokumente", "email", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website", "konten"];
+        const ZWEIGE = ["konfigurator", "steuer", "firma", "bank", "dokumente", "email", "bewertungen", "oeffnungszeiten", "einsatzgebiet", "website", "konten", "assistent"];
         const unbekannt = Object.keys(d).filter((k) => !ZWEIGE.includes(k));
         if (unbekannt.length) return http.json(400, { ok: false, error: "Unbekannter Einstellungsbereich: " + unbekannt.join(", ") });
         neu = daten.tief(alt, d);
@@ -209,6 +232,17 @@ async function schreiben(body, s, event) {
         }
       } else if (bereich === "bewertungen") {
         neu = Array.isArray(body.daten) ? body.daten : [];
+      } else if (bereich === "wissen") {
+        /* Assistent → Wissen: Frage/Antwort-Paare, nur Text (kein HTML), kommen beim Veröffentlichen ins Wissen des Assistenten */
+        const roh = Array.isArray(body.daten) ? body.daten : [];
+        if (roh.length > 200) fehler.push({ feld: "wissen", meldung: "Höchstens 200 Einträge." });
+        neu = roh.map((w, i) => {
+          const frage = String(w && w.frage || "").replace(/<[^>]*>/g, "").trim().slice(0, 300);
+          const antwort = String(w && w.antwort || "").replace(/<[^>]*>/g, "").trim().slice(0, 2000);
+          if (frage.length < 3) fehler.push({ feld: `wissen.${i}.frage`, meldung: "Bitte eine Frage oder ein Stichwort angeben." });
+          if (antwort.length < 3) fehler.push({ feld: `wissen.${i}.antwort`, meldung: "Bitte eine Antwort angeben." });
+          return { id: String(w && w.id || "").replace(/[^a-z0-9-]/gi, "").slice(0, 40) || ("w-" + Date.now().toString(36) + i), frage, antwort, aktiv: w && w.aktiv !== false };
+        });
       }
       if (fehler.length) return http.json(422, { ok: false, error: "Bitte die markierten Felder prüfen.", fehler });
       const v = await daten.speichere(bereich, neu, { wer, beschreibung: String(body.beschreibung || "").slice(0, 200) });
@@ -329,6 +363,13 @@ async function schreiben(body, s, event) {
       const satz = Steuer.satz(await daten.lade("einstellungen"));
       const r = Preis.berechne(body.konfiguration || {}, liste, satz);
       return http.json(200, { ok: true, ergebnis: r, steuerProzent: satz, text: r.ok ? Steuer.preisMitZusatz(Preis.euro(r.endpreis), satz) : null });
+    }
+    case "assistent-gespraech-loeschen": {
+      const id = String(body.id || "").replace(/[^a-z0-9-]/gi, "");
+      if (!id || !(await store.getJSON("assistent/konv/" + id, null))) return http.json(404, { ok: false, error: "Gespräch nicht gefunden." });
+      await store.del("assistent/konv/" + id);
+      await log("assistent", `Gespräch ${id} gelöscht`);
+      return http.json(200, { ok: true });
     }
     case "anfrage-status": {
       const k = "anfragen/" + String(body.id || "").replace(/[^a-z0-9-]/gi, "");

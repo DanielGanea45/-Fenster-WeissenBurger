@@ -18,6 +18,7 @@ const BEREICHE = {
   bilder: { datei: "data/bilder.json", titel: "Bilder" },
   bewertungen: { datei: "data/bewertungen.json", titel: "Bewertungen" },
   produkte: { datei: "data/produkte.json", titel: "Produkte" },
+  wissen: { datei: "data/wissen.json", titel: "Assistent – Wissen" },
 };
 
 /* Tiefe Zusammenführung: Werte aus b überschreiben a; Objekte werden zusammengeführt, Arrays ersetzt */
@@ -29,7 +30,7 @@ function tief(a, b) {
 }
 function repoDatei(bereich) {
   const p = path.join(ROOT, BEREICHE[bereich].datei);
-  if (!fs.existsSync(p)) return bereich === "bewertungen" ? [] : {};
+  if (!fs.existsSync(p)) return bereich === "bewertungen" || bereich === "wissen" ? [] : {};
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 /* Aktuelle Daten eines Bereichs (Store vor Repo). Für texte/bilder: Repo-Registry + gespeicherte Änderungen. */

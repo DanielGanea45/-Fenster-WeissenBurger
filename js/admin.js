@@ -200,12 +200,13 @@
     { id: "preise", gruppe: "Verkauf", label: "Preise & Konfigurator", kurz: "Preise", icon: I('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>') },
     { id: "anfragen", gruppe: "Verkauf", label: "Anfragen", kurz: "Anfragen", badge: "anfragen", icon: I('<path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H8l-4 4z"/><path d="M8 10h8M8 13h5"/>') },
     { id: "angebote", gruppe: "Verkauf", label: "Angebote & Rechnungen", kurz: "Angebote", icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>') },
+    { id: "assistent", gruppe: "Verkauf", label: "Assistent", kurz: "Assistent", icon: I('<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.4 3.3A.75.75 0 0 1 4.4 18.7V16A2.5 2.5 0 0 1 4 13.5z"/><path d="M8.5 9.5h7M8.5 12.5h4"/>') },
     { id: "kunden", gruppe: "Verkauf", label: "Kunden", kurz: "Kunden", icon: I('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5a5 5 0 0 1 6 5"/>') },
     { id: "einstellungen", gruppe: "System", label: "Einstellungen", kurz: "Einstell.", icon: I('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>') },
     { id: "versionen", gruppe: "System", label: "Änderungsprotokoll", kurz: "Versionen", icon: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>') },
     { id: "protokoll", gruppe: "System", label: "Zugriffsprotokoll", kurz: "Zugriffe", sub: true, icon: I('<path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v6h6M8 13h8M8 17h6"/>') },
     { id: "konto", gruppe: "System", label: "Konto", kurz: "Konto", icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
-  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", produkte: "Produkte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen", kunden: "Kunden" };
+  ];  const TITEL = { uebersicht: "Übersicht", bilder: "Bilder", texte: "Texte", produkte: "Produkte", preise: "Preise & Konfigurator", einstellungen: "Einstellungen", bewertungen: "Bewertungen", anfragen: "Anfragen", versionen: "Änderungsprotokoll", protokoll: "Zugriffsprotokoll", konto: "Konto", angebote: "Angebote & Rechnungen", kunden: "Kunden", assistent: "Assistent" };
   function navHtml(aktiv) {
     const sichtbar = NAV.filter((n) => !n.hidden || localStorage.getItem("fw-modul-" + n.id) === "an");
     const gruppen = []; sichtbar.forEach((n) => { let g = gruppen.find((x) => x.name === n.gruppe); if (!g) { g = { name: n.gruppe, eintraege: [] }; gruppen.push(g); } g.eintraege.push(n); });
@@ -275,7 +276,7 @@
   const skelett = () => `<div class="skelett" aria-busy="true"><span class="sr-only">Wird geladen …</span><div class="skelett__kopf"></div><div class="kpis">${'<div class="card kpi skeleton"></div>'.repeat(4)}</div><div class="card skelett__block"></div></div>`;
   /* Größere Bereiche (Einstellungen, Produkte, Angebote & Rechnungen, Kunden) liegen in eigenen Dateien und werden
      erst beim ersten Aufruf geladen – die Übersicht bleibt schlank. Die Dateien stehen als <script type="fw/modul"> im HTML. */
-  const MODULE = { einstellungen: "einstellungen", produkte: "produkte", angebote: "belege", kunden: "belege", texte: "texte" };
+  const MODULE = { einstellungen: "einstellungen", produkte: "produkte", angebote: "belege", kunden: "belege", texte: "texte", assistent: "assistent" };
   function modulLaden(id) {
     const name = MODULE[id]; if (!name) return Promise.reject(new Error("Dieser Bereich ist nicht verfügbar."));
     const tag = document.querySelector(`script[type="fw/modul"][data-modul="${name}"]`);
@@ -428,7 +429,7 @@
     api.get("anfragen", { seite: 1, proSeite: 5 }).then((a) => {
       const box = $("#dash-anfragen"); if (!box) return;
       if (!a.ok) { box.innerHTML = `<p class="muted small">${h(a.error)}</p>`; return; }
-      const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator" };
+      const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator", "ki-assistent": "KI-Assistent" };
       const produkt = (q) => { const f = q.felder || {}; if (q.formular === "angebot-konfigurator" && q.konfiguration) return q.konfiguration.produkt === "haustuer" ? "Haustür" : "Fenster"; return f.produkt || f.leistung || f.interesse || FORM[q.formular] || q.formular; };
       box.innerHTML = a.anfragen.length ? `<div class="table-wrap"><table class="tbl tbl--dash"><thead><tr><th>Kunde</th><th>Produkt</th><th class="num">Wert</th><th>Status</th></tr></thead><tbody>${a.anfragen.map((q) => `<tr><td class="name"><a href="#anfragen">${h((q.felder || {}).name || "–")}</a></td><td>${h(produkt(q))}</td><td class="num">${q.preisServer ? euro(q.preisServer) : "–"}</td><td>${q.status === "erledigt" ? '<span class="pill pill--ok">Erledigt</span>' : (q.felder || {}).angebotId || q.angebotId ? '<span class="pill pill--grey">Angebot erstellt</span>' : '<span class="pill pill--warn">Neu</span>'}</td></tr>`).join("")}</tbody></table></div><a href="#anfragen" class="small strong">Alle Anfragen →</a>` : '<p class="muted">Noch keine Anfragen.</p>';
     }).catch(() => { /* egal */ });
@@ -884,7 +885,7 @@
 
   /* ---------- Anfragen (serverseitig gefiltert, seitenweise) ---------- */
   VIEWS.anfragen = async (main) => {
-    const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator" };
+    const FORM = { kontakt: "Kontakt", "anfrage-leistungen": "Leistungen", "anfrage-produkte": "Produkte", "anfrage-einsatzgebiet": "Einsatzgebiet", "angebot-konfigurator": "Konfigurator", "ki-assistent": "KI-Assistent" };
     const AUSBLENDEN = ["konfiguration", "preis_server", "preis_server_text", "preis_abweichung", "preisliste_version", "positionen", "preis_browser", "steuersatz_prozent", "datenschutz"];
     const Z = { formular: "alle", status: "alle", suche: "", seite: 1 };
     main.innerHTML = `<div class="page-head"><div><h1>Anfragen</h1><span class="muted">Alle Anfragen aus Formularen und Konfigurator (zusätzlich zur E-Mail-Benachrichtigung und zum Netlify-Dashboard). Konfigurator-Anfragen zeigen den vom Server nachgerechneten Preis.</span></div></div>
