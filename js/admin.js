@@ -823,7 +823,7 @@
   VIEWS.bewertungen = async (main) => {
     const d = await api.get("daten", { bereich: "bewertungen" });
     if (!d.ok) throw new Error(d.error);
-    const liste = Array.isArray(d.daten) ? d.daten : [];
+    const liste = (Array.isArray(d.daten) ? d.daten : []).filter((b) => b && b.status !== "geloescht");
     const offen = liste.filter((b) => b.status === "offen"), rest = liste.filter((b) => b.status !== "offen");
     S.bewertungenBadge = offen.length; renderNav();
     const QUELLEN = ["Website", "Google", "MyHammer"];
@@ -832,7 +832,7 @@
     const sterne = (n) => `<span class="stars" aria-label="${n} Sterne">${"★".repeat(n)}${"☆".repeat(Math.max(0, 5 - n))}</span>`;
     const karte = (b) => `<div class="card anfrage"><div class="row row--between"><div><b>${h(b.name)}</b>${b.ort ? " · " + h(b.ort) : ""}${b.projekt ? " · " + h(b.projekt) : ""} ${sterne(Number(b.sterne) || 0)} <span class="badge">${h(b.quelle || "Website")}</span>${b.datum ? ` <span class="muted small">${h(datumText(b.datum))}</span>` : ""}</div><span class="badge ${b.status === "freigegeben" ? "badge--ok" : b.status === "abgelehnt" ? "badge--err" : "badge--warn"}">${{ offen: "offen", freigegeben: "freigegeben", abgelehnt: "abgelehnt" }[b.status] || b.status}</span></div>
       <p class="quote">„${h(b.text)}“</p>
-      <p class="small muted">${b.importiert ? "Übernommen" : "Eingegangen"} ${fmtDT(b.eingegangen)}${b.email ? " · " + h(b.email) : ""}${b.kunde && !b.importiert ? " · Kunde: " + h(b.kunde) : ""}${b.entschieden ? " · entschieden " + fmtDT(b.entschieden) + " von " + h(b.von || "") : ""}</p>
+      <p class="small muted">${b.importiert || b.manuell ? "Übernommen" : "Eingegangen"} ${fmtDT(b.eingegangen)}${b.email ? " · " + h(b.email) : ""}${b.kunde && !(b.importiert || b.manuell) ? " · Kunde: " + h(b.kunde) : ""}${b.entschieden ? " · entschieden " + fmtDT(b.entschieden) + " von " + h(b.von || "") : ""}</p>
       <div class="row">${b.status !== "freigegeben" ? `<button type="button" class="btn btn--sm btn--primary" data-bw="freigegeben" data-id="${h(b.id)}">Freigeben</button>` : ""}${b.status !== "abgelehnt" ? `<button type="button" class="btn btn--sm" data-bw="abgelehnt" data-id="${h(b.id)}">Ablehnen</button>` : ""}${b.status !== "offen" ? `<button type="button" class="btn btn--sm" data-bw="offen" data-id="${h(b.id)}">Zurück auf „offen“</button>` : ""}<button type="button" class="btn btn--sm" data-bw="bearbeiten" data-id="${h(b.id)}">Bearbeiten</button><button type="button" class="btn btn--sm btn--danger" data-bw="loeschen" data-id="${h(b.id)}">Löschen</button></div></div>`;
     main.innerHTML = `<div class="page-head"><div><h1>Bewertungen</h1><span class="muted">Nur freigegebene Bewertungen erscheinen auf der Website (Startseite, Referenzen). Bewertungen von Google oder MyHammer übernehmen Sie mit „Bewertung hinzufügen“ – bitte wortgleich und mit Quelle. Noten und Links für das Abzeichen: Einstellungen → Bewertungen &amp; Google.</span></div><div class="row"><button type="button" class="btn" data-bw="neu">Bewertung hinzufügen</button><button type="button" class="btn btn--primary" data-bw="pub">Veröffentlichen</button></div></div>${pubBar()}
       <h2>Zu prüfen (${offen.length})</h2>${offen.map(karte).join("") || '<p class="muted">Keine offenen Bewertungen.</p>'}

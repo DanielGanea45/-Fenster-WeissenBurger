@@ -283,7 +283,8 @@ async function schreiben(body, s, event) {
       if (fehler.length) return http.json(422, { ok: false, error: "Bitte die markierten Felder prüfen.", fehler });
       let b = body.id ? liste.find((x) => x.id === body.id) : null;
       if (body.id && !b) return http.json(404, { ok: false, error: "Bewertung nicht gefunden." });
-      if (!b) { b = { id: "manuell-" + Date.now().toString(36), status: "freigegeben", eingegangen: Date.now(), kunde: "ja", importiert: true, entschieden: Date.now(), von: wer }; liste.unshift(b); }
+      /* manuell = im Admin übernommen (z. B. von Google); importiert bleibt den Vorgaben aus dem Repository vorbehalten */
+      if (!b) { b = { id: "manuell-" + Date.now().toString(36), status: "freigegeben", eingegangen: Date.now(), kunde: "ja", manuell: true, entschieden: Date.now(), von: wer }; liste.unshift(b); }
       Object.assign(b, neu, { bearbeitet: Date.now(), von: wer });
       const v = await daten.speichere("bewertungen", liste, { wer, beschreibung: `Bewertung von ${b.name} ${body.id ? "bearbeitet" : "angelegt"}` });
       await log("bewertung", `${b.name} (${b.quelle}) ${body.id ? "bearbeitet" : "angelegt"}`);
@@ -293,7 +294,11 @@ async function schreiben(body, s, event) {
       const liste = (await daten.lade("bewertungen")) || [];
       const i = liste.findIndex((x) => x.id === body.id);
       if (i < 0) return http.json(404, { ok: false, error: "Bewertung nicht gefunden." });
-      const [b] = liste.splice(i, 1);
+      const b = liste[i];
+      /* Übernommene Bewertungen (Vorgaben aus dem Repository) bleiben als „gelöscht“ vermerkt, sonst kämen sie beim
+         Zusammenführen mit den Vorgaben wieder; eigene Einträge werden entfernt. */
+      if (b.importiert) liste[i] = { id: b.id, status: "geloescht", name: b.name, importiert: true, geloescht: Date.now(), von: wer };
+      else liste.splice(i, 1);
       const v = await daten.speichere("bewertungen", liste, { wer, beschreibung: `Bewertung von ${b.name} gelöscht` });
       await log("bewertung", `${b.name} (${b.quelle || "Website"}) gelöscht`);
       return http.json(200, { ok: true, version: v.id });

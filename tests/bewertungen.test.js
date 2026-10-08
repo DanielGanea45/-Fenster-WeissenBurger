@@ -83,30 +83,48 @@ test("einsetzen: Markierungen werden gefüllt, Optionen (max) gelesen, Lauf ist 
 });
 
 /* ---------- Repo-Stand ---------- */
-test("Repo: fünf freigegebene Bewertungen (4× Google, 1× MyHammer) mit Quelle, Monat und 5 Sternen; Einstellungen gültig", () => {
-  const pub = B.oeffentlich(repoListe());
-  assert.equal(pub.length, 5);
-  assert.equal(pub.filter((b) => b.quelle === "Google").length, 4);
-  assert.equal(pub.filter((b) => b.quelle === "MyHammer").length, 1);
-  for (const b of pub) { assert.match(b.datum, /^\d{4}-\d{2}$/); assert.equal(b.sterne, 5); assert.ok(b.name && b.text.length > 20); }
-  const names = pub.map((b) => b.name);
-  for (const n of ["Serkan G.", "Larissa R.", "Jenny S.", "Abel D.", "Kunde über MyHammer"]) assert.ok(names.includes(n), n);
+/* Hinweis: Im Netlify-Build stehen in data/*.json die ADMIN-Daten (Produktion kann andere Bewertungen und
+   Einstellungen haben) – die Tests leiten die Erwartungen deshalb aus den Dateien ab statt feste Werte anzunehmen. */
+test("Repo-Daten: freigegebene Bewertungen vollständig (Name, Text, Sterne 1–5, Quelle, Monat), ohne E-Mail; Einstellungen gültig", () => {
+  const alle = repoListe();
+  assert.ok(Array.isArray(alle));
+  for (const b of alle) {
+    assert.ok(b.id && b.name && typeof b.text === "string", JSON.stringify(b).slice(0, 80));
+    assert.ok(!("email" in b), "keine E-Mail im öffentlichen Abbild");
+    if (b.status === "freigegeben" || b.status === undefined) { assert.ok(b.sterne >= 1 && b.sterne <= 5); assert.ok(B.QUELLEN.includes(b.quelle || "Website")); if (b.datum) assert.match(b.datum, /^\d{4}-\d{2}(-\d{2})?$/); }
+  }
   const e = repoEinst();
-  assert.equal(e.bewertungen.googleNote, "5,0"); assert.equal(e.bewertungen.googleAnzahl, 4); assert.equal(e.bewertungen.myhammerNote, "5/5");
-  assert.match(e.bewertungen.googleProfilLink, /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=Fenster-WeissenBurger\+UG\+Ingolstadt$/);
   assert.deepEqual(PV.validiereEinstellungen(e).filter((f) => f.feld.startsWith("bewertungen.")), []);
 });
-test("Repo: Start- und Referenzenseite enthalten Abzeichen und Karten aktuell (Prüflauf ändert nichts)", () => {
+test("Repo-Vorgaben (Git-Stand): fünf übernommene Bewertungen – 4× Google, 1× MyHammer – und Abzeichen-Werte", () => {
+  /* Der Git-Stand ist unabhängig von den Admin-Daten; fehlt git (z. B. Kopie ohne .git), wird übersprungen */
+  let json; try { json = require("child_process").execFileSync("git", ["show", "HEAD:data/bewertungen.json"], { cwd: ROOT, stdio: ["ignore", "pipe", "ignore"] }).toString(); } catch (e) { return; }
+  const pub = B.oeffentlich(JSON.parse(json));
+  assert.equal(pub.filter((b) => b.quelle === "Google").length, 4);
+  assert.equal(pub.filter((b) => b.quelle === "MyHammer").length, 1);
+  for (const n of ["Serkan G.", "Larissa R.", "Jenny S.", "Abel D.", "Kunde über MyHammer"]) assert.ok(pub.some((b) => b.name === n), n);
+  for (const b of pub) { assert.match(b.datum, /^\d{4}-\d{2}$/); assert.equal(b.sterne, 5); }
+  let e; try { e = JSON.parse(require("child_process").execFileSync("git", ["show", "HEAD:data/einstellungen.json"], { cwd: ROOT, stdio: ["ignore", "pipe", "ignore"] }).toString()); } catch (err) { return; }
+  assert.equal(e.bewertungen.googleNote, "5,0"); assert.equal(e.bewertungen.googleAnzahl, 4); assert.equal(e.bewertungen.myhammerNote, "5/5");
+  assert.equal(e.bewertungen.googleProfilLink, B.GOOGLE_PROFIL_STANDARD);
+});
+test("Seiten: Start- und Referenzenseite tragen Abzeichen und Karten passend zu den Daten (Prüflauf ändert nichts)", () => {
   const r = einsetzen.lauf(ROOT, null, null, true);
   assert.equal(r.geaendert, 0, "node scripts/bewertungen-einsetzen.js ausführen");
   assert.ok(r.marker >= 5);
+  const pub = B.oeffentlich(repoListe()), e = repoEinst();
+  const badge = B.badgeHtml(e) ? 1 : 0;
   const start = lies("index.html"), ref = lies("referenzen/index.html");
-  assert.equal((start.match(/<div class="badge-bew"/g) || []).length, 2, "Startseite: Abzeichen im Hero und bei Kontakt");
-  assert.ok(start.includes("Das sagen unsere Kunden") && start.match(/<li class="stimme">/g).length === 3, "Startseite: die drei neuesten");
-  assert.equal((ref.match(/Alle Bewertungen auf Google ansehen/g) || []).length, 1, "Referenzen: Link nur einmal (im Abzeichen)");
-  assert.ok(ref.includes('<div class="badge-bew"') && ref.match(/<li class="stimme">/g).length === 5);
+  const karten = (h) => (h.match(/<li class="stimme">/g) || []).length;
+  assert.equal((start.match(/<div class="badge-bew"/g) || []).length, 2 * badge, "Startseite: Abzeichen im Hero und bei Kontakt");
+  assert.ok(start.includes("Das sagen unsere Kunden"));
+  assert.equal(karten(start), Math.min(3, pub.length), "Startseite: die drei neuesten");
+  assert.equal((ref.match(/<div class="badge-bew"/g) || []).length, badge);
+  assert.equal(karten(ref), pub.length, "Referenzen: alle freigegebenen");
+  if (!pub.length) assert.ok(ref.includes("Noch keine Bewertungen"));
+  assert.equal((ref.match(/Alle Bewertungen auf Google ansehen/g) || []).length, badge ? 1 : 0, "Referenzen: Link nur einmal (im Abzeichen)");
   assert.ok(!ref.includes('id="reviews"'), "keine Nachlade-Liste mehr");
-  assert.ok(!/fetch\(/.test(lies("js/referenzen.js")), "Referenzen-Skript lädt keine Bewertungen mehr nach");
+  assert.ok(!lies("js/referenzen.js").includes("fetch("), "Referenzen-Skript lädt keine Bewertungen mehr nach");
 });
 test("Keine Bewertungs-Strukturdaten: kein aggregateRating/Review in JSON-LD auf irgendeiner Seite", () => {
   const seiten = [];

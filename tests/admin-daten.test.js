@@ -137,7 +137,10 @@ test("Bewertung: offen → freigegeben erscheint in der Build-Ausgabe, abgelehnt
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "fw-bew-")); fs.mkdirSync(path.join(tmp, "data"));
   const n = build.bewertungenSchreiben(tmp, await daten.lade("bewertungen"));
   const out = JSON.parse(fs.readFileSync(path.join(tmp, "data/bewertungen.json"), "utf8"));
-  assert.equal(n, 1); assert.equal(out[0].name, "A. B."); assert.equal(out[0].email, undefined);
+  /* Übernommene Vorgaben aus dem Repository (Google/MyHammer, importiert) kommen zur gespeicherten Liste hinzu */
+  const vorgaben = daten.repoDatei("bewertungen").filter((b) => b.importiert && b.status === "freigegeben").length;
+  assert.equal(n, 1 + vorgaben); assert.equal(out[0].name, "A. B."); assert.equal(out[0].email, undefined);
+  assert.ok(!out.some((b) => b.name === "C. D."), "abgelehnte Bewertung nicht im Abbild");
 });
 
 /* ---------- Wiederherstellen ---------- */
