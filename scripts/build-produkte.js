@@ -10,8 +10,34 @@ const produkteLib = require(path.join(root, "netlify/functions/_lib/produkte"));
 const produkte = JSON.parse(fs.readFileSync(path.join(root, "data/produkte.json"), "utf8"));
 const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
 const SITE = "https://fenster-weissenburger.de";
-const PARTNER = "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.";
-const NOTE = "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.";
+/* Partner- und Tabellenhinweis je Seite mit eigener Formulierung (Text-Duplikate zwischen Seiten vermeiden, scripts/text-duplikate.js) */
+const PARTNER = {
+  index: "Gefertigt von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.",
+  "kunststofffenster-koemmerling": "Gefertigt von unserem Partner Helios auf Basis der Kömmerling-Profile 70, 76 und 88.",
+  "kunststoff-aluminium-fenster": "Unser Partner Helios fertigt die AluClip-Fenster mit Kömmerling-Kern und Aluminium-Deckschale nach Ihrem Aufmaß.",
+  "aluminiumfenster-cortizo": "Gefertigt von unserem Partner Helios mit thermisch getrennten Cortizo-Systemen.",
+  schiebetueren: "Hebe-Schiebetüren aus der Fertigung unseres Partners Helios – in Kunststoff oder Aluminium, nach Ihrem Aufmaß.",
+  haustueren: "Unser Partner Helios fertigt jede Haustür nach Aufmaß – in Kunststoff, Kunststoff-Aluminium oder Aluminium.",
+};
+const NOTE = {
+  index: "Herstellerangaben. Die Werte Ihres Fensters hängen von Größe, Verglasung und Ausstattung ab – wir berechnen sie im Angebot.",
+  "kunststofffenster-koemmerling": "Herstellerangaben. Welchen Uw-Wert Ihr Fenster erreicht, hängt von Maß, Verglasung und Ausstattung ab – das Angebot nennt ihn genau.",
+  "kunststoff-aluminium-fenster": "Herstellerangaben. Der Wert Ihres Fensters ergibt sich aus Größe, Glasaufbau und Ausstattung; wir weisen ihn im Angebot aus.",
+  "aluminiumfenster-cortizo": "Herstellerangaben. Uf und Uw Ihres Aluminiumfensters richten sich nach Elementgröße, Verglasung und Ausführung – im Angebot stehen die konkreten Werte.",
+  schiebetueren: "Herstellerangaben. Bei Schiebetüren bestimmen Flügelgröße, Glasaufbau und Schwelle die tatsächlichen Werte – wir rechnen sie für Ihr Angebot aus.",
+  haustueren: "Herstellerangaben. Der Ud-Wert Ihrer Haustür hängt von Füllung, Glasanteil und Maß ab und wird für Ihr Angebot berechnet.",
+};
+/* Einleitung über dem Anfrageformular, je Seite anders formuliert */
+const FORM_LEAD = {
+  index: "Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot.",
+  "kunststofffenster-koemmerling": "Welches Kömmerling-Profil zu Ihrem Haus passt, klären wir bei Ihnen vor Ort – mit kostenlosem Aufmaß und schriftlichem Angebot.",
+  "kunststoff-aluminium-fenster": "Sie möchten außen Aluminium und innen Kunststoff? Wir zeigen Ihnen die AluClip-Varianten bei Ihnen zu Hause, messen auf und schreiben Ihnen ein Angebot.",
+  "aluminiumfenster-cortizo": "Für große Elemente und schlanke Profile beraten wir Sie direkt am Objekt, nehmen das Aufmaß und kalkulieren Ihr Aluminiumfenster schriftlich.",
+  schiebetueren: "Ob Hebe-Schiebetür in Kunststoff oder Aluminium: Wir prüfen Öffnung, Sturz und Schwelle vor Ort und erstellen Ihnen ein Angebot nach Aufmaß.",
+  haustueren: "Ihre neue Haustür planen wir bei Ihnen zu Hause – Füllung, Glas, Griff und Farbe am Muster, Aufmaß inklusive, Angebot schriftlich.",
+};
+const partnerSatz = (slug) => PARTNER[slug] || PARTNER.index;
+const noteSatz = (slug) => NOTE[slug] || NOTE.index;
 
 /* Logo aus index.html übernehmen (Inline-SVG, identisch auf allen Seiten) */
 const indexHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
@@ -115,7 +141,7 @@ function hero(p) {
           <p class="eyebrow"><span>${esc(p.eyebrowNo)}</span> ${esc(p.eyebrow)}</p>
           <h1 class="title" id="h1">${p.h1}</h1>
           <p class="lead">${p.intro}</p>
-          <p class="partner">${PARTNER}</p>
+          <p class="partner">${partnerSatz(p.slug)}</p>
           <div class="actions">
             <a class="btn btn--primary" href="#anfrage">Kostenloses Aufmaß anfragen</a>
             <a class="btn btn--ghost" href="${firmaLib.telHref(einst.firma.telefon)}" data-firma="tel-href">Anrufen</a>
@@ -141,15 +167,59 @@ function table(t) {
         </table></div>`;
 }
 
-function ratgeber(extra) {
-  const items = [
+/* Ratgeber „Fachbegriffe kurz erklärt“: je Produktseite die passenden Begriffe mit eigener Erklärung
+   (keine Seite wiederholt den Text einer anderen – geprüft von scripts/text-duplikate.js). */
+const RATGEBER = {
+  index: [
     ["Uf / Ug / Uw / Ud", "Wärmedurchgang des Rahmens (f), des Glases (g), des ganzen Fensters (w) bzw. der ganzen Tür (d) in W/(m²K). Je kleiner der Wert, desto besser die Dämmung."],
     ["Bautiefe", "Tiefe des Rahmens in Millimetern. Mehr Bautiefe bedeutet meist bessere Dämmung und Platz für dickere Verglasung."],
     ["Kammern", "Hohlräume im Kunststoffprofil. Sie trennen innen und außen thermisch – mehr Kammern, bessere Dämmung."],
     ["AD / MD", "AD = Anschlagdichtung mit zwei Dichtungsebenen, bewährt und wirtschaftlich. MD = zusätzliche Mitteldichtung für bessere Dämmung und Dichtheit, empfehlenswert bei Neubau und Energiesparhaus."],
     ["RC1 / RC2", "Widerstandsklassen gegen Einbruch nach DIN EN 1627. RC2 ist der empfohlene Standard für Wohnhäuser."],
-    ["Förderung", "Wir informieren Sie über mögliche Förderprogramme für energetische Sanierung (z. B. BAFA, KfW) und welche Unterlagen Sie dafür benötigen."],
-  ].concat(extra || []);
+    ["Förderung", "Energetische Sanierung wird staatlich gefördert (z. B. BAFA, KfW); welche Fenster dafür infrage kommen und welche Nachweise Sie brauchen, besprechen wir beim Beratungstermin."],
+  ],
+  "kunststofffenster-koemmerling": [
+    ["Uf / Uw", "Uf beschreibt den Wärmedurchgang des Rahmens, Uw den des kompletten Fensters samt Glas – angegeben in W/(m²K), niedriger ist besser."],
+    ["Bautiefe", "Die Tiefe des Profils in Millimetern: 70, 76 oder 88 mm bei Kömmerling. Tiefere Profile dämmen besser und nehmen dickere Gläser auf."],
+    ["Kammern", "Luftgefüllte Hohlräume im Profilquerschnitt, die den Wärmefluss von innen nach außen bremsen – Kömmerling 88 hat sieben davon."],
+    ["AD / MD", "Die Anschlagdichtung (AD) arbeitet mit zwei Dichtungsebenen; die Mitteldichtung (MD) ergänzt eine dritte in der Profilmitte und verbessert Wärmeschutz und Schlagregendichtheit."],
+    ["RC2", "Widerstandsklasse nach DIN EN 1627: Pilzkopfzapfen, abschließbarer Griff und Sicherheitsglas halten Gelegenheitseinbrecher mit einfachem Werkzeug ab."],
+    ["Förderung", "Programme von BAFA und KfW unterstützen die energetische Sanierung; wir stellen Ihnen die Nachweise zu den Uw-Werten zusammen, den Antrag stellen Sie oder ein Energieberater."],
+  ],
+  "kunststoff-aluminium-fenster": [
+    ["AluClip", "Eine Aluminium-Deckschale, die außen auf das Kunststoffprofil geklipst wird – innen bleibt der pflegeleichte Kunststoff, außen entsteht die Optik eines Aluminiumfensters."],
+    ["Flächenbündig", "Bei den Pro-Varianten liegen Rahmen und Flügel außen in einer Ebene – ein glattes, modernes Fensterbild ohne vorspringenden Flügel."],
+    ["RAL-Farbe", "Die Aluminiumschale wird pulverbeschichtet; so lässt sich die Außenseite in jeder RAL-Farbe gestalten, innen bleibt Weiß oder ein Dekor."],
+    ["Uf-Wert", "Der Wärmedurchgang des Rahmens in W/(m²K) – die Werte der AluClip-Profile stehen in der Tabelle oben, den Uw-Wert Ihres Fensters berechnen wir im Angebot."],
+    ["Mitteldichtung", "Eine dritte Dichtungsebene in der Profilmitte, die Dichtheit und Wärmeschutz verbessert – die Tabelle oben zeigt, welche AluClip-Variante sie hat."],
+    ["Förderung", "Auch Kunststoff-Aluminium-Fenster können bei einer energetischen Sanierung gefördert werden (z. B. BAFA, KfW); maßgeblich ist der Uw-Wert, die Nachweise liefern wir."],
+  ],
+  "aluminiumfenster-cortizo": [
+    ["Thermische Trennung", "Ein Kunststoffsteg zwischen Innen- und Außenschale unterbricht den Wärmefluss durch das Metall – bei Cortizo 35 mm breit, und je breiter, desto besser die Dämmung."],
+    ["Uf / Uw", "Rahmen- und Fensterwert in W/(m²K); bei Aluminium hängt der Uf-Wert vor allem von der Breite der thermischen Trennung ab."],
+    ["Pulverbeschichtung", "Farbpulver wird elektrostatisch aufgetragen und eingebrannt – eine harte, wetterfeste Oberfläche in jeder RAL-Farbe, die nie gestrichen werden muss."],
+    ["Bautiefe", "Bei Cortizo 60 oder 70 mm; das tiefere System nimmt dickere Gläser auf und erreicht die besseren Dämmwerte."],
+    ["Formstabilität", "Aluminium verzieht sich auch bei großen Flügeln nicht – darum eignet es sich für Elemente bis 1,6 × 2,6 m und raumhohe Verglasungen."],
+    ["Förderung", "Aluminiumfenster mit Dreifachglas können in Förderprogrammen wie BAFA oder KfW berücksichtigt werden – entscheidend ist der Uw-Wert des Elements, den wir Ihnen ausweisen."],
+  ],
+  schiebetueren: [
+    ["Hebe-Schiebetür", "Zum Öffnen wird der Flügel über den Griff angehoben und gleitet dann auf Rollen zur Seite; abgesenkt presst er sich fest in die Dichtungen."],
+    ["Barrierearme Schwelle", "Eine flache Schwelle am Übergang zur Terrasse – ohne hohe Stufe, bequem auch mit Kinderwagen oder Rollator."],
+    ["Uw-Wert", "Der Wärmedurchgang der gesamten Schiebetür in W/(m²K); bei großen Glasflächen zählt vor allem das Glas, deshalb empfehlen wir Dreifachverglasung."],
+    ["Flügelbreite", "Hebe-Schiebetüren sind bis 6,5 m Gesamtbreite möglich; wie breit ein einzelner Flügel werden darf, hängt vom Werkstoff und vom Glasgewicht ab."],
+    ["Sonnenschutz", "Rollladen oder außenliegender Sonnenschutz werden bei Schiebetüren am besten gleich mitgeplant, damit Kasten und Führungen passen."],
+    ["Förderung", "Terrassen- und Schiebetüren zählen bei der energetischen Sanierung zu den Fenstern; mit Dreifachglas können sie in Programmen wie BAFA oder KfW berücksichtigt werden."],
+  ],
+  haustueren: [
+    ["Ud-Wert", "Der Wärmedurchgang der kompletten Haustür in W/(m²K) – je kleiner, desto weniger Wärme geht über die Tür verloren."],
+    ["Mehrfachverriegelung", "Mehrere Riegel und Schwenkhaken schließen beim Abschließen gleichzeitig über die ganze Türhöhe – das erschwert das Aufhebeln deutlich."],
+    ["RC2", "Widerstandsklasse nach DIN EN 1627; eine RC2-Haustür kombiniert geprüftes Türblatt, Verriegelung, Sicherheitsglas und Schutzbeschlag."],
+    ["Automatische Verriegelung", "Die Tür verriegelt beim Zuziehen von selbst, ohne Schlüsseldrehen – praktisch mit vollen Händen und sicherer als eine nur ins Schloss gefallene Tür."],
+    ["Förderung", "Auch der Haustürtausch kann als Teil einer energetischen Sanierung gefördert werden (z. B. BAFA, KfW) – maßgeblich ist der Ud-Wert der neuen Tür."],
+  ],
+};
+function ratgeber(slug, extra) {
+  const items = (RATGEBER[slug] || RATGEBER.index).concat(extra || []);
   return `<aside class="ratgeber" aria-labelledby="ratgeber-title">
         <p class="eyebrow"><span>?</span> Ratgeber</p>
         <h2 class="h3" id="ratgeber-title">Fachbegriffe kurz erklärt</h2>
@@ -209,7 +279,7 @@ function form(p) {
         <div>
           <p class="eyebrow"><span>→</span> Anfrage</p>
           <h2 class="h2" id="anfrage-title">Kostenloses Aufmaß <em>anfragen.</em></h2>
-          <p class="lead lead--sm">Wir beraten Sie zu Hause, messen kostenlos auf und erstellen ein schriftliches Angebot. Wir melden uns innerhalb von zwei Werktagen.</p>
+          <p class="lead lead--sm">${FORM_LEAD[p.slug] || FORM_LEAD.index} Wir melden uns innerhalb von zwei Werktagen.</p>
           ${firmaLib.kontaktKarteHtml(einst)}
           <p class="more-links"><a href="/produkte/">Alle Produkte</a> · <a href="/leistungen/">Unsere Leistungen: Beratung, Aufmaß, Montage</a></p>
         </div>
@@ -385,7 +455,7 @@ const pages = [];
             ["<strong>Kömmerling 88</strong><br><span class='sub'>Linie Performance 88</span>", "88 mm", "7", "MD, 3+1 Dichtungen", "bis 52 mm, 3-fach", "bis zu 0,95 W/(m²K)"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
 
         <h3 class="h3" id="aluclip-title">Kunststoff-Aluminium: außen Aluminium, innen Kunststoff</h3>
         <p class="lead lead--sm">Die AluClip-Varianten tragen außen eine Aluminium-Vorsatzschale: witterungsbeständig, in jeder RAL-Farbe lackierbar, bei den Pro-Varianten flächenbündig – Rahmen und Flügel liegen außen in einer Ebene.</p>
@@ -398,7 +468,7 @@ const pages = [];
             ["<strong>Kömmerling 88 AluClip Pro</strong><br><span class='sub'>Linie Performance 88 Premium</span>", "93,5 mm", "7", "bis 52 mm, 3-fach", "bis zu 0,95 W/(m²K)", "flächenbündig, Premium, optional Dämmkern"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
         <!-- [MIT KUNDE KLÄREN] Zusatzsystem AluClip Zero (Alu-Optik außen) und Hebe-Schiebetür PremiDoor: Lieferumfang beim Kunden bestätigen, daher hier nicht aufgeführt. -->
       </div>
     </section>
@@ -415,7 +485,7 @@ const pages = [];
             "<strong>Moderne Fassade:</strong> AluClip-Varianten mit Aluminium außen in RAL-Farbe, innen pflegeleichter Kunststoff.",
           ])}
         </div>
-        ${ratgeber()}
+        ${ratgeber(p.slug)}
       </div>
     </section>
 
@@ -500,7 +570,7 @@ const pages = [];
             ["<strong>Cortizo 70</strong><br><span class='sub'>Linie Dauerhaft 70</span>", "70 mm", "35 mm", "bis 48 mm, 2- oder 3-fach", "bis zu 1,9 W/(m²K)", "1600 × 2600 mm"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
         <h3 class="h3">Auf Anfrage: hochwärmegedämmte Cortizo-Systeme</h3>
         <p class="lead lead--sm">Für besondere Anforderungen – sehr große Glasflächen, verdeckte Flügel oder Passivhaus-Standard – bieten wir auf Anfrage weitere Cortizo-Systeme an, etwa die Cor-70- und Cor-80-Industrial-Reihe mit Uf-Werten ab 0,94 W/(m²K) oder Schiebesysteme der Cor-Vision-Reihe. Sprechen Sie uns an, wir prüfen Machbarkeit und Lieferzeit für Ihr Projekt.</p>
         <!-- [MIT KUNDE KLÄREN] Cor 70/80 Industrial, Cor 80 Verdeckter Flügel, Passivhaus-Variante, Cor Vision: nur „auf Anfrage“, kein Standardsortiment laut helios-sortiment.md. -->
@@ -520,7 +590,7 @@ const pages = [];
           ])}
           <p class="lead lead--sm">Sie möchten die Dämmwerte von Kunststoff mit der Optik von Aluminium? Dann sind unsere <a href="/produkte/kunststofffenster-koemmerling/#aluclip-title">Kunststoff-Aluminium-Fenster (AluClip)</a> eine Alternative.</p>
         </div>
-        ${ratgeber([["Thermische Trennung", "Kunststoffsteg zwischen Innen- und Außenschale eines Aluminiumprofils. Je breiter, desto besser die Dämmung."]])}
+        ${ratgeber(p.slug)}
       </div>
     </section>
 
@@ -616,7 +686,7 @@ const pages = [];
             ["<strong>Visuell 160</strong>", "Aluminium, thermisch getrennt", "160 / 251 mm", "bis 48 mm, 2- oder 3-fach", "6400 × 3000 mm", "2- bis 6-flügelig, Mehrpunktverriegelung"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
         <!-- [MIT KUNDE KLÄREN] Linien Robust 88 / Robust 88 Premium und Select 76 stehen in helios-sortiment.md, sind auf fensterhelios.de (DE) aber nicht gelistet – nicht aufgeführt. -->
       </div>
     </section>
@@ -633,7 +703,7 @@ const pages = [];
             "<strong>Mehrflügelige Anlagen, Wintergarten, Gewerbe:</strong> Visuell 60 bis 160 mit bis zu sechs Flügeln.",
           ])}
         </div>
-        ${ratgeber()}
+        ${ratgeber(p.slug)}
       </div>
     </section>
 
@@ -732,7 +802,7 @@ const pages = [];
             ["<strong>Dauerhaft 70 Premium</strong>", "Aluminium, thermisch getrennt, flächenbündig", "70 mm", "bis 48 mm, Aluminium-Füllungen", "1500 × 2900 mm", "verdeckte Sicherheitsbeschläge möglich"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
 
         <h3 class="h3">Türfüllungen und Griffe</h3>
         <p class="lead lead--sm">Zur Auswahl stehen Füllungen aus Kunststoff (Designs D 1, D 2, D 3, D 6, D 7, D 9, D 1420, Celia, Ella, Marta, Rebeca) und aus Aluminium (D 1404, D 1411, D 1413, D 1415, D 1420, D 1422, D 1434, D 1436), jeweils mit oder ohne Glasausschnitt und in den Farben der Tür. Griffe: Stoßgriffe in mehreren Längen, Griffleisten, Drücker und Schutzbeschläge in Edelstahl, Schwarz, Weiß, Bronze oder Aluminium. Muster zeigen wir Ihnen beim Beratungstermin.</p>
@@ -751,7 +821,7 @@ const pages = [];
             "<strong>Nebeneingang, Keller, Garage:</strong> Praktik 70 oder Dauerhaft 60.",
           ])}
         </div>
-        ${ratgeber([["Flügelüberdeckend", "Die Füllung überdeckt den Flügelrahmen – außen (einseitig) oder außen und innen (beidseitig). Ergibt eine glatte Türfläche ohne sichtbaren Rahmen."]])}
+        ${ratgeber(p.slug, [["Flügelüberdeckend", "Die Füllung überdeckt den Flügelrahmen – außen (einseitig) oder außen und innen (beidseitig). Ergibt eine glatte Türfläche ohne sichtbaren Rahmen."]])}
       </div>
     </section>
 
@@ -839,7 +909,7 @@ const pages = [];
             ["<strong>Kömmerling 88 AluClip Pro</strong><br><span class='sub'>Linie Performance 88 Premium</span>", "93,5 mm", "7", "bis 52 mm, 3-fach", "bis zu 0,95 W/(m²K)", "flächenbündig, Premium"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
       </div>
     </section>
 
@@ -855,7 +925,7 @@ const pages = [];
             "<strong>Neubau mit ruhiger Ansicht:</strong> flächenbündige Pro-Varianten für gerade Linien.",
           ])}
         </div>
-        ${ratgeber()}
+        ${ratgeber(p.slug)}
       </div>
     </section>
 
@@ -902,7 +972,7 @@ const pages = [];
           <p class="eyebrow"><span>Produkte</span> Fenster · Türen · Schiebetüren</p>
           <h1 class="title" id="h1">Fenster und Türen – <em>nach Maß für Ihr Zuhause.</em></h1>
           <p class="lead">Kunststoff, Kunststoff-Aluminium oder Aluminium: Wir beraten Sie zu Hause, messen kostenlos auf und montieren Ihre neuen Fenster, Haustüren und Schiebetüren in Ingolstadt und der Region.</p>
-          <p class="partner">${PARTNER}</p>
+          <p class="partner">${partnerSatz(p.slug)}</p>
           <div class="actions">
             <a class="btn btn--primary" href="#anfrage">Kostenloses Aufmaß anfragen</a>
             <a class="btn btn--ghost" href="/leistungen/">Unsere Leistungen</a>
@@ -940,7 +1010,7 @@ const pages = [];
             ["<strong>energeto neo</strong>", "76 mm", "schlanke Ansichten für große Glasflächen, optional „powerdur inside“ (Verstärkung ohne Stahl) und „bonding inside“ (verklebte Verglasung) für Dämmung und Stabilität"],
           ],
         })}
-        <p class="tbl-note">${NOTE}</p>
+        <p class="tbl-note">${noteSatz(p.slug)}</p>
         <!-- [MIT KUNDE KLÄREN] aluplast: Herstellerbilder und Broschüren (IDEAL-Serie, energeto neo) von der alten Website nur mit Freigabe übernehmen; Lieferant/Fertiger der aluplast-Fenster bestätigen. -->
       </div>
     </section>
@@ -959,7 +1029,7 @@ const pages = [];
           ])}
           <p class="lead lead--sm"><a href="/leistungen/">Alle Leistungen im Detail →</a></p>
         </div>
-        ${ratgeber()}
+        ${ratgeber(p.slug)}
       </div>
     </section>
 

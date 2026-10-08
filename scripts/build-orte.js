@@ -3,13 +3,17 @@
    aus data/orte.json.  Aufruf: node scripts/build-orte.js  [--report]
    - Veröffentlicht werden nur Orte mit "stufe": 1, deren Region "veroeffentlicht": true hat.
    - Orte einer nicht veröffentlichten Region werden trotzdem gebaut (noindex, nicht in Sitemap/Übersicht).
-   - Textbausteine werden je Seite aus mehreren Varianten gewählt; die Wahl wird so getroffen, dass die
-     Überschneidung (5-Wort-Schindeln) zu allen bisher erzeugten Seiten unter 50 % bleibt. */
+   - Textbausteine (scripts/orte-texte.js): Jeder längere Satz wird aus zwei Hälften zusammengesetzt, jede Kombination
+     nur einmal vergeben und mit scripts/text-duplikate.js gegen alle anderen Seiten geprüft – keine zwei Seiten
+     teilen einen Satz ab 8 Wörtern (> 80 % Ähnlichkeit). Zusätzlich bleibt die Überschneidung (5-Wort-Schindeln)
+     zu allen bisher erzeugten Seiten unter 50 % (Bericht data/orte-report.json). */
 "use strict";
 const fs = require("fs");
 const path = require("path");
 const root = path.join(__dirname, "..");
 const firmaLib = require(path.join(root, "netlify/functions/_lib/firma"));
+const td = require(path.join(__dirname, "text-duplikate.js")); // Satzvergleich (dieselbe Messung wie der Test)
+const T = require(path.join(__dirname, "orte-texte.js")); // Textbausteine (Satzhälften)
 const einst = JSON.parse(fs.readFileSync(path.join(root, "data/einstellungen.json"), "utf8"));
 const SITE = "https://fenster-weissenburger.de";
 const TODAY = "2026-10-07";
@@ -36,159 +40,27 @@ const orte = data.orte.filter((o) => o.stufe === 1);
 const bySlug = Object.fromEntries(orte.map((o) => [o.slug, o]));
 const published = (o) => !!regions[o.region].veroeffentlicht;
 
-/* ---------- Textvarianten ---------- */
+/* ---------- Textbausteine ----------
+   Die Sätze kommen aus scripts/orte-texte.js: Jeder längere Satz besteht aus zwei Hälften, jede Kombination wird im
+   gesamten Lauf nur einmal vergeben, und jeder Satz wird vor der Verwendung mit scripts/text-duplikate.js gegen alle
+   bereits erzeugten Seiten (und die übrigen öffentlichen Seiten) geprüft – so trägt keine Ortsseite den Satz einer
+   anderen Seite (Schwelle 80 % Ähnlichkeit bei Sätzen ab 8 Wörtern; tests/text-duplikate.test.js). */
 function ctx(o) {
   const r = regions[o.region];
   const hq = o.region === "ingolstadt";
   const isHQ = o.slug === "ingolstadt";
-  const lk = o.landkreis === "kreisfreie Stadt" ? "kreisfreie Stadt" : o.landkreis;
-  const lkIn = o.landkreis === "kreisfreie Stadt" ? `die kreisfreie Stadt ${o.name}` : `${o.name} im ${o.landkreis}`;
+  const kreisfrei = o.landkreis === "kreisfreie Stadt";
+  const lk = kreisfrei ? "kreisfreie Stadt" : o.landkreis;
   const km = Math.round(o.distanceKm), min = o.drivingMinutes;
-  const bl = o.bundesland || (o.region === "ingolstadt" ? "Bayern" : "");
-  const typ = o.landkreis === "kreisfreie Stadt" ? "Stadt" : o.isCity ? "Stadt" : "Gemeinde";
-  return { r, hq, isHQ, lk, lkIn, km, min, bl, typ, name: o.name, pop: num(o.population), popDate: "31.12.2025" };
+  const bl = o.bundesland || (hq ? "Bayern" : "");
+  const typ = kreisfrei || o.isCity ? "Stadt" : "Gemeinde";
+  return {
+    r, hq, isHQ, lk, km, min, bl, typ, slug: o.slug, name: o.name, pop: num(o.population), popDate: "31.12.2025", zentrum: r.center,
+    imLk: kreisfrei ? "als kreisfreie Stadt" : `im ${o.landkreis}`,
+    nameLk: kreisfrei ? `${o.name} (kreisfreie Stadt)` : `${o.name} im ${o.landkreis}`,
+    typOrt: kreisfrei ? `kreisfreie Stadt ${o.name}` : `${typ} ${o.name} im ${o.landkreis}`,
+  };
 }
-
-const INTRO = [
-  (c) => c.isHQ
-    ? `Ingolstadt ist unser Zuhause: Von der <span data-firma="strasse-name">${firmaLib.esc(firmaLib.strassenName(einst))}</span> aus beraten, vermessen und montieren wir in allen Stadtteilen – ohne Anfahrtspauschale und mit kurzen Wegen für Nachbesserungen oder ein zweites Aufmaß.`
-    : c.hq
-      ? `${c.lkIn.charAt(0).toUpperCase() + c.lkIn.slice(1)} liegt rund ${c.km} km Luftlinie von unserem Firmensitz in Ingolstadt entfernt – etwa ${c.min} Minuten Fahrt. Für Beratung und Aufmaß kommen wir ohne Umwege zu Ihnen, und auch am Montagetag ist das Team schnell vor Ort.`
-      : `${c.name} liegt rund ${c.km} km von Karlsruhe entfernt, etwa ${c.min} Minuten Fahrt. Wir sind auch im Raum Karlsruhe für Sie im Einsatz: Beratung, Aufmaß und Montage führen wir vor Ort durch, Anfahrt und Termin stimmen wir individuell mit Ihnen ab.`,
-  (c) => c.isHQ
-    ? `Als Ingolstädter Betrieb kennen wir die Stadt vom Nordbahnhof bis zum Südufer der Donau. Beratung bei Ihnen zu Hause, kostenloses Aufmaß und Montage kommen aus einer Hand – kurze Wege inklusive.`
-    : c.hq
-      ? `Mit rund ${c.km} km Luftlinie (ca. ${c.min} Minuten Fahrt) gehört ${c.name} zu unserem Kerngebiet um Ingolstadt. Das heißt für Sie: Beratungstermine lassen sich kurzfristig legen, das Aufmaß erledigen wir beim selben Besuch, und die Monteure sind am Einbautag früh bei Ihnen.`
-      : `Rund ${c.km} km trennen ${c.name} von Karlsruhe – etwa ${c.min} Minuten Fahrt. Unser Firmensitz ist Ingolstadt, wir sind aber auch im Raum Karlsruhe für Sie im Einsatz und planen Beratung, Aufmaß und Montage dort als feste Termine.`,
-  (c) => c.isHQ
-    ? `Fenster-WeissenBurger sitzt in Ingolstadt (${c.pop} Einwohner, Stand ${c.popDate}). Wer in der Stadt neue Fenster oder eine Haustür braucht, bekommt bei uns alles aus einer Hand – von der ersten Beratung über das Aufmaß bis zur Entsorgung der alten Elemente.`
-    : c.hq
-      ? `${c.name} (${c.lk}, ${c.pop} Einwohner, Stand ${c.popDate}) erreichen wir von Ingolstadt aus in etwa ${c.min} Minuten – rund ${c.km} km Luftlinie. Ob Fenstertausch im Bestand oder Fenster für den Neubau: Wir beraten bei Ihnen zu Hause, messen kostenlos auf und montieren mit eigenem Team.`
-      : `${c.name} (${c.lk}, ${c.pop} Einwohner, Stand ${c.popDate}) liegt rund ${c.km} km von Karlsruhe. Wir sind auch im Raum Karlsruhe für Sie im Einsatz – mit Beratung vor Ort, kostenlosem Aufmaß und Montage durch unser Team; unser Firmensitz bleibt Ingolstadt.`,
-  (c) => c.isHQ
-    ? `In Ingolstadt sind wir zu Hause. Darum können wir hier besonders flexibel sein: Beratung auch am späten Nachmittag, Aufmaß meist innerhalb weniger Tage und ein Montageteam, das keine lange Anfahrt hat.`
-    : c.hq
-      ? `Von Ingolstadt nach ${c.name} sind es rund ${c.km} km Luftlinie, also etwa ${c.min} Minuten mit dem Auto. ${c.name} gehört zum ${c.lk}${c.bl ? " in " + c.bl : ""} – und zu dem Gebiet, in dem wir regelmäßig Fenster und Türen montieren.`
-      : `${c.name} im Raum Karlsruhe (${c.lk}) ist rund ${c.km} km bzw. etwa ${c.min} Minuten von Karlsruhe entfernt. Wir sind auch im Raum Karlsruhe für Sie im Einsatz; Beratung, Aufmaß und Einbau erfolgen bei Ihnen vor Ort, organisiert von unserem Sitz in Ingolstadt.`,
-  (c) => c.isHQ
-    ? `Unser Firmensitz liegt in Ingolstadt, mitten im Einsatzgebiet. Für Ingolstädter Kundinnen und Kunden bedeutet das: schnelle Beratungstermine, kostenloses Aufmaß vor Ort und ein Montageteam aus der Nachbarschaft.`
-    : c.hq
-      ? `Die ${c.typ} ${c.name} zählt ${c.pop} Einwohner (Stand ${c.popDate}) und liegt im ${c.lk}, rund ${c.km} km von Ingolstadt. Die Fahrt dauert etwa ${c.min} Minuten – kurz genug, dass wir Beratung und Aufmaß gern in einem Termin erledigen.`
-      : `Die ${c.typ} ${c.name} zählt ${c.pop} Einwohner (Stand ${c.popDate}) und liegt im ${c.lk}, rund ${c.km} km von Karlsruhe. Wir sind auch im Raum Karlsruhe für Sie im Einsatz und kommen für Beratung und Aufmaß zu Ihnen.`,
-  (c) => c.isHQ
-    ? `Ingolstadt ist der Ausgangspunkt für alles, was wir tun. Von hier aus betreuen wir Privatkunden, Bauträger und Hausverwaltungen – und in der Stadt selbst sind die Wege am kürzesten.`
-    : c.hq
-      ? `${c.name} liegt im ${c.lk}, etwa ${c.min} Fahrminuten (rund ${c.km} km Luftlinie) von unserem Sitz in Ingolstadt. Für Sie heißt das: ein Ansprechpartner, kurze Reaktionszeiten und Montagetermine, die wir zuverlässig halten können.`
-      : `Rund ${c.km} km von Karlsruhe, etwa ${c.min} Minuten Fahrt: ${c.name} liegt im ${c.lk}. Wir sind auch im Raum Karlsruhe für Sie im Einsatz – Beratung und Aufmaß vor Ort, Fertigung durch unseren Partner Helios, Montage durch unser Team.`,
-];
-
-const BEDEUTET = [
-  (c) => `<h2 class="h2">Beratung, die <em>zu Ihnen kommt.</em></h2><p>Statt Ausstellung und Katalog: Wir schauen uns Ihre Fenster und Türen in ${c.name} direkt an, bringen Muster mit und besprechen Öffnungsarten, Verglasung, Farben und Sicherheit dort, wo sie später eingebaut werden.</p>`,
-  (c) => `<h2 class="h2">Was die Nähe <em>für Sie bedeutet.</em></h2><p>Beratung und Aufmaß legen wir auf einen Termin bei Ihnen zu Hause${c.hq ? " – die Anfahrt aus Ingolstadt ist kurz" : ""}. Am Montagetag kommen die alten Fenster raus, die neuen rein, und wir nehmen die Altelemente gleich mit. Sollte später eine Einstellung nötig sein, sind wir ohne großen Aufwand wieder da.</p>`,
-  (c) => `<h2 class="h2">Kurze Wege, <em>feste Termine.</em></h2><p>Ein Vor-Ort-Termin in ${c.name} lässt sich bei uns gut planen: Wir kommen zur vereinbarten Zeit, besprechen Werkstoff, Öffnungsarten und Verglasung und nehmen das Aufmaß gleich mit. Das schriftliche Angebot folgt, der Montagetag wird fest zugesagt.</p>`,
-  (c) => `<h2 class="h2">So läuft es in ${esc(c.name)} <em>ab.</em></h2><p>Sie rufen an oder schreiben uns. Wir vereinbaren einen Beratungstermin bei Ihnen, messen kostenlos auf und schicken Ihnen ein Angebot mit allen Positionen. Nach Ihrer Freigabe fertigt unser Partner Helios die Elemente, dann montieren wir – inklusive Demontage und Entsorgung der alten Fenster.</p>`,
-  (c) => `<h2 class="h2">Ein Termin, <em>alles geklärt.</em></h2><p>Beim Besuch in ${c.name} nehmen wir uns Zeit: Wir hören zu, zeigen Profilmuster und Farben, messen jedes Element auf und erklären, was beim Einbau in Ihrem Haus zu beachten ist. Danach bekommen Sie ein Angebot, das alle Positionen enthält – ohne Überraschungen.</p>`,
-  (c) => `<h2 class="h2">Vom Anruf <em>bis zur Abnahme.</em></h2><p>Erst Beratung bei Ihnen in ${c.name}, dann Aufmaß und Angebot, dann Fertigung nach Maß. Am Montagetag arbeiten wir Raum für Raum, dichten fachgerecht ab und nehmen die alten Elemente mit. Zum Schluss gehen wir alles gemeinsam durch.</p>`,
-];
-
-const GEBAEUDE = [
-  (c) => `<p>Reihenhaus, freistehendes Einfamilienhaus, Mehrfamilienhaus oder Gewerbe: In ${c.name} ist jede Aufgabe anders. Wir prüfen beim Termin, ob Laibungen und Rollladenkästen für Dreifachglas geeignet sind, und planen die Montage passend zum Gebäude.</p>`,
-  (c) => `<p>Ältere Fenster in ${c.name} haben oft nur Zweifachglas und undichte Rahmen. Moderne Profile mit Dreifachverglasung senken den Wärmeverlust deutlich – welche Bautiefe sinnvoll ist, hängt vom Haus ab und wird beim Aufmaß festgelegt.</p>`,
-  (c) => `<p>Wie überall in der Region treffen wir in ${c.name} auf sehr unterschiedliche Häuser: Einfamilienhäuser aus den Nachkriegsjahrzehnten mit ersten Isolierglasfenstern, Siedlungshäuser der 1970er- bis 1990er-Jahre, Mehrfamilienhäuser und Neubaugebiete. Für jeden Fall gibt es das passende Profil – vom wirtschaftlichen Fenstertausch bis zum Passivhaus-Niveau.</p>`,
-  (c) => `<p>Ob Altbau mit alten Fenstern, Doppelhaushälfte aus den 80ern oder Neubau: Welche Lösung in ${c.name} sinnvoll ist, hängt vom Haus, der Fassade und Ihren Zielen ab. Genau deshalb beraten wir vor Ort und nicht am Telefon.</p>`,
-  (c) => `<p>Jedes Gebäude ist anders – Bestand und Neubau, verputzte Fassade oder Klinker, Standardmaße oder Sonderformen. Beim Termin in ${c.name} sehen wir uns Laibungen, Fensterbänke und Rollladenkästen an und sagen Ihnen, was beim Einbau zu beachten ist.</p>`,
-];
-
-/* Themen-Abschnitte: je 3–4 Textvarianten; Links zu Produkt-/Leistungsseiten */
-const TOPICS = [
-  { key: "kaufen", h: ["Fenster kaufen in {ort}", "Neue Fenster für {ort}", "Fenster in {ort} kaufen – mit Beratung"], href: "/produkte/", link: "Alle Produkte", t: [
-    (c) => `Bei uns kaufen Sie Fenster nicht von der Stange: Jedes Element wird nach Aufmaß gefertigt – aus Kunststoff, Kunststoff-Aluminium oder Aluminium. Die Beratung findet bei Ihnen in ${c.name} statt, mit Mustern zum Anfassen.`,
-    (c) => `Fenster kaufen heißt bei uns: Beratung zu Hause in ${c.name}, Aufmaß, schriftliches Angebot, Fertigung nach Maß und Montage aus einer Hand. Preise richten sich nach Größe, Verglasung und Ausstattung – wir rechnen sie transparent im Angebot vor.`,
-    (c) => `Sie möchten in ${c.name} neue Fenster kaufen? Wir zeigen Ihnen die Unterschiede zwischen den Werkstoffen, erklären Uf- und Uw-Werte und empfehlen, was zu Haus und Budget passt – unverbindlich.`,
-    (c) => `Von der ersten Idee bis zum eingebauten Fenster: In ${c.name} begleiten wir Sie durch Auswahl, Aufmaß und Montage. Gefertigt wird von unserem Partner Helios mit Profilen von Kömmerling und Cortizo.`,
-    (c) => `Welches Fenster passt zu Ihrem Haus in ${c.name}? Das entscheiden Fassade, Budget und Energieziel. Wir legen Ihnen zwei oder drei Varianten vor – mit Werten, Farben und Preisen – und Sie wählen in Ruhe.`,
-  ] },
-  { key: "tausch", h: ["Fenstertausch in {ort}", "Alte Fenster raus, neue rein – in {ort}", "Fenstertausch im Bestand in {ort}"], href: "/leistungen/", link: "Leistungen: Demontage, Montage, Entsorgung", t: [
-    (c) => `Beim Fenstertausch in ${c.name} bauen wir die alten Fenster aus, setzen die neuen fachgerecht ein, dichten ab und entsorgen die Altelemente. In der Regel ist ein Raum nach wenigen Stunden wieder nutzbar.`,
-    (c) => `Zugige Rahmen, beschlagene Scheiben, hohe Heizkosten? Ein Fenstertausch lohnt sich oft schon nach wenigen Jahren. Wir planen ihn in ${c.name} so, dass Sie während der Arbeiten im Haus bleiben können.`,
-    (c) => `Fenstertausch bedeutet mehr als neue Scheiben: Wir prüfen Laibung, Fensterbank und Rollladenkasten, montieren nach RAL-Richtlinien und übergeben besenrein – auch in ${c.name}.`,
-    (c) => `Für den Fenstertausch im bestehenden Haus in ${c.name} empfehlen wir meist Kömmerling 76 (AD oder MD): schlanke Rahmen, die in vorhandene Öffnungen passen, und Dreifachglas für spürbar weniger Wärmeverlust.`,
-    (c) => `Wir tauschen Fenster in ${c.name} Raum für Raum, damit das Haus bewohnbar bleibt: morgens Ausbau, mittags Einbau und Abdichtung, abends ist alles dicht und besenrein. Die alten Elemente nehmen wir mit.`,
-  ] },
-  { key: "montage", h: ["Fenstermontage in {ort}", "Montage durch unser Team in {ort}", "Fachgerechte Fenstermontage in {ort}"], href: "/leistungen/", link: "So läuft die Montage ab", t: [
-    (c) => `Unsere Monteure setzen jedes Element lot- und waagerecht, verschrauben es fachgerecht und dichten innen dampfdicht, außen schlagregendicht ab. Fensterbänke, Anschlussarbeiten und kleinere Putzausbesserungen gehören in ${c.name} dazu.`,
-    (c) => `Die Fenstermontage in ${c.name} übernimmt unser eigenes Team – kein Subunternehmer, den Sie nicht kennen. Wir decken Böden ab, arbeiten Raum für Raum und nehmen den Bauschutt mit.`,
-    (c) => `Gute Fenster brauchen eine gute Montage: Erst Abdichtung, Dämmung der Fuge und saubere Anschlüsse machen aus einem Fenster ein dichtes Fenster. Genau so arbeiten wir in ${c.name} – nach RAL-Montagerichtlinien.`,
-    (c) => `Montage heißt bei uns: Befestigung im Mauerwerk, dreistufige Fugenabdichtung, Einstellen der Beschläge und Prüfung jedes Flügels. Auch Fensterbänke und Rollladenanschlüsse erledigen wir in ${c.name} in einem Zug.`,
-    (c) => `Unser Montageteam kommt mit allem, was es braucht, nach ${c.name}: Dichtbänder und Montageschaum, Fensterbänke, Werkzeug für Putzausbesserungen – und mit dem Anspruch, am Abend eine saubere Baustelle zu hinterlassen.`,
-  ] },
-  { key: "kunststoff", h: ["Kunststofffenster (Kömmerling) für {ort}", "Kömmerling-Kunststofffenster in {ort}", "Kunststofffenster in {ort}"], href: "/produkte/kunststofffenster-koemmerling/", link: "Kunststofffenster mit Kömmerling-Profilen", t: [
-    (c) => `Unsere Kunststofffenster werden mit Kömmerling-Profilen gefertigt: 70 und 76 mm für Sanierung und Fenstertausch, 88 mm mit sieben Kammern für Neubau und Energiesparhaus. Pflegeleicht, viele Dekore, Einbruchschutz bis RC2.`,
-    (c) => `Kunststofffenster sind in ${c.name} die meistgewählte Lösung: gute Dämmung, kein Streichen, faire Preise. Mit Kömmerling 76 MD oder 88 erreichen Sie Werte, die auch für Förderprogramme interessant sind.`,
-    (c) => `Kömmerling-Profile in vier Bautiefen, auf Wunsch außen mit Aluminium-Deckschale (AluClip) in RAL-Farbe – so verbinden Sie in ${c.name} Kunststoff-Dämmung mit moderner Optik.`,
-    (c) => `Weiß, Anthrazit, Golden Oak oder zweifarbig: Kunststofffenster mit Kömmerling-Profilen passen sich der Fassade an. Welche Bautiefe für Ihr Haus in ${c.name} sinnvoll ist, klären wir beim Aufmaß.`,
-    (c) => `Anschlag- oder Mitteldichtung, fünf, sechs oder sieben Kammern: Hinter den Kömmerling-Bezeichnungen 70, 76 AD, 76 MD und 88 stecken klare Unterschiede bei Dämmung und Preis. Wir erklären sie Ihnen in ${c.name} am Muster.`,
-  ] },
-  { key: "alu", h: ["Aluminiumfenster (Cortizo) in {ort}", "Alufenster für {ort}", "Aluminiumfenster in {ort}"], href: "/produkte/aluminiumfenster-cortizo/", link: "Aluminiumfenster mit Cortizo-Systemen", t: [
-    (c) => `Für große Glasflächen, schmale Rahmen und moderne Architektur in ${c.name}: Aluminiumfenster mit thermisch getrennten Cortizo-Profilen (60 und 70 mm), pulverbeschichtet in allen RAL-Farben.`,
-    (c) => `Aluminium ist formstabil und wartungsarm – ideal für raumhohe Elemente, Terrassentüren und Wintergärten. Höherwertige Cortizo-Systeme bieten wir auf Anfrage an, auch in ${c.name}.`,
-    (c) => `Wenn Fenster in ${c.name} besonders groß oder besonders schlank sein sollen, ist Aluminium die richtige Wahl. Cortizo-Profile mit 35 mm thermischer Trennung und Dreifachglas sorgen für die nötige Dämmung.`,
-    (c) => `Aluminiumfenster sind in ${c.name} die Wahl für Bauherren, die klare Linien und dunkle Farben wollen. Dank thermischer Trennung dämmen moderne Cortizo-Profile zuverlässig; die Oberfläche braucht keine Pflege.`,
-    (c) => `Für Gewerbe, Verwaltung oder große Wohnhäuser in ${c.name} liefern wir Aluminiumfenster, die auch bei Elementen von 1,6 × 2,6 m formstabil bleiben – pulverbeschichtet, wetterfest, recyclingfähig.`,
-  ] },
-  { key: "haustuer", h: ["Haustüren in {ort}", "Neue Haustür für {ort}", "Haustüren für {ort}"], href: "/produkte/haustueren/", link: "Haustüren: Linien, Füllungen, Griffe", t: [
-    (c) => `Haustüren aus Kunststoff, Kunststoff-Aluminium oder Aluminium, mit Seitenteil und Oberlicht, Sicherheit bis RC2 und Füllungen nach Wunsch. Wir montieren Ihre neue Haustür in ${c.name} inklusive Ausbau der alten.`,
-    (c) => `Die Haustür ist das erste, was man von Ihrem Haus in ${c.name} sieht. Wir planen sie mit Ihnen: Füllung, Glas, Griff, Farbe – und sorgen mit Mehrfachverriegelung und gedämmter Füllung für Sicherheit und Wärmeschutz.`,
-    (c) => `Von der wirtschaftlichen Nebeneingangstür bis zur flächenbündigen Premium-Haustür: Die Linien unseres Partners Helios decken alles ab. Muster und Füllungsdesigns zeigen wir beim Termin in ${c.name}.`,
-    (c) => `Haustür tauschen in ${c.name}? Meist ist das an einem Tag erledigt: alte Tür raus, neue rein, Anschlüsse abgedichtet, Schwelle angepasst. Auf Wunsch mit barrierearmer Schwelle und automatischer Verriegelung.`,
-    (c) => `Sicher und warm: Unsere Haustüren für ${c.name} verbinden Mehrfachverriegelung, Sicherheitsglas und gedämmte Füllungen. Griffe aus Edelstahl, Füllungen in über 20 Designs, Farben passend zu den Fenstern.`,
-  ] },
-  { key: "schiebe", h: ["Schiebetüren in {ort}", "Hebe-Schiebetüren für {ort}", "Terrassen- und Schiebetüren in {ort}"], href: "/produkte/schiebetueren/", link: "Hebe-Schiebetüren aus Kunststoff und Aluminium", t: [
-    (c) => `Hebe-Schiebetüren öffnen Wohnräume zum Garten – bis 6,5 m Breite, barrierearm und mit Dreifachglas. Aus Kunststoff (Versatil, Robust) oder Aluminium (Visuell), montiert von uns in ${c.name}.`,
-    (c) => `Mehr Licht, mehr Garten: Eine Schiebetür ersetzt in ${c.name} die klassische Terrassentür und braucht keinen Platz zum Aufschwenken. Wir beraten zu Bauart, Schwelle und Sonnenschutz.`,
-    (c) => `Ob zweiflügelige Terrassentür oder sechsflügelige Glasfront: Schiebesysteme planen wir in ${c.name} passend zu Öffnung, Bodenaufbau und Rollladen.`,
-    (c) => `Eine Hebe-Schiebetür ist die großzügigste Verbindung zwischen Wohnraum und Garten. Wir prüfen in ${c.name} Sturz, Bodenaufbau und Schwelle und sagen Ihnen, welche Linie – Kunststoff oder Aluminium – zu Ihrem Haus passt.`,
-    (c) => `Schiebetüren laufen auf Edelstahlschienen, schließen dicht und lassen sich auch mit schweren Dreifachglas-Flügeln leicht bewegen. In ${c.name} montieren wir sie inklusive Anschluss an Boden und Fassade.`,
-  ] },
-];
-const ORDERS = [
-  ["kaufen", "tausch", "montage", "kunststoff", "alu", "haustuer", "schiebe"],
-  ["tausch", "montage", "kaufen", "kunststoff", "haustuer", "alu", "schiebe"],
-  ["kunststoff", "alu", "haustuer", "schiebe", "kaufen", "tausch", "montage"],
-  ["montage", "tausch", "kunststoff", "haustuer", "schiebe", "alu", "kaufen"],
-];
-
-const FAQ = [
-  { q: (c) => `Kommen Sie auch nach ${c.name}?`, a: [
-    (c) => c.hq ? `Ja. ${c.name} liegt rund ${c.km} km von unserem Sitz in Ingolstadt entfernt und gehört zu unserem regulären Einsatzgebiet. Beratung, Aufmaß und Montage finden bei Ihnen vor Ort statt.` : `Ja. Wir sind auch im Raum Karlsruhe für Sie im Einsatz; ${c.name} liegt rund ${c.km} km von Karlsruhe entfernt. Beratung, Aufmaß und Montage finden bei Ihnen vor Ort statt, organisiert von unserem Firmensitz in Ingolstadt.`,
-    (c) => c.hq ? `Selbstverständlich. Von Ingolstadt nach ${c.name} sind es etwa ${c.min} Minuten Fahrt. Wir beraten bei Ihnen zu Hause, messen auf und montieren mit unserem eigenen Team.` : `Ja – ${c.name} gehört zu unserem Einsatzgebiet im Raum Karlsruhe (rund ${c.km} km von Karlsruhe). Eine lokale Niederlassung haben wir dort nicht; Beratung, Aufmaß und Montage kommen aber zu Ihnen.`,
-    (c) => c.hq ? `Ja, ${c.name} im ${c.lk} liegt in unserem Kerngebiet. Die Anfahrt aus Ingolstadt dauert etwa ${c.min} Minuten; eine Anfahrtspauschale für Beratung und Aufmaß berechnen wir nicht.` : `Ja. ${c.name} im ${c.lk} liegt in unserem Einsatzgebiet Raum Karlsruhe. Für Beratung und Aufmaß kommen wir zu Ihnen; den Termin stimmen wir individuell ab.`,
-  ] },
-  { q: (c) => `Wie schnell ist ein Aufmaß-Termin in ${c.name} möglich?`, a: [
-    (c) => `Das hängt von der aktuellen Auslastung ab. Rufen Sie an oder schreiben Sie uns – wir nennen Ihnen den nächsten freien Termin und halten ihn verbindlich ein. Beratung und Aufmaß erledigen wir in einem Besuch.`,
-    (c) => `Wir melden uns innerhalb von zwei Werktagen auf Ihre Anfrage und schlagen Ihnen Termine vor. Wie schnell es konkret geht, sagen wir Ihnen ehrlich am Telefon – je nach Saison und Auftragslage.`,
-    (c) => `Einen festen Zeitraum versprechen wir nicht pauschal, weil er von der Auftragslage abhängt. Fragen Sie an: Sie bekommen zeitnah einen konkreten Terminvorschlag für ${c.name}.`,
-    (c) => `Schreiben Sie uns kurz, worum es geht – Anzahl der Fenster, Haus oder Wohnung, gewünschter Zeitraum. Wir rufen zurück und finden gemeinsam einen Termin in ${c.name}, der Ihnen passt.`,
-  ] },
-  { q: (c) => `Was kostet der Fenstertausch in ${c.name}?`, a: [
-    (c) => `Der Preis hängt von Anzahl, Größe, Werkstoff, Verglasung und Ausstattung ab – deshalb nennen wir ihn nach dem kostenlosen Aufmaß im schriftlichen Angebot. Darin stehen alle Positionen, inklusive Demontage und Entsorgung.`,
-    (c) => `Pauschalpreise gibt es bei uns nicht, weil jedes Fenster nach Maß gefertigt wird. Nach Beratung und Aufmaß in ${c.name} erhalten Sie ein Angebot mit allen Posten; versteckte Kosten gibt es nicht.`,
-    (c) => `Das Angebot entsteht nach dem Aufmaß: Es berücksichtigt Profil, Glas, Farben, Sicherheitsausstattung sowie Demontage, Montage und Entsorgung. Beratung und Aufmaß sind kostenlos.`,
-    (c) => `Ein seriöser Preis braucht Maße: Erst nach dem Aufmaß in ${c.name} können wir Profile, Glas und Montageaufwand genau kalkulieren. Das Angebot ist schriftlich, verbindlich und kostenlos.`,
-  ] },
-  { q: (c) => `Nehmen Sie die alten Fenster in ${c.name} mit?`, a: [
-    (c) => `Ja. Demontage und fachgerechte Entsorgung der alten Fenster und Türen gehören zu unserem Rundum-Service – Sie müssen sich um nichts kümmern.`,
-    (c) => `Selbstverständlich. Wir bauen die Altelemente aus, nehmen sie mit und entsorgen sie fachgerecht. Die Baustelle übergeben wir besenrein.`,
-    (c) => `Ja, das ist Teil des Auftrags: Ausbau, Abtransport und Entsorgung der alten Fenster übernehmen wir, ebenso kleinere Ausbesserungen an der Laibung.`,
-    (c) => `Ja – Demontage und Entsorgung sind im Angebot enthalten. Glas, Rahmen und Beschläge werden getrennt und fachgerecht entsorgt; Sie müssen nichts organisieren.`,
-  ] },
-  { q: (c) => `Gibt es Förderung für neue Fenster in ${c.name}?`, a: [
-    (c) => `Für energetische Sanierungen gibt es staatliche Programme (z. B. BAFA, KfW). Wir informieren Sie über die aktuellen Möglichkeiten und welche Unterlagen Sie brauchen; den Antrag stellen Sie bzw. ein Energieberater.`,
-    (c) => `Möglich ist das, wenn die neuen Fenster bestimmte Dämmwerte erreichen. Wir sagen Ihnen, welche Profile und Verglasungen dafür infrage kommen, und nennen Ihnen die zuständigen Stellen – ohne Beträge zu versprechen.`,
-    (c) => `Fördermöglichkeiten hängen vom Programm und Ihrem Vorhaben ab. Wir geben Ihnen beim Beratungstermin in ${c.name} einen Überblick und die nötigen technischen Nachweise für den Antrag.`,
-    (c) => `Ob und wie viel gefördert wird, entscheidet das jeweilige Programm – nicht wir. Wir liefern die Unterlagen zu Uw-Werten und Einbau und nennen Ihnen die Anlaufstellen für den Antrag.`,
-  ] },
-];
 
 /* ---------- Seitenbau ---------- */
 function neighbors(o) {
@@ -286,13 +158,13 @@ function footer() {
 }
 const PROVIDER = firmaLib.jsonLdFirma(einst, SITE);
 
-function form(o) {
+function form(o, s) {
   return `<section class="sec sec--alt" id="anfrage" aria-labelledby="anfrage-title">
       <div class="wrap two two--form">
         <div>
           <p class="eyebrow"><span>→</span> Anfrage</p>
-          <h2 class="h2" id="anfrage-title">Kostenloses Aufmaß in ${esc(o.name)} <em>anfragen.</em></h2>
-          <p class="lead lead--sm">Wir melden uns innerhalb von zwei Werktagen und vereinbaren einen Termin bei Ihnen in ${esc(o.name)}.</p>
+          <h2 class="h2" id="anfrage-title">${pick(T.H2_ANFRAGE, s, "anfrageh2").replace("{ort}", esc(o.name))}</h2>
+          <p class="lead lead--sm">Rückmeldung innerhalb von zwei Werktagen. Beratung und Aufmaß bei Ihnen zu Hause.</p>
           ${firmaLib.kontaktKarteHtml(einst)}
         </div>
         <form class="form" name="anfrage-einsatzgebiet" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
@@ -342,25 +214,38 @@ function form(o) {
     </section>`;
 }
 
-function buildOrt(o, seed) {
+function buildOrt(o, seed, baukasten, pruefung) {
   const c = ctx(o);
   const s = o.slug + "#" + seed;
-  const intro = pick(INTRO, s, "intro")(c);
-  const bedeutet = pick(BEDEUTET, s, "bed")(c);
-  const gebaeude = pick(GEBAEUDE, s, "geb")(c);
-  const order = pick(ORDERS, s, "order");
-  const topics = order.map((k) => TOPICS.find((t) => t.key === k));
-  const faqIdx = [0, 1, 2, 3, 4].filter((i) => i < 2 || hash(s + "faq" + i) % 3 !== 0).slice(0, 4);
-  const faqs = faqIdx.map((i) => ({ q: FAQ[i].q(c), a: pick(FAQ[i].a, s, "fa" + i)(c) }));
+  const picks = [];
+  const satz = (key) => { const p = baukasten.satz(key, c, seed, pruefung); picks.push(p); return p.text; };
+  /* Kurzer Nachsatz (< 8 Wörter): erste Variante ab Hash-Position, die kein Inhaltswort des langen Satzes wiederholt */
+  const kurz = (key, lang) => { const l = T.KURZ[key], st = hash(s + "kurz" + key) % l.length; for (let i = 0; i < l.length; i++) { const k = l[(st + i) % l.length]; if (!T.wiederholtInhalt(lang, k, c)) return k; } return l[st]; };
+  const mit = (key) => { const t = satz(key); return `${t} ${kurz(key, t)}`; };
   const nb = neighbors(o);
-  const nbSentence = nb.length ? `In der Nähe von ${esc(o.name)} sind wir auch in ${nb.slice(0, 3).map((n) => esc(n.x.name) + " (" + Math.round(n.d) + " km)").join(", ")} und weiteren Orten im Einsatz.` : "";
+  const nbNamen = nb.slice(0, 3).map((n) => esc(n.x.name));
+  const intro = c.isHQ ? T.HQ.intro : mit("intro");
+  const nbSentence = nb.length >= 3 ? pick(T.NACHBARN, s, "nb")(c, nbNamen) : "";
+  const bedeutet = `<h2 class="h2">${pick(T.H2_BEDEUTET, s, "bedh2").replace("{ort}", esc(o.name))}</h2><p>${mit("bedeutet")}</p>`;
+  const gebaeudeH2 = pick(T.H2_GEBAEUDE, s, "gebh2").replace("{ort}", esc(o.name));
+  const gebaeude = `<p>${mit("gebaeude")}</p>`;
+  const order = pick(T.ORDERS, s, "order");
+  const topics = order.map((k) => Object.assign({ key: k, h: pick(T.H3[k], s, "h" + k).replace("{ort}", o.name), text: mit(k) }, T.TOPIC_LINKS[k]));
+  const faqKeys = ["kommen", "termin", "kosten", "alt", "foerderung"];
+  const faqIdx = [0, 1, 2, 3, 4].filter((i) => i < 2 || hash(s + "faq" + i) % 3 !== 0).slice(0, 4);
+  const faqs = faqIdx.map((i) => {
+    const k = faqKeys[i], slotKey = "faq" + k[0].toUpperCase() + k.slice(1);
+    const a = c.isHQ && k === "kommen" ? T.HQ.faqKommen : T.KURZ[slotKey] ? mit(slotKey) : satz(slotKey);
+    const q = c.isHQ && k === "kommen" ? "Wo in Ingolstadt sind Sie im Einsatz?" : pick(T.FAQ_FRAGEN[k], s, "q" + k).replace("{ort}", o.name);
+    return { q, a };
+  });
   const url = `/einsatzgebiet/${o.slug}/`;
   const titleVar = pick([
     `Fenster & Türen in ${o.name} – Beratung, Aufmaß, Montage | Fenster-WeissenBurger`,
     `Fenstertausch & Fenstermontage in ${o.name} | Fenster-WeissenBurger`,
     `Fenster, Haustüren & Montage in ${o.name} (${c.lk}) | Fenster-WeissenBurger`,
   ], s, "title");
-  const descVar = pick([
+  const descVar = c.isHQ ? "Fenster-WeissenBurger in Ingolstadt: Kömmerling-Kunststofffenster, Cortizo-Alufenster, Haustüren und Schiebetüren – Beratung bei Ihnen zu Hause, kostenloses Aufmaß und Montage mit eigenem Team, direkt vom Firmensitz." : pick([
     `Neue Fenster und Haustüren in ${o.name}: Beratung vor Ort, kostenloses Aufmaß, Montage mit Entsorgung der alten Fenster. ${c.hq ? "Rund " + c.km + " km von Ingolstadt." : "Auch im Raum Karlsruhe für Sie im Einsatz."}`,
     `Fenstertausch, Kunststoff-, Kunststoff-Aluminium- und Aluminiumfenster, Haustüren und Schiebetüren in ${o.name} (${c.lk}). ${c.hq ? "Etwa " + c.min + " Minuten von unserem Sitz in Ingolstadt." : "Wir sind auch im Raum Karlsruhe für Sie da."} Jetzt Aufmaß anfragen.`,
     `Fenster-WeissenBurger in ${o.name}: Kömmerling-Kunststofffenster, Cortizo-Alufenster, Haustüren – Beratung, Aufmaß und Montage aus einer Hand.`,
@@ -377,7 +262,7 @@ function buildOrt(o, seed) {
   const h1 = `Fenster &amp; Türen in ${esc(o.name)} – <em>Beratung, Aufmaß und Montage</em>`;
   const facts = [
     o.landkreis === "kreisfreie Stadt" ? `Kreisfreie Stadt${c.bl ? " in " + esc(c.bl) : ""}` : esc(o.landkreis) + (c.bl ? ", " + esc(c.bl) : ""),
-    c.isHQ ? "Unser Firmensitz" : `Rund ${c.km} km von ${esc(regions[o.region].center)}, ca. ${c.min} Min.`,
+    c.isHQ ? "Unser Firmensitz" : `${c.km} km Luftlinie, ca. ${c.min} Min. Fahrt`,
     `${c.pop} Einwohner (Stand ${c.popDate})`,
   ];
   const body = `
@@ -399,7 +284,7 @@ function buildOrt(o, seed) {
     <section class="sec" aria-label="Ablauf und Gebäude">
       <div class="wrap two">
         <div>${bedeutet}</div>
-        <div><h2 class="h2">Häuser in ${esc(o.name)}: <em>jedes anders.</em></h2>${gebaeude}
+        <div><h2 class="h2">${gebaeudeH2}</h2>${gebaeude}
           <p class="more-links"><a href="/leistungen/">Alle Leistungen</a> · <a href="/produkte/">Alle Produkte</a></p></div>
       </div>
     </section>
@@ -407,11 +292,11 @@ function buildOrt(o, seed) {
     <section class="sec sec--alt" aria-labelledby="themen-title">
       <div class="wrap">
         <p class="eyebrow"><span>01</span> Leistungen &amp; Produkte</p>
-        <h2 class="h2" id="themen-title">Was wir in ${esc(o.name)} <em>für Sie tun.</em></h2>
+        <h2 class="h2" id="themen-title">${pick(T.H2_THEMEN, s, "themenh2").replace("{ort}", esc(o.name))}</h2>
         <div class="themen">
-${topics.map((t, i) => `          <article class="thema">
-            <h3>${esc(pick(t.h, s, "h" + t.key).replace("{ort}", o.name))}</h3>
-            <p>${pick(t.t, s, "t" + t.key)(c)}</p>
+${topics.map((t) => `          <article class="thema">
+            <h3>${esc(t.h)}</h3>
+            <p>${t.text}</p>
             <a class="link" href="${t.href}">${esc(t.link)}</a>
           </article>`).join("\n")}
         </div>
@@ -437,14 +322,14 @@ ${nb.map((n) => `          <li><a href="/einsatzgebiet/${n.x.slug}/">${esc(n.x.n
       </div>
     </section>
 
-    ${form(o)}`;
+    ${form(o, s)}`;
   const html = `${head(o, meta)}
 <body class="page lp pp ort">${firmaLib.bannerBlock(einst)}
   <a class="skip" href="#inhalt">Zum Inhalt springen</a>
   ${header()}
   <main id="inhalt">${body}
     ${footer()}`;
-  return html;
+  return { html, picks };
 }
 
 /* ---------- Überschneidung (5-Wort-Schindeln über <main>) ---------- */
@@ -534,30 +419,52 @@ function sitemaps() {
 }
 
 /* ---------- Lauf ---------- */
+/* Satzindex: zuerst alle übrigen öffentlichen Seiten (Startseite, Leistungen, Produkte, Konfigurator, Übersicht),
+   damit keine Ortsseite deren Sätze wiederholt; dann wächst er mit jeder fertigen Ortsseite. */
+const index = new td.SatzIndex();
+for (const f of td.seitenFinden(root)) {
+  if (/^einsatzgebiet\//.test(f) || /^(impressum|datenschutz)\.html$/.test(f)) continue;
+  for (const satz of td.seiteAnalysieren(fs.readFileSync(path.join(root, f), "utf8")).lang) index.add(f, satz);
+}
+const overviewHtml = buildOverview();
+for (const satz of td.seiteAnalysieren(overviewHtml).lang) index.add("einsatzgebiet/index.html", satz);
+
+const baukasten = new T.Baukasten();
 const report = [];
 const built = []; // {slug, sh}
 const order = orte.slice().sort((a, b) => (a.region === b.region ? a.distanceKm - b.distanceKm : a.region === "ingolstadt" ? -1 : 1));
+const SEEDS = 40;
 for (const o of order) {
-  let best = null;
-  for (let seed = 0; seed < 40; seed++) {
-    const html = buildOrt(o, seed);
+  const seite = `einsatzgebiet/${o.slug}/index.html`;
+  const pruefung = (text) => { const k = index.konflikte(seite, [text]); return k.length ? `„${text.slice(0, 70)}…“ ähnelt ${k[0].seite} (${Math.round(k[0].sim * 100)} %)` : ""; };
+  let best = null, letzterGrund = "";
+  for (let seed = 0; seed < SEEDS; seed++) {
+    let html, picks;
+    try { ({ html, picks } = buildOrt(o, seed, baukasten, pruefung)); } catch (e) { letzterGrund = e.message; continue; }
+    const lang = td.seiteAnalysieren(html).lang;
+    const konflikte = index.konflikte(seite, lang); // ganze Seite: auch Überschriften, Nachbarsatz, kurze Bausteine mit langen Ortsnamen
+    if (konflikte.length) { letzterGrund = konflikte.slice(0, 3).map((k) => `„${k.satz}“ ↔ ${k.seite} (${Math.round(k.sim * 100)} %)`).join("; "); continue; }
     const sh = shingles(mainText(html));
     let max = 0, maxSlug = "";
     for (const b of built) { const ov = overlap(sh, b.sh); if (ov > max) { max = ov; maxSlug = b.slug; } }
-    if (!best || max < best.max) best = { html, sh, max, maxSlug, seed };
+    if (!best || max < best.max) best = { html, picks, lang, sh, max, maxSlug, seed };
     if (max < 0.38) break;
   }
+  if (!best) throw new Error(`Ortsseite ${o.slug}: in ${SEEDS} Versuchen kein Text ohne Duplikat. Zuletzt: ${letzterGrund}`);
   const dir = path.join(root, "einsatzgebiet", o.slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "index.html"), best.html);
+  baukasten.festlegen(best.picks);
+  for (const satz of best.lang) index.add(seite, satz);
   built.push({ slug: o.slug, sh: best.sh });
   report.push({ slug: o.slug, region: o.region, max: +best.max.toFixed(3), with: best.maxSlug, seed: best.seed, words: best.sh.size });
 }
 fs.mkdirSync(path.join(root, "einsatzgebiet"), { recursive: true });
-fs.writeFileSync(path.join(root, "einsatzgebiet", "index.html"), buildOverview());
+fs.writeFileSync(path.join(root, "einsatzgebiet", "index.html"), overviewHtml);
 const pubCount = sitemaps();
 fs.writeFileSync(path.join(root, "data", "orte-report.json"), JSON.stringify(report, null, 1));
 const maxAll = Math.max(...report.map((r) => r.max));
 const avg = report.reduce((s, r) => s + r.max, 0) / report.length;
-console.log(`Ortsseiten: ${report.length} (veröffentlicht/in Sitemap: ${pubCount}); Überschneidung max ${(maxAll * 100).toFixed(1)} %, Ø ${(avg * 100).toFixed(1)} %, >50 %: ${report.filter((r) => r.max >= 0.5).length}`);
+const paare = index.paare().filter((p) => /^einsatzgebiet\//.test(p.a) || /^einsatzgebiet\//.test(p.b));
+console.log(`Ortsseiten: ${report.length} (veröffentlicht/in Sitemap: ${pubCount}); Überschneidung max ${(maxAll * 100).toFixed(1)} %, Ø ${(avg * 100).toFixed(1)} %, >50 %: ${report.filter((r) => r.max >= 0.5).length}; doppelte Sätze (> ${Math.round(td.SCHWELLE * 100)} %, ≥ ${td.MIN_WOERTER} Wörter) zu anderen Seiten: ${paare.length}`);
 if (process.argv.includes("--report")) for (const r of report) console.log(`${r.slug}\t${(r.max * 100).toFixed(0)}%\t${r.with}\tseed ${r.seed}`);
