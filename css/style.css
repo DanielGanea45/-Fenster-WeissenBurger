@@ -592,4 +592,5 @@ a.badge-bew__eintrag:hover { border-color: var(--accent); color: var(--ink); }
 .legal__agentur a { display: inline-flex; align-items: center; gap: 7px; min-height: 0; padding: 0; border-bottom: 0; font-size: 12.5px; line-height: 1.4; font-weight: 500; color: var(--footer-ink); } /* Schriftgröße am Link: .page p (16 px) greift sonst auf Unterseiten; volle Farbe für AA-Kontrast bei 12,5 px */
 .legal__agentur a:hover, .legal__agentur a:focus-visible { color: var(--accent); }
 .legal__agentur img { width: 20px; height: 20px; border-radius: 4px; flex: none; }
-@media (min-width: 600px) { .legal__agentur { justify-content: flex-end; margin-top: 0; } .legal__copy { grid-column: 1 / 2; } }
+/* Auf allen Breiten: eigene Zeile, mittig zentriert (Wunsch des Kunden), Größe unverändert */
+@media (min-width: 600px) { .legal__agentur { margin-top: 8px; } }
